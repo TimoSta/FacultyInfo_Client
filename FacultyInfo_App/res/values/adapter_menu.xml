@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_menu">
+        <item>Home</item>
+        <item>Neuigkeiten</item>
+        <item>Stundenplan</item>
+        <item>Busfahrplan</item>
+        <item>Hochschulsport</item>
+        <item>Mensaplan</item>
+        <item>Ansprechpartner</item>
+        <item>FAQs</item>
+    </string-array>
+</resources>
