@@ -1,4 +1,4 @@
-package de.uni_passau.facultyinfo.client;
+package de.uni_passau.facultyinfo.client.activity;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.News;
 

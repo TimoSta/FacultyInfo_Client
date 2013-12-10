@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.Light" >
         <activity
-            android:name="de.uni_passau.facultyinfo.client.MainActivity"
+            android:name="de.uni_passau.facultyinfo.client.activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,31 +25,31 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="de.uni_passau.facultyinfo.client.NewsActivity"
+            android:name="de.uni_passau.facultyinfo.client.activity.NewsActivity"
             android:label="@string/title_activity_news" >
         </activity>
         <activity
-            android:name="de.uni_passau.facultyinfo.client.BuslinesActivity"
+            android:name="de.uni_passau.facultyinfo.client.activity.BuslinesActivity"
             android:label="@string/title_activity_buslines" >
         </activity>
         <activity
-            android:name="de.uni_passau.facultyinfo.client.ContactsActivity"
+            android:name="de.uni_passau.facultyinfo.client.activity.ContactsActivity"
             android:label="@string/title_activity_contacts" >
         </activity>
         <activity
-            android:name="de.uni_passau.facultyinfo.client.TimetableActivity"
+            android:name="de.uni_passau.facultyinfo.client.activity.TimetableActivity"
             android:label="@string/title_activity_timetable" >
         </activity>
         <activity
-            android:name="de.uni_passau.facultyinfo.client.FAQsActivity"
+            android:name="de.uni_passau.facultyinfo.client.activity.FAQsActivity"
             android:label="@string/title_activity_faqs" >
         </activity>
         <activity
-            android:name="de.uni_passau.facultyinfo.client.SportsActivity"
+            android:name="de.uni_passau.facultyinfo.client.activity.SportsActivity"
             android:label="@string/title_activity_sports" >
         </activity>
         <activity
-            android:name="de.uni_passau.facultyinfo.client.CafeteriaActivity"
+            android:name="de.uni_passau.facultyinfo.client.activity.CafeteriaActivity"
             android:label="@string/title_activity_cafeteria" >
         </activity>
     </application>
