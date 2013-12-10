@@ -4,18 +4,18 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
+import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
-import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.News;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnNavigationListener {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -29,8 +29,7 @@ public class MainActivity extends Activity {
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				this, R.array.spinner_menu,
 				android.R.layout.simple_spinner_item);
-		getActionBar().setListNavigationCallbacks(adapter, null);
-
+		getActionBar().setListNavigationCallbacks(adapter, this);
 	}
 
 	@Override
@@ -65,4 +64,50 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		
+		
+		System.out.println("MainActivity->onNavigationItemSelected->itemId"); 
+		System.out.println(itemId); 
+		
+		
+		 if (itemId==1){
+			System.out.println("itemId==1"); 
+			Intent intent = new Intent (this, NewsActivity.class);
+			startActivity(intent);
+			return true; 
+		}else if (itemId==2){
+			Intent intent = new Intent (this, TimetableActivity.class);
+			startActivity(intent);
+			return true; 
+		}else if (itemId==3){
+			Intent intent = new Intent (this, BuslinesActivity.class);
+			startActivity(intent);
+			return true; 
+		}else if (itemId==4){
+			Intent intent = new Intent (this, SportsActivity.class);
+			startActivity(intent);
+			return true; 
+		}else if (itemId==5){
+			Intent intent = new Intent (this, CafeteriaActivity.class);
+			startActivity(intent);
+			return true; 
+		}else if (itemId==6){
+			Intent intent = new Intent (this, ContactsActivity.class);
+			startActivity(intent);
+			return true; 
+		}else if (itemId==7){
+			Intent intent = new Intent (this, FAQsActivity.class);
+			startActivity(intent);
+			return true; 
+		}
+		return false;
+	}
+
+	
+	
+	
 }
+
+

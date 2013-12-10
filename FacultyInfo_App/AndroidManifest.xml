@@ -7,7 +7,8 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -22,6 +23,34 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.NewsActivity"
+            android:label="@string/title_activity_news" >
+        </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.BuslinesActivity"
+            android:label="@string/title_activity_buslines" >
+        </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.ContactsActivity"
+            android:label="@string/title_activity_contacts" >
+        </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.TimetableActivity"
+            android:label="@string/title_activity_timetable" >
+        </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.FAQsActivity"
+            android:label="@string/title_activity_faqs" >
+        </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.SportsActivity"
+            android:label="@string/title_activity_sports" >
+        </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.CafeteriaActivity"
+            android:label="@string/title_activity_cafeteria" >
         </activity>
     </application>
 
