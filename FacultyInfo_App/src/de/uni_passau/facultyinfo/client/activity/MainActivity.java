@@ -1,7 +1,8 @@
 package de.uni_passau.facultyinfo.client.activity;
 
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.List;
+
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
@@ -44,17 +45,17 @@ public class MainActivity extends Activity implements OnNavigationListener {
 		newsLoader.execute();
 	}
 
-	private class NewsLoader extends AsyncTask<URL, Void, ArrayList<News>> {
+	private class NewsLoader extends AsyncTask<URL, Void, List<News>> {
 
 		@Override
-		protected ArrayList<News> doInBackground(URL... urls) {
+		protected List<News> doInBackground(URL... urls) {
 			AccessFacade accessFacade = new AccessFacade();
-			ArrayList<News> news = accessFacade.getNewsAccess().getNews();
+			List<News> news = accessFacade.getNewsAccess().getNews();
 			return news;
 		}
 
 		@Override
-		protected void onPostExecute(ArrayList<News> news) {
+		protected void onPostExecute(List<News> news) {
 			if (news != null && news.size() > 0) {
 //				TextView textView = (TextView) findViewById(R.id.editText1);
 //				textView.setText(news.get(0).getTitle() + "\n\n"
