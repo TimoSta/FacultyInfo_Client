@@ -9,6 +9,10 @@ import java.util.UUID;
 import de.uni_passau.facultyinfo.client.model.connection.RestConnection;
 import de.uni_passau.facultyinfo.client.model.dto.News;
 
+/**
+ * @author Timo
+ *
+ */
 public class NewsAccess {
 	private static final String RESSOURCE = "/news";
 
@@ -18,6 +22,11 @@ public class NewsAccess {
 		restConnection = new RestConnection<News>(News.class);
 	}
 
+	/**
+	 * Gives a list of available News.
+	 * 
+	 * @return
+	 */
 	public List<News> getNews() {
 		List<News> news = null;
 
@@ -33,17 +42,23 @@ public class NewsAccess {
 		return Collections.unmodifiableList(news);
 	}
 
+	/**
+	 * Gives detailed information about a specific News.
+	 * 
+	 * @param newsId
+	 * @return
+	 */
 	public News getNews(String newsId) {
 		News news = null;
 
-		news = restConnection.getRessource(RESSOURCE + '/' + newsId);
+//		news = restConnection.getRessource(RESSOURCE + '/' + newsId);
 		
-//		for (News newsElement : createNewsSampleData()) {
-//			if(newsElement.getId() == newsId) {
-//				news = newsElement;
-//				break;
-//			}
-//		}
+		for (News newsElement : createNewsSampleData()) {
+			if(newsElement.getId() == newsId) {
+				news = newsElement;
+				break;
+			}
+		}
 
 		// TODO: Database operations
 

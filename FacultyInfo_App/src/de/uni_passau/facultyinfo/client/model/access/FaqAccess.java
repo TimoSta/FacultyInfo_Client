@@ -13,6 +13,11 @@ public class FaqAccess {
 	protected FaqAccess() {
 	}
 
+	/**
+	 * Gives a list of available FAQs.
+	 * 
+	 * @return
+	 */
 	public List<Faq> getFaqs() {
 		RestConnection<Faq> restConnection = new RestConnection<Faq>(Faq.class);
 		List<Faq> faqs = null;
