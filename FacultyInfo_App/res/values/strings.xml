@@ -7,6 +7,14 @@
     <string name="title_activity_news">NewsActivity</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="hello_world_buslines">Hello world_buslines!</string>
+    <string name="hello_world_faqs">Hello world_faqs!</string>
+    <string name="hello_world_timetable">Hello world_timetable!</string>
+    <string name="hello_world_sports">Hello world_sports!</string>
+    <string name="hello_world_cafeteria">Hello world_cafeteria!</string>
+    <string name="hello_world_news">Hello world_news!</string>
+    <string name="hello_world_contacts">Hello world_contacts!</string>
+    <string name="hello_world_home">Hello world_home!</string>
     <string name="title_activity_buslines">BuslinesActivity</string>
     <string name="title_activity_contacts">ContactsActivity</string>
     <string name="title_activity_timetable">TimetableActivity</string>

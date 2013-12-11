@@ -21,7 +21,7 @@ public class NewsActivity extends Activity implements OnNavigationListener {
 		getActionBar().setDisplayShowTitleEnabled(false);
 
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				this, R.array.spinner_menu,
+				this, R.array.spinner_menu_news,
 				android.R.layout.simple_spinner_item);
 		getActionBar().setSelectedNavigationItem(1);
 		getActionBar().setListNavigationCallbacks(adapter, this);
@@ -41,7 +41,7 @@ public class NewsActivity extends Activity implements OnNavigationListener {
 		System.out.println("NewsActivity->onNavigationItemSelected->itemId");
 		System.out.println(itemId);
 
-		if (itemId == 0) {
+		if (itemId == 1) {
 			Intent intent = new Intent(this, MainActivity.class);
 			startActivity(intent);
 			return true;

@@ -2,7 +2,6 @@ package de.uni_passau.facultyinfo.client.activity;
 
 import java.net.URL;
 import java.util.ArrayList;
-
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
@@ -26,7 +25,7 @@ public class MainActivity extends Activity implements OnNavigationListener {
 		getActionBar().setDisplayHomeAsUpEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
 		getActionBar().setDisplayShowTitleEnabled(false);
-
+		
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				this, R.array.spinner_menu,
 				android.R.layout.simple_spinner_item);
@@ -72,8 +71,8 @@ public class MainActivity extends Activity implements OnNavigationListener {
 		System.out.println("MainActivity->onNavigationItemSelected->itemId"); 
 		System.out.println(itemId); 
 		
-		
-		 if (itemId==1){
+	
+		if (itemId==1){
 			System.out.println("itemId==1"); 
 			Intent intent = new Intent (this, NewsActivity.class);
 			startActivity(intent);
