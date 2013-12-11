@@ -2,6 +2,8 @@ package de.uni_passau.facultyinfo.client.model.access;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import de.uni_passau.facultyinfo.client.model.connection.RestConnection;
@@ -10,14 +12,41 @@ import de.uni_passau.facultyinfo.client.model.dto.News;
 public class NewsAccess {
 	private static final String RESSOURCE = "/news";
 
+	private RestConnection<News> restConnection = null;
+
 	protected NewsAccess() {
+		restConnection = new RestConnection<News>(News.class);
 	}
 
-	public ArrayList<News> getNews() {
-		RestConnection<News> restConnection = new RestConnection<News>(
-				News.class);
-		ArrayList<News> news = createNewsSampleData();
-		// ArrayList<News> news = restConnection.getRessourceAsList(RESSOURCE);
+	public List<News> getNews() {
+		List<News> news = null;
+
+		news = createNewsSampleData();
+		// news = restConnection.getRessourceAsList(RESSOURCE);
+
+		// TODO: Database operations
+
+		if (news == null) {
+			news = new ArrayList<News>();
+		}
+
+		return Collections.unmodifiableList(news);
+	}
+
+	public News getNews(String newsId) {
+		News news = null;
+
+		news = restConnection.getRessource(RESSOURCE + '/' + newsId);
+		
+//		for (News newsElement : createNewsSampleData()) {
+//			if(newsElement.getId() == newsId) {
+//				news = newsElement;
+//				break;
+//			}
+//		}
+
+		// TODO: Database operations
+
 		return news;
 	}
 
@@ -25,21 +54,21 @@ public class NewsAccess {
 		ArrayList<News> newsList = new ArrayList<News>();
 
 		newsList.add(new News(
-				UUID.randomUUID().toString(),
+				"072f25e5-9922-4821-a897-e30838db2e94",
 				"Protokolle der Evaluation WS 12/13",
 				"Die Ergebnisse der Qualitätsevaluation unserer Fachschaft vom Wintersemester 2012/13 sind...",
 				"http://www.neu.fs-wiwi.de/index.php/de/aktuelles/565-protokolle-evaluation",
 				"Die Ergebnisse der Qualitätsevaluation unserer Fachschaft vom Wintersemester 2012/13 sind bekannt und wurden von uns bei den entsprechenden Stellen vorgestellt, damit sich das Angebot in Zukunft stetig in Eurem Sinne verbessert. Die Gesprächsprotokolle findest du hier: Protokoll Auslandsamt Protokoll Bibliothek Protokoll Mensa Protokoll Rechenzentrum Protokoll Sprachenzentrum Protokoll Zentrum für Schlüsselqualifikationen",
 				new Date(2013, 10, 26)));
 		newsList.add(new News(
-				UUID.randomUUID().toString(),
+				"0dccf734-892a-4f50-b02b-94ddefb3c001",
 				"Orientierungswoche Wintersemester 2013/2014",
 				"Um dir deinen Start an der Uni Passau zu erleichtern, organisiert dir deine Fachschaft eine Orientierungswoche...",
 				"http://www.neu.fs-wiwi.de/index.php/de/aktuelles/563-orientierungswoche-wintersemester-20132014",
 				"Um dir deinen Start an der Uni Passau zu erleichtern, organisiert dir deine Fachschaft eine Orientierungswoche für Erstsemester. Die sogenannte O-Woche findet stets eine Woche vor Vorlesungsbeginn statt und ist eine gute Möglichkeit für dich deine Kommilitonen, die Stadt Passau, wie auch die Uni kennen zu lernen und deine Fragen und Orientierungslosigkeit zum Studium loszuwerden. In der O-Woche bieten wir dir ein umfassendes Programm von Uni-Führungen, Stadtführungen bis hin zu Sport und zum Kneipenbummel. Für jeden ist etwas dabei! Die O-Woche im Wintersemester 2013/2014 findet vom 07. bis 11. Oktober 2013 statt! Der Ablaufplan der O-Woche 2013 ist fertig, du findest ihn unter folgendem Link! >> Link zum O-Wochenplan Unsere Erstsemesterbroschüre, das sogenannte Quietschie-Heft, beantwortet alle Fragen zum Studienstart und bietet darüber hinaus interessante Informationen rund um das Leben und Studieren in Passau! Du kannst es unter folgendem Link downloaden, außerdem verteilen wir das Heft in gedruckter Form während der Orientierungswoche! >> Link zur Erstsemesterbroschüre",
 				new java.util.Date(2013, 9, 26)));
 		newsList.add(new News(
-				UUID.randomUUID().toString(),
+				"1927a25a-b838-4620-a6c2-13e9f348cd81",
 				"Verlängerte Bibliotheksöffnungszeiten",
 				"Nachtschwärmer aufgepasst: Die Klausurenphase hat mal wieder begonnen und die Bibliotheken haben länger für euch geöffnet. Lesesaal Wirtschaft: verlängert ab Mo, 8. Juli bis...",
 				"http://www.neu.fs-wiwi.de/index.php/de/aktuelles/481-verlaengerte-bibliotheksoeffnungszeiten",
