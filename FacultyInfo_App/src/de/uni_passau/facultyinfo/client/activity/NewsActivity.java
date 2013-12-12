@@ -94,6 +94,8 @@ public class NewsActivity extends Activity implements OnNavigationListener {
 	}
 
 	private class NewsLoader extends AsyncTask<URL, Void, List<News>> {
+		
+		private final ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 
 		@Override
 		protected List<News> doInBackground(URL... urls) {
@@ -139,16 +141,17 @@ public class NewsActivity extends Activity implements OnNavigationListener {
 			
 			System.out.println("NewsActivity->onPostExecute");
 			
-			final ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+			final ArrayList<HashMap<String, String>> newsList = new ArrayList<HashMap<String, String>>();
 			//ListView listView = (ListView) findViewById(R.id.list);
 
 			// ArrayList<String> list = new ArrayList<String>();
 
-			for (int i = 0; i < news.size(); i++) {
+			for (News newsElement : news) {
 				HashMap<String, String> temp1 = new HashMap<String, String>();
-				temp1.put("title", news.get(i).getTitle());
-				temp1.put("description", news.get(i).getDescription());
-				list.add(temp1);
+				temp1.put("id", newsElement.getId());
+				temp1.put("title", newsElement.getTitle());
+				temp1.put("description", newsElement.getDescription());
+				newsList.add(temp1);
 			}
 			
 			
@@ -156,7 +159,7 @@ public class NewsActivity extends Activity implements OnNavigationListener {
 			setContentView(R.layout.activity_news);
 			ListView listView = (ListView) findViewById(R.id.list);
 			
-			SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), list,
+			SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), newsList,
 					R.layout.custom_row_view, new String[] { "title", "description",
 							}, new int[] { R.id.title, R.id.description}
 
@@ -180,7 +183,7 @@ public class NewsActivity extends Activity implements OnNavigationListener {
 				  public void onItemClick(AdapterView<?> parent, View view, int position, long id) { 
 					  System.out.println("click");
 					  System.out.println(position);
-					  displayNews(position);
+					  displayNews(newsList.get(position).get("id"));
 				  }
 			});
 				   
@@ -190,11 +193,11 @@ public class NewsActivity extends Activity implements OnNavigationListener {
 
 	}
 
-	private void displayNews(int position) {
+	private void displayNews(String id) {
 		System.out.println("NewsActivity->displayNews()");
 		Intent intent = new Intent(this, DisplayNewsActivity.class);
 
-		intent.putExtra("newsPosition", position);
+		intent.putExtra("newsId", id);
 		System.out.println("putExtra");
 		startActivity(intent);
 	}

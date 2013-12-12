@@ -52,6 +52,15 @@
             android:name="de.uni_passau.facultyinfo.client.activity.CafeteriaActivity"
             android:label="@string/title_activity_cafeteria" >
         </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.activity.NewsTestActivity"
+            android:label="@string/title_activity_news_test" >
+        </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.activity.DisplayNewsActivity"
+            android:label="@string/title_activity_display_news" >
+        </activity>
+        
     </application>
 
 </manifest>

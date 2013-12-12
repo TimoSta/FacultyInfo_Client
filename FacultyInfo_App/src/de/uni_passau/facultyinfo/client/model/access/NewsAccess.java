@@ -54,7 +54,7 @@ public class NewsAccess {
 //		news = restConnection.getRessource(RESSOURCE + '/' + newsId);
 		
 		for (News newsElement : createNewsSampleData()) {
-			if(newsElement.getId() == newsId) {
+			if(newsElement.getId().equals(newsId)) {
 				news = newsElement;
 				break;
 			}
