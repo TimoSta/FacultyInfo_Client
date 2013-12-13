@@ -22,5 +22,12 @@
         android:textSize="12sp"
         android:textStyle="bold" 
         android:textAppearance="?android:attr/textAppearanceSmall"/>
+    
+     <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:textSize="8sp"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
 
 </LinearLayout>

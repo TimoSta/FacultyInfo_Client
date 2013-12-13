@@ -2,7 +2,6 @@ package de.uni_passau.facultyinfo.client.activity;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.Locale;
 
 import android.app.ActionBar;
@@ -11,6 +10,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
@@ -118,6 +118,7 @@ public class DisplayNewsActivity extends Activity implements OnNavigationListene
 			headingView.setText(news.getTitle()); 
 			
 			TextView textView = (TextView) findViewById(R.id.newsText);
+			textView.setMovementMethod(new ScrollingMovementMethod());
 			textView.setText(news.getText()); 
 			
 			TextView dateView = (TextView) findViewById(R.id.newsDate);

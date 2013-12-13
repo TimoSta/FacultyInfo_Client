@@ -29,8 +29,8 @@ public class NewsAccess {
 	public List<News> getNews() {
 		List<News> news = null;
 
-		// news = createNewsSampleData();
-		news = restConnection.getRessourceAsList(RESSOURCE);
+		news = createNewsSampleData();
+		//news = restConnection.getRessourceAsList(RESSOURCE);
 
 		// TODO: Database operations
 
@@ -50,14 +50,14 @@ public class NewsAccess {
 	public News getNews(String newsId) {
 		News news = null;
 
-		news = restConnection.getRessource(RESSOURCE + '/' + newsId);
+		//news = restConnection.getRessource(RESSOURCE + '/' + newsId);
 
-		// for (News newsElement : createNewsSampleData()) {
-		// if(newsElement.getId().equals(newsId)) {
-		// news = newsElement;
-		// break;
-		// }
-		// }
+		for (News newsElement : createNewsSampleData()) {
+		if(newsElement.getId().equals(newsId)) {
+		news = newsElement;
+		break;
+		}
+		}
 
 		// TODO: Database operations
 

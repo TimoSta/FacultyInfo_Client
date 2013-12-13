@@ -95,7 +95,7 @@ public class NewsActivity extends Activity implements OnNavigationListener {
 
 	private class NewsLoader extends AsyncTask<URL, Void, List<News>> {
 		
-		private final ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+		//private final ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 
 		@Override
 		protected List<News> doInBackground(URL... urls) {
@@ -149,6 +149,7 @@ public class NewsActivity extends Activity implements OnNavigationListener {
 			for (News newsElement : news) {
 				HashMap<String, String> temp1 = new HashMap<String, String>();
 				temp1.put("id", newsElement.getId());
+				System.out.println(newsElement.getTitle()); 
 				temp1.put("title", newsElement.getTitle());
 				temp1.put("description", newsElement.getDescription());
 				newsList.add(temp1);
