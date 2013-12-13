@@ -4,14 +4,13 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import de.uni_passau.facultyinfo.client.model.connection.RestConnection;
 import de.uni_passau.facultyinfo.client.model.dto.News;
 
 /**
- * @author Timo
- *
+ * @author Timo Staudinger
+ * 
  */
 public class NewsAccess {
 	private static final String RESSOURCE = "/news";
@@ -30,8 +29,8 @@ public class NewsAccess {
 	public List<News> getNews() {
 		List<News> news = null;
 
-		news = createNewsSampleData();
-		// news = restConnection.getRessourceAsList(RESSOURCE);
+		// news = createNewsSampleData();
+		news = restConnection.getRessourceAsList(RESSOURCE);
 
 		// TODO: Database operations
 
@@ -51,14 +50,14 @@ public class NewsAccess {
 	public News getNews(String newsId) {
 		News news = null;
 
-//		news = restConnection.getRessource(RESSOURCE + '/' + newsId);
-		
-		for (News newsElement : createNewsSampleData()) {
-			if(newsElement.getId().equals(newsId)) {
-				news = newsElement;
-				break;
-			}
-		}
+		news = restConnection.getRessource(RESSOURCE + '/' + newsId);
+
+		// for (News newsElement : createNewsSampleData()) {
+		// if(newsElement.getId().equals(newsId)) {
+		// news = newsElement;
+		// break;
+		// }
+		// }
 
 		// TODO: Database operations
 
