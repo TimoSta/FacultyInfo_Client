@@ -2,7 +2,6 @@ package de.uni_passau.facultyinfo.client.activity;
 
 import java.net.URL;
 import java.util.List;
-
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
@@ -24,9 +23,9 @@ public class MainActivity extends Activity implements OnNavigationListener {
 		setContentView(R.layout.activity_main);
 		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		getActionBar().setDisplayHomeAsUpEnabled(false);
-		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayShowHomeEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(false);
-		
+
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				this, R.array.spinner_menu,
 				android.R.layout.simple_spinner_item);
@@ -57,9 +56,9 @@ public class MainActivity extends Activity implements OnNavigationListener {
 		@Override
 		protected void onPostExecute(List<News> news) {
 			if (news != null && news.size() > 0) {
-//				TextView textView = (TextView) findViewById(R.id.editText1);
-//				textView.setText(news.get(0).getTitle() + "\n\n"
-//						+ news.get(0).getDescription());
+				// TextView textView = (TextView) findViewById(R.id.editText1);
+				// textView.setText(news.get(0).getTitle() + "\n\n"
+				// + news.get(0).getDescription());
 			}
 
 		}
@@ -67,48 +66,41 @@ public class MainActivity extends Activity implements OnNavigationListener {
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		
-		
-		System.out.println("MainActivity->onNavigationItemSelected->itemId"); 
-		System.out.println(itemId); 
-		
-	
-		if (itemId==1){
-			System.out.println("itemId==1"); 
-			Intent intent = new Intent (this, NewsActivity.class);
+
+		System.out.println("MainActivity->onNavigationItemSelected->itemId");
+		System.out.println(itemId);
+
+		if (itemId == 1) {
+			System.out.println("itemId==1");
+			Intent intent = new Intent(this, NewsActivity.class);
 			startActivity(intent);
-			return true; 
-		}else if (itemId==2){
-			Intent intent = new Intent (this, TimetableActivity.class);
+			return true;
+		} else if (itemId == 2) {
+			Intent intent = new Intent(this, TimetableActivity.class);
 			startActivity(intent);
-			return true; 
-		}else if (itemId==3){
-			Intent intent = new Intent (this, BuslinesActivity.class);
+			return true;
+		} else if (itemId == 3) {
+			Intent intent = new Intent(this, BuslinesActivity.class);
 			startActivity(intent);
-			return true; 
-		}else if (itemId==4){
-			Intent intent = new Intent (this, SportsActivity.class);
+			return true;
+		} else if (itemId == 4) {
+			Intent intent = new Intent(this, SportsActivity.class);
 			startActivity(intent);
-			return true; 
-		}else if (itemId==5){
-			Intent intent = new Intent (this, CafeteriaActivity.class);
+			return true;
+		} else if (itemId == 5) {
+			Intent intent = new Intent(this, CafeteriaActivity.class);
 			startActivity(intent);
-			return true; 
-		}else if (itemId==6){
-			Intent intent = new Intent (this, ContactsActivity.class);
+			return true;
+		} else if (itemId == 6) {
+			Intent intent = new Intent(this, ContactsActivity.class);
 			startActivity(intent);
-			return true; 
-		}else if (itemId==7){
-			Intent intent = new Intent (this, FAQsActivity.class);
+			return true;
+		} else if (itemId == 7) {
+			Intent intent = new Intent(this, FAQsActivity.class);
 			startActivity(intent);
-			return true; 
+			return true;
 		}
 		return false;
 	}
 
-	
-	
-	
 }
-
-

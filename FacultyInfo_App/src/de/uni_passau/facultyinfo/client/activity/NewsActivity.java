@@ -45,7 +45,6 @@ public class NewsActivity extends Activity implements OnNavigationListener {
 
 		NewsLoader newsLoader = new NewsLoader();
 		newsLoader.execute();
-
 	}
 
 	@Override

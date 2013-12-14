@@ -22,6 +22,6 @@
     <string name="title_activity_sports">SportsActivity</string>
     <string name="title_activity_cafeteria">CafeteriaActivity</string>
     <string name="title_activity_news_test">Neuigkeiten</string>
-    <string name="title_activity_display_news">Neuigkeit</string>
+    <string name="title_activity_display_news">Neuigkeiten</string>
 
 </resources>
