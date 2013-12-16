@@ -1,22 +1,285 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".TimetableActivity" >
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/time"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentTop="true" >
 
-    <GridView
-        android:id="@+id/gridView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:numColumns="6" >
+    <TableRow
+        android:id="@+id/th"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
 
-        
-    </GridView>
+        <TextView
+            android:id="@+id/zeit"
+            android:layout_width="fill_parent"
+            android:layout_column="1"
+            android:layout_margin="1dp"
+            android:background="#FFAA5A"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/mo"
+            android:layout_width="fill_parent"
+            android:layout_column="2"
+            android:layout_margin="1dp"
+            android:background="#FFAA5A"
+            android:onClick="onClick"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/di"
+            android:layout_width="fill_parent"
+            android:layout_column="3"
+            android:layout_margin="1dp"
+            android:background="#FFAA5A"
+            android:onClick="onClick"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/mi"
+            android:layout_width="fill_parent"
+            android:layout_column="4"
+            android:layout_margin="1dp"
+            android:background="#FFAA5A"
+            android:onClick="onClick"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/don"
+            android:layout_width="fill_parent"
+            android:layout_column="5"
+            android:layout_margin="1dp"
+            android:background="#FFAA5A"
+            android:onClick="onClick"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fr"
+            android:layout_width="fill_parent"
+            android:layout_column="6"
+            android:layout_margin="1dp"
+            android:background="#FFAA5A"
+            android:onClick="onClick"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tr810"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <TextView
+            android:id="@+id/t810"
+            android:layout_column="1"
+            android:layout_margin="1dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="8sp" />
+
+        <TextView
+            android:id="@+id/mo810"
+            android:layout_column="2"
+            android:layout_margin="1dp"
+            android:background="#F2F2F2" />
+
+        <TextView
+            android:id="@+id/di810"
+            android:layout_column="3"
+            android:layout_margin="1dp"
+            android:background="#F2F2F2" />
+
+        <TextView
+            android:id="@+id/mi810"
+            android:layout_column="4"
+            android:layout_margin="1dp"
+            android:background="#F2F2F2" />
+
+        <TextView
+            android:id="@+id/don810"
+            android:layout_column="5"
+            android:layout_margin="1dp"
+            android:background="#F2F2F2" />
+
+        <TextView
+            android:id="@+id/fr810"
+            android:layout_column="6"
+            android:layout_margin="1dp"
+            android:background="#F2F2F2" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tr1012"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <TextView
+            android:id="@+id/t1012"
+            android:layout_column="1"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="8sp" />
+
+        <TextView
+            android:id="@+id/mo1012"
+            android:layout_column="2" />
+
+        <TextView
+            android:id="@+id/di1012"
+            android:layout_column="3" />
+
+        <TextView
+            android:id="@+id/mi1012"
+            android:layout_column="4" />
+
+        <TextView
+            android:id="@+id/don1012"
+            android:layout_column="5" />
+
+        <TextView
+            android:id="@+id/fr1012"
+            android:layout_column="6" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tr1214"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <TextView
+            android:id="@+id/t1214"
+            android:layout_column="1"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="8sp" />
+
+        <TextView
+            android:id="@+id/mo1214"
+            android:layout_column="2" />
+
+        <TextView
+            android:id="@+id/di1214"
+            android:layout_column="3" />
+
+        <TextView
+            android:id="@+id/mi1214"
+            android:layout_column="4" />
+
+        <TextView
+            android:id="@+id/don1214"
+            android:layout_column="5" />
+
+        <TextView
+            android:id="@+id/fr1214"
+            android:layout_column="6" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tr1416"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <TextView
+            android:id="@+id/t1416"
+            android:layout_column="1"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="8sp" />
+
+        <TextView
+            android:id="@+id/mo1416"
+            android:layout_column="2" />
+
+        <TextView
+            android:id="@+id/di1416"
+            android:layout_column="3" />
+
+        <TextView
+            android:id="@+id/mi1416"
+            android:layout_column="4" />
+
+        <TextView
+            android:id="@+id/don1416"
+            android:layout_column="5" />
+
+        <TextView
+            android:id="@+id/fr1416"
+            android:layout_column="6" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tr1618"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <TextView
+            android:id="@+id/t1618"
+            android:layout_column="1"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="8sp" />
+
+        <TextView
+            android:id="@+id/mo1618"
+            android:layout_column="2" />
+
+        <TextView
+            android:id="@+id/di1618"
+            android:layout_column="3" />
+
+        <TextView
+            android:id="@+id/mi1618"
+            android:layout_column="4" />
+
+        <TextView
+            android:id="@+id/don1618"
+            android:layout_column="5" />
+
+        <TextView
+            android:id="@+id/fr1618"
+            android:layout_column="6" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tr1820"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <TextView
+            android:id="@+id/t1820"
+            android:layout_column="1"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="8sp" />
+
+        <TextView
+            android:id="@+id/mo1820"
+            android:layout_column="2" />
+
+        <TextView
+            android:id="@+id/di1820"
+            android:layout_column="3" />
+
+        <TextView
+            android:id="@+id/mi1820"
+            android:layout_column="4" />
+
+        <TextView
+            android:id="@+id/don1820"
+            android:layout_column="5" />
+
+        <TextView
+            android:id="@+id/fr1820"
+            android:layout_column="6" />
+    </TableRow>
+
+</TableLayout>
