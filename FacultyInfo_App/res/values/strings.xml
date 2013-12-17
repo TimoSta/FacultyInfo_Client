@@ -37,12 +37,12 @@
     
     <string name="title_news">Neuigkeiten</string>
     <string name="title_timetable">Stundenplan</string>
-    <string name="title_cafeteria">Cafeteria</string>
+    <string name="title_cafeteria">Mensaplan</string>
     <string name="title_contacts">Ansprechpartner</string>
     <string name="title_faqs">FAQs</string>
-    <string name="title_sports">Sports</string>
+    <string name="title_sports">Hochschulsport</string>
     <string name="title_home">Home</string>
-    <string name="title_buslines">Buslines</string>
+    <string name="title_buslines">Busfahrplan</string>
 
 
 </resources>

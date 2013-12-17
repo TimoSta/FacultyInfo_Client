@@ -20,7 +20,7 @@ public class TimetableActivity extends Activity implements OnNavigationListener 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_timetable);
+		setContentView(R.layout.fragment_timetable);
 		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		getActionBar().setDisplayHomeAsUpEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);

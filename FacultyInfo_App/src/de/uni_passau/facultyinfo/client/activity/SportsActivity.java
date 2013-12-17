@@ -14,7 +14,7 @@ public class SportsActivity extends Activity implements OnNavigationListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sports);
+		setContentView(R.layout.fragment_sports);
 		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		getActionBar().setDisplayHomeAsUpEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);

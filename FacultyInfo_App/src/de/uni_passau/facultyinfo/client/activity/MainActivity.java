@@ -1,32 +1,25 @@
 package de.uni_passau.facultyinfo.client.activity;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.fragment.BuslinesFragment;
 import de.uni_passau.facultyinfo.client.fragment.CafeteriaFragment;
-import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
-import de.uni_passau.facultyinfo.client.model.dto.News;
+import de.uni_passau.facultyinfo.client.fragment.ContactFragment;
+import de.uni_passau.facultyinfo.client.fragment.FaqsFragment;
+import de.uni_passau.facultyinfo.client.fragment.NewsFragment;
+import de.uni_passau.facultyinfo.client.fragment.SportsFragment;
+import de.uni_passau.facultyinfo.client.fragment.TimetableFragment;
 
 public class MainActivity extends Activity {
 	private DrawerLayout mDrawerLayout;
@@ -107,25 +100,25 @@ public class MainActivity extends Activity {
 			break; 
 		case 2: 
 			System.out.println("timetable"); 
+			fragment = new TimetableFragment(); 
 			break; 
 		case 3: 
 			System.out.println("busfahrplan"); 
+			fragment = new BuslinesFragment(); 
 			break; 
 		case 4: 
+			fragment = new SportsFragment(); 
 			break; 
 		case 5: 
 			fragment = new CafeteriaFragment(); 
 			break; 
 		case 6: 
+			fragment = new ContactFragment(); 
 			break; 
 		case 7: 
 			fragment = new FaqsFragment(); 
 			break; 
 		}
-		
-	
-		
-		
 		
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()
@@ -140,116 +133,8 @@ public class MainActivity extends Activity {
 	/**
 	 * Fragment that appears in the "content_frame", shows a planet
 	 */
-	public static class NewsFragment extends Fragment {
-
-		public NewsFragment() {
-			// Empty constructor required for fragment subclasses
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_news, container,
-					false);
-
-			getActivity().setTitle(R.string.title_news);
-
-			NewsLoader newsLoader = new NewsLoader(rootView);
-			newsLoader.execute();
-
-			return rootView;
-		}
-
-		protected class NewsLoader extends AsyncTask<URL, Void, List<News>> {
-			View rootView = null;
-
-			private NewsLoader(View rootView) {
-				super();
-				this.rootView = rootView;
-			}
-
-			@Override
-			protected List<News> doInBackground(URL... urls) {
-				System.out.println("NewsActivity->doInBackground");
-				AccessFacade accessFacade = new AccessFacade();
-				List<News> news = accessFacade.getNewsAccess().getNews();
-				return news;
-			}
-
-			@Override
-			protected void onPostExecute(List<News> news) {
-
-				System.out.println("NewsActivity->onPostExecute");
-
-				final ArrayList<HashMap<String, String>> newsList = new ArrayList<HashMap<String, String>>();
-
-				for (News newsElement : news) {
-					HashMap<String, String> temp1 = new HashMap<String, String>();
-					temp1.put("id", newsElement.getId());
-					System.out.println(newsElement.getTitle());
-					temp1.put("title", newsElement.getTitle());
-					temp1.put("description", newsElement.getDescription());
-					newsList.add(temp1);
-				}
-
-				ListView listView = (ListView) rootView.findViewById(R.id.list);
-
-				SimpleAdapter adapter = new SimpleAdapter(
-						rootView.getContext(), newsList,
-						R.layout.custom_row_view, new String[] { "title",
-								"description", }, new int[] { R.id.title,
-								R.id.description }
-
-				);
-
-				listView.setAdapter(adapter);
-
-				listView.setOnItemClickListener(new OnItemClickListener() {
-
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view,
-							int position, long id) {
-						System.out.println("click");
-						System.out.println(position);
-						displayNews(newsList.get(position).get("id"));
-					}
-				});
-
-			}
-
-			private void displayNews(String id) {
-				System.out.println("NewsActivity->displayNews()");
-				Intent intent = new Intent(rootView.getContext(),
-						DisplayNewsActivity.class);
-
-				intent.putExtra("newsId", id);
-				System.out.println("putExtra");
-				startActivity(intent);
-			}
-
-		}
-
-	}
-
-	public static class FaqsFragment extends Fragment {
-
-		public FaqsFragment() {
-			// Empty constructor required for fragment subclasses
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_faqs, container,
-					false);
-
-			getActivity().setTitle(R.string.title_faqs);
-
-			return rootView;
-
-		}
-	}
 	
+
 
 	
 
