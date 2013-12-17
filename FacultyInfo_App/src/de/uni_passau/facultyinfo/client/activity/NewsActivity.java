@@ -30,7 +30,7 @@ public class NewsActivity extends Activity implements OnNavigationListener {
 	public void onCreate(Bundle savedInstanceState) {
 		System.out.println("NewsActivity->onCreate");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_news);
+//		setContentView(R.layout.activity_news);
 		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		getActionBar().setDisplayHomeAsUpEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
@@ -156,7 +156,7 @@ public class NewsActivity extends Activity implements OnNavigationListener {
 			
 			
 
-			setContentView(R.layout.activity_news);
+//			setContentView(R.layout.activity_news);
 			ListView listView = (ListView) findViewById(R.id.list);
 			
 			SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), newsList,
