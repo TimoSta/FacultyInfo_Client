@@ -43,6 +43,10 @@
     <string name="title_sports">Hochschulsport</string>
     <string name="title_home">Home</string>
     <string name="title_buslines">Busfahrplan</string>
+    
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="action_websearch">Action Websearch</string>
 
 
 </resources>

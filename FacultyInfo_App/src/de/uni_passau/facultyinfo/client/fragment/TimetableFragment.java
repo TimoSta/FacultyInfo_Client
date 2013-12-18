@@ -1,6 +1,7 @@
 package de.uni_passau.facultyinfo.client.fragment;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,6 @@ public class TimetableFragment extends Fragment {
 		
 		 TableRow th = (TableRow) rootView.findViewById(R.id.th); th.setPadding(0, 0,
 		 0, 0);
-		 
 		
 
 		TextView mo = (TextView) rootView.findViewById(R.id.mo);
@@ -170,4 +170,8 @@ public class TimetableFragment extends Fragment {
 		return rootView;
 
 	}
+	
+
+
+
 }

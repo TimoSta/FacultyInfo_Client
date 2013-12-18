@@ -10,14 +10,16 @@
 
     <TableRow
         android:id="@+id/th"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
 
         <TextView
             android:id="@+id/zeit"
             android:layout_width="fill_parent"
             android:layout_column="1"
             android:layout_margin="1dp"
+            android:layout_weight="1"
             android:background="#FFAA5A"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="16sp"
@@ -28,8 +30,10 @@
             android:layout_width="fill_parent"
             android:layout_column="2"
             android:layout_margin="1dp"
+            android:layout_weight="1"
             android:background="#FFAA5A"
-            android:onClick="onClick"
+            android:clickable="true"
+            android:onClick="showDay"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -39,8 +43,10 @@
             android:layout_width="fill_parent"
             android:layout_column="3"
             android:layout_margin="1dp"
+            android:layout_weight="1"
             android:background="#FFAA5A"
-            android:onClick="onClick"
+            android:clickable="true"
+            android:onClick="showDay"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -50,8 +56,10 @@
             android:layout_width="fill_parent"
             android:layout_column="4"
             android:layout_margin="1dp"
+            android:layout_weight="1"
             android:background="#FFAA5A"
-            android:onClick="onClick"
+            android:clickable="true"
+            android:onClick="showDay"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -61,8 +69,10 @@
             android:layout_width="fill_parent"
             android:layout_column="5"
             android:layout_margin="1dp"
+            android:layout_weight="1"
             android:background="#FFAA5A"
-            android:onClick="onClick"
+            android:clickable="true"
+            android:onClick="showDay"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -72,8 +82,10 @@
             android:layout_width="fill_parent"
             android:layout_column="6"
             android:layout_margin="1dp"
+            android:layout_weight="1"
             android:background="#FFAA5A"
-            android:onClick="onClick"
+            android:clickable="true"
+            android:onClick="showDay"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -82,12 +94,14 @@
     <TableRow
         android:id="@+id/tr810"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="0dp"
+        android:layout_weight="1" >
 
         <TextView
             android:id="@+id/t810"
             android:layout_column="1"
             android:layout_margin="1dp"
+            android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="8sp" />
 
@@ -95,191 +109,226 @@
             android:id="@+id/mo810"
             android:layout_column="2"
             android:layout_margin="1dp"
-            android:background="#F2F2F2" />
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/di810"
             android:layout_column="3"
             android:layout_margin="1dp"
-            android:background="#F2F2F2" />
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/mi810"
             android:layout_column="4"
             android:layout_margin="1dp"
-            android:background="#F2F2F2" />
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/don810"
             android:layout_column="5"
             android:layout_margin="1dp"
-            android:background="#F2F2F2" />
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/fr810"
             android:layout_column="6"
             android:layout_margin="1dp"
-            android:background="#F2F2F2" />
+            android:layout_weight="1" />
     </TableRow>
 
     <TableRow
         android:id="@+id/tr1012"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="0dp"
+        android:layout_weight="1" >
 
         <TextView
             android:id="@+id/t1012"
             android:layout_column="1"
+            android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="8sp" />
 
         <TextView
             android:id="@+id/mo1012"
-            android:layout_column="2" />
+            android:layout_column="2"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/di1012"
-            android:layout_column="3" />
+            android:layout_column="3"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/mi1012"
-            android:layout_column="4" />
+            android:layout_column="4"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/don1012"
-            android:layout_column="5" />
+            android:layout_column="5"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/fr1012"
-            android:layout_column="6" />
+            android:layout_column="6"
+            android:layout_weight="1" />
     </TableRow>
 
     <TableRow
         android:id="@+id/tr1214"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="0dp"
+        android:layout_weight="1" >
 
         <TextView
             android:id="@+id/t1214"
             android:layout_column="1"
+            android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="8sp" />
 
         <TextView
             android:id="@+id/mo1214"
-            android:layout_column="2" />
+            android:layout_column="2"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/di1214"
-            android:layout_column="3" />
+            android:layout_column="3"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/mi1214"
-            android:layout_column="4" />
+            android:layout_column="4"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/don1214"
-            android:layout_column="5" />
+            android:layout_column="5"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/fr1214"
-            android:layout_column="6" />
+            android:layout_column="6"
+            android:layout_weight="1" />
     </TableRow>
 
     <TableRow
         android:id="@+id/tr1416"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
 
         <TextView
             android:id="@+id/t1416"
             android:layout_column="1"
+            android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="8sp" />
 
         <TextView
             android:id="@+id/mo1416"
-            android:layout_column="2" />
+            android:layout_column="2"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/di1416"
-            android:layout_column="3" />
+            android:layout_column="3"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/mi1416"
-            android:layout_column="4" />
+            android:layout_column="4"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/don1416"
-            android:layout_column="5" />
+            android:layout_column="5"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/fr1416"
-            android:layout_column="6" />
+            android:layout_column="6"
+            android:layout_weight="1" />
     </TableRow>
 
     <TableRow
         android:id="@+id/tr1618"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="0dp"
+        android:layout_weight="1" >
 
         <TextView
             android:id="@+id/t1618"
             android:layout_column="1"
+            android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="8sp" />
 
         <TextView
             android:id="@+id/mo1618"
-            android:layout_column="2" />
+            android:layout_column="2"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/di1618"
-            android:layout_column="3" />
+            android:layout_column="3"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/mi1618"
-            android:layout_column="4" />
+            android:layout_column="4"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/don1618"
-            android:layout_column="5" />
+            android:layout_column="5"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/fr1618"
-            android:layout_column="6" />
+            android:layout_column="6"
+            android:layout_weight="1" />
     </TableRow>
 
     <TableRow
         android:id="@+id/tr1820"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="0dp"
+        android:layout_weight="1" >
 
         <TextView
             android:id="@+id/t1820"
             android:layout_column="1"
+            android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="8sp" />
 
         <TextView
             android:id="@+id/mo1820"
-            android:layout_column="2" />
+            android:layout_column="2"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/di1820"
-            android:layout_column="3" />
+            android:layout_column="3"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/mi1820"
-            android:layout_column="4" />
+            android:layout_column="4"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/don1820"
-            android:layout_column="5" />
+            android:layout_column="5"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/fr1820"
-            android:layout_column="6" />
+            android:layout_column="6"
+            android:layout_weight="1" />
     </TableRow>
 
 </TableLayout>
