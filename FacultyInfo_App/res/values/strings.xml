@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string-array name="drawer_values">
+
+    <string-array name="drawer_values">
         <item>Home</item>
         <item>Neuigkeiten</item>
         <item>Stundenplan</item>
@@ -10,7 +11,7 @@
         <item>Ansprechpartner</item>
         <item>FAQs</item>
     </string-array>
-    
+
     <string name="app_name">TestApp_1</string>
     <string name="edit">Bearbeiten</string>
     <string name="hello_timo">Hello timo!</string>
@@ -33,8 +34,6 @@
     <string name="title_activity_cafeteria">CafeteriaActivity</string>
     <string name="title_activity_news_test">Neuigkeiten</string>
     <string name="title_activity_display_news">Neuigkeiten</string>
-    
-    
     <string name="title_news">Neuigkeiten</string>
     <string name="title_timetable">Stundenplan</string>
     <string name="title_cafeteria">Mensaplan</string>
@@ -43,10 +42,9 @@
     <string name="title_sports">Hochschulsport</string>
     <string name="title_home">Home</string>
     <string name="title_buslines">Busfahrplan</string>
-    
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="action_websearch">Action Websearch</string>
-
+    <string name="title_activity_display_day">DisplayDayActivity</string>
 
 </resources>

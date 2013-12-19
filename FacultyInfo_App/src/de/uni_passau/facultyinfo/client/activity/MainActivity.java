@@ -1,10 +1,9 @@
 package de.uni_passau.facultyinfo.client.activity;
 
 import android.app.Activity;
-
-import android.widget.TextView; 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -210,6 +209,56 @@ public class MainActivity extends Activity {
 	
 	public void showDay(View view){
 		System.out.println(view.getId()); 
+		int viewId = view.getId(); 
+		int dayId=0; 
+		
+		if (viewId == (findViewById(R.id.mo).getId())
+				|| viewId == (findViewById(R.id.mo810).getId())
+				|| viewId == (findViewById(R.id.mo1012).getId())
+				|| viewId == (findViewById(R.id.mo1214).getId())
+				|| viewId == (findViewById(R.id.mo1416).getId())
+				|| viewId == (findViewById(R.id.mo1618).getId())
+				|| viewId == (findViewById(R.id.mo1820).getId())) {
+			dayId=0; 
+		}else if (viewId == (findViewById(R.id.di).getId())
+				|| viewId == (findViewById(R.id.di810).getId())
+				|| viewId == (findViewById(R.id.di1012).getId())
+				|| viewId == (findViewById(R.id.di1214).getId())
+				|| viewId == (findViewById(R.id.di1416).getId())
+				|| viewId == (findViewById(R.id.di1618).getId())
+				|| viewId == (findViewById(R.id.di1820).getId())) {
+			dayId=1; 
+		}else if (viewId == (findViewById(R.id.mi).getId())
+				|| viewId == (findViewById(R.id.mi810).getId())
+				|| viewId == (findViewById(R.id.mi1012).getId())
+				|| viewId == (findViewById(R.id.mi1214).getId())
+				|| viewId == (findViewById(R.id.mi1416).getId())
+				|| viewId == (findViewById(R.id.mi1618).getId())
+				|| viewId == (findViewById(R.id.mi1820).getId())) {
+			dayId=2; 
+		}else if (viewId == (findViewById(R.id.don).getId())
+				|| viewId == (findViewById(R.id.don810).getId())
+				|| viewId == (findViewById(R.id.don1012).getId())
+				|| viewId == (findViewById(R.id.don1214).getId())
+				|| viewId == (findViewById(R.id.don1416).getId())
+				|| viewId == (findViewById(R.id.don1618).getId())
+				|| viewId == (findViewById(R.id.don1820).getId())) {
+			dayId=3; 
+		}else if (viewId == (findViewById(R.id.fr).getId())
+				|| viewId == (findViewById(R.id.fr810).getId())
+				|| viewId == (findViewById(R.id.fr1012).getId())
+				|| viewId == (findViewById(R.id.fr1214).getId())
+				|| viewId == (findViewById(R.id.fr1416).getId())
+				|| viewId == (findViewById(R.id.fr1618).getId())
+				|| viewId == (findViewById(R.id.fr1820).getId())) {
+			dayId=4;  
+		}
+		
+		Intent intent = new Intent (this, DisplayDayActivity.class); 
+		
+		intent.putExtra("dayId", dayId); 
+		startActivity(intent); 
+		System.out.println("startActivity"); 
 	}
 	
 

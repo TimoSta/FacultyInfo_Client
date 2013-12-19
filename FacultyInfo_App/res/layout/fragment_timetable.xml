@@ -109,31 +109,41 @@
             android:id="@+id/mo810"
             android:layout_column="2"
             android:layout_margin="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/di810"
             android:layout_column="3"
             android:layout_margin="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/mi810"
             android:layout_column="4"
             android:layout_margin="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/don810"
             android:layout_column="5"
             android:layout_margin="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/fr810"
             android:layout_column="6"
             android:layout_margin="1dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
     </TableRow>
 
     <TableRow
@@ -152,27 +162,37 @@
         <TextView
             android:id="@+id/mo1012"
             android:layout_column="2"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/di1012"
             android:layout_column="3"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/mi1012"
             android:layout_column="4"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/don1012"
             android:layout_column="5"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/fr1012"
             android:layout_column="6"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
     </TableRow>
 
     <TableRow
@@ -191,27 +211,37 @@
         <TextView
             android:id="@+id/mo1214"
             android:layout_column="2"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/di1214"
             android:layout_column="3"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/mi1214"
             android:layout_column="4"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/don1214"
             android:layout_column="5"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/fr1214"
             android:layout_column="6"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
     </TableRow>
 
     <TableRow
@@ -230,27 +260,37 @@
         <TextView
             android:id="@+id/mo1416"
             android:layout_column="2"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/di1416"
             android:layout_column="3"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/mi1416"
             android:layout_column="4"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/don1416"
             android:layout_column="5"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/fr1416"
             android:layout_column="6"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
     </TableRow>
 
     <TableRow
@@ -269,27 +309,37 @@
         <TextView
             android:id="@+id/mo1618"
             android:layout_column="2"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/di1618"
             android:layout_column="3"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/mi1618"
             android:layout_column="4"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/don1618"
             android:layout_column="5"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/fr1618"
             android:layout_column="6"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
     </TableRow>
 
     <TableRow
@@ -308,27 +358,37 @@
         <TextView
             android:id="@+id/mo1820"
             android:layout_column="2"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/di1820"
             android:layout_column="3"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/mi1820"
             android:layout_column="4"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/don1820"
             android:layout_column="5"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
 
         <TextView
             android:id="@+id/fr1820"
             android:layout_column="6"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showDay" />
     </TableRow>
 
 </TableLayout>
