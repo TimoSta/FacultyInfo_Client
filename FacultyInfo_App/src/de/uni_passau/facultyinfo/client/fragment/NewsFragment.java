@@ -1,13 +1,12 @@
 package de.uni_passau.facultyinfo.client.fragment;
 
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +19,7 @@ import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.activity.DisplayNewsActivity;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.News;
+import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 
 public class NewsFragment extends Fragment {
 
@@ -41,25 +41,32 @@ public class NewsFragment extends Fragment {
 		return rootView;
 	}
 
-	protected class NewsLoader extends AsyncTask<URL, Void, List<News>> {
-		View rootView = null;
-
+	protected class NewsLoader extends AsyncDataLoader<List<News>> {
 		private NewsLoader(View rootView) {
-			super();
-			this.rootView = rootView;
+			super(rootView);
 		}
 
 		@Override
-		protected List<News> doInBackground(URL... urls) {
+		protected List<News> doInBackground(Void... unused) {
 			System.out.println("NewsActivity->doInBackground");
 			AccessFacade accessFacade = new AccessFacade();
+
 			List<News> news = accessFacade.getNewsAccess().getNews();
+
+			if (news == null) {
+				publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
+				news = accessFacade.getNewsAccess().getNewsFromCache();
+			}
+
+			if (news == null) {
+				news = Collections.unmodifiableList(new ArrayList<News>());
+			}
+
 			return news;
 		}
 
 		@Override
 		protected void onPostExecute(List<News> news) {
-
 			System.out.println("NewsActivity->onPostExecute");
 
 			final ArrayList<HashMap<String, String>> newsList = new ArrayList<HashMap<String, String>>();
@@ -75,9 +82,8 @@ public class NewsFragment extends Fragment {
 
 			ListView listView = (ListView) rootView.findViewById(R.id.list);
 
-			SimpleAdapter adapter = new SimpleAdapter(
-					rootView.getContext(), newsList,
-					R.layout.custom_row_view, new String[] { "title",
+			SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
+					newsList, R.layout.custom_row_view, new String[] { "title",
 							"description", }, new int[] { R.id.title,
 							R.id.description }
 
