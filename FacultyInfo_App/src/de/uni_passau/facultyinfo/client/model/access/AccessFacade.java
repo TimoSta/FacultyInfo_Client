@@ -9,6 +9,7 @@ public class AccessFacade {
 	private NewsAccess newsAccess = null;
 	private FaqAccess faqAccess = null;
 	private BusLineAccess busLineAccess = null;
+	private EventAccess eventAccess = null;
 
 	public NewsAccess getNewsAccess() {
 		if (newsAccess == null) {
@@ -29,5 +30,12 @@ public class AccessFacade {
 			busLineAccess = new BusLineAccess();
 		}
 		return busLineAccess;
+	}
+	
+	public EventAccess getEventAccess() {
+		if (eventAccess == null) {
+			eventAccess = new EventAccess();
+		}
+		return eventAccess;
 	}
 }

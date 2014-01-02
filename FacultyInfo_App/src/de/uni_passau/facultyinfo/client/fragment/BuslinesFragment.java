@@ -64,12 +64,7 @@ public class BuslinesFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(List<BusLine> busLines) {
-			for (BusLine busLine : busLines) {
-				System.out.println(SimpleDateFormat.getDateTimeInstance()
-						.format(busLine.getDeparture())
-						+ " - "
-						+ busLine.getLine() + " - " + busLine.getDirection());
-			}
+			// TODO: use bus line information
 		}
 	}
 }
