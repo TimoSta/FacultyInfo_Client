@@ -11,6 +11,24 @@
         <item>Ansprechpartner</item>
         <item>FAQs</item>
     </string-array>
+    
+    <string-array name="day_values">
+        <item>Montag</item>
+        <item>Dienstag</item>
+        <item>Mittwoch</item>
+        <item>Donnerstag</item>
+        <item>Freitag</item>
+    </string-array>
+    
+    <string-array name="time_values">
+        <item>08:00 - 10:00</item>
+        <item>10:00 - 12:00</item>
+        <item>12:00 - 14:00</item>
+        <item>14:00 - 16:00</item>
+        <item>16:00 - 18:00</item>
+        <item>18:00 - 20:00</item>
+    </string-array>
+    
 
     <string name="app_name">TestApp_1</string>
     <string name="edit">Bearbeiten</string>
@@ -46,5 +64,13 @@
     <string name="drawer_close">Close</string>
     <string name="action_websearch">Action Websearch</string>
     <string name="title_activity_display_day">DisplayDayActivity</string>
+    <string name="title_activity_display_day_fragment">DisplayDayFragment</string>
+    <string name="create_event_TT_dialog">Zu dieser Zeit ist keine Veranstaltung vorhanden! </string>
+    <string name="cancel">Abbrechen</string>
+    <string name="create">Jetzt Anlegen</string>
+    <string name="title_activity_edit_time_table">Bearbeiten</string>
+    <string name="eventTTh">Veranstaltungstitel</string>
+    <string name="locationTTh">Ort</string>
+    <string name="timeh">Zeit</string>
 
 </resources>
