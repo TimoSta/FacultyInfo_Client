@@ -46,10 +46,11 @@ public class BusLineAccess {
 		cal.setTime(now);
 		cal.add(Calendar.MINUTE, 20);
 		Date soon = cal.getTime();
-
+		
 		for (BusLine busLine : busLines) {
 			if (busLine.getDeparture().after(now)
 					&& busLine.getDeparture().before(soon)) {
+				System.out.println(1);
 				nextBusLines.add(busLine);
 			}
 		}

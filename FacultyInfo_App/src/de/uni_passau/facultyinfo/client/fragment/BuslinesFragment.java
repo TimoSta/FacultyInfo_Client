@@ -71,8 +71,6 @@ public class BuslinesFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(List<BusLine> busLines) {
-			// TODO: use bus line information
-			
 			TableLayout buslines = (TableLayout) rootView
 					.findViewById(R.id.buslines);
 			TableRow heading = new TableRow(rootView.getContext());
