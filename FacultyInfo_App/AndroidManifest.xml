@@ -26,38 +26,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="de.uni_passau.facultyinfo.client.activity.NewsActivity"
-            android:label="@string/title_activity_news" >
-        </activity>
-        <activity
-            android:name="de.uni_passau.facultyinfo.client.activity.BuslinesActivity"
-            android:label="@string/title_activity_buslines" >
-        </activity>
-        <activity
-            android:name="de.uni_passau.facultyinfo.client.activity.ContactsActivity"
-            android:label="@string/title_activity_contacts" >
-        </activity>
-        <activity
-            android:name="de.uni_passau.facultyinfo.client.activity.TimetableActivity"
-            android:label="@string/title_activity_timetable" >
-        </activity>
-        <activity
-            android:name="de.uni_passau.facultyinfo.client.activity.FAQsActivity"
-            android:label="@string/title_activity_faqs" >
-        </activity>
-        <activity
-            android:name="de.uni_passau.facultyinfo.client.activity.SportsActivity"
-            android:label="@string/title_activity_sports" >
-        </activity>
-        <activity
-            android:name="de.uni_passau.facultyinfo.client.activity.CafeteriaActivity"
-            android:label="@string/title_activity_cafeteria" >
-        </activity>
-        <activity
-            android:name="de.uni_passau.facultyinfo.client.activity.NewsTestActivity"
-            android:label="@string/title_activity_news_test" >
-        </activity>
-        <activity
             android:name="de.uni_passau.facultyinfo.client.activity.DisplayNewsActivity"
             android:label="@string/title_activity_display_news"
             android:parentActivityName="de.uni_passau.facultyinfo.client.activity.NewsActivity" >

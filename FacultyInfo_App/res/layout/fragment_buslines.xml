@@ -7,8 +7,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".BuslinesActivity" >
-
-    <FrameLayout
+    
+     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignRight="@+id/frame"
@@ -17,67 +17,12 @@
         android:layout_marginRight="10px"
         android:layout_marginTop="10px" >
 
-        <TableLayout
-            android:id="@+id/buslines"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
-
-            <TableRow
-                android:id="@+id/bush"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" >
-
-                <TextView
-                    android:id="@+id/depatureh"
-                    android:layout_column="1"
-                    android:layout_margin="1dp"
-                    android:layout_weight="2"
-                    android:background="#FFAA5A"
-                    android:text="Abfahrt" />
-
-                <TextView
-                    android:id="@+id/numberh"
-                    android:layout_column="2"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:background="#FFAA5A"
-                    android:text="Nr" />
-
-                <TextView
-                    android:id="@+id/directionh"
-                    android:layout_column="3"
-                    android:layout_margin="1dp"
-                    android:layout_weight="3"
-                    android:background="#FFAA5A"
-                    android:text="Richtung" />
-            </TableRow>
-
-            <TableRow
-                android:id="@+id/bus"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" >
-
-                <TextView
-                    android:id="@+id/depature"
-                    android:layout_column="1"
-                    android:layout_margin="1dp"
-                    android:layout_weight="2" />
-
-                <TextView
-                    android:id="@+id/number"
-                    android:layout_column="2"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/direction"
-                    android:layout_column="3"
-                    android:layout_margin="1dp"
-                    android:layout_weight="3" />
-            </TableRow>
-        </TableLayout>
+    <TableLayout
+        android:id="@+id/buslines"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+    </TableLayout>
+    
     </FrameLayout>
 
 </RelativeLayout>

@@ -4,12 +4,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
@@ -29,6 +34,8 @@ public class BuslinesFragment extends Fragment {
 				false);
 
 		getActivity().setTitle(R.string.title_buslines);
+		
+		
 
 		new BusLineLoader(rootView).execute();
 
@@ -65,6 +72,65 @@ public class BuslinesFragment extends Fragment {
 		@Override
 		protected void onPostExecute(List<BusLine> busLines) {
 			// TODO: use bus line information
+			
+			TableLayout buslines = (TableLayout) rootView
+					.findViewById(R.id.buslines);
+			TableRow heading = new TableRow(rootView.getContext());
+
+			TextView departureHeading = new TextView(rootView.getContext());
+			departureHeading.setText("Abfahrt");
+			departureHeading.setBackgroundColor(Color.parseColor("#FFAA5A"));
+			departureHeading.setLayoutParams(new TableRow.LayoutParams(0,
+					android.view.ViewGroup.LayoutParams.FILL_PARENT, 2));
+			heading.addView(departureHeading, 0);
+
+			TextView lineHeading = new TextView(rootView.getContext());
+			lineHeading.setText("Nr");
+			lineHeading.setBackgroundColor(Color.parseColor("#FFAA5A"));
+			lineHeading.setLayoutParams(new TableRow.LayoutParams(0,
+					android.view.ViewGroup.LayoutParams.FILL_PARENT, 1));
+			heading.addView(lineHeading, 1);
+
+			TextView directionHeading = new TextView(rootView.getContext());
+			directionHeading.setText("Richtung");
+			directionHeading.setBackgroundColor(Color.parseColor("#FFAA5A"));
+			departureHeading.setLayoutParams(new TableRow.LayoutParams(0,
+					android.view.ViewGroup.LayoutParams.FILL_PARENT, 3));
+			heading.addView(directionHeading, 2);
+
+			buslines.addView(heading);
+			
+			if(busLines.isEmpty()){
+				System.out.println("busLines empty"); 
+			}
+
+			for (BusLine bus : busLines) {
+				System.out.println("foreach"); 
+				TableRow busRow = new TableRow(rootView.getContext());
+				TextView departure = new TextView(rootView.getContext());
+				SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy, kk mm",
+						Locale.GERMAN);
+				departure.setText(sdf.format(bus.getDeparture()));
+				departure.setLayoutParams(new TableRow.LayoutParams(0,
+						android.view.ViewGroup.LayoutParams.FILL_PARENT, 2));
+				// departure.setLayoutParams(bus.LayoutParams(3));
+				busRow.addView(departure, 0);
+
+				TextView line = new TextView(rootView.getContext());
+				line.setText(bus.getLine());
+				line.setLayoutParams(new TableRow.LayoutParams(0,
+						android.view.ViewGroup.LayoutParams.FILL_PARENT, 1));
+				busRow.addView(line, 1);
+
+				TextView direction = new TextView(rootView.getContext());
+				direction.setText(bus.getDirection());
+				departure.setLayoutParams(new TableRow.LayoutParams(0,
+						android.view.ViewGroup.LayoutParams.FILL_PARENT, 3));
+				busRow.addView(direction, 2);
+
+				buslines.addView(busRow);
+			}
+			
 		}
 	}
 }
