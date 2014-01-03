@@ -103,6 +103,7 @@ public class BuslinesFragment extends Fragment {
 			if(busLines.isEmpty()){
 				System.out.println("busLines empty"); 
 			}
+		
 
 			for (BusLine bus : busLines) {
 				System.out.println("foreach"); 
