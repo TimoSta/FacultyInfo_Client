@@ -16,8 +16,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.AdapterView.OnItemClickListener;
-import de.uni_passau.facultyinfo.client.DisplayChairContactsActivity;
 import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.activity.DisplayChairContactsActivity;
 import de.uni_passau.facultyinfo.client.activity.DisplayNewsActivity;
 import de.uni_passau.facultyinfo.client.model.dto.News;
 
@@ -56,7 +56,7 @@ public class ContactFragment extends Fragment {
 
 		SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
 				chairList, R.layout.custom_row_view, new String[] { "name",
-						}, new int[] { R.id.title, });
+						}, new int[] { R.id.title });
 
 //		for (int i = 0; i < 5; i++) {
 //			valueList.add("Lehrstuhl " + i); 

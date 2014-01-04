@@ -1,15 +1,20 @@
 package de.uni_passau.facultyinfo.client.activity;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.uni_passau.facultyinfo.client.R;
 
-public class EditTimeTableActivity extends Activity {
+public class EditTimeTableActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,9 +27,9 @@ public class EditTimeTableActivity extends Activity {
 
 		Intent intent = (Intent) getIntent();
 		int timeslotId = intent.getIntExtra("timeslotId", 0);
-		System.out.println(intent.getIntExtra("timeslotId", 0)); 
+		System.out.println(intent.getIntExtra("timeslotId", 0));
 		int dayId = intent.getIntExtra("dayId", 0);
-		System.out.println(intent.getIntExtra("dayId", 0)); 
+		System.out.println(intent.getIntExtra("dayId", 0));
 		String day = "";
 		String timeslot = "";
 
@@ -56,9 +61,6 @@ public class EditTimeTableActivity extends Activity {
 
 		TextView timeTextView = (TextView) findViewById(R.id.timeTT);
 		timeTextView.setText(day + timeslot);
-		
-		
-		
 
 		// ArrayAdapter<CharSequence> dayAdapter =
 		// ArrayAdapter.createFromResource(
@@ -76,27 +78,68 @@ public class EditTimeTableActivity extends Activity {
 		getMenuInflater().inflate(R.menu.edit_time_table, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()){
-		case R.id.action_save: 
-			System.out.println("Save"); 
-			
-			EditText editTextTitle = (EditText)findViewById(R.id.veranstaltungd); 
+		switch (item.getItemId()) {
+		case R.id.action_save:
+			System.out.println("Save");
+
+			EditText editTextTitle = (EditText) findViewById(R.id.veranstaltungd);
 			String title = editTextTitle.getText().toString();
-			System.out.println(title); 
-			//setTitle(title); 
+			System.out.println(title);
+
+			if (title.isEmpty()) {
+				Toast toast = Toast.makeText(getApplicationContext(), "Die Veranstaltung konnte nicht gespeichert werden, da kein Veranstaltungstitel vergeben wurde!", 10);
+				toast.show();
+			}
+			// setTitle(title);
+
+			EditText editTextLocation = (EditText) findViewById(R.id.locationd);
+			String location = editTextLocation.getText().toString();
+			if (location.isEmpty()) {
+				final class CreateEventTT extends DialogFragment {
+					@Override
+					public Dialog onCreateDialog(Bundle savedInstanceState) {
+						// Use the Builder class for convenient dialog
+						// construction
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								getActivity());
+						builder.setMessage(
+								R.string.create_event_no_location_dialog)
+								.setPositiveButton(R.string.create2,
+										new DialogInterface.OnClickListener() {
+											public void onClick(
+													DialogInterface dialog,
+													int id) {
+												System.out
+														.println("Veranstaltung anlegen");
+											}
+										})
+								.setNegativeButton(R.string.cancel,
+										new DialogInterface.OnClickListener() {
+											public void onClick(
+													DialogInterface dialog,
+													int id) {
+												System.out.println("Abbruch");
+												// User cancelled the dialog
+											}
+										});
+						// Create the AlertDialog object and return it
+						return builder.create();
+					}
+				}
+				CreateEventTT dialog = new CreateEventTT();
+				dialog.show(getSupportFragmentManager(), "createEventTTnoLocation");
+			}
 			
-			EditText editTextLocation = (EditText)findViewById(R.id.locationd); 
-			String location = editTextLocation.getText().toString(); 
-			System.out.println(location); 
-			//setLocation(location); 
-			
-			return true; 
+			System.out.println(location);
+			// setLocation(location);
+
+			return true;
 		default:
-            return super.onOptionsItemSelected(item);
-	    }
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 }
