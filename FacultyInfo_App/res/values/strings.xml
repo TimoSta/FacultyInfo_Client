@@ -70,5 +70,6 @@
     <string name="locationTTh">Ort</string>
     <string name="timeh">Zeit</string>
     <string name="title_activity_display_chair_contacts">DisplayChairContactsActivity</string>
-
+    <string name="create_event_no_location_dialog">Es ist kein Ort für die Veranstaltung angegeben.</string>
+    <string name="create2">Trotzdem anlegen</string>
 </resources>

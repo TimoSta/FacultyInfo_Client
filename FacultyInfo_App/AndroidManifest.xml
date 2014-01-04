@@ -49,9 +49,10 @@
             android:label="@string/title_activity_edit_time_table" >
         </activity>
         <activity
-            android:name="de.uni_passau.facultyinfo.client.DisplayChairContactsActivity"
+            android:name="de.uni_passau.facultyinfo.client.activity.DisplayChairContactsActivity"
             android:label="@string/title_activity_display_chair_contacts" >
         </activity>
     </application>
 
+>>>>>>> 330bdc4487c94c365b3c9c045e1b031500f7b6c3
 </manifest>

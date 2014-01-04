@@ -1,7 +1,12 @@
-package de.uni_passau.facultyinfo.client;
+package de.uni_passau.facultyinfo.client.activity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.R.id;
+import de.uni_passau.facultyinfo.client.R.layout;
+import de.uni_passau.facultyinfo.client.R.menu;
 
 import android.app.Activity;
 import android.content.Intent;
