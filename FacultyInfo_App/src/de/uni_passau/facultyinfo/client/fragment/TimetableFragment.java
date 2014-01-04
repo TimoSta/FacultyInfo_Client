@@ -1,15 +1,28 @@
 package de.uni_passau.facultyinfo.client.fragment;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+
 import android.app.Fragment;
-import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
+import de.uni_passau.facultyinfo.client.model.dto.News;
+import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
 
 public class TimetableFragment extends Fragment {
 
@@ -20,17 +33,15 @@ public class TimetableFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_timetable, container,
-				false);
+		View rootView = inflater.inflate(R.layout.fragment_timetable,
+				container, false);
 
 		getActivity().setTitle(R.string.title_timetable);
-		
-		TableLayout timetable = (TableLayout) rootView.findViewById (R.id.time); 
 
-		
-		 TableRow th = (TableRow) rootView.findViewById(R.id.th); th.setPadding(0, 0,
-		 0, 0);
-		
+		TableLayout timetable = (TableLayout) rootView.findViewById(R.id.time);
+
+		TableRow th = (TableRow) rootView.findViewById(R.id.th);
+		th.setPadding(0, 0, 0, 0);
 
 		TextView mo = (TextView) rootView.findViewById(R.id.mo);
 		mo.setText("Mo");
@@ -167,11 +178,30 @@ public class TimetableFragment extends Fragment {
 		TextView fr1820 = (TextView) rootView.findViewById(R.id.fr1820);
 		fr1820.setText("Fr1820");
 
+		// Load timetable entries
+		new TimetableEntryLoader().execute();
+		
 		return rootView;
 
 	}
-	
 
+	protected class TimetableEntryLoader extends
+			AsyncTask<Void, Void, List<TimetableEntry>> {
 
+		@Override
+		protected List<TimetableEntry> doInBackground(Void... unused) {
+			AccessFacade accessFacade = new AccessFacade();
+
+			List<TimetableEntry> timetableEntries = accessFacade
+					.getTimetableAccess().getTimetableEntries();
+
+			return timetableEntries;
+		}
+
+		@Override
+		protected void onPostExecute(List<TimetableEntry> timetableEntries) {
+			// TODO: Einträge an der GUI anzeigen
+		}
+	}
 
 }

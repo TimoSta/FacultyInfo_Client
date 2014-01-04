@@ -2,12 +2,18 @@ package de.uni_passau.facultyinfo.client.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.application.FacultyInfoApplication;
+import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
+import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
+import de.uni_passau.facultyinfo.client.model.dto.factory.TimetableEntryFactory;
 
 public class EditTimeTableActivity extends Activity {
 
@@ -22,9 +28,9 @@ public class EditTimeTableActivity extends Activity {
 
 		Intent intent = (Intent) getIntent();
 		int timeslotId = intent.getIntExtra("timeslotId", 0);
-		System.out.println(intent.getIntExtra("timeslotId", 0)); 
+		System.out.println(intent.getIntExtra("timeslotId", 0));
 		int dayId = intent.getIntExtra("dayId", 0);
-		System.out.println(intent.getIntExtra("dayId", 0)); 
+		System.out.println(intent.getIntExtra("dayId", 0));
 		String day = "";
 		String timeslot = "";
 
@@ -56,9 +62,6 @@ public class EditTimeTableActivity extends Activity {
 
 		TextView timeTextView = (TextView) findViewById(R.id.timeTT);
 		timeTextView.setText(day + timeslot);
-		
-		
-		
 
 		// ArrayAdapter<CharSequence> dayAdapter =
 		// ArrayAdapter.createFromResource(
@@ -68,6 +71,15 @@ public class EditTimeTableActivity extends Activity {
 		// Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner);
 		// daySpinner.setAdapter(dayAdapter);
 
+		// TODO: nur ein Beispiel, wie das Speichern von Terminen funktioniert
+		TimetableEntrySaver saver = new TimetableEntrySaver();
+		TimetableEntry entry = TimetableEntryFactory.createTimetableEntry(
+				"Testeintrag", "Dies ist nur ein Testeintrag. Bla.",
+				"Café Aran", TimetableEntry.MONDAY,
+				TimetableEntry.FROM_10_TO_12, TimetableEntry.COLOR_12);
+		saver.execute(entry);
+		// ENDE Beispiel
+
 	}
 
 	@Override
@@ -76,27 +88,63 @@ public class EditTimeTableActivity extends Activity {
 		getMenuInflater().inflate(R.menu.edit_time_table, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()){
-		case R.id.action_save: 
-			System.out.println("Save"); 
-			
-			EditText editTextTitle = (EditText)findViewById(R.id.veranstaltungd); 
+		switch (item.getItemId()) {
+		case R.id.action_save:
+			System.out.println("Save");
+
+			EditText editTextTitle = (EditText) findViewById(R.id.veranstaltungd);
 			String title = editTextTitle.getText().toString();
-			System.out.println(title); 
-			//setTitle(title); 
-			
-			EditText editTextLocation = (EditText)findViewById(R.id.locationd); 
-			String location = editTextLocation.getText().toString(); 
-			System.out.println(location); 
-			//setLocation(location); 
-			
-			return true; 
+			System.out.println(title);
+			// setTitle(title);
+
+			EditText editTextLocation = (EditText) findViewById(R.id.locationd);
+			String location = editTextLocation.getText().toString();
+			System.out.println(location);
+			// setLocation(location);
+
+			return true;
 		default:
-            return super.onOptionsItemSelected(item);
-	    }
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	protected class TimetableEntrySaver extends
+			AsyncTask<TimetableEntry, Void, Boolean> {
+		// View rootView = null;
+		//
+		// public TimetableEntrySaver(View rootView) {
+		// super();
+		// this.rootView = rootView;
+		// }
+
+		@Override
+		protected Boolean doInBackground(TimetableEntry... timetableEntries) {
+			AccessFacade accessFacade = new AccessFacade();
+
+			boolean result = true;
+			for (TimetableEntry timetableEntry : timetableEntries) {
+				result = accessFacade.getTimetableAccess()
+						.createOrUpdateTimetableEntry(timetableEntry) && result;
+			}
+
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			String resultText = null;
+			if (result) {
+				resultText = "Termin erfolgreich gespeichert";
+			} else {
+				resultText = "Fehler beim Speichern";
+			}
+			Toast toast = Toast.makeText(FacultyInfoApplication.getContext(),
+					resultText, Toast.LENGTH_SHORT);
+			toast.show();
+		}
 	}
 
 }

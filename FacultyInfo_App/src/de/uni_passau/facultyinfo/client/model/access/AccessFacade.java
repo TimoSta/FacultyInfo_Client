@@ -3,13 +3,14 @@ package de.uni_passau.facultyinfo.client.model.access;
 /**
  * 
  * @author Timo Staudinger
- *
+ * 
  */
 public class AccessFacade {
 	private NewsAccess newsAccess = null;
 	private FaqAccess faqAccess = null;
 	private BusLineAccess busLineAccess = null;
 	private EventAccess eventAccess = null;
+	private TimetableAccess timetableAccess = null;
 
 	public NewsAccess getNewsAccess() {
 		if (newsAccess == null) {
@@ -31,11 +32,18 @@ public class AccessFacade {
 		}
 		return busLineAccess;
 	}
-	
+
 	public EventAccess getEventAccess() {
 		if (eventAccess == null) {
 			eventAccess = new EventAccess();
 		}
 		return eventAccess;
+	}
+
+	public TimetableAccess getTimetableAccess() {
+		if (timetableAccess == null) {
+			timetableAccess = new TimetableAccess();
+		}
+		return timetableAccess;
 	}
 }
