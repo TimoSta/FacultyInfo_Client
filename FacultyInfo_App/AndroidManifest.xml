@@ -57,6 +57,4 @@
             android:label="@string/title_activity_display_time_table_entry" >
         </activity>
     </application>
->>>>>>> 330bdc4487c94c365b3c9c045e1b031500f7b6c3
-
 </manifest>
