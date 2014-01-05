@@ -11,6 +11,7 @@ public class AccessFacade {
 	private BusLineAccess busLineAccess = null;
 	private EventAccess eventAccess = null;
 	private TimetableAccess timetableAccess = null;
+	private MapMarkerAccess mapMarkerAccess = null;
 
 	public NewsAccess getNewsAccess() {
 		if (newsAccess == null) {
@@ -45,5 +46,12 @@ public class AccessFacade {
 			timetableAccess = new TimetableAccess();
 		}
 		return timetableAccess;
+	}
+
+	public MapMarkerAccess getMapMarkerAccess() {
+		if (mapMarkerAccess == null) {
+			mapMarkerAccess = new MapMarkerAccess();
+		}
+		return mapMarkerAccess;
 	}
 }
