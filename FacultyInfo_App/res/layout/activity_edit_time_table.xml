@@ -44,7 +44,7 @@
         android:layout_alignLeft="@+id/locationd"
         android:layout_alignRight="@+id/veranstaltungh"
         android:layout_below="@+id/veranstaltungd"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="36dp"
         android:text="@string/locationTTh"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -56,5 +56,45 @@
         android:layout_alignRight="@+id/veranstaltungd"
         android:layout_below="@+id/locationh"
         android:ems="10" />
+
+    <TextView
+        android:id="@+id/descriptionh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/locationd"
+        android:layout_below="@+id/locationd"
+        android:layout_marginTop="36dp"
+        android:text="@string/descriptionTTh"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/descriptiond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/descriptionh"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/descriptionh"
+        android:layout_marginTop="14dp"
+        android:ems="10"
+        android:inputType="textMultiLine" />
+
+    <TextView
+        android:id="@+id/color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/descriptiond"
+        android:layout_below="@+id/descriptiond"
+        android:layout_marginTop="36dp"
+        android:text="@string/color"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Spinner
+        android:id="@+id/colorSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/descriptiond"
+        android:layout_marginTop="36dp"
+        android:layout_toRightOf="@+id/color" />
+    
 
 </RelativeLayout>

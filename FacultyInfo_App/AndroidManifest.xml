@@ -52,7 +52,11 @@
             android:name="de.uni_passau.facultyinfo.client.activity.DisplayChairContactsActivity"
             android:label="@string/title_activity_display_chair_contacts" >
         </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.DisplayTimeTableEntryActivity"
+            android:label="@string/title_activity_display_time_table_entry" >
+        </activity>
     </application>
-
 >>>>>>> 330bdc4487c94c365b3c9c045e1b031500f7b6c3
+
 </manifest>

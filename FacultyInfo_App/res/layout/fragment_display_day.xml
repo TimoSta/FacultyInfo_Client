@@ -41,8 +41,6 @@
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="#FFAA5A"
-                    android:clickable="true"
-                    android:onClick="showEventTT"
                     android:text="Veranstaltung" />
             </TableRow>
 
@@ -64,7 +62,8 @@
                     android:layout_column="2"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
-                    android:longClickable="true"/>
+                    android:longClickable="true"
+                    android:onClick="true"/>
             </TableRow>
 
             <TableRow
@@ -85,7 +84,8 @@
                     android:layout_column="2"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
-                    android:longClickable="true"/>
+                    android:longClickable="true"
+                    android:onClick="true"/>
             </TableRow>
 
             <TableRow
@@ -106,7 +106,8 @@
                     android:layout_column="2"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
-                    android:longClickable="true"/>
+                    android:longClickable="true"
+                    android:onClick="true"/>
             </TableRow>
 
             <TableRow
@@ -127,7 +128,8 @@
                     android:layout_column="2"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
-                    android:longClickable="true"/>
+                    android:longClickable="true"
+                    android:onClick="true"/>
             </TableRow>
 
             <TableRow
@@ -148,7 +150,8 @@
                     android:layout_column="2"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
-                    android:longClickable="true"/>
+                    android:longClickable="true"
+                    android:onClick="true"/>
             </TableRow>
 
             <TableRow
@@ -169,7 +172,8 @@
                     android:layout_column="2"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
-                    android:longClickable="true"/>
+                    android:longClickable="true"
+                    android:onClick="true"/>
             </TableRow>
         </TableLayout>
     </FrameLayout>

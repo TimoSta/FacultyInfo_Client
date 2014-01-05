@@ -107,7 +107,7 @@ public class BuslinesFragment extends Fragment {
 				System.out.println("foreach"); 
 				TableRow busRow = new TableRow(rootView.getContext());
 				TextView departure = new TextView(rootView.getContext());
-				SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy, kk mm",
+				SimpleDateFormat sdf = new SimpleDateFormat("kk:mm",
 						Locale.GERMAN);
 				departure.setText(sdf.format(bus.getDeparture()));
 				departure.setLayoutParams(new TableRow.LayoutParams(0,

@@ -113,6 +113,7 @@ public class DisplayDayActivity extends FragmentActivity implements
 			System.out.println("getItem: " + i);
 			Fragment fragment = new DisplayDayFragment();
 			Bundle args = new Bundle();
+			
 			args.putInt(DisplayDayFragment.ARG_DAY, i);
 			fragment.setArguments(args);
 			return fragment;
