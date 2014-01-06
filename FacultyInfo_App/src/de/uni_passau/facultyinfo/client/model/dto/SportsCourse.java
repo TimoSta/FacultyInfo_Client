@@ -1,15 +1,29 @@
 package de.uni_passau.facultyinfo.client.model.dto;
 
-import java.sql.Time;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import de.uni_passau.facultyinfo.client.model.dto.util.Time;
+
 public class SportsCourse {
+	public static final int STATUS_NOT_AVAILABLE = 0;
+	public static final int STATUS_OPEN = 1;
+	public static final int STATUS_CLOSED = 2;
+	public static final int STATUS_FULL = 3;
+	public static final int STATUS_OFFICE_SIGNUP = 4;
+	public static final int STATUS_STORNO = 5;
+	public static final int STATUS_QUEUE = 6;
+	public static final int STATUS_NO_SIGNUP_REQUIRED = 7;
+	public static final int STATUS_NO_SIGNUP_POSSIBLE = 8;
+
+	public static final double PRICE_NOT_AVAILABLE = -1.0;
+
 	private String id;
-	private String title;
-	private String description;
+	@JsonIgnore
+	private SportsCourseCategory category;
 	private String number;
 	private String details;
 	private int dayOfWeek;
@@ -19,13 +33,11 @@ public class SportsCourse {
 	private Date startDate;
 	private Date endDate;
 	private String host;
-	private float price;
-	private boolean placesAvailable;
+	private double price;
+	private int status;
 
 	@JsonCreator
 	public SportsCourse(@JsonProperty("id") String id,
-			@JsonProperty("title") String title,
-			@JsonProperty("description") String description,
 			@JsonProperty("number") String number,
 			@JsonProperty("details") String details,
 			@JsonProperty("dayOfWeek") int dayOfWeek,
@@ -35,12 +47,10 @@ public class SportsCourse {
 			@JsonProperty("startDate") Date startDate,
 			@JsonProperty("endDate") Date endDate,
 			@JsonProperty("host") String host,
-			@JsonProperty("price") float price,
-			@JsonProperty("placesAvailable") boolean placesAvailable) {
+			@JsonProperty("price") double price,
+			@JsonProperty("status") int status) {
 		super();
 		this.id = id;
-		this.title = title;
-		this.description = description;
 		this.number = number;
 		this.details = details;
 		this.dayOfWeek = dayOfWeek;
@@ -51,7 +61,7 @@ public class SportsCourse {
 		this.endDate = endDate;
 		this.host = host;
 		this.price = price;
-		this.placesAvailable = placesAvailable;
+		this.status = status;
 	}
 
 	public String getId() {
@@ -62,20 +72,12 @@ public class SportsCourse {
 		this.id = id;
 	}
 
-	public String getTitle() {
-		return title;
+	public SportsCourseCategory getCategory() {
+		return category;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	public void setCategory(SportsCourseCategory category) {
+		this.category = category;
 	}
 
 	public String getNumber() {
@@ -150,19 +152,20 @@ public class SportsCourse {
 		this.host = host;
 	}
 
-	public float getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(float price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
-	public boolean isPlacesAvailable() {
-		return placesAvailable;
+	public int getStatus() {
+		return status;
 	}
 
-	public void setPlacesAvailable(boolean placesAvailable) {
-		this.placesAvailable = placesAvailable;
+	public void setStatus(int status) {
+		this.status = status;
 	}
+
 }
