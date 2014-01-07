@@ -10,6 +10,7 @@
         <item>Mensaplan</item>
         <item>Ansprechpartner</item>
         <item>FAQs</item>
+        <item>Universitätsplan</item>
     </string-array>
     <string-array name="day_values">
         <item>Montag</item>
@@ -49,6 +50,7 @@
     <string name="title_activity_cafeteria">CafeteriaActivity</string>
     <string name="title_activity_news_test">Neuigkeiten</string>
     <string name="title_activity_display_news">Neuigkeiten</string>
+    <string name="title_activity_map">Universitätsplan</string>
     <string name="title_news">Neuigkeiten</string>
     <string name="title_timetable">Stundenplan</string>
     <string name="title_cafeteria">Mensaplan</string>
@@ -73,7 +75,7 @@
     <string name="create_event_no_location_dialog">Es ist kein Ort für die Veranstaltung angegeben.</string>
     <string name="create2">Trotzdem anlegen</string>
     <string name="title_activity_display_time_table_entry">DisplayTimeTableEntryActivity</string>
-	<string name="descriptionTTh">Beschreibung</string>
-	<string name="color">Farbe</string>
-    
+    <string name="descriptionTTh">Beschreibung</string>
+    <string name="color">Farbe</string>
+
 </resources>
