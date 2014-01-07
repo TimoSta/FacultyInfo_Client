@@ -30,7 +30,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyACkZ66ynk-WGU5C1RChVZhT26usF9Xi2U" />
+            android:value="AIzaSyCMGryyfgt6wBUrHoUYf-e6U7eMMsy_ABc" />
 
         <activity
             android:name="de.uni_passau.facultyinfo.client.activity.MainActivity"
