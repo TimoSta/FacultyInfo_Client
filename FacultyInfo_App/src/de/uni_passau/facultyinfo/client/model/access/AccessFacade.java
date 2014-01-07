@@ -1,5 +1,7 @@
 package de.uni_passau.facultyinfo.client.model.access;
 
+import com.google.android.gms.internal.co;
+
 /**
  * 
  * @author Timo Staudinger
@@ -13,6 +15,7 @@ public class AccessFacade {
 	private TimetableAccess timetableAccess = null;
 	private MapMarkerAccess mapMarkerAccess = null;
 	private SportsCourseAccess sportsCourseAccess = null;
+	private ContactPersonAccess contactPersonAccess = null;
 
 	public NewsAccess getNewsAccess() {
 		if (newsAccess == null) {
@@ -61,5 +64,12 @@ public class AccessFacade {
 			sportsCourseAccess = new SportsCourseAccess();
 		}
 		return sportsCourseAccess;
+	}
+
+	public ContactPersonAccess getContactPersonAccess() {
+		if (contactPersonAccess == null) {
+			contactPersonAccess = new ContactPersonAccess();
+		}
+		return contactPersonAccess;
 	}
 }
