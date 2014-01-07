@@ -54,13 +54,6 @@ public class SportsCourseAccess {
 			return null;
 		}
 
-		for (SportsCourseCategory sportsCourseCategory : sportsCourseCategories) {
-			for (SportsCourse sportsCourse : sportsCourseCategory
-					.getSportsCourses()) {
-				sportsCourse.setCategory(sportsCourseCategory);
-			}
-		}
-
 		// TODO: Database operations
 
 		return Collections.unmodifiableList(sportsCourseCategories);
@@ -91,6 +84,13 @@ public class SportsCourseAccess {
 
 		if (sportsCourseCategory == null) {
 			return null;
+		}
+
+		if (sportsCourseCategory.getSportsCourses() != null) {
+			for (SportsCourse sportsCourse : sportsCourseCategory
+					.getSportsCourses()) {
+				sportsCourse.setCategory(sportsCourseCategory);
+			}
 		}
 
 		// TODO: Database operations
@@ -157,9 +157,11 @@ public class SportsCourseAccess {
 		}
 
 		for (SportsCourseCategory sportsCourseCategory : sportsCourseCategories) {
-			for (SportsCourse sportsCourse : sportsCourseCategory
-					.getSportsCourses()) {
-				sportsCourse.setCategory(sportsCourseCategory);
+			if (sportsCourseCategory.getSportsCourses() != null) {
+				for (SportsCourse sportsCourse : sportsCourseCategory
+						.getSportsCourses()) {
+					sportsCourse.setCategory(sportsCourseCategory);
+				}
 			}
 		}
 
@@ -194,9 +196,11 @@ public class SportsCourseAccess {
 			}
 
 			for (SportsCourseCategory sportsCourseCategory : sportsCourseCategories) {
-				for (SportsCourse sportsCourse : sportsCourseCategory
-						.getSportsCourses()) {
-					sportsCourse.setCategory(sportsCourseCategory);
+				if (sportsCourseCategory.getSportsCourses() != null) {
+					for (SportsCourse sportsCourse : sportsCourseCategory
+							.getSportsCourses()) {
+						sportsCourse.setCategory(sportsCourseCategory);
+					}
 				}
 			}
 
