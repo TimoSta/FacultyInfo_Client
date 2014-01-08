@@ -91,6 +91,7 @@ public class DisplayDayActivity extends FragmentActivity implements
 		// When the given tab is selected, switch to the corresponding page in
 		// the ViewPager.
 		mViewPager.setCurrentItem(tab.getPosition());
+		System.out.println("tabposition: " + tab.getPosition()); 
 	}
 
 	@Override
@@ -114,7 +115,7 @@ public class DisplayDayActivity extends FragmentActivity implements
 			Fragment fragment = new DisplayDayFragment();
 			Bundle args = new Bundle();
 			
-			args.putInt(DisplayDayFragment.ARG_DAY, i);
+			args.putInt(DisplayDayFragment.ARG_DAY, i+1);
 			fragment.setArguments(args);
 			return fragment;
 

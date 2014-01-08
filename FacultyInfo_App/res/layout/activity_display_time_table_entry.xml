@@ -34,8 +34,10 @@
         android:layout_alignLeft="@+id/veranstaltunghdisplay"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/veranstaltunghdisplay"
-        android:inputType="none"
-        android:ems="10" />
+        android:background="#F2F2F2"
+        android:clickable="false"
+        android:ems="10"
+        android:inputType="none" />
 
     <TextView
         android:id="@+id/locationhdisplay"
@@ -54,8 +56,10 @@
         android:layout_alignLeft="@+id/locationhdisplay"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/locationhdisplay"
-        android:inputType="none"
-        android:ems="10" >
+        android:background="#F2F2F2"
+        android:clickable="false"
+        android:ems="10"
+        android:inputType="none" >
 
         <requestFocus />
     </EditText>
@@ -77,8 +81,10 @@
         android:layout_alignLeft="@+id/descriptionhdisplay"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/descriptionhdisplay"
+        android:background="#F2F2F2"
+        android:clickable="false"
+        android:editable="false"
         android:ems="10"
-        android:inputType="textMultiLine" 
-        android:editable="false"/>
+        android:inputType="textMultiLine" />
 
 </RelativeLayout>

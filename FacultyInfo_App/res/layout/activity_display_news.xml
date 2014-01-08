@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -24,7 +23,6 @@
         android:layout_alignLeft="@+id/newsHeading"
         android:layout_below="@+id/newsHeading"
         android:layout_marginTop="27dp"
-        android:text="Medium Text"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -33,7 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/newsText"
         android:layout_below="@+id/newsHeading"
-        android:text="Small Text"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

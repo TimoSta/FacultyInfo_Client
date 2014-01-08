@@ -1,4 +1,4 @@
-package de.uni_passau.facultyinfo.client;
+package de.uni_passau.facultyinfo.client.activity;
 
 import java.util.List;
 
@@ -11,19 +11,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
-import de.uni_passau.facultyinfo.client.activity.EditTimeTableActivity;
+import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.R.id;
+import de.uni_passau.facultyinfo.client.R.layout;
+import de.uni_passau.facultyinfo.client.R.menu;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
 
 public class DisplayTimeTableEntryActivity extends Activity {
-	private int timeslotId; 
-	private int dayId; 
+	private int timeslotId;
+	private int dayId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_time_table_entry);
-		
+
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowHomeEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(true);
@@ -62,8 +65,13 @@ public class DisplayTimeTableEntryActivity extends Activity {
 
 		TextView timeTextView = (TextView) findViewById(R.id.timeTTdisplay);
 		timeTextView.setText(day + timeslot);
-		
-		
+
+	}
+	
+	@Override
+	protected void onResume() {
+		(new TimetableEntryLoader()).execute(); 
+		super.onResume();
 	}
 
 	@Override
@@ -72,55 +80,58 @@ public class DisplayTimeTableEntryActivity extends Activity {
 		getMenuInflater().inflate(R.menu.display_time_table_entry, menu);
 		return true;
 	}
-	
+
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_edit:
-			Intent intent = new Intent (getApplicationContext(),EditTimeTableActivity.class); 
-			intent.putExtra("dayId", dayId); 
-			intent.putExtra("timeslotId", timeslotId); 
-			intent.putExtra("new", false); 
-			startActivity(intent); 
+			Intent intent = new Intent(getApplicationContext(),
+					EditTimeTableActivity.class);
+			intent.putExtra("dayId", dayId);
+			intent.putExtra("timeslotId", timeslotId);
+			intent.putExtra("new", false);
+			startActivity(intent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	protected class TimetableEntryLoader extends
-	AsyncTask<Void, Void, List<TimetableEntry>> {
+			AsyncTask<Void, Void, List<TimetableEntry>> {
 
-private AccessFacade accessFacade;
+		private AccessFacade accessFacade;
 
-@Override
-protected List<TimetableEntry> doInBackground(Void... unused) {
-	// AccessFacade accessFacade = new AccessFacade();
-	accessFacade = new AccessFacade();
+		@Override
+		protected List<TimetableEntry> doInBackground(Void... unused) {
+			// AccessFacade accessFacade = new AccessFacade();
+			accessFacade = new AccessFacade();
 
-	List<TimetableEntry> timetableEntries = accessFacade
-			.getTimetableAccess().getTimetableEntries();
+			List<TimetableEntry> timetableEntries = accessFacade
+					.getTimetableAccess().getTimetableEntries();
 
-	return timetableEntries;
-}
+			return timetableEntries;
+		}
 
-@Override
-protected void onPostExecute(List<TimetableEntry> timetableEntries) {
-	for (TimetableEntry timetableEntry: timetableEntries){
-		if(dayId==timetableEntry.getDayOfWeek()&&timeslotId==timetableEntry.getTime()){
-			EditText titleEditText = (EditText)findViewById(R.id.veranstaltungddisplay); 
-			titleEditText.setText(timetableEntry.getTitle()); 
-			titleEditText.setKeyListener(null); 
-			
-			EditText locationEditText = (EditText) findViewById(R.id.locationddisplay); 
-			locationEditText.setText(timetableEntry.getLocation()); 
-			locationEditText.setKeyListener(null); 
-			
-			EditText descriptionEditText = (EditText) findViewById(R.id.descriptionddisplay); 
-			descriptionEditText.setText(timetableEntry.getDescription()); 
-			descriptionEditText.setKeyListener(null); 
+		@Override
+		protected void onPostExecute(List<TimetableEntry> timetableEntries) {
+			for (TimetableEntry timetableEntry : timetableEntries) {
+				if (dayId == timetableEntry.getDayOfWeek()
+						&& timeslotId == timetableEntry.getTime()) {
+					EditText titleEditText = (EditText) findViewById(R.id.veranstaltungddisplay);
+					titleEditText.setText(timetableEntry.getTitle());
+					titleEditText.setKeyListener(null);
+
+					EditText locationEditText = (EditText) findViewById(R.id.locationddisplay);
+					locationEditText.setText(timetableEntry.getLocation());
+					locationEditText.setKeyListener(null);
+
+					EditText descriptionEditText = (EditText) findViewById(R.id.descriptionddisplay);
+					descriptionEditText
+							.setText(timetableEntry.getDescription());
+					descriptionEditText.setKeyListener(null);
+				}
+			}
 		}
 	}
-}
-}
 
 }

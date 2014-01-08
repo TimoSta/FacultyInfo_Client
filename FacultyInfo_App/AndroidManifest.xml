@@ -69,7 +69,7 @@
             android:label="@string/title_activity_display_chair_contacts" >
         </activity>
         <activity
-            android:name="de.uni_passau.facultyinfo.client.DisplayTimeTableEntryActivity"
+            android:name="de.uni_passau.facultyinfo.client.activity.DisplayTimeTableEntryActivity"
             android:label="@string/title_activity_display_time_table_entry" >
         </activity>
     </application>

@@ -14,8 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import de.uni_passau.facultyinfo.client.DisplayTimeTableEntryActivity;
 import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.activity.DisplayTimeTableEntryActivity;
 import de.uni_passau.facultyinfo.client.activity.EditTimeTableActivity;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
@@ -47,23 +47,23 @@ public class DisplayDayFragment extends Fragment {
 		String day;
 		
 
-		if (dayId == 0) {
+		if (dayId == 1) {
 			System.out.println("DisplayDayFragment -> Montag");
 			day = "Montag";
 			dayC = TimetableEntry.MONDAY;
-		} else if (dayId == 1) {
+		} else if (dayId == 2) {
 			System.out.println("DisplayDayFragment -> Dienstag");
 			day = "Dienstag";
 			dayC = TimetableEntry.TUESDAY;
-		} else if (dayId == 2) {
+		} else if (dayId == 3) {
 			System.out.println("DisplayDayFragment -> Mittwoch");
 			day = "Mittwoch";
 			dayC = TimetableEntry.WEDNESDAY;
-		} else if (dayId == 3) {
+		} else if (dayId == 4) {
 			System.out.println("DisplayDayFragment -> Donnerstag");
 			day = "Donnerstag";
 			dayC = TimetableEntry.THURSDAY;
-		} else if (dayId == 4) {
+		} else if (dayId == 5) {
 			System.out.println("DisplayDayFragment -> Freitag");
 			day = "Freitag";
 			dayC = TimetableEntry.FRIDAY;
@@ -260,6 +260,14 @@ public class DisplayDayFragment extends Fragment {
 		}else{
 			System.out.println("Daten laden"); 
 			//EditTimeTable, aber Daten laden!! 
+			Intent intent = new Intent(rootView
+					.getContext(),
+					EditTimeTableActivity.class);
+			intent.putExtra("timeslotId",
+					timeslotId);
+			intent.putExtra("dayId", dayC);
+			intent.putExtra("new", false); 
+			startActivity(intent);
 		}
 
 	}
@@ -293,7 +301,7 @@ public class DisplayDayFragment extends Fragment {
 			// };
 
 			for (TimetableEntry timetableEntry : timetableEntries) {
-				if (timetableEntry.getDayOfWeek() == dayId) {
+				if (timetableEntry.getDayOfWeek() == dayC) {
 					if (timetableEntry.getTime() == TimetableEntry.FROM_08_TO_10) {
 						TextView td810 = (TextView) rootView
 								.findViewById(R.id.td810);

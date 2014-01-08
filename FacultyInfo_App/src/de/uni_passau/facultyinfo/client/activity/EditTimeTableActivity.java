@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import de.uni_passau.facultyinfo.client.DisplayTimeTableEntryActivity;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.application.FacultyInfoApplication;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
@@ -80,28 +79,25 @@ public class EditTimeTableActivity extends FragmentActivity {
 			TimetableEntryLoader timetableEntryLoader = new TimetableEntryLoader();
 			timetableEntryLoader.execute();
 		}
-		
-		Spinner colorSpinner = (Spinner) findViewById(R.id.colorSpinner); 
 
-		for(int i=0; i<12; i++){
-		ShapeDrawable rect = new ShapeDrawable(new RectShape());
-		if(i==0){
-			//String color = TimetableEntry.COLOR_1; 
-			rect.getPaint().setColor(Color.parseColor("#F5A9D0")); 
-		}else if(i==1){
-			rect.getPaint().setColor(Color.parseColor("#E2A9F3")); 
-		}else if(i==2){
-			rect.getPaint().setColor(Color.parseColor("#A9A9F5")); 
-		}else if(i==3){
-			rect.getPaint().setColor(Color.parseColor("#A9E2F3")); 
-		}else if(i==4){
-			rect.getPaint().setColor(Color.parseColor("#A9F5A9")); 
+		Spinner colorSpinner = (Spinner) findViewById(R.id.colorSpinner);
+
+		for (int i = 0; i < 12; i++) {
+			ShapeDrawable rect = new ShapeDrawable(new RectShape());
+			if (i == 0) {
+				// String color = TimetableEntry.COLOR_1;
+				rect.getPaint().setColor(Color.parseColor("#F5A9D0"));
+			} else if (i == 1) {
+				rect.getPaint().setColor(Color.parseColor("#E2A9F3"));
+			} else if (i == 2) {
+				rect.getPaint().setColor(Color.parseColor("#A9A9F5"));
+			} else if (i == 3) {
+				rect.getPaint().setColor(Color.parseColor("#A9E2F3"));
+			} else if (i == 4) {
+				rect.getPaint().setColor(Color.parseColor("#A9F5A9"));
+			}
+
 		}
-		
-		
-		
-		}
-		
 
 		// ArrayAdapter<CharSequence> dayAdapter =
 		// ArrayAdapter.createFromResource(
@@ -143,11 +139,8 @@ public class EditTimeTableActivity extends FragmentActivity {
 			String location = editTextLocation.getText().toString();
 
 			if (title.isEmpty()) {
-				Toast toast = Toast
-						.makeText(
-								getApplicationContext(),
-								"Die Veranstaltung konnte nicht gespeichert werden, da kein Veranstaltungstitel vergeben wurde!",
-								Toast.LENGTH_LONG);
+				Toast toast = Toast.makeText(getApplicationContext(),
+						"Veranstaltungstitel fehlt", Toast.LENGTH_SHORT);
 				toast.show();
 			} else if (location.isEmpty()) {
 				final class CreateEventTT extends DialogFragment {
@@ -185,6 +178,8 @@ public class EditTimeTableActivity extends FragmentActivity {
 				CreateEventTT dialog = new CreateEventTT();
 				dialog.show(getSupportFragmentManager(),
 						"createEventTTnoLocation");
+			} else {
+				save();
 			}
 
 			System.out.println(location);
@@ -223,7 +218,7 @@ public class EditTimeTableActivity extends FragmentActivity {
 
 		TimetableEntrySaver saver = new TimetableEntrySaver();
 		TimetableEntry entry = TimetableEntryFactory.createTimetableEntry(
-				title, description, location, dayId + 1, timeslotId, 0);
+				title, description, location, timeslotId, dayId, 0);
 		saver.execute(entry);
 
 	}
@@ -252,20 +247,22 @@ public class EditTimeTableActivity extends FragmentActivity {
 
 		@Override
 		protected void onPostExecute(Boolean result) {
-			String resultText = null;
 			if (result) {
-				resultText = "Termin erfolgreich gespeichert";
+				Toast toast = Toast.makeText(
+						FacultyInfoApplication.getContext(),
+						"Termin erfolgreich gespeichert", Toast.LENGTH_SHORT);
+				toast.show();
 				Intent intent = new Intent(getApplicationContext(),
 						DisplayTimeTableEntryActivity.class);
 				intent.putExtra("dayId", dayId);
 				intent.putExtra("timeslotId", timeslotId);
 				startActivity(intent);
 			} else {
-				resultText = "Fehler beim Speichern";
+				Toast toast = Toast.makeText(
+						FacultyInfoApplication.getContext(),
+						"Fehler beim Speichern", Toast.LENGTH_SHORT);
+				toast.show();
 			}
-			Toast toast = Toast.makeText(FacultyInfoApplication.getContext(),
-					resultText, Toast.LENGTH_SHORT);
-			toast.show();
 		}
 	}
 

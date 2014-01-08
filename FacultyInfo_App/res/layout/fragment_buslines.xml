@@ -7,22 +7,17 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".BuslinesActivity" >
-    
-     <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignRight="@+id/frame"
-        android:layout_marginBottom="10px"
-        android:layout_marginLeft="10px"
-        android:layout_marginRight="10px"
-        android:layout_marginTop="10px" >
 
-    <TableLayout
+    <ListView
         android:id="@+id/buslines"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
-    </TableLayout>
-    
-    </FrameLayout>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:divider="#FF8000"
+        android:dividerHeight="2dp" >
+    </ListView>
 
 </RelativeLayout>
