@@ -169,11 +169,17 @@ public class DisplayDayFragment extends Fragment {
 				showEventTT(v);
 			}
 		});
-		timetableEntryLoader = new TimetableEntryLoader();
-		timetableEntryLoader.execute();
+		
 
 		return rootView;
 
+	}
+	
+	@Override
+	public void onResume() {
+		timetableEntryLoader = new TimetableEntryLoader();
+		timetableEntryLoader.execute();
+		super.onResume();
 	}
 
 	protected void showEventTT(View v) {
