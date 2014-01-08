@@ -1,224 +1,186 @@
 package de.uni_passau.facultyinfo.client.fragment;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.Fragment;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.app.ActionBar;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Switch;
-import android.widget.Toast;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import de.uni_passau.facultyinfo.client.R;
-import de.uni_passau.facultyinfo.client.activity.DisplaySportCoursesActivity;
-import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
-import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
-import de.uni_passau.facultyinfo.client.model.dto.SportsCourseCategory;
-import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 
-public class SportsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
-	
-	private View rootView; 
+//public class SportsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
+//	
+//	private View rootView; 
+//
+//	public SportsFragment() {
+//		// Empty constructor required for fragment subclasses
+//	}
+//
+//	@Override
+//	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//			Bundle savedInstanceState) {
+//		rootView = inflater.inflate(R.layout.fragment_sports, container,
+//				false);
+//
+//		getActivity().setTitle(R.string.title_sports);
+//		
+////		Switch slider = (Switch) rootView.findViewById(R.id.timePeriod); 
+////		slider.setTextOn("A-Z"); 
+////		slider.setTextOff("heute"); 
+//		
+//		Switch s = (Switch) rootView.findViewById(R.id.timePeriod);
+//        if (s != null) {
+//            s.setOnCheckedChangeListener(this);
+//        }
+//        
+//        SportsCourseCategoryLoader sportsCategoryLoader = new SportsCourseCategoryLoader(rootView);
+//		sportsCategoryLoader.execute();
+//        
+//
+//		return rootView;
+//
+//	}
+//	
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		switch (item.getItemId()) {
+//		case R.id.action_search:
+//			System.out.println("Search");
+//			
+//
+//			
+//			return true;
+//		default:
+//			return super.onOptionsItemSelected(item);
+//		}
+//	}
+//	
+//	 @Override
+//	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//	     if(isChecked){
+//	    	 System.out.println("A-Z"); 
+//	    	 SportsCourseCategoryLoader sportsCategoryLoader = new SportsCourseCategoryLoader(rootView);
+//	 		sportsCategoryLoader.execute();
+//	     }else{
+//	    	 System.out.println("heute"); 
+//	    	 TodaysSportsCourseCategoryLoader sportsCategoryLoader = new TodaysSportsCourseCategoryLoader(rootView);
+//	 		sportsCategoryLoader.execute();
+//	     }
+////		 
+////		 Toast.makeText(rootView.getContext(), "Monitored switch is " + (isChecked ? "on" : "off"),
+////	               Toast.LENGTH_SHORT).show();
+//	    }
 
-	public SportsFragment() {
-		// Empty constructor required for fragment subclasses
+public class SportsFragment extends FragmentActivity implements
+		ActionBar.TabListener {
+
+	AppSectionsPagerAdapter mAppSectionsPagerAdapter;
+
+	ViewPager mViewPager;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		System.out.println("SportsFragment");
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.fragment_sports);
+		System.out.println("SportsFragment -> onCreate");
+
+
+		mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(
+				getSupportFragmentManager());
+
+		final ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
+
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager.setAdapter(mAppSectionsPagerAdapter);
+		mViewPager
+				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+					@Override
+					public void onPageSelected(int position) {
+						System.out.println("position: " + position);
+						actionBar.setSelectedNavigationItem(position);
+					}
+				});
+
+		// For each of the sections in the app, add a tab to the action bar.
+		for (int i = 0; i < mAppSectionsPagerAdapter.getCount(); i++) {
+			System.out.println("i: " + i);
+			// Create a tab with text corresponding to the page title defined by
+			// the adapter.
+			// Also specify this Activity object, which implements the
+			// TabListener interface, as the
+			// listener for when this tab is selected.
+			actionBar.addTab(actionBar.newTab()
+					.setText(mAppSectionsPagerAdapter.getPageTitle(i))
+					.setTabListener(this));
+			// mAppSectionsPagerAdapter.getItem(i);
+		}
+		actionBar.setSelectedNavigationItem(0);
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_sports, container,
-				false);
-
-		getActivity().setTitle(R.string.title_sports);
-		
-//		Switch slider = (Switch) rootView.findViewById(R.id.timePeriod); 
-//		slider.setTextOn("A-Z"); 
-//		slider.setTextOff("heute"); 
-		
-		Switch s = (Switch) rootView.findViewById(R.id.timePeriod);
-        if (s != null) {
-            s.setOnCheckedChangeListener(this);
-        }
-        
-        SportsCourseCategoryLoader sportsCategoryLoader = new SportsCourseCategoryLoader(rootView);
-		sportsCategoryLoader.execute();
-        
-
-		return rootView;
-
+	public void onTabUnselected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
 	}
-	
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.action_search:
-			System.out.println("Search");
-			
 
-			
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
+	@Override
+	public void onTabSelected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
+		// When the given tab is selected, switch to the corresponding page in
+		// the ViewPager.
+		mViewPager.setCurrentItem(tab.getPosition());
+		System.out.println("tabposition: " + tab.getPosition());
 	}
-	
-	 @Override
-	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-	     if(isChecked){
-	    	 System.out.println("A-Z"); 
-	    	 SportsCourseCategoryLoader sportsCategoryLoader = new SportsCourseCategoryLoader(rootView);
-	 		sportsCategoryLoader.execute();
-	     }else{
-	    	 System.out.println("heute"); 
-	    	 TodaysSportsCourseCategoryLoader sportsCategoryLoader = new TodaysSportsCourseCategoryLoader(rootView);
-	 		sportsCategoryLoader.execute();
-	     }
-//		 
-//		 Toast.makeText(rootView.getContext(), "Monitored switch is " + (isChecked ? "on" : "off"),
-//	               Toast.LENGTH_SHORT).show();
-	    }
 
-	protected class SportsCourseCategoryLoader extends AsyncDataLoader<List<SportsCourseCategory>> {
-		private SportsCourseCategoryLoader(View rootView) {
-			super(rootView);
+	@Override
+	public void onTabReselected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
+	}
+
+	/**
+	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+	 * one of the primary sections of the app.
+	 */
+	public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
+
+		public AppSectionsPagerAdapter(FragmentManager fm) {
+			super(fm);
 		}
 
 		@Override
-		protected List<SportsCourseCategory> doInBackground(Void... unused) {
-			AccessFacade accessFacade = new AccessFacade();
+		public android.support.v4.app.Fragment getItem(int i) {
+			System.out.println("getItem: " + i);
+			android.support.v4.app.Fragment fragment = new SportsCategoryFragment();
+			Bundle args = new Bundle();
 
-			List<SportsCourseCategory> sportsCourseCategories = accessFacade.getSportsCourseAccess().getSportsCourses(); 
+			args.putInt(SportsCategoryFragment.ARG_PERIOD, i + 1);
+			fragment.setArguments(args);
+			return fragment;
 
-			if (sportsCourseCategories == null) {
-				publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
-				sportsCourseCategories = accessFacade.getSportsCourseAccess().getSportsCourses(); 
-			}
-
-			if (sportsCourseCategories == null) {
-				sportsCourseCategories = Collections
-						.unmodifiableList(new ArrayList<SportsCourseCategory>());
-			}
-
-			return sportsCourseCategories;
 		}
 
 		@Override
-		protected void onPostExecute(List<SportsCourseCategory> sportsCourseCategories) {
-			ListView sportsoffer = (ListView) rootView.findViewById(R.id.sportsoffer);
-			
-			final ArrayList<HashMap<String, String>> categoryList = new ArrayList<HashMap<String, String>>();
-
-			for (SportsCourseCategory category: sportsCourseCategories) {
-				
-				HashMap<String, String> temp1 = new HashMap<String, String>();
-				temp1.put("id", category.getId());
-				temp1.put("title", category.getTitle());
-				categoryList.add(temp1);
-			}
-
-			SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
-					categoryList, R.layout.custom_row_view, new String[] { "title",
-							}, new int[] { R.id.title });			
-			
-			sportsoffer.setAdapter(adapter); 
-			
-			sportsoffer.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-					System.out.println("click");
-					System.out.println(position);
-					displaySportsCourses(categoryList.get(position).get("id"));
-				}
-
-				
-			});
-		}
-	}
-	
-	private void displaySportsCourses(String categoryId) {		
-		Intent intent = new Intent(rootView.getContext(), DisplaySportCoursesActivity.class); 
-		intent.putExtra("categoryId", categoryId); 
-		startActivity(intent); 
-		
-	}
-	
-	
-	protected class TodaysSportsCourseCategoryLoader extends AsyncDataLoader<List<SportsCourseCategory>> {
-		private TodaysSportsCourseCategoryLoader(View rootView) {
-			super(rootView);
+		public int getCount() {
+			return 2;
 		}
 
 		@Override
-		protected List<SportsCourseCategory> doInBackground(Void... unused) {
-			AccessFacade accessFacade = new AccessFacade();
-
-			List<SportsCourseCategory> sportsCourseCategories = accessFacade.getSportsCourseAccess().getTodaysSportsCourses(); 
-
-			if (sportsCourseCategories == null) {
-				publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
-				sportsCourseCategories = accessFacade.getSportsCourseAccess().getTodaysSportsCourses(); 
+		public CharSequence getPageTitle(int position) {
+			String tab = "";
+			switch (position) {
+			case 0:
+				tab = "A-Z";
+				break;
+			case 1:
+				tab = "heute";
+				break;
 			}
-
-			if (sportsCourseCategories == null) {
-				sportsCourseCategories = Collections
-						.unmodifiableList(new ArrayList<SportsCourseCategory>());
-			}
-
-			return sportsCourseCategories;
-		}
-
-		@Override
-		protected void onPostExecute(List<SportsCourseCategory> sportsCourseCategories) {
-			ListView sportsoffer = (ListView) rootView.findViewById(R.id.sportsoffer);
-			
-			final ArrayList<HashMap<String, String>> categoryList = new ArrayList<HashMap<String, String>>();
-
-			for (SportsCourseCategory category: sportsCourseCategories) {
-				
-				HashMap<String, String> temp1 = new HashMap<String, String>();
-				temp1.put("id", category.getId());
-				temp1.put("title", category.getTitle());
-				categoryList.add(temp1);
-			}
-
-			SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
-					categoryList, R.layout.custom_row_view, new String[] { "title",
-							}, new int[] { R.id.title });			
-			
-			sportsoffer.setAdapter(adapter); 
-			
-			sportsoffer.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-					System.out.println("click");
-					System.out.println(position);
-					displaySportsCourses(categoryList.get(position).get("id"));
-				}
-
-				
-			});
+			return tab;
 		}
 	}
-	
-	
+
 }
-

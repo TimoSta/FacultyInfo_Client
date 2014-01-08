@@ -72,6 +72,10 @@
             android:name="de.uni_passau.facultyinfo.client.activity.DisplayTimeTableEntryActivity"
             android:label="@string/title_activity_display_time_table_entry" >
         </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.fragment.SportsCategoryFragment"
+            android:label="@string/title_activity_sports_category_fragment" >
+        </activity>
     </application>
 
 </manifest>

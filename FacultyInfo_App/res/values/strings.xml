@@ -77,5 +77,6 @@
     <string name="title_activity_display_time_table_entry">DisplayTimeTableEntryActivity</string>
     <string name="descriptionTTh">Beschreibung</string>
     <string name="color">Farbe</string>
+    <string name="title_activity_sports_category_fragment">SportsCategoryFragment</string>
 
 </resources>

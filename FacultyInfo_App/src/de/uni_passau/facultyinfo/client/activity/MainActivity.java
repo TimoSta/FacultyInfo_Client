@@ -184,7 +184,7 @@ public class MainActivity extends Activity {
 			fragment = new BuslinesFragment();
 			break;
 		case 4:
-			fragment = new SportsFragment();
+			//fragment = new SportsFragment();
 			break;
 		case 5:
 			fragment = new CafeteriaFragment();
