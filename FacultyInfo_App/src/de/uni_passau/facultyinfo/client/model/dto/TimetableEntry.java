@@ -23,19 +23,6 @@ public class TimetableEntry {
 	public static final int FROM_20_TO_22 = 11;
 	public static final int FROM_22_TO_24 = 12;
 
-	public static final int COLOR_1 = 1;
-	public static final int COLOR_2 = 2;
-	public static final int COLOR_3 = 3;
-	public static final int COLOR_4 = 4;
-	public static final int COLOR_5 = 5;
-	public static final int COLOR_6 = 6;
-	public static final int COLOR_7 = 7;
-	public static final int COLOR_8 = 8;
-	public static final int COLOR_9 = 9;
-	public static final int COLOR_10 = 10;
-	public static final int COLOR_11 = 11;
-	public static final int COLOR_12 = 12;
-
 	private String id;
 	private String title;
 	private String description;
