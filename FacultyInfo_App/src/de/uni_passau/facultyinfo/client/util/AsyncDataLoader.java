@@ -13,6 +13,10 @@ abstract public class AsyncDataLoader<T> extends AsyncTask<Void, Integer, T> {
 		this.rootView = rootView;
 	}
 	
+	public AsyncDataLoader() {
+		super();
+	}
+	
 	@Override
 	abstract protected T doInBackground(Void... unused);
 
