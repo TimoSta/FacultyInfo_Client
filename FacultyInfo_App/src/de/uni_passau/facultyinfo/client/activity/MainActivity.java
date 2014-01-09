@@ -1,8 +1,8 @@
 package de.uni_passau.facultyinfo.client.activity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -20,6 +20,7 @@ import de.uni_passau.facultyinfo.client.fragment.BuslinesFragment;
 import de.uni_passau.facultyinfo.client.fragment.CafeteriaFragment;
 import de.uni_passau.facultyinfo.client.fragment.ContactFragment;
 import de.uni_passau.facultyinfo.client.fragment.FaqsFragment;
+import de.uni_passau.facultyinfo.client.fragment.HomeFragment;
 import de.uni_passau.facultyinfo.client.fragment.MapFragment;
 import de.uni_passau.facultyinfo.client.fragment.NewsFragment;
 import de.uni_passau.facultyinfo.client.fragment.SportsFragment;
@@ -169,38 +170,70 @@ public class MainActivity extends Activity {
 		// update the main content by replacing fragments
 		switch (position) {
 		case 0:
+			getActionBar()
+					.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+			fragment = new HomeFragment();
 			System.out.println("home");
 			break;
 		case 1:
 			System.out.println("news");
+			getActionBar()
+					.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			fragment = new NewsFragment();
 			break;
 		case 2:
 			System.out.println("timetable");
+			getActionBar()
+					.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			fragment = new TimetableFragment();
 			break;
 		case 3:
 			System.out.println("busfahrplan");
+			getActionBar()
+					.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			fragment = new BuslinesFragment();
 			break;
 		case 4:
-			//fragment = new SportsFragment();
+			getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+			// getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+			// ViewPager mViewPager = new ViewPager(getApplicationContext());
+			// ((FrameLayout)findViewById(R.id.content_frame)).addView(mViewPager);
+			// mViewPager.setAdapter(new AppSectionsPagerAdapter(
+			// getSupportFragmentManager()));
+			// mViewPager
+			// .setOnPageChangeListener(new
+			// ViewPager.SimpleOnPageChangeListener() {
+			// @Override
+			// public void onPageSelected(int position) {
+			// System.out.println("position: " + position);
+			// getActionBar().setSelectedNavigationItem(position);
+			// }
+			// });
+			fragment = new SportsFragment();
 			break;
 		case 5:
+			getActionBar()
+					.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			fragment = new CafeteriaFragment();
 			break;
 		case 6:
+			getActionBar()
+					.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			fragment = new ContactFragment();
 			break;
 		case 7:
+			getActionBar()
+					.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			fragment = new FaqsFragment();
 			break;
 		case 8:
+			getActionBar()
+					.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			fragment = new MapFragment();
 			break;
 		}
 
-		FragmentManager fragmentManager = getFragmentManager();
+		android.app.FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()
 				.replace(R.id.content_frame, fragment).commit();
 
@@ -305,6 +338,50 @@ public class MainActivity extends Activity {
 	// return true;
 	// }
 	// return false;
+	// }
+
+	// /**
+	// * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+	// * one of the primary sections of the app.
+	// */
+	// public static class AppSectionsPagerAdapter extends FragmentPagerAdapter
+	// {
+	//
+	// public AppSectionsPagerAdapter(
+	// android.support.v4.app.FragmentManager fragmentManager) {
+	// super(fragmentManager);
+	// }
+	//
+	// @Override
+	// public android.support.v4.app.Fragment getItem(int i) {
+	// System.out.println("getItem: " + i);
+	// android.support.v4.app.Fragment fragment = new SportsCategoryFragment();
+	// Bundle args = new Bundle();
+	//
+	// args.putInt(SportsCategoryFragment.ARG_PERIOD, i + 1);
+	// fragment.setArguments(args);
+	// return fragment;
+	//
+	// }
+	//
+	// @Override
+	// public int getCount() {
+	// return 2;
+	// }
+	//
+	// @Override
+	// public CharSequence getPageTitle(int position) {
+	// String tab = "";
+	// switch (position) {
+	// case 0:
+	// tab = "A-Z";
+	// break;
+	// case 1:
+	// tab = "heute";
+	// break;
+	// }
+	// return tab;
+	// }
 	// }
 
 }

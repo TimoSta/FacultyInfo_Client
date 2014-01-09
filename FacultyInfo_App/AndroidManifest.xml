@@ -76,6 +76,18 @@
             android:name="de.uni_passau.facultyinfo.client.fragment.SportsCategoryFragment"
             android:label="@string/title_activity_sports_category_fragment" >
         </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.activity.DisplaySportsCourseActivity"
+            android:label="@string/title_activity_display_sports_course" >
+        </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.activity.DisplaySportCoursesActivity"
+            android:label="@string/title_activity_display_sport_courses" >
+        </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.fragment.HomeFragment"
+            android:label="@string/title_activity_home_fragment" >
+        </activity>
     </application>
 
 </manifest>

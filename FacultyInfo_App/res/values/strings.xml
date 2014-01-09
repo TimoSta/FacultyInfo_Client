@@ -78,5 +78,8 @@
     <string name="descriptionTTh">Beschreibung</string>
     <string name="color">Farbe</string>
     <string name="title_activity_sports_category_fragment">SportsCategoryFragment</string>
+    <string name="title_activity_display_sports_course">DisplaySportsCourseActivity</string>
+    <string name="title_activity_display_sport_courses">DisplaySportCoursesActivity</string>
+    <string name="title_activity_home_fragment">HomeFragment</string>
 
 </resources>

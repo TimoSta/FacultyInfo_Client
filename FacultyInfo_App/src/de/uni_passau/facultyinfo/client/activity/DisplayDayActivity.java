@@ -96,7 +96,7 @@ public class DisplayDayActivity extends FragmentActivity implements
 
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
+			FragmentTransaction fragmentTransaction) { 
 	}
 
 	/**
