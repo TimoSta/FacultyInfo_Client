@@ -15,8 +15,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" >
-
+        android:layout_alignParentTop="true"
+        android:divider="#FF8000"
+        android:dividerHeight="2dp" >
     </ListView>
 
 </RelativeLayout>
