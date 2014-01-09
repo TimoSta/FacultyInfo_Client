@@ -40,11 +40,10 @@ public class SportsCourseAccess {
 	}
 
 	/**
-	 * Gives a list of available Sports Courses in alphabetical order.
+	 * Gives a list of all Sports Course Categories in alphabetical order.
 	 * 
-	 * @return List<SportsCourseCategory>
 	 */
-	public List<SportsCourseCategory> getSportsCourses() {
+	public List<SportsCourseCategory> getCategories() {
 		List<SportsCourseCategory> sportsCourseCategories = null;
 
 		sportsCourseCategories = getRestConnectionSportsCourseCategory()
@@ -60,27 +59,58 @@ public class SportsCourseAccess {
 	}
 
 	/**
-	 * Gives a list of Sports Courses that are currently cached locally in
-	 * alphabetical order.
+	 * Gives a list of all Sports Course Categories in alphabetical order.
 	 * 
-	 * @return List<SportsCourseCategory>
+	 * Only data cached locally is used.
+	 * 
 	 */
-	public List<SportsCourseCategory> getSportsCoursesFromCache() {
+	public List<SportsCourseCategory> getCategoriesFromCache() {
 		return Collections
 				.unmodifiableList(new ArrayList<SportsCourseCategory>());
 	}
 
 	/**
-	 * Gives detailed information about a single Sports Course.
+	 * Gives a list of all Sports Course Categories in alphabetical order that
+	 * have a course that takes place today.
 	 * 
-	 * @param id
-	 * @return The sports course matching the id.
 	 */
-	public SportsCourseCategory getSportsCourseCategory(String id) {
+	public List<SportsCourseCategory> getCategoriesToday() {
+		List<SportsCourseCategory> sportsCourseCategories = null;
+
+		sportsCourseCategories = getRestConnectionSportsCourseCategory()
+				.getRessourceAsList(RESSOURCE + "/today");
+
+		if (sportsCourseCategories == null) {
+			return null;
+		}
+
+		// TODO: Database operations
+
+		return Collections.unmodifiableList(sportsCourseCategories);
+	}
+
+	/**
+	 * Gives a list of all Sports Course Categories in alphabetical order that
+	 * have a course that takes place today.
+	 * 
+	 * Only data cached locally is used.
+	 * 
+	 */
+	public List<SportsCourseCategory> getCategoriesTodayFromCache() {
+		return Collections
+				.unmodifiableList(new ArrayList<SportsCourseCategory>());
+	}
+
+	/**
+	 * Gives a single Sports course category that contains all associated sports
+	 * courses.
+	 * 
+	 */
+	public SportsCourseCategory getCategory(String id) {
 		SportsCourseCategory sportsCourseCategory = null;
 
 		sportsCourseCategory = getRestConnectionSportsCourseCategory()
-				.getRessource(RESSOURCE + "/category/" + id);
+				.getRessource(RESSOURCE + "/" + id);
 
 		if (sportsCourseCategory == null) {
 			return null;
@@ -99,13 +129,55 @@ public class SportsCourseAccess {
 	}
 
 	/**
-	 * Gives detailed information about a single Sports Course that is cached
-	 * locally.
+	 * Gives a single Sports course category that contains all associated sports
+	 * courses.
 	 * 
-	 * @param id
-	 * @return The sports course matching the id.
+	 * Only data cached locally is used.
+	 * 
+	 * @return The SportsCourseCategory if it is cached, otherwise null.
+	 * 
 	 */
-	public SportsCourseCategory getSportsCourseCategoryFromCache(String id) {
+	public SportsCourseCategory getCategoryFromCache(String id) {
+		return null;
+	}
+
+	/**
+	 * Gives a single Sports course category that contains all associated sports
+	 * courses that take place today.
+	 * 
+	 */
+	public SportsCourseCategory getCategoryToday(String id) {
+		SportsCourseCategory sportsCourseCategory = null;
+
+		sportsCourseCategory = getRestConnectionSportsCourseCategory()
+				.getRessource(RESSOURCE + "/today/" + id);
+
+		if (sportsCourseCategory == null) {
+			return null;
+		}
+
+		if (sportsCourseCategory.getSportsCourses() != null) {
+			for (SportsCourse sportsCourse : sportsCourseCategory
+					.getSportsCourses()) {
+				sportsCourse.setCategory(sportsCourseCategory);
+			}
+		}
+
+		// TODO: Database operations
+
+		return sportsCourseCategory;
+	}
+
+	/**
+	 * Gives a single Sports course category that contains all associated sports
+	 * courses.
+	 * 
+	 * Only data cached locally is used.
+	 * 
+	 * @return The SportsCourseCategory if it is cached, otherwise null.
+	 * 
+	 */
+	public SportsCourseCategory getCategoryTodayFromCache(String id) {
 		return null;
 	}
 
@@ -115,7 +187,7 @@ public class SportsCourseAccess {
 	 * @param id
 	 * @return The sports course matching the id.
 	 */
-	public SportsCourse getSportsCourse(String id) {
+	public SportsCourse getCourse(String id) {
 		SportsCourse sportsCourse = null;
 
 		sportsCourse = getRestConnectionSportsCourse().getRessource(
@@ -137,35 +209,8 @@ public class SportsCourseAccess {
 	 * @param id
 	 * @return The sports course matching the id.
 	 */
-	public SportsCourse getSportsCourseFromCache(String id) {
+	public SportsCourse getCourseFromCache(String id) {
 		return null;
-	}
-
-	/**
-	 * Gives a list of today's Sports Courses in alphabetical order.
-	 * 
-	 * @return List<SportsCourseCategory>
-	 */
-	public List<SportsCourseCategory> getTodaysSportsCourses() {
-		List<SportsCourseCategory> sportsCourseCategories = null;
-
-		sportsCourseCategories = getRestConnectionSportsCourseCategory()
-				.getRessourceAsList(RESSOURCE + "/today");
-
-		if (sportsCourseCategories == null) {
-			return null;
-		}
-
-		for (SportsCourseCategory sportsCourseCategory : sportsCourseCategories) {
-			if (sportsCourseCategory.getSportsCourses() != null) {
-				for (SportsCourse sportsCourse : sportsCourseCategory
-						.getSportsCourses()) {
-					sportsCourse.setCategory(sportsCourseCategory);
-				}
-			}
-		}
-
-		return Collections.unmodifiableList(sportsCourseCategories);
 	}
 
 	/**
@@ -184,7 +229,7 @@ public class SportsCourseAccess {
 	 * @return List of matching Sports Course Categories that contain a list of
 	 *         matching Sports Courses each.
 	 */
-	public List<SportsCourseCategory> findSportsCourses(String input) {
+	public List<SportsCourseCategory> find(String input) {
 		if (input != null && !input.isEmpty()) {
 			List<SportsCourseCategory> sportsCourseCategories = null;
 
