@@ -15,15 +15,19 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.fragment.SportsFragment;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.SportsCourse;
 import de.uni_passau.facultyinfo.client.model.dto.SportsCourseCategory;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+
 //import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 
 public class DisplaySportCoursesActivity extends Activity {
 
 	private String categoryId;
+	private String offerTime;
+	private String title;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +36,22 @@ public class DisplaySportCoursesActivity extends Activity {
 
 		Intent intent = getIntent();
 		categoryId = intent.getStringExtra("categoryId");
+		System.out.println(categoryId);
+		offerTime = intent.getStringExtra("offerTime");
+		System.out.println(offerTime); 
+
+		title = intent.getStringExtra("title");
+		setTitle(title);
 		
-		(new SportsCourseLoader()).execute();
+		
+
+		if (offerTime.equals(SportsFragment.AZ)) {
+			System.out.println("AZ"); 
+			(new SportsCourseLoader()).execute();
+		} else if (offerTime.equals(SportsFragment.TODAY)) {
+			System.out.println("today"); 
+			(new TodaySportsCourseLoader()).execute(); 
+		}
 
 	}
 
@@ -46,20 +64,21 @@ public class DisplaySportCoursesActivity extends Activity {
 
 	protected class SportsCourseLoader extends
 			AsyncDataLoader<SportsCourseCategory> {
-//		private SportsCourseLoader(View rootView) {
-//			super(rootView);
-//		}
+		// private SportsCourseLoader(View rootView) {
+		// super(rootView);
+		// }
 
 		@Override
 		protected SportsCourseCategory doInBackground(Void... unused) {
-			System.out.println("doInBackground"); 
+			System.out.println("doInBackground");
 			AccessFacade accessFacade = new AccessFacade();
 
 			SportsCourseCategory sportsCourseCategory = accessFacade
 					.getSportsCourseAccess().getCategory(categoryId);
 			if (sportsCourseCategory == null) {
 				// publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
-				sportsCourseCategory = accessFacade.getSportsCourseAccess().getCategoryFromCache(categoryId); 
+				sportsCourseCategory = accessFacade.getSportsCourseAccess()
+						.getCategoryFromCache(categoryId);
 			}
 
 			// if (sportsCourse == null) {
@@ -73,11 +92,11 @@ public class DisplaySportCoursesActivity extends Activity {
 		@Override
 		protected void onPostExecute(SportsCourseCategory sportsCourseCategory) {
 			ListView sportsoffer = (ListView) findViewById(R.id.sportsCourses);
-			
-			if(sportsCourseCategory==null){
-				System.out.println("sportsCourseCategory==null"); 
-			}else{
-				System.out.println("sportsCourseCategory!=null"); 
+
+			if (sportsCourseCategory == null) {
+				System.out.println("sportsCourseCategory==null");
+			} else {
+				System.out.println("sportsCourseCategory!=null");
 			}
 
 			final ArrayList<HashMap<String, String>> courseList = new ArrayList<HashMap<String, String>>();
@@ -87,43 +106,161 @@ public class DisplaySportCoursesActivity extends Activity {
 				HashMap<String, String> temp1 = new HashMap<String, String>();
 				temp1.put("id", course.getId());
 				temp1.put("number", course.getNumber());
+				System.out.println("Number: " + course.getNumber());
 				temp1.put("details", course.getDetails());
-				
-				String dayOfWeek="Fehler"; 
-				switch(course.getDayOfWeek()){
-				case 1: 
-					dayOfWeek="Mo"; 
-					break; 
-				case 2: 
-					dayOfWeek="Di"; 
-					break; 
-				case 3: 
-					dayOfWeek="Mi"; 
-					break; 
-				case 4: 
-					dayOfWeek="Do"; 
-					break; 
-				case 5: 
-					dayOfWeek="Fr"; 
+
+				String dayOfWeek = "";
+				switch (course.getDayOfWeek()) {
+				case 1:
+					dayOfWeek = "Mo";
 					break;
-				case 6: 
-					dayOfWeek="Sa"; 
-					break; 
-				case 7: 
-					dayOfWeek="So"; 
-					break; 
+				case 2:
+					dayOfWeek = "Di";
+					break;
+				case 3:
+					dayOfWeek = "Mi";
+					break;
+				case 4:
+					dayOfWeek = "Do";
+					break;
+				case 5:
+					dayOfWeek = "Fr";
+					break;
+				case 6:
+					dayOfWeek = "Sa";
+					break;
+				case 7:
+					dayOfWeek = "So";
+					break;
 				}
-				temp1.put("dayOfWeek", dayOfWeek); 
-				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm",
-						Locale.GERMAN);
-				temp1.put("startTime", sdf.format(course.getStartTime()));
-				temp1.put("endTime", sdf.format(course.getEndTime()));
+				// temp1.put("dayOfWeek", dayOfWeek);
+				// System.out.println(dayOfWeek);
+				// // SimpleDateFormat sdf = new SimpleDateFormat("HH:mm",
+				// // Locale.GERMAN);
+				// // temp1.put("startTime", sdf.format(course.getStartTime()));
+				// // temp1.put("endTime", sdf.format(course.getEndTime()));
+				//
+				// temp1.put("startTime",
+				// course.getStartTime().getHour()+":"+course.getStartTime().getMinute());
+				// temp1.put("endTime",
+				// course.getEndTime().getHour()+":"+course.getEndTime().getMinute());
+
+				String time = dayOfWeek + " " + course.getStartTime().getHour()
+						+ ":" + course.getStartTime().getMinute() + "-"
+						+ course.getEndTime().getHour() + ":"
+						+ course.getEndTime().getMinute();
+				temp1.put("time", time);
+
 				courseList.add(temp1);
 			}
 
 			SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(),
-					courseList, R.layout.course_view, new String[] { "numer",
-							"details", "dayOfWeek"+ " " + "startTime" + "-" + "endTime" },
+					courseList, R.layout.course_view, new String[] { "number",
+							"details", "time" },
+					new int[] { R.id.number, R.id.details_sports_course,
+							R.id.time_sports_course });
+
+			sportsoffer.setAdapter(adapter);
+
+			sportsoffer.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					System.out.println("click");
+					System.out.println(position);
+					displaySportsCourse(courseList.get(position).get("id"));
+				}
+
+			});
+		}
+
+	}
+
+	protected class TodaySportsCourseLoader extends
+			AsyncDataLoader<SportsCourseCategory> {
+		// private SportsCourseLoader(View rootView) {
+		// super(rootView);
+		// }
+
+		@Override
+		protected SportsCourseCategory doInBackground(Void... unused) {
+			System.out.println("doInBackground");
+			AccessFacade accessFacade = new AccessFacade();
+
+			SportsCourseCategory sportsCourseCategory = accessFacade
+					.getSportsCourseAccess().getCategoryToday(categoryId);
+			if (sportsCourseCategory == null) {
+				// publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
+				sportsCourseCategory = accessFacade.getSportsCourseAccess()
+						.getCategoryTodayFromCache(categoryId);
+			}
+
+			// if (sportsCourse == null) {
+			// sportsCourse = Collections
+			// .unmodifiableList(new ArrayList<SportsCourseCategory>());
+			// }
+
+			return sportsCourseCategory;
+		}
+
+		@Override
+		protected void onPostExecute(SportsCourseCategory sportsCourseCategory) {
+			ListView sportsoffer = (ListView) findViewById(R.id.sportsCourses);
+
+			if (sportsCourseCategory == null) {
+				System.out.println("sportsCourseCategory==null");
+			} else {
+				System.out.println("sportsCourseCategory!=null");
+			}
+
+			final ArrayList<HashMap<String, String>> courseList = new ArrayList<HashMap<String, String>>();
+
+			for (SportsCourse course : sportsCourseCategory.getSportsCourses()) {
+
+				HashMap<String, String> temp1 = new HashMap<String, String>();
+				temp1.put("id", course.getId());
+				temp1.put("number", course.getNumber());
+				System.out.println("Number: " + course.getNumber());
+				temp1.put("details", course.getDetails());
+
+				String dayOfWeek = "";
+				switch (course.getDayOfWeek()) {
+				case 1:
+					dayOfWeek = "Mo";
+					break;
+				case 2:
+					dayOfWeek = "Di";
+					break;
+				case 3:
+					dayOfWeek = "Mi";
+					break;
+				case 4:
+					dayOfWeek = "Do";
+					break;
+				case 5:
+					dayOfWeek = "Fr";
+					break;
+				case 6:
+					dayOfWeek = "Sa";
+					break;
+				case 7:
+					dayOfWeek = "So";
+					break;
+				}
+
+				String time = dayOfWeek + " " + course.getStartTime().getHour()
+						+ ":" + course.getStartTime().getMinute() + "-"
+						+ course.getEndTime().getHour() + ":"
+						+ course.getEndTime().getMinute();
+				temp1.put("time", time);
+
+				courseList.add(temp1);
+			}
+
+			SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(),
+					courseList, R.layout.course_view, new String[] { "number",
+							"details", "time" },
 					new int[] { R.id.number, R.id.details_sports_course,
 							R.id.time_sports_course });
 
@@ -148,6 +285,7 @@ public class DisplaySportCoursesActivity extends Activity {
 		Intent intent = new Intent(getApplicationContext(),
 				DisplaySportsCourseActivity.class);
 		intent.putExtra("courseId", courseId);
+		intent.putExtra("title", title);
 		startActivity(intent);
 
 	}

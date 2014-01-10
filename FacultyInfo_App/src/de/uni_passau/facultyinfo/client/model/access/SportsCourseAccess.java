@@ -110,7 +110,7 @@ public class SportsCourseAccess {
 		SportsCourseCategory sportsCourseCategory = null;
 
 		sportsCourseCategory = getRestConnectionSportsCourseCategory()
-				.getRessource(RESSOURCE + "/" + id);
+				.getRessource(RESSOURCE + "/category/" + id);
 
 		if (sportsCourseCategory == null) {
 			return null;

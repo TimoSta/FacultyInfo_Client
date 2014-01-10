@@ -9,15 +9,23 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.SearchView.OnCloseListener;
 import android.widget.SimpleAdapter;
 import android.widget.TabHost;
 import de.uni_passau.facultyinfo.client.R;
@@ -29,8 +37,11 @@ import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 
 public class SportsFragment extends Fragment {
 
-	final static String TODAY = "heute";
-	final static String AZ = "A-Z";
+	public final static String TODAY = "heute";
+	public final static String AZ = "A-Z";
+	static Tab az; 
+	static Tab today; 
+	static ActionBar.TabListener tabListener; 
 
 	static String TAB_SELECTED = null;
 
@@ -42,6 +53,7 @@ public class SportsFragment extends Fragment {
 
 	ViewPager mViewPager;
 	
+	android.widget.SearchView searchView; 
 	
 
 	public SportsFragment() {
@@ -54,10 +66,14 @@ public class SportsFragment extends Fragment {
 		// getActivity().getActionBar().setNavigationMode(
 		// ActionBar.NAVIGATION_MODE_TABS);
 		rootView = inflater.inflate(R.layout.fragment_sports, container, false);
+		
+		setHasOptionsMenu(true); 
+		
+		
 
 		getActivity().setTitle(R.string.title_sports);
 
-		ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+		tabListener = new ActionBar.TabListener() {
 
 			@Override
 			public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
@@ -100,17 +116,22 @@ public class SportsFragment extends Fragment {
 		// .setText("Tab" + (il + 1))
 		// .setTabListener(tabListener));
 		// }
+		
+		
 
 		if (first == true) {
 			System.out.println("first==true");
-			Tab az = (Tab) getActivity().getActionBar().newTab().setText(AZ)
+			az = (Tab) getActivity().getActionBar().newTab().setText(AZ)
 					.setTabListener(tabListener);
 			getActivity().getActionBar().addTab(az);
 
-			Tab today = getActivity().getActionBar().newTab().setText(TODAY)
+			today = getActivity().getActionBar().newTab().setText(TODAY)
 					.setTabListener(tabListener);
 			getActivity().getActionBar().addTab(today);
 			first=false; 
+		}else{
+			az.setTabListener(tabListener); 
+			today.setTabListener(tabListener); 
 		}
 
 		// mTabHost = (TabHost) rootView.findViewById(android.R.id.tabhost);
@@ -137,10 +158,156 @@ public class SportsFragment extends Fragment {
 		// TodaysSportsCourseCategoryLoader(
 		// rootView);
 		// todayssportsCategoryLoader.execute();
+		
+//		SearchView searchView = (SearchView)rootView.findViewById(R.id.search); 
+//		searchView.setOnQueryTextListener(new OnQueryTextListener() {
+//
+//		    @Override
+//		    public boolean onQueryTextSubmit(String query) {
+//		        getActivity().onSearchRequested();
+//		        return false;
+//		    }
+//
+//		    @Override
+//		    public boolean onQueryTextChange(String newText) {
+//		        // TODO Auto-generated method stub
+//		        return false;
+//		    }
+//		});
 
 		return rootView;
 
 	}
+	
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        // Because this activity has set launchMode="singleTop", the system calls this method
+//        // to deliver the intent if this activity is currently the foreground activity when
+//        // invoked again (when the user executes a search from this activity, we don't create
+//        // a new instance of this activity, so the system delivers the search intent here)
+//        handleIntent(intent);
+//    }
+
+    private void handleIntent(Intent intent) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            System.out.println(query); 
+
+    }
+
+    /**
+     * Searches the dictionary and displays results for the given query.
+     * @param query The search query
+     */
+    private void showResults(String query) {
+
+        System.out.println("showResult"); 
+        //new Activity -> display Results
+    }
+    
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    	// TODO Auto-generated method stub
+    	super.onCreateOptionsMenu(menu, inflater);
+    	inflater.inflate(R.menu.sports, menu);
+    	searchView = (SearchView) menu.findItem(R.id.search).getActionView(); 
+    	//searchView = (SearchView) rootView.findViewById(R.id.search); 
+    	
+    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.options_menu, menu);
+//
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
+//            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//            SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+//            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//            searchView.setIconifiedByDefault(false);
+//        }
+//
+//        return true;
+//    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search:
+            	//getActivity().onSearchRequested();
+//            	search(); 
+            	searchView.setOnSearchClickListener(new OnClickListener() {
+        			
+        			@Override
+        			public void onClick(View view) {
+        				System.out.println("click"); 
+        				System.out.println(searchView.getQuery()); 
+        				// TODO Auto-generated method stub
+//        				Intent intent = new Intent(rootView.getContext(), SearchSportsActivity.class); 
+//        				intent.putExtra("query", searchView.getQuery()); 
+//        				startActivity(intent); 
+        			}
+        		}); 
+            	
+            	searchView.setOnCloseListener(new OnCloseListener() {
+					
+					@Override
+					public boolean onClose() {
+						System.out.println("onclose"); 
+						// TODO Auto-generated method stub
+						return false;
+					}
+				}); 
+            	
+            	searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
+					
+					@Override
+					public void onFocusChange(View arg0, boolean arg1) {
+						System.out.println("onFocusChange"); 
+						// TODO Auto-generated method stub
+						
+					}
+				}); 
+            	
+            	searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
+					
+					@Override
+					public void onFocusChange(View arg0, boolean arg1) {
+						System.out.println("onQueryTextFocusChangeListener"); 
+						// TODO Auto-generated method stub
+						
+					}
+				}); 
+                return true;
+            default:
+                return false;
+        }
+    }
+    
+    void search(){
+    	System.out.println("test"); 
+//    	SearchView searchView = (SearchView) rootView.findViewById(R.id.search); 
+//    	System.out.println(searchView.getQuery()); 
+//    	searchView.setOnSearchClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View view) {
+//				System.out.println("click"); 
+//				// TODO Auto-generated method stub
+//				
+//			}
+//		}); 
+    	
+    	
+    	
+//    	private OnQueryTextListener searchListener = new OnQueryTextListener() {
+//
+//    	    @Override
+//    	    public boolean onQueryTextSubmit(String query) {
+//    	        // do my stuff
+//    	        return true; 
+//    	    }
+//
+//    }
 
 	//
 	//
@@ -309,7 +476,7 @@ public class SportsFragment extends Fragment {
 						int position, long id) {
 					System.out.println("click");
 					System.out.println(position);
-					displaySportsCourses(categoryList.get(position).get("id"));
+					displaySportsCourses(categoryList.get(position).get("id"), categoryList.get(position).get("title"), AZ);
 				}
 
 			});
@@ -317,10 +484,12 @@ public class SportsFragment extends Fragment {
 		}
 	}
 
-	private void displaySportsCourses(String categoryId) {
+	private void displaySportsCourses(String categoryId, String title, String offerTime) {
 		Intent intent = new Intent(rootView.getContext(),
 				DisplaySportCoursesActivity.class);
 		intent.putExtra("categoryId", categoryId);
+		intent.putExtra("title", title); 
+		intent.putExtra("offerTime", offerTime); 
 		startActivity(intent);
 
 	}
@@ -386,7 +555,7 @@ public class SportsFragment extends Fragment {
 						int position, long id) {
 					System.out.println("click");
 					System.out.println(position);
-					displaySportsCourses(categoryList.get(position).get("id"));
+					displaySportsCourses(categoryList.get(position).get("id"), categoryList.get(position).get("title"), TODAY);
 				}
 
 			});

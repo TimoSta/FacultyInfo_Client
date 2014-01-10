@@ -210,6 +210,7 @@ public class MainActivity extends Activity {
 			// }
 			// });
 			fragment = new SportsFragment();
+//			fragment.setHasOptionsMenu(true); 
 			break;
 		case 5:
 			getActionBar()

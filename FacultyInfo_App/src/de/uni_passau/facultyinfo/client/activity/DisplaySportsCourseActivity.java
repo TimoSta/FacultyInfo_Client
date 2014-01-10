@@ -16,6 +16,7 @@ import de.uni_passau.facultyinfo.client.R.menu;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.SportsCourse;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+
 //import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 
 public class DisplaySportsCourseActivity extends Activity {
@@ -29,6 +30,11 @@ public class DisplaySportsCourseActivity extends Activity {
 
 		Intent intent = getIntent();
 		courseId = intent.getStringExtra("courseId");
+		
+		setTitle(intent.getStringExtra("title")); 
+
+		(new CourseLoader()).execute();
+
 	}
 
 	@Override
@@ -38,11 +44,10 @@ public class DisplaySportsCourseActivity extends Activity {
 		return true;
 	}
 
-	protected class CourseLoader extends
-			AsyncDataLoader<SportsCourse> {
-		private CourseLoader(View rootView) {
-			super(rootView);
-		}
+	protected class CourseLoader extends AsyncDataLoader<SportsCourse> {
+		// private CourseLoader(View rootView) {
+		// super(rootView);
+		// }
 
 		@Override
 		protected SportsCourse doInBackground(Void... unused) {
@@ -50,72 +55,126 @@ public class DisplaySportsCourseActivity extends Activity {
 					.println("TodaysSportsCourseCategoryLoader->doInBackground()");
 			AccessFacade accessFacade = new AccessFacade();
 
-			SportsCourse sportsCourse = accessFacade
-					.getSportsCourseAccess().getCourse(courseId);
+			SportsCourse sportsCourse = accessFacade.getSportsCourseAccess()
+					.getCourse(courseId);
 
 			if (sportsCourse == null) {
-				//publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
-				sportsCourse = accessFacade.getSportsCourseAccess().getCourseFromCache(courseId); 
+				// publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
+				sportsCourse = accessFacade.getSportsCourseAccess()
+						.getCourseFromCache(courseId);
 			}
 
-//			if (sportsCourse == null) {
-//				sportsCourse = Collections
-//						.unmodifiableList(new ArrayList<SportsCourseCategory>());
-//			}
+			// if (sportsCourse == null) {
+			// sportsCourse = Collections
+			// .unmodifiableList(new ArrayList<SportsCourseCategory>());
+			// }
 
 			return sportsCourse;
 		}
 
 		@Override
 		protected void onPostExecute(SportsCourse sportscourse) {
-			TextView number = (TextView) findViewById(R.id.number_course); 
-			number.setText(sportscourse.getNumber()); 
-			
-			TextView details = (TextView) findViewById(R.id.details_sports_course); 
-			details.setText(sportscourse.getDetails()); 
-			
-			TextView time = (TextView) findViewById(R.id.time_sports_course); 
-			
-			String dayOfWeek="Fehler"; 
-			switch(sportscourse.getDayOfWeek()){
-			case 1: 
-				dayOfWeek="Mo"; 
-				break; 
-			case 2: 
-				dayOfWeek="Di"; 
-				break; 
-			case 3: 
-				dayOfWeek="Mi"; 
-				break; 
-			case 4: 
-				dayOfWeek="Do"; 
-				break; 
-			case 5: 
-				dayOfWeek="Fr"; 
+			TextView number = (TextView) findViewById(R.id.number_course);
+			number.setText(sportscourse.getNumber());
+
+			TextView details = (TextView) findViewById(R.id.description_course);
+			details.setText(sportscourse.getDetails());
+
+			TextView time = (TextView) findViewById(R.id.time_course);
+
+			String dayOfWeek = "";
+			switch (sportscourse.getDayOfWeek()) {
+			case 1:
+				dayOfWeek = "Mo";
 				break;
-			case 6: 
-				dayOfWeek="Sa"; 
-				break; 
-			case 7: 
-				dayOfWeek="So"; 
-				break; 
+			case 2:
+				dayOfWeek = "Di";
+				break;
+			case 3:
+				dayOfWeek = "Mi";
+				break;
+			case 4:
+				dayOfWeek = "Do";
+				break;
+			case 5:
+				dayOfWeek = "Fr";
+				break;
+			case 6:
+				dayOfWeek = "Sa";
+				break;
+			case 7:
+				dayOfWeek = "So";
+				break;
 			}
+
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.GERMAN);
+			// time.setText(dayOfWeek +
+			// (sdf.format(sportscourse.getStartTime())) +
+			// (sdf.format(sportscourse.getEndTime())) +" "+
+			// sportscourse.getLocation());
+
+//			String time_string = dayOfWeek + " "
+//					+ sportscourse.getStartTime().getHour() + ":"
+//					+ sportscourse.getStartTime().getMinute() + "-"
+//					+ sportscourse.getEndTime().getHour() + "-"
+//					+ sportscourse.getEndTime().getMinute();
 			
-			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm",
-					Locale.GERMAN);
-			time.setText(dayOfWeek + (sdf.format(sportscourse.getStartTime())) + (sdf.format(sportscourse.getEndTime())) +" "+ sportscourse.getLocation()); 
-			
-			TextView timeperiod = (TextView) findViewById(R.id.timeperiod); 
+			String time_string = dayOfWeek + " "
+					+ sportscourse.getStartTime().toString() +  "-"
+					+ sportscourse.getEndTime().toString();
+			System.out.println(time_string);
+
+			time.setText(time_string);
+
+			TextView timeperiod = (TextView) findViewById(R.id.timeperiod);
 			SimpleDateFormat sdf2 = new SimpleDateFormat(" d MMM ",
 					Locale.GERMAN);
-			timeperiod.setText("Zeitraum: " + (sdf2.format(sportscourse.getStartDate())) + (sdf2.format(sportscourse.getEndDate()))); 
-			
-			TextView price = (TextView) findViewById(R.id.price); 
-			price.setText("Kosten" + sportscourse.getPrice()); 
-			
-			TextView status = (TextView) findViewById(R.id.status); 
-			status.setText(sportscourse.getStatus()); 
-			
+			timeperiod.setText("Zeitraum: "
+					+ (sdf2.format(sportscourse.getStartDate())) + "- "
+					+ (sdf2.format(sportscourse.getEndDate())));
+
+			// timeperiod.setText(sportscourse.getStartDate().getDate() + "." +
+			// sportscourse.getStartDate().getMonth() + "-" +
+			// sportscourse.getEndDate().getDate() + "." +
+			// sportscourse.getEndDate().getMonth());
+
+			TextView price = (TextView) findViewById(R.id.price);
+			price.setText("Kosten: " + sportscourse.getPrice());
+
+			TextView status = (TextView) findViewById(R.id.status);
+
+			String status_string = "Angebot ist zur Anmeldung";
+			switch (sportscourse.getStatus()) {
+			case 1:
+				status_string += "offen";
+				break;
+			case 2:
+				status_string += "geschlossen";
+				break;
+			case 3:
+				status_string = "Angebot ist ausgebucht";
+				break;
+			case 4:
+				status_string = "Angebot muss im Büro angemeldet werden";
+				break;
+			case 5:
+				status_string += "Angebot ist storniert";
+				break;
+			case 6:
+				status_string = "Warteliste";
+				break;
+			case 7:
+				status_string = "Keine Anmeldung erforderlich";
+				break;
+			case 8:
+				status_string = "Keine Anmeldung möglich";
+				break;
+			default:
+				status_string = "";
+				break; 
+			}
+
+			status.setText(status_string);
 
 		}
 	}

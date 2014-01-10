@@ -81,5 +81,9 @@
     <string name="title_activity_display_sports_course">DisplaySportsCourseActivity</string>
     <string name="title_activity_display_sport_courses">DisplaySportCoursesActivity</string>
     <string name="title_activity_home_fragment">HomeFragment</string>
+    <string name="app_label">AppLabel</string>
+    <string name="search_hint">Sportkurs</string>
+    <string name="menu_search">Suche</string>
+    <string name="title_activity_search_sports">SearchSportsActivity</string>
 
 </resources>
