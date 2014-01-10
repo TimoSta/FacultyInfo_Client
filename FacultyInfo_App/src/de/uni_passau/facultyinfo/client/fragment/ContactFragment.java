@@ -84,11 +84,12 @@ public class ContactFragment extends Fragment {
 
 	}
 
-	private void displayChairContacts(String id) {
+	private void displayChairContacts(String id, String title) {
 		Intent intent = new Intent(rootView.getContext(),
 				DisplayChairContactsActivity.class);
 
 		intent.putExtra("chairId", id);
+		intent.putExtra("title", title);
 		System.out.println("putExtra");
 		startActivity(intent);
 	}
@@ -162,7 +163,7 @@ public class ContactFragment extends Fragment {
 						int position, long id) {
 					System.out.println("click");
 					System.out.println(position);
-					displayChairContacts(groupList.get(position).get("groupId"));
+					displayChairContacts(groupList.get(position).get("groupId"), groupList.get(position).get("title"));
 					
 				}
 			});

@@ -2,9 +2,7 @@ package de.uni_passau.facultyinfo.client.activity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -13,15 +11,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.AdapterView.OnItemClickListener;
 import de.uni_passau.facultyinfo.client.R;
-//import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.SportsCourse;
 import de.uni_passau.facultyinfo.client.model.dto.SportsCourseCategory;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+//import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 
 public class DisplaySportCoursesActivity extends Activity {
 
@@ -35,7 +33,7 @@ public class DisplaySportCoursesActivity extends Activity {
 		Intent intent = getIntent();
 		categoryId = intent.getStringExtra("categoryId");
 		
-		//(new SportsCourseLoader()).execute();
+		(new SportsCourseLoader()).execute();
 
 	}
 
@@ -48,9 +46,9 @@ public class DisplaySportCoursesActivity extends Activity {
 
 	protected class SportsCourseLoader extends
 			AsyncDataLoader<SportsCourseCategory> {
-		private SportsCourseLoader(View rootView) {
-			super(rootView);
-		}
+//		private SportsCourseLoader(View rootView) {
+//			super(rootView);
+//		}
 
 		@Override
 		protected SportsCourseCategory doInBackground(Void... unused) {
@@ -61,7 +59,7 @@ public class DisplaySportCoursesActivity extends Activity {
 					.getSportsCourseAccess().getCategory(categoryId);
 			if (sportsCourseCategory == null) {
 				// publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
-				sportsCourseCategory = accessFacade.getSportsCourseAccess().getCategoryTodayFromCache(categoryId); 
+				sportsCourseCategory = accessFacade.getSportsCourseAccess().getCategoryFromCache(categoryId); 
 			}
 
 			// if (sportsCourse == null) {
@@ -74,8 +72,13 @@ public class DisplaySportCoursesActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(SportsCourseCategory sportsCourseCategory) {
-			ListView sportsoffer = (ListView) rootView
-					.findViewById(R.id.sportsCourses);
+			ListView sportsoffer = (ListView) findViewById(R.id.sportsCourses);
+			
+			if(sportsCourseCategory==null){
+				System.out.println("sportsCourseCategory==null"); 
+			}else{
+				System.out.println("sportsCourseCategory!=null"); 
+			}
 
 			final ArrayList<HashMap<String, String>> courseList = new ArrayList<HashMap<String, String>>();
 
@@ -118,7 +121,7 @@ public class DisplaySportCoursesActivity extends Activity {
 				courseList.add(temp1);
 			}
 
-			SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
+			SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(),
 					courseList, R.layout.course_view, new String[] { "numer",
 							"details", "dayOfWeek"+ " " + "startTime" + "-" + "endTime" },
 					new int[] { R.id.number, R.id.details_sports_course,

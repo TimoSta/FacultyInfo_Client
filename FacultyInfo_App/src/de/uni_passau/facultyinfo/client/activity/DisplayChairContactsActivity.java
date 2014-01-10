@@ -33,30 +33,19 @@ public class DisplayChairContactsActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		System.out.println("DisplayChairContactsActivity->onCreate"); 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_chair_contacts);
 		
 		Intent intent = getIntent(); 
 		chairId = intent.getStringExtra("chairId"); 
+		System.out.println(chairId); 
 		
-//		ListView listView = (ListView)findViewById(R.id.chairContacts);
-//		
-//		List valueList = new ArrayList<String>();
-//
-//		for (int i = 0; i < 5; i++) {
-//			valueList.add("Lehrstuhl: " + chairId + " Kontakt " + i); 
-//		}
-//		
-//		ListAdapter adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, valueList);
-//		
-//		listView.setAdapter(adapter); 
+		setTitle(intent.getStringExtra("title")); 
 		
-		ContactLoader contactLoader = new ContactLoader(getCurrentFocus()); 
-		
-		setTitle(contactLoader.getGroupTitle()); 
-		
+		ContactLoader contactLoader = new ContactLoader(); 
 		contactLoader.execute(); 
-		
+
 	}
 
 	@Override
@@ -68,15 +57,17 @@ public class DisplayChairContactsActivity extends Activity {
 	
 	protected class ContactLoader extends AsyncDataLoader<ContactGroup> {
 		private AccessFacade accessFacade; 
-		private ContactLoader(View rootView) {
-			super(rootView);
-		}
+		
+//		private ContactLoader(View rootView) {
+//			super(rootView);
+//		}
 
 		@Override
 		protected ContactGroup doInBackground(Void... unused) {
 			accessFacade = new AccessFacade();
+			System.out.println("DisplayChairContactsActivity->doInBackground"); 
 
-			ContactGroup group = accessFacade.getContactPersonAccess()
+			 ContactGroup group = accessFacade.getContactPersonAccess()
 					.getContactGroup(chairId);
 
 //			if (group == null) {
@@ -95,7 +86,9 @@ public class DisplayChairContactsActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(ContactGroup group) {
-			ListView listView = (ListView) rootView.findViewById(R.id.chairContacts);
+			ListView listView = (ListView) findViewById(R.id.chairContacts);
+			
+			System.out.println("DisplayChairContactsActivity->onPostExecute"); 
 
 			
 			
@@ -111,19 +104,16 @@ public class DisplayChairContactsActivity extends Activity {
 				personList.add(temp1);
 			}
 
-			SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
+			SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(),
 					personList, R.layout.contact_view,
-					new String[] { "title", "office", "telefon", "email", "description"}, new int[] { R.id.title, R.id.description_contact, R.id.description_contact, R.id.description_contact, R.id.description_contact }
+					new String[] { "name", "description", "office", "telefon", "email"}, new int[] { R.id.contact_name, R.id.contact_description, R.id.contact_office, R.id.contact_phone, R.id.contact_email}
 
 			);
 
 			listView.setAdapter(adapter); 
 		}
 		
-		public String getGroupTitle(){
-			return accessFacade.getContactPersonAccess().getContactGroup(chairId).getTitle(); 
-					
-		}
+		
 	}
 
 }
