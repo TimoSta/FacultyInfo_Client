@@ -88,4 +88,44 @@ public class ContactPersonAccess {
 	public ContactGroup getContactGroupFromCache(String id) {
 		return null;
 	}
+
+	/**
+	 * Gives a list of Contact Groups that meet one or more of the following
+	 * criteria:
+	 * <ul>
+	 * <li>The title of the Contact Group contains the search string.</li>
+	 * <li>The Name of the Contact Person contains the search string.</li>
+	 * </ul>
+	 * 
+	 * The search is case insensitive.
+	 * 
+	 * @param input
+	 *            The search parameter
+	 * @return List of matching Contact Groups that contain a list of matching
+	 *         Contact Persons each.
+	 */
+	public List<ContactGroup> find(String input) {
+		if (input != null && !input.isEmpty()) {
+			List<ContactGroup> contactGroups = null;
+
+			contactGroups = getRestConnection().getRessourceAsList(
+					RESSOURCE + "/find/" + input);
+
+			if (contactGroups == null) {
+				return null;
+			}
+
+			for (ContactGroup contactGroup : contactGroups) {
+				if (contactGroup.getContactPersons() != null) {
+					for (ContactPerson contactPerson : contactGroup
+							.getContactPersons()) {
+						contactPerson.setContactGroup(contactGroup);
+					}
+				}
+			}
+
+			return contactGroups;
+		}
+		return Collections.unmodifiableList(new ArrayList<ContactGroup>());
+	}
 }
