@@ -283,8 +283,8 @@ public class SportsFragment extends Fragment {
         }
     }
     
-    void search(){
-    	System.out.println("test"); 
+//    void search(){
+//    	System.out.println("test"); 
 //    	SearchView searchView = (SearchView) rootView.findViewById(R.id.search); 
 //    	System.out.println(searchView.getQuery()); 
 //    	searchView.setOnSearchClickListener(new OnClickListener() {
