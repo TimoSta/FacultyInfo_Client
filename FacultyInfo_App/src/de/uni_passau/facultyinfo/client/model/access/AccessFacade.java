@@ -1,6 +1,5 @@
 package de.uni_passau.facultyinfo.client.model.access;
 
-import com.google.android.gms.internal.co;
 
 /**
  * 
@@ -16,6 +15,7 @@ public class AccessFacade {
 	private MapMarkerAccess mapMarkerAccess = null;
 	private SportsCourseAccess sportsCourseAccess = null;
 	private ContactPersonAccess contactPersonAccess = null;
+	private BusinessHoursAccess businessHoursAccess = null;
 
 	public NewsAccess getNewsAccess() {
 		if (newsAccess == null) {
@@ -71,5 +71,12 @@ public class AccessFacade {
 			contactPersonAccess = new ContactPersonAccess();
 		}
 		return contactPersonAccess;
+	}
+
+	public BusinessHoursAccess getBusinessHoursAccess() {
+		if (businessHoursAccess == null) {
+			businessHoursAccess = new BusinessHoursAccess();
+		}
+		return businessHoursAccess;
 	}
 }
