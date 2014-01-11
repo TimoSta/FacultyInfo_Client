@@ -1,6 +1,5 @@
 package de.uni_passau.facultyinfo.client.model.access;
 
-
 /**
  * 
  * @author Timo Staudinger
@@ -16,6 +15,7 @@ public class AccessFacade {
 	private SportsCourseAccess sportsCourseAccess = null;
 	private ContactPersonAccess contactPersonAccess = null;
 	private BusinessHoursAccess businessHoursAccess = null;
+	private MenuAccess menuAccess = null;
 
 	public NewsAccess getNewsAccess() {
 		if (newsAccess == null) {
@@ -78,5 +78,12 @@ public class AccessFacade {
 			businessHoursAccess = new BusinessHoursAccess();
 		}
 		return businessHoursAccess;
+	}
+
+	public MenuAccess getMenuAccess() {
+		if (menuAccess == null) {
+			menuAccess = new MenuAccess();
+		}
+		return menuAccess;
 	}
 }
