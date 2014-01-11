@@ -12,14 +12,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import de.uni_passau.facultyinfo.client.R;
-import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.BusLine;
-import de.uni_passau.facultyinfo.client.model.dto.News;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 
 public class BuslinesFragment extends Fragment {
@@ -57,7 +54,7 @@ public class BuslinesFragment extends Fragment {
 					.getNextBusLines();
 
 			if (busLines == null) {
-				publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
+				publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
 				busLines = accessFacade.getBusLineAccess()
 						.getNextBusLinesFromCache();
 			}
