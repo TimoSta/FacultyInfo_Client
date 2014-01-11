@@ -27,6 +27,10 @@ public class DisplaySportsCourseActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_sports_course);
+		
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayShowHomeEnabled(true);
+		getActionBar().setDisplayShowTitleEnabled(true);
 
 		Intent intent = getIntent();
 		courseId = intent.getStringExtra("courseId");

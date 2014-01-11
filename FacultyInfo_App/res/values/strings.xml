@@ -85,5 +85,6 @@
     <string name="search_hint">Sportkurs</string>
     <string name="menu_search">Suche</string>
     <string name="title_activity_search_sports">SearchSportsActivity</string>
+    <string name="title_activity_search_contacts">SearchContactsActivity</string>
 
 </resources>

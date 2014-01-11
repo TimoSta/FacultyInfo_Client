@@ -88,6 +88,9 @@
         <activity
             android:name="de.uni_passau.facultyinfo.client.activity.DisplaySportsCourseActivity"
             android:label="@string/title_activity_display_sports_course" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.uni_passau.facultyinfo.client.activity.DisplaySportCourses.Activity" />
         </activity>
         <activity
             android:name="de.uni_passau.facultyinfo.client.activity.DisplaySportCoursesActivity"
@@ -98,8 +101,16 @@
             android:label="@string/title_activity_home_fragment" >
         </activity>
         <activity
-            android:name="de.uni_passau.facultyinfo.client.SearchSportsActivity"
+            android:name="de.uni_passau.facultyinfo.client.activity.SearchSportsActivity"
             android:label="@string/title_activity_search_sports" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.uni_passau.facultyinfo.client.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.SearchContactsActivity"
+            android:label="@string/title_activity_search_contacts" >
+            
         </activity>
     </application>
 

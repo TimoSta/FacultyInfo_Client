@@ -11,17 +11,23 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 import android.widget.AdapterView.OnItemClickListener;
 import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.SearchContactsActivity;
 import de.uni_passau.facultyinfo.client.activity.DisplayChairContactsActivity;
 import de.uni_passau.facultyinfo.client.activity.DisplayNewsActivity;
+import de.uni_passau.facultyinfo.client.activity.SearchSportsActivity;
 import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.BusLine;
@@ -31,6 +37,7 @@ import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 
 public class ContactFragment extends Fragment {
 	private View rootView;
+	android.widget.SearchView searchView;
 
 	public ContactFragment() {
 		// Empty constructor required for fragment subclasses
@@ -45,6 +52,8 @@ public class ContactFragment extends Fragment {
 
 		rootView = inflater.inflate(R.layout.fragment_contacts, container,
 				false);
+
+		setHasOptionsMenu(true);
 
 		getActivity().setTitle(R.string.title_contacts);
 
@@ -77,11 +86,56 @@ public class ContactFragment extends Fragment {
 		// android.R.layout.simple_list_item_1, valueList);
 		//
 		// listView.setAdapter(adapter);
-		
-		(new ChairLoader(rootView)).execute(); 
+
+		(new ChairLoader(rootView)).execute();
 
 		return rootView;
 
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// TODO Auto-generated method stub
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.contacts, menu);
+		searchView = (SearchView) menu.findItem(R.id.contacts_search)
+				.getActionView();
+		// searchView = (SearchView) rootView.findViewById(R.id.search);
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.contacts_search:
+
+			final SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+
+				@Override
+				public boolean onQueryTextSubmit(String query) {
+					// TODO Auto-generated method stub
+					System.out.println("onQueryTextSubmit");
+					Intent intent = new Intent(rootView.getContext(),
+							SearchContactsActivity.class);
+					intent.putExtra("query", query);
+					startActivity(intent);
+
+					return false;
+				}
+
+				@Override
+				public boolean onQueryTextChange(String newText) {
+					// TODO Auto-generated method stub
+					System.out.println("onQueryTextChange");
+					return false;
+				}
+			};
+			searchView.setOnQueryTextListener(queryTextListener);
+
+			return true;
+		default:
+			return false;
+		}
 	}
 
 	private void displayChairContacts(String id, String title) {
@@ -122,9 +176,10 @@ public class ContactFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(List<ContactGroup> groups) {
-			ListView listView = (ListView) rootView.findViewById(R.id.contactChairs);
-			if(groups.isEmpty()){
-				System.out.println("groups.isEmpty"); 
+			ListView listView = (ListView) rootView
+					.findViewById(R.id.contactChairs);
+			if (groups.isEmpty()) {
+				System.out.println("groups.isEmpty");
 			}
 
 			final ArrayList<HashMap<String, String>> groupList = new ArrayList<HashMap<String, String>>();
@@ -139,21 +194,21 @@ public class ContactFragment extends Fragment {
 
 			SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
 					groupList, R.layout.custom_row_view,
-					new String[] { "title"}, new int[] { R.id.title }
+					new String[] { "title" }, new int[] { R.id.title }
 
 			);
-			System.out.println("SimpleAdapter"); 
-			
-			if(adapter.isEmpty()){
+			System.out.println("SimpleAdapter");
+
+			if (adapter.isEmpty()) {
 				System.out.println("adapter isEmpty");
 			}
 
 			listView.setAdapter(adapter);
-			
-			System.out.println("setAdapter"); 
-			
-			if(listView.getAdapter().isEmpty()){
-				System.out.println("ListViewAdapter is empty"); 
+
+			System.out.println("setAdapter");
+
+			if (listView.getAdapter().isEmpty()) {
+				System.out.println("ListViewAdapter is empty");
 			}
 
 			listView.setOnItemClickListener(new OnItemClickListener() {
@@ -163,8 +218,10 @@ public class ContactFragment extends Fragment {
 						int position, long id) {
 					System.out.println("click");
 					System.out.println(position);
-					displayChairContacts(groupList.get(position).get("groupId"), groupList.get(position).get("title"));
-					
+					displayChairContacts(
+							groupList.get(position).get("groupId"), groupList
+									.get(position).get("title"));
+
 				}
 			});
 		}

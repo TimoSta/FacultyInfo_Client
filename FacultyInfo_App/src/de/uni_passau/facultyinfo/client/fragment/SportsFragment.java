@@ -30,6 +30,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TabHost;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.activity.DisplaySportCoursesActivity;
+import de.uni_passau.facultyinfo.client.activity.SearchSportsActivity;
 import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.SportsCourseCategory;
@@ -188,22 +189,22 @@ public class SportsFragment extends Fragment {
 //        handleIntent(intent);
 //    }
 
-    private void handleIntent(Intent intent) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            System.out.println(query); 
-
-    }
-
-    /**
-     * Searches the dictionary and displays results for the given query.
-     * @param query The search query
-     */
-    private void showResults(String query) {
-
-        System.out.println("showResult"); 
-        //new Activity -> display Results
-    }
-    
+//    private void handleIntent(Intent intent) {
+//            String query = intent.getStringExtra(SearchManager.QUERY);
+//            System.out.println(query); 
+//
+//    }
+//
+//    /**
+//     * Searches the dictionary and displays results for the given query.
+//     * @param query The search query
+//     */
+//    private void showResults(String query) {
+//
+//        System.out.println("showResult"); 
+//        //new Activity -> display Results
+//    }
+//    
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     	// TODO Auto-generated method stub
@@ -235,48 +236,71 @@ public class SportsFragment extends Fragment {
             case R.id.search:
             	//getActivity().onSearchRequested();
 //            	search(); 
-            	searchView.setOnSearchClickListener(new OnClickListener() {
-        			
-        			@Override
-        			public void onClick(View view) {
-        				System.out.println("click"); 
-        				System.out.println(searchView.getQuery()); 
-        				// TODO Auto-generated method stub
-//        				Intent intent = new Intent(rootView.getContext(), SearchSportsActivity.class); 
-//        				intent.putExtra("query", searchView.getQuery()); 
-//        				startActivity(intent); 
-        			}
-        		}); 
-            	
-            	searchView.setOnCloseListener(new OnCloseListener() {
+//            	searchView.setOnSearchClickListener(new OnClickListener() {
+//        			
+//        			@Override
+//        			public void onClick(View view) {
+//        				System.out.println("click"); 
+//        				System.out.println(searchView.getQuery()); 
+//        				// TODO Auto-generated method stub
+////        				Intent intent = new Intent(rootView.getContext(), SearchSportsActivity.class); 
+////        				intent.putExtra("query", searchView.getQuery()); 
+////        				startActivity(intent); 
+//        			}
+//        		}); 
+//            	
+//            	searchView.setOnCloseListener(new OnCloseListener() {
+//					
+//					@Override
+//					public boolean onClose() {
+//						System.out.println("onclose"); 
+//						// TODO Auto-generated method stub
+//						return false;
+//					}
+//				}); 
+//            	
+//            	searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
+//					
+//					@Override
+//					public void onFocusChange(View arg0, boolean arg1) {
+//						System.out.println("onFocusChange"); 
+//						// TODO Auto-generated method stub
+//						
+//					}
+//				}); 
+//            	
+//            	searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
+//					
+//					@Override
+//					public void onFocusChange(View arg0, boolean arg1) {
+//						System.out.println("onQueryTextFocusChangeListener"); 
+//						// TODO Auto-generated method stub
+//						
+//					}
+//				}); 
+//            	
+            	final SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
 					
 					@Override
-					public boolean onClose() {
-						System.out.println("onclose"); 
+					public boolean onQueryTextSubmit(String query) {
 						// TODO Auto-generated method stub
+						System.out.println("onQueryTextSubmit"); 
+						Intent intent = new Intent(rootView.getContext(), SearchSportsActivity.class); 
+						intent.putExtra("query", query); 
+						startActivity(intent); 
+						
 						return false;
 					}
-				}); 
-            	
-            	searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
 					
 					@Override
-					public void onFocusChange(View arg0, boolean arg1) {
-						System.out.println("onFocusChange"); 
+					public boolean onQueryTextChange(String newText) {
 						// TODO Auto-generated method stub
-						
+						System.out.println("onQueryTextChange"); 
+						return false;
 					}
-				}); 
+				};
+				searchView.setOnQueryTextListener(queryTextListener); 
             	
-            	searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
-					
-					@Override
-					public void onFocusChange(View arg0, boolean arg1) {
-						System.out.println("onQueryTextFocusChangeListener"); 
-						// TODO Auto-generated method stub
-						
-					}
-				}); 
                 return true;
             default:
                 return false;
@@ -299,15 +323,7 @@ public class SportsFragment extends Fragment {
     	
     	
     	
-//    	private OnQueryTextListener searchListener = new OnQueryTextListener() {
-//
-//    	    @Override
-//    	    public boolean onQueryTextSubmit(String query) {
-//    	        // do my stuff
-//    	        return true; 
-//    	    }
-//
-//    }
+
 
 	//
 	//
@@ -419,6 +435,9 @@ public class SportsFragment extends Fragment {
 
 	protected class SportsCourseCategoryLoader extends
 			AsyncDataLoader<List<SportsCourseCategory>> {
+		
+		private AccessFacade accessFacade; 
+		
 		private SportsCourseCategoryLoader(View rootView) {
 			super(rootView);
 		}
@@ -426,7 +445,7 @@ public class SportsFragment extends Fragment {
 		@Override
 		protected List<SportsCourseCategory> doInBackground(Void... unused) {
 			System.out.println("SportsCourseCategoryLoader->doInBackground()");
-			AccessFacade accessFacade = new AccessFacade();
+			accessFacade = new AccessFacade();
 
 			List<SportsCourseCategory> sportsCourseCategories = accessFacade
 					.getSportsCourseAccess().getCategories();
@@ -482,6 +501,7 @@ public class SportsFragment extends Fragment {
 			});
 
 		}
+		
 	}
 
 	private void displaySportsCourses(String categoryId, String title, String offerTime) {
