@@ -24,6 +24,21 @@ public class BusinessHoursFacility {
 		this.type = type;
 	}
 
+	public BusinessHours getBusinessHours(int phase, int dayofweek) {
+		BusinessHours businessHours = null;
+		if (getBusinessHours() != null) {
+			for (BusinessHours currentBusinessHours : getBusinessHours()) {
+				if (currentBusinessHours.getPhase() == businessHours.getPhase()
+						&& currentBusinessHours.getDayOfWeek() == businessHours
+								.getDayOfWeek()) {
+					businessHours = currentBusinessHours;
+					break;
+				}
+			}
+		}
+		return businessHours;
+	}
+
 	public String getId() {
 		return id;
 	}

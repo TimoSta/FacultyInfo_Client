@@ -98,7 +98,7 @@ public class BusinessHoursAccess {
 	 * locally.
 	 * 
 	 */
-	public News getFacilityFromCache(String id) {
+	public BusinessHoursFacility getFacilityFromCache(String id) {
 		// TODO: load cached data
 		return null;
 	}
