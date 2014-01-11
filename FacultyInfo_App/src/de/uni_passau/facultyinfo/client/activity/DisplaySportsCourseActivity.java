@@ -1,5 +1,7 @@
 package de.uni_passau.facultyinfo.client.activity;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -7,17 +9,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
-import de.uni_passau.facultyinfo.client.R.id;
-import de.uni_passau.facultyinfo.client.R.layout;
-import de.uni_passau.facultyinfo.client.R.menu;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.SportsCourse;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
-
-//import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 
 public class DisplaySportsCourseActivity extends Activity {
 
@@ -27,15 +23,15 @@ public class DisplaySportsCourseActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_sports_course);
-		
+
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowHomeEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(true);
 
 		Intent intent = getIntent();
 		courseId = intent.getStringExtra("courseId");
-		
-		setTitle(intent.getStringExtra("title")); 
+
+		setTitle(intent.getStringExtra("title"));
 
 		(new CourseLoader()).execute();
 
@@ -82,103 +78,103 @@ public class DisplaySportsCourseActivity extends Activity {
 			number.setText(sportscourse.getNumber());
 
 			TextView details = (TextView) findViewById(R.id.description_course);
-			details.setText(sportscourse.getDetails());
+			String detailsString = sportscourse.getDetails();
+			if (detailsString == null || detailsString.isEmpty()) {
+				detailsString = "Keine Beschreibung verfügbar";
+			}
+			details.setText(detailsString);
 
 			TextView time = (TextView) findViewById(R.id.time_course);
 
-			String dayOfWeek = "";
+			String dayOfWeek = null;
 			switch (sportscourse.getDayOfWeek()) {
-			case 1:
+			case SportsCourse.MONDAY:
 				dayOfWeek = "Mo";
 				break;
-			case 2:
+			case SportsCourse.TUESDAY:
 				dayOfWeek = "Di";
 				break;
-			case 3:
+			case SportsCourse.WEDNESDAY:
 				dayOfWeek = "Mi";
 				break;
-			case 4:
+			case SportsCourse.THURSDAY:
 				dayOfWeek = "Do";
 				break;
-			case 5:
+			case SportsCourse.FRIDAY:
 				dayOfWeek = "Fr";
 				break;
-			case 6:
+			case SportsCourse.SATURDAY:
 				dayOfWeek = "Sa";
 				break;
-			case 7:
+			case SportsCourse.SUNDAY:
 				dayOfWeek = "So";
 				break;
 			}
 
-			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.GERMAN);
-			// time.setText(dayOfWeek +
-			// (sdf.format(sportscourse.getStartTime())) +
-			// (sdf.format(sportscourse.getEndTime())) +" "+
-			// sportscourse.getLocation());
+			String timeString = "";
+			if (dayOfWeek != null) {
+				timeString = dayOfWeek;
+				if (sportscourse.getStartTime() != null) {
+					timeString += " " + sportscourse.getStartTime().toString();
+					if (sportscourse.getEndTime() != null) {
+						timeString += " - "
+								+ sportscourse.getEndTime().toString();
+					}
+				}
 
-//			String time_string = dayOfWeek + " "
-//					+ sportscourse.getStartTime().getHour() + ":"
-//					+ sportscourse.getStartTime().getMinute() + "-"
-//					+ sportscourse.getEndTime().getHour() + "-"
-//					+ sportscourse.getEndTime().getMinute();
-			
-			String time_string = dayOfWeek + " "
-					+ sportscourse.getStartTime().toString() +  "-"
-					+ sportscourse.getEndTime().toString();
-			System.out.println(time_string);
-
-			time.setText(time_string);
-
-			TextView timeperiod = (TextView) findViewById(R.id.timeperiod);
-			SimpleDateFormat sdf2 = new SimpleDateFormat(" d MMM ",
-					Locale.GERMAN);
-			timeperiod.setText("Zeitraum: "
-					+ (sdf2.format(sportscourse.getStartDate())) + "- "
-					+ (sdf2.format(sportscourse.getEndDate())));
-
-			// timeperiod.setText(sportscourse.getStartDate().getDate() + "." +
-			// sportscourse.getStartDate().getMonth() + "-" +
-			// sportscourse.getEndDate().getDate() + "." +
-			// sportscourse.getEndDate().getMonth());
-
-			TextView price = (TextView) findViewById(R.id.price);
-			price.setText("Kosten: " + sportscourse.getPrice());
-
-			TextView status = (TextView) findViewById(R.id.status);
-
-			String status_string = "Angebot ist zur Anmeldung";
-			switch (sportscourse.getStatus()) {
-			case 1:
-				status_string += "offen";
-				break;
-			case 2:
-				status_string += "geschlossen";
-				break;
-			case 3:
-				status_string = "Angebot ist ausgebucht";
-				break;
-			case 4:
-				status_string = "Angebot muss im Büro angemeldet werden";
-				break;
-			case 5:
-				status_string += "Angebot ist storniert";
-				break;
-			case 6:
-				status_string = "Warteliste";
-				break;
-			case 7:
-				status_string = "Keine Anmeldung erforderlich";
-				break;
-			case 8:
-				status_string = "Keine Anmeldung möglich";
-				break;
-			default:
-				status_string = "";
-				break; 
+				time.setText(timeString);
 			}
 
-			status.setText(status_string);
+			TextView timeperiod = (TextView) findViewById(R.id.timeperiod);
+			SimpleDateFormat sdf = new SimpleDateFormat(" d MMM ",
+					Locale.GERMAN);
+			timeperiod.setText("Zeitraum: "
+					+ (sdf.format(sportscourse.getStartDate())) + "- "
+					+ (sdf.format(sportscourse.getEndDate())));
+
+			TextView price = (TextView) findViewById(R.id.price);
+			if (sportscourse.getPrice() > 0) {
+				DecimalFormat df = new DecimalFormat("#.00",
+						new DecimalFormatSymbols(Locale.GERMANY));
+				price.setText("Kosten: " + df.format(sportscourse.getPrice())
+						+ " Euro");
+			} else {
+				price.setText("Kosten: keine");
+			}
+
+			TextView status = (TextView) findViewById(R.id.status);
+			String statusString = null;
+			switch (sportscourse.getStatus()) {
+			case SportsCourse.STATUS_OPEN:
+				statusString = "Anmeldungen sind möglich";
+				break;
+			case SportsCourse.STATUS_CLOSED:
+				statusString = "Anmeldungen sind nicht mehr möglich";
+				break;
+			case SportsCourse.STATUS_FULL:
+				statusString = "Angebot ist ausgebucht";
+				break;
+			case SportsCourse.STATUS_OFFICE_SIGNUP:
+				statusString = "Anmeldung erfolgt über das Büro";
+				break;
+			case SportsCourse.STATUS_STORNO:
+				statusString += "Angebot wurde storniert";
+				break;
+			case SportsCourse.STATUS_QUEUE:
+				statusString = "Warteliste";
+				break;
+			case SportsCourse.STATUS_NO_SIGNUP_REQUIRED:
+				statusString = "Keine Anmeldung erforderlich";
+				break;
+			case SportsCourse.STATUS_NO_SIGNUP_POSSIBLE:
+				statusString = "Keine Anmeldung möglich";
+				break;
+			default:
+				statusString = "";
+				break;
+			}
+
+			status.setText(statusString);
 
 		}
 	}

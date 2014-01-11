@@ -1,9 +1,7 @@
 package de.uni_passau.facultyinfo.client.activity;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,8 +19,6 @@ import de.uni_passau.facultyinfo.client.model.dto.SportsCourse;
 import de.uni_passau.facultyinfo.client.model.dto.SportsCourseCategory;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 
-//import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
-
 public class DisplaySportCoursesActivity extends Activity {
 
 	private String categoryId;
@@ -38,19 +34,17 @@ public class DisplaySportCoursesActivity extends Activity {
 		categoryId = intent.getStringExtra("categoryId");
 		System.out.println(categoryId);
 		offerTime = intent.getStringExtra("offerTime");
-		System.out.println(offerTime); 
+		System.out.println(offerTime);
 
 		title = intent.getStringExtra("title");
 		setTitle(title);
-		
-		
 
 		if (offerTime.equals(SportsFragment.AZ)) {
-			System.out.println("AZ"); 
+			System.out.println("AZ");
 			(new SportsCourseLoader()).execute();
 		} else if (offerTime.equals(SportsFragment.TODAY)) {
-			System.out.println("today"); 
-			(new TodaySportsCourseLoader()).execute(); 
+			System.out.println("today");
+			(new TodaySportsCourseLoader()).execute();
 		}
 
 	}
@@ -107,49 +101,43 @@ public class DisplaySportCoursesActivity extends Activity {
 				temp1.put("id", course.getId());
 				temp1.put("number", course.getNumber());
 				System.out.println("Number: " + course.getNumber());
-				temp1.put("details", course.getDetails());
+				String details = course.getDetails();
+				if(details == null || details.isEmpty()) {
+					details = "Keine Beschreibung verfügbar";
+				}
+				temp1.put("details", details);
 
-				String dayOfWeek = "";
+				String dayOfWeek = null;
 				switch (course.getDayOfWeek()) {
-				case 1:
+				case SportsCourse.MONDAY:
 					dayOfWeek = "Mo";
 					break;
-				case 2:
+				case SportsCourse.TUESDAY:
 					dayOfWeek = "Di";
 					break;
-				case 3:
+				case SportsCourse.WEDNESDAY:
 					dayOfWeek = "Mi";
 					break;
-				case 4:
+				case SportsCourse.THURSDAY:
 					dayOfWeek = "Do";
 					break;
-				case 5:
+				case SportsCourse.FRIDAY:
 					dayOfWeek = "Fr";
 					break;
-				case 6:
+				case SportsCourse.SATURDAY:
 					dayOfWeek = "Sa";
 					break;
-				case 7:
+				case SportsCourse.SUNDAY:
 					dayOfWeek = "So";
 					break;
 				}
-				// temp1.put("dayOfWeek", dayOfWeek);
-				// System.out.println(dayOfWeek);
-				// // SimpleDateFormat sdf = new SimpleDateFormat("HH:mm",
-				// // Locale.GERMAN);
-				// // temp1.put("startTime", sdf.format(course.getStartTime()));
-				// // temp1.put("endTime", sdf.format(course.getEndTime()));
-				//
-				// temp1.put("startTime",
-				// course.getStartTime().getHour()+":"+course.getStartTime().getMinute());
-				// temp1.put("endTime",
-				// course.getEndTime().getHour()+":"+course.getEndTime().getMinute());
 
-				String time = dayOfWeek + " " + course.getStartTime().getHour()
-						+ ":" + course.getStartTime().getMinute() + "-"
-						+ course.getEndTime().getHour() + ":"
-						+ course.getEndTime().getMinute();
-				temp1.put("time", time);
+				if (dayOfWeek != null) {
+					String time = dayOfWeek + " "
+							+ course.getStartTime().toString() + "-"
+							+ course.getEndTime().toString();
+					temp1.put("time", time);
+				}
 
 				courseList.add(temp1);
 			}
@@ -222,7 +210,11 @@ public class DisplaySportCoursesActivity extends Activity {
 				temp1.put("id", course.getId());
 				temp1.put("number", course.getNumber());
 				System.out.println("Number: " + course.getNumber());
-				temp1.put("details", course.getDetails());
+				String details = course.getDetails();
+				if(details == null || details.isEmpty()) {
+					details = "Keine Beschreibung verfügbar";
+				}
+				temp1.put("details", details);
 
 				String dayOfWeek = "";
 				switch (course.getDayOfWeek()) {
