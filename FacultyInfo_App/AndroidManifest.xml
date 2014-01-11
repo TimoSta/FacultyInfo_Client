@@ -108,9 +108,16 @@
                 android:value="de.uni_passau.facultyinfo.client.activity.MainActivity" />
         </activity>
         <activity
-            android:name="de.uni_passau.facultyinfo.client.SearchContactsActivity"
+            android:name="de.uni_passau.facultyinfo.client.activity.SearchContactsActivity"
             android:label="@string/title_activity_search_contacts" >
-            
+        </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.fragment.BusinessHoursFragment"
+            android:label="@string/title_activity_business_hours_fragment" >
+        </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.activity.DisplayBusinessHoursActivity"
+            android:label="@string/title_activity_display_business_hours" >
         </activity>
     </application>
 

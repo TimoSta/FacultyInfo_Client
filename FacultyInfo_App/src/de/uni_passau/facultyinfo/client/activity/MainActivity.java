@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.fragment.BusinessHoursFragment;
 import de.uni_passau.facultyinfo.client.fragment.BuslinesFragment;
 import de.uni_passau.facultyinfo.client.fragment.CafeteriaFragment;
 import de.uni_passau.facultyinfo.client.fragment.ContactFragment;
@@ -232,6 +233,9 @@ public class MainActivity extends Activity {
 					.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			fragment = new MapFragment();
 			break;
+		case 9: 
+			getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS); 
+			fragment = new BusinessHoursFragment(); 
 		}
 
 		android.app.FragmentManager fragmentManager = getFragmentManager();

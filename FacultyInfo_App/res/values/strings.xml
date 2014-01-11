@@ -11,6 +11,7 @@
         <item>Ansprechpartner</item>
         <item>FAQs</item>
         <item>Universitätsplan</item>
+        <item>Öffnungszeiten</item>
     </string-array>
     <string-array name="day_values">
         <item>Montag</item>
@@ -86,5 +87,7 @@
     <string name="menu_search">Suche</string>
     <string name="title_activity_search_sports">SearchSportsActivity</string>
     <string name="title_activity_search_contacts">SearchContactsActivity</string>
+    <string name="title_activity_business_hours_fragment">BusinessHoursFragment</string>
+    <string name="title_activity_display_business_hours">DisplayBusinessHoursActivity</string>
 
 </resources>

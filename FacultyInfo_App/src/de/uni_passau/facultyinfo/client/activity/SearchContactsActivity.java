@@ -1,11 +1,14 @@
-package de.uni_passau.facultyinfo.client;
+package de.uni_passau.facultyinfo.client.activity;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import de.uni_passau.facultyinfo.client.activity.DisplayChairContactsActivity;
+import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.R.id;
+import de.uni_passau.facultyinfo.client.R.layout;
+import de.uni_passau.facultyinfo.client.R.menu;
 //import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.ContactGroup;
@@ -50,7 +53,7 @@ public class SearchContactsActivity extends Activity {
 			AccessFacade accessFacade = new AccessFacade();
 
 			List<ContactGroup> groups = accessFacade.getContactPersonAccess()
-					.getContactGroups();
+					.find(query);
 
 //			if (groups == null) {
 //				publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);

@@ -8,38 +8,63 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".HomeFragment" >
 
-    
-    <ListView
+    <TextView
         android:id="@+id/home_news"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Neuigkeiten"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/home_news_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/home_news"
+        android:clickable="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/home_news_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/home_news_title"
+        android:clickable="true"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" 
-        >
+        android:layout_below="@+id/home_news_description"
+        android:layout_marginRight="58dp" >
 
-    </ListView>
-    
-    <ListView
-        android:id="@+id/home_buslines"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" 
-        android:layout_below="@+id/home_news">
+        <TextView
+            android:id="@+id/home_bus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Buslinien vom ZOB"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    </ListView>
-    
-    <ListView
-        android:id="@+id/home_mensa"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" 
-        android:layout_below="@+id/home_buslines">
-
-    </ListView>
+        <ListView
+            android:id="@+id/home_buslines"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/home_bus"
+            android:divider="#FF8000"
+            android:dividerHeight="1dp" >
+        </ListView>
+    </FrameLayout>
 
 </RelativeLayout>
