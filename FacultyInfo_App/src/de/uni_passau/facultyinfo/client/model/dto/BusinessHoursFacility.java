@@ -24,13 +24,12 @@ public class BusinessHoursFacility {
 		this.type = type;
 	}
 
-	public BusinessHours getBusinessHours(int phase, int dayofweek) {
+	public BusinessHours getBusinessHours(int phase, int dayOfWeek) {
 		BusinessHours businessHours = null;
 		if (getBusinessHours() != null) {
 			for (BusinessHours currentBusinessHours : getBusinessHours()) {
-				if (currentBusinessHours.getPhase() == businessHours.getPhase()
-						&& currentBusinessHours.getDayOfWeek() == businessHours
-								.getDayOfWeek()) {
+				if (currentBusinessHours.getPhase() == phase
+						&& currentBusinessHours.getDayOfWeek() == dayOfWeek) {
 					businessHours = currentBusinessHours;
 					break;
 				}
