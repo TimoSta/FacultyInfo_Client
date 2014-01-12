@@ -69,6 +69,7 @@
     <string name="app_label">AppLabel</string>
     <string name="search_hint">Sportkurs</string>
     <string name="menu_search">Suche</string>
+    <string name="menu_email">Mail an Fachschaft</string>
     <string name="title_activity_search_sports">SearchSportsActivity</string>
     <string name="title_activity_search_contacts">SearchContactsActivity</string>
     <string name="title_activity_business_hours_fragment">BusinessHoursFragment</string>

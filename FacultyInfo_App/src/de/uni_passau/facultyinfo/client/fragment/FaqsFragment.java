@@ -6,8 +6,13 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -31,6 +36,8 @@ public class FaqsFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_faqs, container,
 				false);
 
+		setHasOptionsMenu(true);
+
 		getActivity().getActionBar().setTitle(
 				getActivity().getApplicationContext().getString(
 						R.string.title_faqs));
@@ -41,6 +48,26 @@ public class FaqsFragment extends Fragment {
 
 		return rootView;
 
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.faqs, menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.send_mail) {
+			final Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
+					Uri.parse("mailto:mail@fs-wiwi.de"));
+			emailIntent.putExtra(Intent.EXTRA_SUBJECT, "");
+//			emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			getActivity().startActivity(
+					Intent.createChooser(emailIntent, "Mail an die Fachschaft..."));
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	protected class FaqLoader extends AsyncDataLoader<List<FaqCategory>> {

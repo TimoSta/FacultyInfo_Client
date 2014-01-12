@@ -122,26 +122,28 @@ public class HomeFragment extends Fragment {
 		protected void onPostExecute(List<News> news) {
 			System.out.println("NewsLoader->onPostExecute");
 
-			TextView homeNewsTitle = (TextView) HomeFragment.this.rootView
-					.findViewById(R.id.home_news_title);
-			homeNewsTitle.setText(news.get(0).getTitle());
+			if (news != null && !news.isEmpty()) {
+				TextView homeNewsTitle = (TextView) HomeFragment.this.rootView
+						.findViewById(R.id.home_news_title);
+				homeNewsTitle.setText(news.get(0).getTitle());
 
-			TextView homeNewsDescription = (TextView) HomeFragment.this.rootView
-					.findViewById(R.id.home_news_description);
-			homeNewsDescription.setText(news.get(0).getDescription());
+				TextView homeNewsDescription = (TextView) HomeFragment.this.rootView
+						.findViewById(R.id.home_news_description);
+				homeNewsDescription.setText(news.get(0).getDescription());
 
-			OnClickListener onNewsClickListener = new OnClickListener() {
+				OnClickListener onNewsClickListener = new OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					System.out.println("open NewsFragment");
-					((MainActivity) getActivity()).selectItem(1);
-					// open NewsFragment
-				}
-			};
+					@Override
+					public void onClick(View v) {
+						System.out.println("open NewsFragment");
+						((MainActivity) getActivity()).selectItem(1);
+						// open NewsFragment
+					}
+				};
 
-			homeNewsTitle.setOnClickListener(onNewsClickListener);
-			homeNewsDescription.setOnClickListener(onNewsClickListener);
+				homeNewsTitle.setOnClickListener(onNewsClickListener);
+				homeNewsDescription.setOnClickListener(onNewsClickListener);
+			}
 
 		}
 
@@ -183,7 +185,7 @@ public class HomeFragment extends Fragment {
 			if (!busLines.isEmpty()) {
 				System.out.println("busLines.isEmpty()");
 
-				for (int i = 0; i < 2; i++) {
+				for (int i = 0; i < (busLines.size() >= 2 ? 2 : busLines.size()); i++) {
 
 					BusLine busLine = busLines.get(i);
 					System.out.println("for");
