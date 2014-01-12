@@ -6,17 +6,18 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.uni_passau.facultyinfo.client.R;
@@ -24,10 +25,13 @@ import de.uni_passau.facultyinfo.client.application.FacultyInfoApplication;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
 import de.uni_passau.facultyinfo.client.model.dto.factory.TimetableEntryFactory;
+import de.uni_passau.facultyinfo.client.model.dto.util.Color;
+import de.uni_passau.facultyinfo.client.util.ColorHelper;
 
 public class EditTimeTableActivity extends FragmentActivity {
 	private int dayId;
 	private int timeslotId;
+	private int colorId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,7 @@ public class EditTimeTableActivity extends FragmentActivity {
 		System.out.println(intent.getIntExtra("timeslotId", 0));
 		dayId = intent.getIntExtra("dayId", 0);
 		System.out.println(intent.getIntExtra("dayId", 0));
+		colorId = intent.getIntExtra("colorId", Color.WHITE);
 		String day = "";
 		String timeslot = "";
 
@@ -80,24 +85,97 @@ public class EditTimeTableActivity extends FragmentActivity {
 			timetableEntryLoader.execute();
 		}
 
-		Spinner colorSpinner = (Spinner) findViewById(R.id.colorSpinner);
+		// Spinner colorSpinner = (Spinner) findViewById(R.id.colorSpinner);
+		//
+		// for (int i = 0; i < 12; i++) {
+		// ShapeDrawable rect = new ShapeDrawable(new RectShape());
+		// if (i == 0) {
+		// // String color = TimetableEntry.COLOR_1;
+		// rect.getPaint().setColor(Color.parseColor("#F5A9D0"));
+		// } else if (i == 1) {
+		// rect.getPaint().setColor(Color.parseColor("#E2A9F3"));
+		// } else if (i == 2) {
+		// rect.getPaint().setColor(Color.parseColor("#A9A9F5"));
+		// } else if (i == 3) {
+		// rect.getPaint().setColor(Color.parseColor("#A9E2F3"));
+		// } else if (i == 4) {
+		// rect.getPaint().setColor(Color.parseColor("#A9F5A9"));
+		// }
+		//
+		// }
 
-		for (int i = 0; i < 12; i++) {
-			ShapeDrawable rect = new ShapeDrawable(new RectShape());
-			if (i == 0) {
-				// String color = TimetableEntry.COLOR_1;
-				rect.getPaint().setColor(Color.parseColor("#F5A9D0"));
-			} else if (i == 1) {
-				rect.getPaint().setColor(Color.parseColor("#E2A9F3"));
-			} else if (i == 2) {
-				rect.getPaint().setColor(Color.parseColor("#A9A9F5"));
-			} else if (i == 3) {
-				rect.getPaint().setColor(Color.parseColor("#A9E2F3"));
-			} else if (i == 4) {
-				rect.getPaint().setColor(Color.parseColor("#A9F5A9"));
+		final class ColorPickerDialogFragment extends DialogFragment {
+			@Override
+			public Dialog onCreateDialog(Bundle savedInstanceState) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						getActivity());
+				// Get the layout inflater
+				LayoutInflater inflater = getActivity().getLayoutInflater();
+
+				// Inflate and set the layout for the dialog
+				// Pass null as the parent view because its going in the dialog
+				// layout
+				View colorPickerView = inflater.inflate(
+						R.layout.popup_colorchoice, null);
+
+				builder.setView(colorPickerView).setNegativeButton(
+						R.string.cancel, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								ColorPickerDialogFragment.this.getDialog()
+										.cancel();
+							}
+						});
+
+				prepareButton(colorPickerView, R.id.color1, Color.WHITE);
+				prepareButton(colorPickerView, R.id.color2, Color.BLACK);
+				prepareButton(colorPickerView, R.id.color3, Color.RED);
+				prepareButton(colorPickerView, R.id.color4, Color.BLUE);
+				prepareButton(colorPickerView, R.id.color5, Color.GREEN);
+				prepareButton(colorPickerView, R.id.color6, Color.YELLOW);
+				prepareButton(colorPickerView, R.id.color7, Color.PURPLE);
+				prepareButton(colorPickerView, R.id.color8, Color.GREY);
+				prepareButton(colorPickerView, R.id.color9, Color.ORANGE);
+				prepareButton(colorPickerView, R.id.color10, Color.DARKRED);
+				prepareButton(colorPickerView, R.id.color11, Color.LIGHTBLUE);
+				prepareButton(colorPickerView, R.id.color12, Color.PINK);
+
+				return builder.create();
 			}
 
+			private void setColorAndClose(int color) {
+				colorId = color;
+				ColorPickerDialogFragment.this.getDialog().cancel();
+				ColorHelper colorHelper = new ColorHelper();
+				((Button) findViewById(R.id.colorButton))
+						.setBackgroundColor(colorHelper.getColor(colorId)
+								.getBackgroundColor());
+			}
+
+			private void prepareButton(View view, int buttonId, final int color) {
+				ColorHelper colorHelper = new ColorHelper();
+				Button color1 = (Button) view.findViewById(buttonId);
+				color1.setBackgroundColor(colorHelper.getColor(color)
+						.getBackgroundColor());
+				color1.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						setColorAndClose(color);
+					}
+				});
+			}
 		}
+
+		final FragmentManager fragmentManager = this
+				.getSupportFragmentManager();
+		final Button button = (Button) findViewById(R.id.colorButton);
+		button.setBackgroundColor(new ColorHelper().getColor(colorId)
+				.getBackgroundColor());
+		button.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				ColorPickerDialogFragment dialog = new ColorPickerDialogFragment();
+				dialog.show(fragmentManager, "createEventTT");
+			}
+		});
 
 		// ArrayAdapter<CharSequence> dayAdapter =
 		// ArrayAdapter.createFromResource(
@@ -218,7 +296,7 @@ public class EditTimeTableActivity extends FragmentActivity {
 
 		TimetableEntrySaver saver = new TimetableEntrySaver();
 		TimetableEntry entry = TimetableEntryFactory.createTimetableEntry(
-				title, description, location, timeslotId, dayId, 0);
+				title, description, location, timeslotId, dayId, colorId);
 		saver.execute(entry);
 
 	}

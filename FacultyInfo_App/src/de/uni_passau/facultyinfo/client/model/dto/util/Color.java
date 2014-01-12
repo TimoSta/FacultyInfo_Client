@@ -1,18 +1,18 @@
 package de.uni_passau.facultyinfo.client.model.dto.util;
 
 public class Color {
-	public static final int COLOR_1 = 1;
-	public static final int COLOR_2 = 2;
-	public static final int COLOR_3 = 3;
-	public static final int COLOR_4 = 4;
-	public static final int COLOR_5 = 5;
-	public static final int COLOR_6 = 6;
-	public static final int COLOR_7 = 7;
-	public static final int COLOR_8 = 8;
-	public static final int COLOR_9 = 9;
-	public static final int COLOR_10 = 10;
-	public static final int COLOR_11 = 11;
-	public static final int COLOR_12 = 12;
+	public static final int WHITE = 1;
+	public static final int BLACK = 2;
+	public static final int RED = 3;
+	public static final int BLUE = 4;
+	public static final int GREEN = 5;
+	public static final int YELLOW = 6;
+	public static final int PURPLE = 7;
+	public static final int GREY = 8;
+	public static final int ORANGE = 9;
+	public static final int DARKRED = 10;
+	public static final int LIGHTBLUE = 11;
+	public static final int PINK = 12;
 
 	private int id;
 	private String fontColor;
@@ -33,16 +33,16 @@ public class Color {
 		this.id = id;
 	}
 
-	public String getFontColor() {
-		return fontColor;
+	public int getFontColor() {
+		return android.graphics.Color.parseColor(fontColor);
 	}
 
 	public void setFontColor(String fontColor) {
 		this.fontColor = fontColor;
 	}
 
-	public String getBackgroundColor() {
-		return backgroundColor;
+	public int getBackgroundColor() {
+		return android.graphics.Color.parseColor(backgroundColor);
 	}
 
 	public void setBackgroundColor(String backgroundColor) {
