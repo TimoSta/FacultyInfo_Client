@@ -102,7 +102,7 @@ public class DisplaySportCoursesActivity extends Activity {
 				temp1.put("number", course.getNumber());
 				System.out.println("Number: " + course.getNumber());
 				String details = course.getDetails();
-				if(details == null || details.isEmpty()) {
+				if (details == null || details.isEmpty()) {
 					details = "Keine Beschreibung verfügbar";
 				}
 				temp1.put("details", details);
@@ -211,41 +211,42 @@ public class DisplaySportCoursesActivity extends Activity {
 				temp1.put("number", course.getNumber());
 				System.out.println("Number: " + course.getNumber());
 				String details = course.getDetails();
-				if(details == null || details.isEmpty()) {
+				if (details == null || details.isEmpty()) {
 					details = "Keine Beschreibung verfügbar";
 				}
 				temp1.put("details", details);
 
-				String dayOfWeek = "";
+				String dayOfWeek = null;
 				switch (course.getDayOfWeek()) {
-				case 1:
+				case SportsCourse.MONDAY:
 					dayOfWeek = "Mo";
 					break;
-				case 2:
+				case SportsCourse.TUESDAY:
 					dayOfWeek = "Di";
 					break;
-				case 3:
+				case SportsCourse.WEDNESDAY:
 					dayOfWeek = "Mi";
 					break;
-				case 4:
+				case SportsCourse.THURSDAY:
 					dayOfWeek = "Do";
 					break;
-				case 5:
+				case SportsCourse.FRIDAY:
 					dayOfWeek = "Fr";
 					break;
-				case 6:
+				case SportsCourse.SATURDAY:
 					dayOfWeek = "Sa";
 					break;
-				case 7:
+				case SportsCourse.SUNDAY:
 					dayOfWeek = "So";
 					break;
 				}
 
-				String time = dayOfWeek + " " + course.getStartTime().getHour()
-						+ ":" + course.getStartTime().getMinute() + "-"
-						+ course.getEndTime().getHour() + ":"
-						+ course.getEndTime().getMinute();
-				temp1.put("time", time);
+				if (dayOfWeek != null) {
+					String time = dayOfWeek + " "
+							+ course.getStartTime().toString() + "-"
+							+ course.getEndTime().toString();
+					temp1.put("time", time);
+				}
 
 				courseList.add(temp1);
 			}
