@@ -116,6 +116,12 @@ public class DisplayBusinessHoursActivity extends Activity {
 			//
 			// }
 
+			if (facility.getBusinessHours(BusinessHours.PHASE_BREAK,
+					BusinessHours.MONDAY) == null) {
+				TextView semester = (TextView) findViewById(R.id.semester);
+				semester.setText("");
+			}
+
 			TextView semester_mo = (TextView) findViewById(R.id.semester_mo);
 			BusinessHours businessHours_mo = facility.getBusinessHours(
 					BusinessHours.PHASE_SEMESTER, BusinessHours.MONDAY);
@@ -202,21 +208,30 @@ public class DisplayBusinessHoursActivity extends Activity {
 
 			TextView break_mo = (TextView) findViewById(R.id.break_mo);
 			BusinessHours businessHoursBreak_mo = facility.getBusinessHours(
-					BusinessHours.PHASE_SEMESTER, BusinessHours.MONDAY);
+					BusinessHours.PHASE_BREAK, BusinessHours.MONDAY);
 			if (businessHoursBreak_mo != null) {
+				System.out.println("businessHoursBreak_mo!=null"); 
 				if (businessHoursBreak_mo.getStatus() == BusinessHours.STATUS_CLOSED) {
+					System.out.println("status_closed"); 
 					break_mo.setText("geschlossen");
 				} else if (businessHoursBreak_mo.getStatus() == BusinessHours.STATUS_OPEN) {
+					System.out.println("status_open"); 
 					break_mo.setText(businessHoursBreak_mo.getOpeningTime()
 							.toString()
 							+ "-"
 							+ businessHoursBreak_mo.getClosingTime().toString());
 				}
+			}else{
+				TextView break_business_hours = (TextView) findViewById(R.id.break_business_hours); 
+				break_business_hours.setText(""); 
+				
+				TextView break_mo_h =(TextView) findViewById(R.id.break_mo_h); 
+				break_mo_h.setText(""); 
 			}
 
 			TextView break_di = (TextView) findViewById(R.id.break_di);
 			BusinessHours businessHoursBreak_di = facility.getBusinessHours(
-					BusinessHours.PHASE_SEMESTER, BusinessHours.TUESDAY);
+					BusinessHours.PHASE_BREAK, BusinessHours.TUESDAY);
 			if (businessHoursBreak_di != null) {
 				if (businessHoursBreak_di.getStatus() == BusinessHours.STATUS_CLOSED) {
 					break_di.setText("geschlossen");
@@ -226,11 +241,14 @@ public class DisplayBusinessHoursActivity extends Activity {
 							+ "-"
 							+ businessHoursBreak_di.getClosingTime().toString());
 				}
+			}else{
+				TextView break_di_h =(TextView) findViewById(R.id.break_di_h); 
+				break_di_h.setText(""); 
 			}
 
 			TextView break_mi = (TextView) findViewById(R.id.break_mi);
 			BusinessHours businessHoursBreak_mi = facility.getBusinessHours(
-					BusinessHours.PHASE_SEMESTER, BusinessHours.WEDNESDAY);
+					BusinessHours.PHASE_BREAK, BusinessHours.WEDNESDAY);
 			if (businessHoursBreak_mi != null) {
 				if (businessHoursBreak_mi.getStatus() == BusinessHours.STATUS_CLOSED) {
 					break_mi.setText("geschlossen");
@@ -240,11 +258,14 @@ public class DisplayBusinessHoursActivity extends Activity {
 							+ "-"
 							+ businessHoursBreak_mi.getClosingTime().toString());
 				}
+			}else{
+				TextView break_mi_h =(TextView) findViewById(R.id.break_mi_h); 
+				break_mi_h.setText(""); 
 			}
 
 			TextView break_do = (TextView) findViewById(R.id.break_do);
 			BusinessHours businessHoursBreak_do = facility.getBusinessHours(
-					BusinessHours.PHASE_SEMESTER, BusinessHours.THURSDAY);
+					BusinessHours.PHASE_BREAK, BusinessHours.THURSDAY);
 			if (businessHoursBreak_do != null) {
 				if (businessHoursBreak_do.getStatus() == BusinessHours.STATUS_CLOSED) {
 					break_do.setText("geschlossen");
@@ -254,11 +275,14 @@ public class DisplayBusinessHoursActivity extends Activity {
 							+ "-"
 							+ businessHoursBreak_do.getClosingTime().toString());
 				}
+			}else{
+				TextView break_do_h =(TextView) findViewById(R.id.break_do_h); 
+				break_do_h.setText(""); 
 			}
 
 			TextView break_fr = (TextView) findViewById(R.id.break_fr);
 			BusinessHours businessHoursBreak_fr = facility.getBusinessHours(
-					BusinessHours.PHASE_SEMESTER, BusinessHours.FRIDAY);
+					BusinessHours.PHASE_BREAK, BusinessHours.FRIDAY);
 			if (businessHoursBreak_fr != null) {
 				if (businessHoursBreak_fr.getStatus() == BusinessHours.STATUS_CLOSED) {
 					break_fr.setText("geschlossen");
@@ -268,11 +292,14 @@ public class DisplayBusinessHoursActivity extends Activity {
 							+ "-"
 							+ businessHoursBreak_fr.getClosingTime().toString());
 				}
+			}else{
+				TextView break_fr_h =(TextView) findViewById(R.id.break_fr_h); 
+				break_fr_h.setText(""); 
 			}
 
 			TextView break_sa = (TextView) findViewById(R.id.break_sa);
 			BusinessHours businessHoursBreak_sa = facility.getBusinessHours(
-					BusinessHours.PHASE_SEMESTER, BusinessHours.SATURDAY);
+					BusinessHours.PHASE_BREAK, BusinessHours.SATURDAY);
 			if (businessHoursBreak_sa != null) {
 				if (businessHoursBreak_sa.getStatus() == BusinessHours.STATUS_CLOSED) {
 					break_sa.setText("geschlossen");
@@ -282,11 +309,14 @@ public class DisplayBusinessHoursActivity extends Activity {
 							+ "-"
 							+ businessHoursBreak_sa.getClosingTime().toString());
 				}
+			}else{
+				TextView break_sa_h =(TextView) findViewById(R.id.break_sa_h); 
+				break_sa_h.setText(""); 
 			}
 
 			TextView break_so = (TextView) findViewById(R.id.break_so);
 			BusinessHours businessHoursBreak_so = facility.getBusinessHours(
-					BusinessHours.PHASE_SEMESTER, BusinessHours.SUNDAY);
+					BusinessHours.PHASE_BREAK, BusinessHours.SUNDAY);
 			if (businessHoursBreak_so != null) {
 				if (businessHoursBreak_so.getStatus() == BusinessHours.STATUS_CLOSED) {
 					break_so.setText("geschlossen");
@@ -296,6 +326,9 @@ public class DisplayBusinessHoursActivity extends Activity {
 							+ "-"
 							+ businessHoursBreak_so.getClosingTime().toString());
 				}
+			}else{
+				TextView break_so_h =(TextView) findViewById(R.id.break_so_h); 
+				break_so_h.setText(""); 
 			}
 
 		}

@@ -39,6 +39,7 @@
         android:textStyle="bold" />
 
     <FrameLayout
+        android:id="@+id/bus_frame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -57,6 +58,35 @@
 
         <ListView
             android:id="@+id/home_buslines"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/home_bus"
+            android:divider="#FF8000"
+            android:dividerHeight="1dp" >
+        </ListView>
+    </FrameLayout>
+    
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/bus_frame"
+        android:layout_marginRight="58dp" >
+
+        <TextView
+            android:id="@+id/home_bus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Mensa heute"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ListView
+            android:id="@+id/home_mensa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"

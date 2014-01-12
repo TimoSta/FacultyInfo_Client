@@ -68,4 +68,6 @@ public class FaqsFragment extends Fragment {
 
 		}
 	}
+	
+	
 }

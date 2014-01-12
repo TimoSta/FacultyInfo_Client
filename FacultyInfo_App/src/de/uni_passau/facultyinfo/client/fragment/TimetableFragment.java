@@ -181,10 +181,17 @@ public class TimetableFragment extends Fragment {
 //		fr1820.setText("Fr1820");
 
 		// Load timetable entries
-		new TimetableEntryLoader().execute();
+		
 		
 		return rootView;
 
+	}
+	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		new TimetableEntryLoader().execute();
+		super.onResume();
 	}
 
 	protected class TimetableEntryLoader extends

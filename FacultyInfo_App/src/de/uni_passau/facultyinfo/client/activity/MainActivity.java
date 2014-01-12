@@ -78,6 +78,7 @@ public class MainActivity extends Activity {
 
 		// Set the drawer toggle as the DrawerListener
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
+		
 
 		// if (savedInstanceState == null) {
 		// selectItem(0);
