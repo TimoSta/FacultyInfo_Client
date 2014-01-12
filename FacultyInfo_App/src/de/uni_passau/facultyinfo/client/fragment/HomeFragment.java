@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.activity.DisplayNewsActivity;
+import de.uni_passau.facultyinfo.client.activity.MainActivity;
 import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.BusLine;
@@ -136,6 +137,7 @@ public class HomeFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					System.out.println("open NewsFragment");
+					((MainActivity)getActivity()).selectItem(1);
 					// open NewsFragment
 				}
 			};

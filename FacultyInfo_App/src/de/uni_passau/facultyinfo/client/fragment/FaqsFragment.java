@@ -1,6 +1,7 @@
 package de.uni_passau.facultyinfo.client.fragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Fragment;
@@ -8,6 +9,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.Faq;
@@ -27,6 +31,8 @@ public class FaqsFragment extends Fragment {
 				false);
 
 		getActivity().setTitle(R.string.title_faqs);
+
+		new FaqLoader(rootView).execute();
 
 		return rootView;
 
@@ -66,8 +72,46 @@ public class FaqsFragment extends Fragment {
 				}
 			}
 
+			ListView listView = (ListView) rootView.findViewById(R.id.faq_list);
+
+			final ArrayList<HashMap<String, String>> faqList = new ArrayList<HashMap<String, String>>();
+
+			for (FaqCategory faqCategory : faqs) {
+				boolean first = true;
+				for (Faq faq : faqCategory.getFaqs()) {
+					HashMap<String, String> temp1 = new HashMap<String, String>();
+					temp1.put("title", faq.getTitle());
+					temp1.put("category", faqCategory.getTitle());
+					temp1.put("id", faq.getId());
+					temp1.put("first", first ? "true" : "false");
+					faqList.add(temp1);
+					first = false;
+				}
+			}
+
+			SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
+					faqList, R.layout.faq_row_view, new String[] { "category",
+							"title" }, new int[] { R.id.faq_row_header,
+							R.id.faq_title }
+
+			) {
+				@Override
+				public View getView(int position, View convertView,
+						ViewGroup parent) {
+					View view = super.getView(position, convertView, parent);
+					if (faqList.get(position).get("first").equals("true")) {
+
+						((TextView) view.findViewById(R.id.faq_row_header))
+								.setVisibility(TextView.VISIBLE);
+					}
+
+					return view;
+				}
+			};
+
+			listView.setAdapter(adapter);
+
 		}
 	}
-	
-	
+
 }

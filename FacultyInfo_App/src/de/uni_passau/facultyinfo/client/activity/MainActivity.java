@@ -165,8 +165,8 @@ public class MainActivity extends Activity {
 			selectItem(position);
 		}
 	}
-
-	private void selectItem(int position) {
+	
+	public void selectItem(int position) {
 		Fragment fragment = null;
 
 		// update the main content by replacing fragments

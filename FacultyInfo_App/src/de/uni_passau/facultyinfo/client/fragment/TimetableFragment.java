@@ -1,10 +1,6 @@
 package de.uni_passau.facultyinfo.client.fragment;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 import android.app.Fragment;
 import android.os.AsyncTask;
@@ -12,21 +8,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
-import de.uni_passau.facultyinfo.client.model.dto.News;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
+import de.uni_passau.facultyinfo.client.util.ColorHelper;
 
 public class TimetableFragment extends Fragment {
-	
-	private View rootView; 
+
+	private View rootView;
 
 	public TimetableFragment() {
 		// Empty constructor required for fragment subclasses
@@ -35,8 +27,8 @@ public class TimetableFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_timetable,
-				container, false);
+		rootView = inflater.inflate(R.layout.fragment_timetable, container,
+				false);
 
 		getActivity().setTitle(R.string.title_timetable);
 
@@ -66,20 +58,20 @@ public class TimetableFragment extends Fragment {
 		TextView tr810 = (TextView) rootView.findViewById(R.id.t810);
 		tr810.setText("8:00-10:00");
 
-//		TextView mo810 = (TextView) rootView.findViewById(R.id.mo810);
-//		mo810.setText("Mo810");
-//
-//		TextView di810 = (TextView) rootView.findViewById(R.id.di810);
-//		di810.setText("Di810");
-//
-//		TextView mi810 = (TextView) rootView.findViewById(R.id.mi810);
-//		mi810.setText("Mi810");
-//
-//		TextView don810 = (TextView) rootView.findViewById(R.id.don810);
-//		don810.setText("Do810");
-//
-//		TextView fr810 = (TextView) rootView.findViewById(R.id.fr810);
-//		fr810.setText("Fr810");
+		// TextView mo810 = (TextView) rootView.findViewById(R.id.mo810);
+		// mo810.setText("Mo810");
+		//
+		// TextView di810 = (TextView) rootView.findViewById(R.id.di810);
+		// di810.setText("Di810");
+		//
+		// TextView mi810 = (TextView) rootView.findViewById(R.id.mi810);
+		// mi810.setText("Mi810");
+		//
+		// TextView don810 = (TextView) rootView.findViewById(R.id.don810);
+		// don810.setText("Do810");
+		//
+		// TextView fr810 = (TextView) rootView.findViewById(R.id.fr810);
+		// fr810.setText("Fr810");
 
 		System.out.println("secondRow");
 
@@ -87,106 +79,105 @@ public class TimetableFragment extends Fragment {
 		TextView tr1012 = (TextView) rootView.findViewById(R.id.t1012);
 		tr1012.setText("10:00-12:00");
 
-//		TextView mo1012 = (TextView) rootView.findViewById(R.id.mo1012);
-//		mo1012.setText("Mo810");
-//
-//		TextView di1012 = (TextView) rootView.findViewById(R.id.di1012);
-//		di1012.setText("Di810");
-//
-//		TextView mi1012 = (TextView) rootView.findViewById(R.id.mi1012);
-//		mi1012.setText("Mi810");
-//
-//		TextView don1012 = (TextView) rootView.findViewById(R.id.don1012);
-//		don1012.setText("Do810");
-//
-//		TextView fr1012 = (TextView) rootView.findViewById(R.id.fr1012);
-//		fr1012.setText("Fr810");
-//
-//		System.out.println("thirdRow");
+		// TextView mo1012 = (TextView) rootView.findViewById(R.id.mo1012);
+		// mo1012.setText("Mo810");
+		//
+		// TextView di1012 = (TextView) rootView.findViewById(R.id.di1012);
+		// di1012.setText("Di810");
+		//
+		// TextView mi1012 = (TextView) rootView.findViewById(R.id.mi1012);
+		// mi1012.setText("Mi810");
+		//
+		// TextView don1012 = (TextView) rootView.findViewById(R.id.don1012);
+		// don1012.setText("Do810");
+		//
+		// TextView fr1012 = (TextView) rootView.findViewById(R.id.fr1012);
+		// fr1012.setText("Fr810");
+		//
+		// System.out.println("thirdRow");
 
 		// 12:00-14:00
 		TextView tr1214 = (TextView) rootView.findViewById(R.id.t1214);
 		tr1214.setText("12:00-14:00");
 
-//		TextView mo1214 = (TextView) rootView.findViewById(R.id.mo1214);
-//		mo1214.setText("Mo1214");
-//
-//		TextView di1214 = (TextView) rootView.findViewById(R.id.di1214);
-//		di1214.setText("Di1214");
-//
-//		TextView mi1214 = (TextView) rootView.findViewById(R.id.mi1214);
-//		mi1214.setText("Mi1214");
-//
-//		TextView don1214 = (TextView) rootView.findViewById(R.id.don1214);
-//		don1214.setText("Do1214");
-//
-//		TextView fr1214 = (TextView) rootView.findViewById(R.id.fr1214);
-//		fr1214.setText("Fr1214");
+		// TextView mo1214 = (TextView) rootView.findViewById(R.id.mo1214);
+		// mo1214.setText("Mo1214");
+		//
+		// TextView di1214 = (TextView) rootView.findViewById(R.id.di1214);
+		// di1214.setText("Di1214");
+		//
+		// TextView mi1214 = (TextView) rootView.findViewById(R.id.mi1214);
+		// mi1214.setText("Mi1214");
+		//
+		// TextView don1214 = (TextView) rootView.findViewById(R.id.don1214);
+		// don1214.setText("Do1214");
+		//
+		// TextView fr1214 = (TextView) rootView.findViewById(R.id.fr1214);
+		// fr1214.setText("Fr1214");
 
 		// 14:00-16:00
 		TextView tr1416 = (TextView) rootView.findViewById(R.id.t1416);
 		tr1416.setText("14:00-16:00");
 
-//		TextView mo1416 = (TextView) rootView.findViewById(R.id.mo1416);
-//		mo1416.setText("Mo1416");
-//
-//		TextView di1416 = (TextView) rootView.findViewById(R.id.di1416);
-//		di1416.setText("Di1416");
-//
-//		TextView mi1416 = (TextView) rootView.findViewById(R.id.mi1416);
-//		mi1416.setText("Mi1416");
-//
-//		TextView don1416 = (TextView) rootView.findViewById(R.id.don1416);
-//		don1416.setText("Do1416");
-//
-//		TextView fr1416 = (TextView) rootView.findViewById(R.id.fr1416);
-//		fr1416.setText("Fr1416");
+		// TextView mo1416 = (TextView) rootView.findViewById(R.id.mo1416);
+		// mo1416.setText("Mo1416");
+		//
+		// TextView di1416 = (TextView) rootView.findViewById(R.id.di1416);
+		// di1416.setText("Di1416");
+		//
+		// TextView mi1416 = (TextView) rootView.findViewById(R.id.mi1416);
+		// mi1416.setText("Mi1416");
+		//
+		// TextView don1416 = (TextView) rootView.findViewById(R.id.don1416);
+		// don1416.setText("Do1416");
+		//
+		// TextView fr1416 = (TextView) rootView.findViewById(R.id.fr1416);
+		// fr1416.setText("Fr1416");
 
 		// 16:00-18:00
 		TextView tr1618 = (TextView) rootView.findViewById(R.id.t1618);
 		tr1618.setText("16:00-18:00");
 
-//		TextView mo1618 = (TextView) rootView.findViewById(R.id.mo1618);
-//		mo1618.setText("Mo1618");
-//
-//		TextView di1618 = (TextView) rootView.findViewById(R.id.di1618);
-//		di1618.setText("Di1618");
-//
-//		TextView mi1618 = (TextView) rootView.findViewById(R.id.mi1618);
-//		mi1618.setText("Mi1618");
-//
-//		TextView don1618 = (TextView) rootView.findViewById(R.id.don1618);
-//		don1618.setText("Do1618");
-//
-//		TextView fr1618 = (TextView) rootView.findViewById(R.id.fr1618);
-//		fr1618.setText("Fr1618");
+		// TextView mo1618 = (TextView) rootView.findViewById(R.id.mo1618);
+		// mo1618.setText("Mo1618");
+		//
+		// TextView di1618 = (TextView) rootView.findViewById(R.id.di1618);
+		// di1618.setText("Di1618");
+		//
+		// TextView mi1618 = (TextView) rootView.findViewById(R.id.mi1618);
+		// mi1618.setText("Mi1618");
+		//
+		// TextView don1618 = (TextView) rootView.findViewById(R.id.don1618);
+		// don1618.setText("Do1618");
+		//
+		// TextView fr1618 = (TextView) rootView.findViewById(R.id.fr1618);
+		// fr1618.setText("Fr1618");
 
 		// 18:00-20:00
 		TextView tr1820 = (TextView) rootView.findViewById(R.id.t1820);
 		tr1820.setText("18:00-20:00");
 
-//		TextView mo1820 = (TextView) rootView.findViewById(R.id.mo1820);
-//		mo1820.setText("Mo1820");
-//
-//		TextView di1820 = (TextView) rootView.findViewById(R.id.di1820);
-//		di1820.setText("Di1820");
-//
-//		TextView mi1820 = (TextView) rootView.findViewById(R.id.mi1820);
-//		mi1820.setText("Mi1820");
-//
-//		TextView don1820 = (TextView) rootView.findViewById(R.id.don1820);
-//		don1820.setText("Do1820");
-//
-//		TextView fr1820 = (TextView) rootView.findViewById(R.id.fr1820);
-//		fr1820.setText("Fr1820");
+		// TextView mo1820 = (TextView) rootView.findViewById(R.id.mo1820);
+		// mo1820.setText("Mo1820");
+		//
+		// TextView di1820 = (TextView) rootView.findViewById(R.id.di1820);
+		// di1820.setText("Di1820");
+		//
+		// TextView mi1820 = (TextView) rootView.findViewById(R.id.mi1820);
+		// mi1820.setText("Mi1820");
+		//
+		// TextView don1820 = (TextView) rootView.findViewById(R.id.don1820);
+		// don1820.setText("Do1820");
+		//
+		// TextView fr1820 = (TextView) rootView.findViewById(R.id.fr1820);
+		// fr1820.setText("Fr1820");
 
 		// Load timetable entries
-		
-		
+
 		return rootView;
 
 	}
-	
+
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
@@ -210,111 +201,93 @@ public class TimetableFragment extends Fragment {
 		@Override
 		protected void onPostExecute(List<TimetableEntry> timetableEntries) {
 			// TODO: Einträge an der GUI anzeigen
-			
-			for (TimetableEntry timetableEntry: timetableEntries){
-				if(timetableEntry.getDayOfWeek()==1){
-					if(timetableEntry.getTime()==TimetableEntry.FROM_08_TO_10){
-						TextView mo810 = (TextView) rootView.findViewById(R.id.mo810);
-						mo810.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_10_TO_12){
-						TextView mo1012 = (TextView) rootView.findViewById(R.id.mo1012);
-						mo1012.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_12_TO_14){
-						TextView mo1214 = (TextView) rootView.findViewById(R.id.mo1214);
-						mo1214.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()== TimetableEntry.FROM_14_TO_16){
-						TextView mo1416 = (TextView) rootView.findViewById(R.id.mo1416);
-						mo1416.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_16_TO_18){
-						TextView mo1618 = (TextView) rootView.findViewById(R.id.mo1618);
-						mo1618.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_18_TO_20){
-						TextView mo1820 = (TextView) rootView.findViewById(R.id.mo1820);
-						mo1820.setText(timetableEntry.getTitle());
+
+			for (TimetableEntry timetableEntry : timetableEntries) {
+				if (timetableEntry.getDayOfWeek() == 1) {
+					if (timetableEntry.getTime() == TimetableEntry.FROM_08_TO_10) {
+						prepareCell(R.id.mo810, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_10_TO_12) {
+						prepareCell(R.id.mo1012, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_12_TO_14) {
+						prepareCell(R.id.mo1214, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_14_TO_16) {
+						prepareCell(R.id.mo1416, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_16_TO_18) {
+						prepareCell(R.id.mo1618, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_18_TO_20) {
+						prepareCell(R.id.mo1820, timetableEntry);
 					}
-				}else if(timetableEntry.getDayOfWeek()==2){
-					if(timetableEntry.getTime()==TimetableEntry.FROM_08_TO_10){
-						TextView di810 = (TextView) rootView.findViewById(R.id.di810);
-						di810.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_10_TO_12){
-						TextView di1012 = (TextView) rootView.findViewById(R.id.di1012);
-						di1012.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_12_TO_14){
-						TextView di1214 = (TextView) rootView.findViewById(R.id.di1214);
-						di1214.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()== TimetableEntry.FROM_14_TO_16){
-						TextView di1416 = (TextView) rootView.findViewById(R.id.di1416);
-						di1416.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_16_TO_18){
-						TextView di1618 = (TextView) rootView.findViewById(R.id.di1618);
-						di1618.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_18_TO_20){
-						TextView di1820 = (TextView) rootView.findViewById(R.id.di1820);
-						di1820.setText(timetableEntry.getTitle());
+				} else if (timetableEntry.getDayOfWeek() == 2) {
+					if (timetableEntry.getTime() == TimetableEntry.FROM_08_TO_10) {
+						prepareCell(R.id.di810, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_10_TO_12) {
+						prepareCell(R.id.di1012, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_12_TO_14) {
+						prepareCell(R.id.di1214, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_14_TO_16) {
+						prepareCell(R.id.di1416, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_16_TO_18) {
+						prepareCell(R.id.di1618, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_18_TO_20) {
+						prepareCell(R.id.di1820, timetableEntry);
 					}
-				}else if(timetableEntry.getDayOfWeek()==3){
-					if(timetableEntry.getTime()==TimetableEntry.FROM_08_TO_10){
-						TextView mi810 = (TextView) rootView.findViewById(R.id.mi810);
-						mi810.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_10_TO_12){
-						TextView mi1012 = (TextView) rootView.findViewById(R.id.mi1012);
-						mi1012.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_12_TO_14){
-						TextView mi1214 = (TextView) rootView.findViewById(R.id.mi1214);
-						mi1214.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()== TimetableEntry.FROM_14_TO_16){
-						TextView mi1416 = (TextView) rootView.findViewById(R.id.mi1416);
-						mi1416.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_16_TO_18){
-						TextView mi1618 = (TextView) rootView.findViewById(R.id.mi1618);
-						mi1618.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_18_TO_20){
-						TextView mi1820 = (TextView) rootView.findViewById(R.id.mi1820);
-						mi1820.setText(timetableEntry.getTitle());
+				} else if (timetableEntry.getDayOfWeek() == 3){
+					if (timetableEntry.getTime() == TimetableEntry.FROM_08_TO_10) {
+						prepareCell(R.id.mi810, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_10_TO_12) {
+						prepareCell(R.id.mi1012, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_12_TO_14) {
+						prepareCell(R.id.mi1214, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_14_TO_16) {
+						prepareCell(R.id.mi1416, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_16_TO_18) {
+						prepareCell(R.id.mi1618, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_18_TO_20) {
+						prepareCell(R.id.mi1820, timetableEntry);
 					}
-				}else if(timetableEntry.getDayOfWeek()==4){
-					if(timetableEntry.getTime()==TimetableEntry.FROM_08_TO_10){
-						TextView do810 = (TextView) rootView.findViewById(R.id.don810);
-						do810.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_10_TO_12){
-						TextView do1012 = (TextView) rootView.findViewById(R.id.don1012);
-						do1012.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_12_TO_14){
-						TextView do1214 = (TextView) rootView.findViewById(R.id.don1214);
-						do1214.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()== TimetableEntry.FROM_14_TO_16){
-						TextView do1416 = (TextView) rootView.findViewById(R.id.don1416);
-						do1416.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_16_TO_18){
-						TextView do1618 = (TextView) rootView.findViewById(R.id.don1618);
-						do1618.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_18_TO_20){
-						TextView do1820 = (TextView) rootView.findViewById(R.id.don1820);
-						do1820.setText(timetableEntry.getTitle());
+				}else if (timetableEntry.getDayOfWeek() == 4) {
+					if (timetableEntry.getTime() == TimetableEntry.FROM_08_TO_10) {
+						prepareCell(R.id.don810, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_10_TO_12) {
+						prepareCell(R.id.don1012, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_12_TO_14) {
+						prepareCell(R.id.don1214, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_14_TO_16) {
+						prepareCell(R.id.don1416, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_16_TO_18) {
+						prepareCell(R.id.don1618, timetableEntry);
+					} else if (timetableEntry.getTime() == TimetableEntry.FROM_18_TO_20) {
+						prepareCell(R.id.don1820, timetableEntry);
 					}
-				}else if(timetableEntry.getDayOfWeek()==4){
-					if(timetableEntry.getTime()==TimetableEntry.FROM_08_TO_10){
-						TextView fr810 = (TextView) rootView.findViewById(R.id.fr810);
-						fr810.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_10_TO_12){
-						TextView fr1012 = (TextView) rootView.findViewById(R.id.fr1012);
-						fr1012.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_12_TO_14){
-						TextView fr1214 = (TextView) rootView.findViewById(R.id.fr1214);
-						fr1214.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()== TimetableEntry.FROM_14_TO_16){
-						TextView fr1416 = (TextView) rootView.findViewById(R.id.fr1416);
-						fr1416.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_16_TO_18){
-						TextView fr1618 = (TextView) rootView.findViewById(R.id.fr1618);
-						fr1618.setText(timetableEntry.getTitle());
-					}else if(timetableEntry.getTime()==TimetableEntry.FROM_18_TO_20){
-						TextView fr1820 = (TextView) rootView.findViewById(R.id.fr1820);
-						fr1820.setText(timetableEntry.getTitle());
+				} else if (timetableEntry.getDayOfWeek() == 4) {
+					if (timetableEntry.getTime() == TimetableEntry.FROM_08_TO_10) {
+						if (timetableEntry.getTime() == TimetableEntry.FROM_08_TO_10) {
+							prepareCell(R.id.fr810, timetableEntry);
+						} else if (timetableEntry.getTime() == TimetableEntry.FROM_10_TO_12) {
+							prepareCell(R.id.fr1012, timetableEntry);
+						} else if (timetableEntry.getTime() == TimetableEntry.FROM_12_TO_14) {
+							prepareCell(R.id.fr1214, timetableEntry);
+						} else if (timetableEntry.getTime() == TimetableEntry.FROM_14_TO_16) {
+							prepareCell(R.id.fr1416, timetableEntry);
+						} else if (timetableEntry.getTime() == TimetableEntry.FROM_16_TO_18) {
+							prepareCell(R.id.fr1618, timetableEntry);
+						} else if (timetableEntry.getTime() == TimetableEntry.FROM_18_TO_20) {
+							prepareCell(R.id.fr1820, timetableEntry);
+						}
 					}
 				}
 			}
-			
+
+		}
+
+		private void prepareCell(int id, TimetableEntry entry) {
+			ColorHelper colorHelper = new ColorHelper();
+			TextView view = (TextView) rootView.findViewById(id);
+			view.setText(entry.getTitle());
+			view.setBackgroundColor(colorHelper.getColor(entry.getColor())
+					.getBackgroundColor());
+			view.setTextColor(colorHelper.getColor(entry.getColor())
+					.getFontColor());
 		}
 	}
 

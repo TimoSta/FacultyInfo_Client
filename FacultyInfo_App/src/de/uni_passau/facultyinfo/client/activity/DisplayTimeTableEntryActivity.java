@@ -17,10 +17,12 @@ import de.uni_passau.facultyinfo.client.R.layout;
 import de.uni_passau.facultyinfo.client.R.menu;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
+import de.uni_passau.facultyinfo.client.model.dto.util.Color;
 
 public class DisplayTimeTableEntryActivity extends Activity {
 	private int timeslotId;
 	private int dayId;
+	private int colorId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +131,8 @@ public class DisplayTimeTableEntryActivity extends Activity {
 					descriptionEditText
 							.setText(timetableEntry.getDescription());
 					descriptionEditText.setKeyListener(null);
+					
+					colorId = timetableEntry.getColor();
 				}
 			}
 		}

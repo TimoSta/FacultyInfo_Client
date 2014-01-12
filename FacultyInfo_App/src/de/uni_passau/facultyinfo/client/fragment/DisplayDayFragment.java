@@ -19,6 +19,7 @@ import de.uni_passau.facultyinfo.client.activity.DisplayTimeTableEntryActivity;
 import de.uni_passau.facultyinfo.client.activity.EditTimeTableActivity;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
+import de.uni_passau.facultyinfo.client.util.ColorHelper;
 
 //import android.app.DialogFragment;
 
@@ -45,7 +46,6 @@ public class DisplayDayFragment extends Fragment {
 		Bundle args = getArguments();
 		dayId = args.getInt(ARG_DAY);
 		String day;
-		
 
 		if (dayId == 1) {
 			System.out.println("DisplayDayFragment -> Montag");
@@ -169,12 +169,11 @@ public class DisplayDayFragment extends Fragment {
 				showEventTT(v);
 			}
 		});
-		
 
 		return rootView;
 
 	}
-	
+
 	@Override
 	public void onResume() {
 		timetableEntryLoader = new TimetableEntryLoader();
@@ -196,13 +195,14 @@ public class DisplayDayFragment extends Fragment {
 		} else if (v.getId() == (rootView.findViewById(R.id.td1820)).getId()) {
 			timeslotId = TimetableEntry.FROM_18_TO_20;
 		}
-		//if(timetableEntryLoader.search(timeslotId, dayId)){
-			Intent intent = new Intent(rootView.getContext(),DisplayTimeTableEntryActivity.class); 
-			intent.putExtra("dayId", dayC); 
-			intent.putExtra("timeslotId", timeslotId); 
-			startActivity(intent); 
-		//}
-		
+		// if(timetableEntryLoader.search(timeslotId, dayId)){
+		Intent intent = new Intent(rootView.getContext(),
+				DisplayTimeTableEntryActivity.class);
+		intent.putExtra("dayId", dayC);
+		intent.putExtra("timeslotId", timeslotId);
+		startActivity(intent);
+		// }
+
 	}
 
 	protected void editEventTT(View v) {
@@ -241,7 +241,7 @@ public class DisplayDayFragment extends Fragment {
 										intent.putExtra("timeslotId",
 												timeslotId);
 										intent.putExtra("dayId", dayC);
-										intent.putExtra("new", true); 
+										intent.putExtra("new", true);
 										startActivity(intent);
 									}
 								})
@@ -257,22 +257,19 @@ public class DisplayDayFragment extends Fragment {
 				return builder.create();
 			}
 		}
-		int day; 
-		
-		
-		if(!timetableEntryLoader.search(timeslotId, dayC)){
-		CreateEventTT dialog = new CreateEventTT();
-		dialog.show(this.getFragmentManager(), "createEventTT");
-		}else{
-			System.out.println("Daten laden"); 
-			//EditTimeTable, aber Daten laden!! 
-			Intent intent = new Intent(rootView
-					.getContext(),
+		int day;
+
+		if (!timetableEntryLoader.search(timeslotId, dayC)) {
+			CreateEventTT dialog = new CreateEventTT();
+			dialog.show(this.getFragmentManager(), "createEventTT");
+		} else {
+			System.out.println("Daten laden");
+			// EditTimeTable, aber Daten laden!!
+			Intent intent = new Intent(rootView.getContext(),
 					EditTimeTableActivity.class);
-			intent.putExtra("timeslotId",
-					timeslotId);
+			intent.putExtra("timeslotId", timeslotId);
 			intent.putExtra("dayId", dayC);
-			intent.putExtra("new", false); 
+			intent.putExtra("new", false);
 			startActivity(intent);
 		}
 
@@ -309,81 +306,30 @@ public class DisplayDayFragment extends Fragment {
 			for (TimetableEntry timetableEntry : timetableEntries) {
 				if (timetableEntry.getDayOfWeek() == dayC) {
 					if (timetableEntry.getTime() == TimetableEntry.FROM_08_TO_10) {
-						TextView td810 = (TextView) rootView
-								.findViewById(R.id.td810);
-						td810.setText(timetableEntry.getTitle());
-						// td810.setOnLongClickListener(new
-						// View.OnLongClickListener() {
-						// @Override
-						// public boolean onLongClick(View v) {
-						// showEventTT(v);
-						// return true;
-						// }
-						// });
+						prepareTextElement(R.id.td810, timetableEntry);
 					} else if (timetableEntry.getTime() == TimetableEntry.FROM_10_TO_12) {
-						TextView td1012 = (TextView) rootView
-								.findViewById(R.id.td1012);
-						td1012.setText(timetableEntry.getTitle());
-						// td1012.setOnLongClickListener(new
-						// View.OnLongClickListener() {
-						// @Override
-						// public boolean onLongClick(View v) {
-						// showEventTT(v);
-						// return true;
-						// }
-						// });
+						prepareTextElement(R.id.td1012, timetableEntry);
 					} else if (timetableEntry.getTime() == TimetableEntry.FROM_12_TO_14) {
-
-						TextView td1214 = (TextView) rootView
-								.findViewById(R.id.td1214);
-						td1214.setText(timetableEntry.getTitle());
-						// td1214.setOnLongClickListener(new
-						// View.OnLongClickListener() {
-						// @Override
-						// public boolean onLongClick(View v) {
-						// showEventTT(v);
-						// return true;
-						// }
-						// });
+						prepareTextElement(R.id.td1214, timetableEntry);
 					} else if (timetableEntry.getTime() == TimetableEntry.FROM_14_TO_16) {
-						TextView td1416 = (TextView) rootView
-								.findViewById(R.id.td1416);
-						td1416.setText(timetableEntry.getTitle());
-						// td1416.setOnLongClickListener(new
-						// View.OnLongClickListener() {
-						// @Override
-						// public boolean onLongClick(View v) {
-						// showEventTT(v);
-						// return true;
-						// }
-						// });
+						prepareTextElement(R.id.td1416, timetableEntry);
 					} else if (timetableEntry.getTime() == TimetableEntry.FROM_16_TO_18) {
-						TextView td1618 = (TextView) rootView
-								.findViewById(R.id.td1618);
-						td1618.setText(timetableEntry.getTitle());
-						// td1618.setOnLongClickListener(new
-						// View.OnLongClickListener() {
-						// @Override
-						// public boolean onLongClick(View v) {
-						// showEventTT(v);
-						// return true;
-						// }
-						// });
+						prepareTextElement(R.id.td1618, timetableEntry);
 					} else if (timetableEntry.getTime() == TimetableEntry.FROM_18_TO_20) {
-						TextView td1820 = (TextView) rootView
-								.findViewById(R.id.td1820);
-						td1820.setText(timetableEntry.getTitle());
-						// td1820.setOnLongClickListener(new
-						// View.OnLongClickListener() {
-						// @Override
-						// public boolean onLongClick(View v) {
-						// showEventTT(v);
-						// return true;
-						// }
-						// });
+						prepareTextElement(R.id.td1820, timetableEntry);
 					}
 				}
 			}
+		}
+
+		private void prepareTextElement(int id, TimetableEntry entry) {
+			ColorHelper colorHelper = new ColorHelper();
+			TextView view = (TextView) rootView.findViewById(id);
+			view.setText(entry.getTitle());
+			view.setBackgroundColor(colorHelper.getColor(entry.getColor())
+					.getBackgroundColor());
+			view.setTextColor(colorHelper.getColor(entry.getColor())
+					.getFontColor());
 		}
 
 		boolean search(int time, int day) {

@@ -31,7 +31,10 @@ import de.uni_passau.facultyinfo.client.util.ColorHelper;
 public class EditTimeTableActivity extends FragmentActivity {
 	private int dayId;
 	private int timeslotId;
-	private int colorId;
+	private int colorId = Color.WHITE;
+	private boolean isNew;
+
+	private TimetableEntry entry = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,6 @@ public class EditTimeTableActivity extends FragmentActivity {
 		System.out.println(intent.getIntExtra("timeslotId", 0));
 		dayId = intent.getIntExtra("dayId", 0);
 		System.out.println(intent.getIntExtra("dayId", 0));
-		colorId = intent.getIntExtra("colorId", Color.WHITE);
 		String day = "";
 		String timeslot = "";
 
@@ -168,8 +170,6 @@ public class EditTimeTableActivity extends FragmentActivity {
 		final FragmentManager fragmentManager = this
 				.getSupportFragmentManager();
 		final Button button = (Button) findViewById(R.id.colorButton);
-		button.setBackgroundColor(new ColorHelper().getColor(colorId)
-				.getBackgroundColor());
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				ColorPickerDialogFragment dialog = new ColorPickerDialogFragment();
@@ -211,8 +211,6 @@ public class EditTimeTableActivity extends FragmentActivity {
 
 			EditText editTextTitle = (EditText) findViewById(R.id.veranstaltungd);
 			String title = editTextTitle.getText().toString();
-			System.out.println(title);
-
 			EditText editTextLocation = (EditText) findViewById(R.id.locationd);
 			String location = editTextLocation.getText().toString();
 
@@ -220,6 +218,7 @@ public class EditTimeTableActivity extends FragmentActivity {
 				Toast toast = Toast.makeText(getApplicationContext(),
 						"Veranstaltungstitel fehlt", Toast.LENGTH_SHORT);
 				toast.show();
+
 			} else if (location.isEmpty()) {
 				final class CreateEventTT extends DialogFragment {
 					@Override
@@ -245,8 +244,6 @@ public class EditTimeTableActivity extends FragmentActivity {
 											public void onClick(
 													DialogInterface dialog,
 													int id) {
-												System.out.println("Abbruch");
-												// User cancelled the dialog
 											}
 										});
 						// Create the AlertDialog object and return it
@@ -269,35 +266,35 @@ public class EditTimeTableActivity extends FragmentActivity {
 	}
 
 	private void save() {
+		if (entry == null) {
+			EditText editTextTitle = (EditText) findViewById(R.id.veranstaltungd);
+			String title = editTextTitle.getText().toString();
 
-		EditText editTextTitle = (EditText) findViewById(R.id.veranstaltungd);
-		String title = editTextTitle.getText().toString();
+			EditText editTextLocation = (EditText) findViewById(R.id.locationd);
+			String location = editTextLocation.getText().toString();
 
-		EditText editTextLocation = (EditText) findViewById(R.id.locationd);
-		String location = editTextLocation.getText().toString();
+			EditText editTextDescription = (EditText) findViewById(R.id.descriptiond);
+			String description = editTextDescription.getText().toString();
 
-		EditText editTextDescription = (EditText) findViewById(R.id.descriptiond);
-		String description = editTextDescription.getText().toString();
-		//
-		// int time = 0;
-		// if(timeslotId==810){
-		// time = TimetableEntry.FROM_08_TO_10;
-		// }else if(timeslotId==1012){
-		// time = TimetableEntry.FROM_10_TO_12;
-		// }else if(timeslotId==1214){
-		// time = TimetableEntry.FROM_12_TO_14;
-		// }else if(timeslotId==1416){
-		// time = TimetableEntry.FROM_14_TO_16;
-		// }else if(timeslotId==1618){
-		// time = TimetableEntry.FROM_16_TO_18;
-		// }else if(timeslotId==1820){
-		// time = TimetableEntry.FROM_18_TO_20;
-		// }
+			TimetableEntrySaver saver = new TimetableEntrySaver();
+			TimetableEntry entry = TimetableEntryFactory.createTimetableEntry(
+					title, description, location, timeslotId, dayId, colorId);
+			saver.execute(entry);
+		} else {
+			EditText editTextTitle = (EditText) findViewById(R.id.veranstaltungd);
+			entry.setTitle(editTextTitle.getText().toString());
 
-		TimetableEntrySaver saver = new TimetableEntrySaver();
-		TimetableEntry entry = TimetableEntryFactory.createTimetableEntry(
-				title, description, location, timeslotId, dayId, colorId);
-		saver.execute(entry);
+			EditText editTextLocation = (EditText) findViewById(R.id.locationd);
+			entry.setLocation(editTextLocation.getText().toString());
+
+			EditText editTextDescription = (EditText) findViewById(R.id.descriptiond);
+			entry.setDescription(editTextDescription.getText().toString());
+
+			entry.setColor(colorId);
+
+			TimetableEntrySaver saver = new TimetableEntrySaver();
+			saver.execute(entry);
+		}
 
 	}
 
@@ -374,6 +371,13 @@ public class EditTimeTableActivity extends FragmentActivity {
 					EditText descriptionEditText = (EditText) findViewById(R.id.descriptiond);
 					descriptionEditText
 							.setText(timetableEntry.getDescription());
+
+					((Button) findViewById(R.id.colorButton))
+							.setBackgroundColor(new ColorHelper().getColor(
+									timetableEntry.getColor())
+									.getBackgroundColor());
+
+					entry = timetableEntry;
 				}
 			}
 		}

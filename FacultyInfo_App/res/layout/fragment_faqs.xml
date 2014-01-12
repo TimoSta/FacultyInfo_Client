@@ -1,18 +1,8 @@
-<linearlayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
-
-    <textview
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Hallo" >
-
-        <listview
-            android:id="@+id/listView_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </listview>
-    </textview>
-
-</linearlayout>
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/faq_list"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:choiceMode="singleChoice"
+    android:divider="#FF8000"
+    android:dividerHeight="1dp"
+    android:textColor="#000000" />

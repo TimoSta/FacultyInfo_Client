@@ -6,7 +6,6 @@ import java.util.List;
 
 import de.uni_passau.facultyinfo.client.model.connection.RestConnection;
 import de.uni_passau.facultyinfo.client.model.dto.BusinessHoursFacility;
-import de.uni_passau.facultyinfo.client.model.dto.News;
 
 /**
  * @author Timo Staudinger
