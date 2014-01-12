@@ -7,24 +7,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.ActionBar;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import de.uni_passau.facultyinfo.client.R;
-import de.uni_passau.facultyinfo.client.activity.DisplayNewsActivity;
 import de.uni_passau.facultyinfo.client.activity.MainActivity;
-import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.BusLine;
 import de.uni_passau.facultyinfo.client.model.dto.News;
@@ -42,7 +36,11 @@ public class HomeFragment extends Fragment {
 			Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-		getActivity().setTitle(R.string.title_home);
+		getActivity().getActionBar().setTitle(
+				getActivity().getApplicationContext().getString(
+						R.string.title_home));
+		getActivity().getActionBar().setNavigationMode(
+				ActionBar.NAVIGATION_MODE_STANDARD);
 
 		// ListView newsView = (ListView) rootView.findViewById(R.id.home_news);
 		//
@@ -137,7 +135,7 @@ public class HomeFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					System.out.println("open NewsFragment");
-					((MainActivity)getActivity()).selectItem(1);
+					((MainActivity) getActivity()).selectItem(1);
 					// open NewsFragment
 				}
 			};

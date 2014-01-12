@@ -1,5 +1,6 @@
 package de.uni_passau.facultyinfo.client.fragment;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,7 +26,11 @@ public class MapFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_map, container,
 				false);
 
-		getActivity().setTitle(R.string.title_activity_map);
+		getActivity().getActionBar().setTitle(
+				getActivity().getApplicationContext().getString(
+						R.string.title_map));
+		getActivity().getActionBar().setNavigationMode(
+				ActionBar.NAVIGATION_MODE_STANDARD);
 
 		GoogleMap map = ((com.google.android.gms.maps.MapFragment) getFragmentManager()
 				.findFragmentById(R.id.map)).getMap();

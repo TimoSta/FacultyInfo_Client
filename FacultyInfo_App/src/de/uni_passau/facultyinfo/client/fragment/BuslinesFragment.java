@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,9 +32,11 @@ public class BuslinesFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_buslines, container,
 				false);
 
-		getActivity().setTitle(R.string.title_buslines);
-		
-		
+		getActivity().getActionBar().setTitle(
+				getActivity().getApplicationContext().getString(
+						R.string.title_buslines));
+		getActivity().getActionBar().setNavigationMode(
+				ActionBar.NAVIGATION_MODE_STANDARD);
 
 		new BusLineLoader(rootView).execute();
 
@@ -62,27 +65,27 @@ public class BuslinesFragment extends Fragment {
 			if (busLines == null) {
 				busLines = Collections
 						.unmodifiableList(new ArrayList<BusLine>());
-			} 
+			}
 
 			return busLines;
 		}
 
 		@Override
 		protected void onPostExecute(List<BusLine> busLines) {
-			ListView buslines = (ListView) rootView.findViewById(R.id.buslines); 
-			
+			ListView buslines = (ListView) rootView.findViewById(R.id.buslines);
+
 			final ArrayList<HashMap<String, String>> busList = new ArrayList<HashMap<String, String>>();
 
-			for (BusLine busLine: busLines) {
-				System.out.println("for"); 
+			for (BusLine busLine : busLines) {
+				System.out.println("for");
 				HashMap<String, String> temp1 = new HashMap<String, String>();
 				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm",
 						Locale.GERMAN);
-				temp1.put("title", sdf.format(busLine.getDeparture()) + " - " + busLine.getLine());
-				temp1.put("direction", busLine.getDirection()); 
+				temp1.put("title", sdf.format(busLine.getDeparture()) + " - "
+						+ busLine.getLine());
+				temp1.put("direction", busLine.getDirection());
 				busList.add(temp1);
 			}
-
 
 			SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
 					busList, R.layout.custom_row_view, new String[] { "title",
@@ -90,69 +93,67 @@ public class BuslinesFragment extends Fragment {
 							R.id.description }
 
 			);
-			
-			buslines.setAdapter(adapter);
-			
-			
-//			TableLayout buslines = (TableLayout) rootView
-//					.findViewById(R.id.buslines);
-//			TableRow heading = new TableRow(rootView.getContext());
-//
-//			TextView departureHeading = new TextView(rootView.getContext());
-//			departureHeading.setText("Abfahrt");
-//			departureHeading.setBackgroundColor(Color.parseColor("#FFAA5A"));
-//			departureHeading.setLayoutParams(new TableRow.LayoutParams(0,
-//					android.view.ViewGroup.LayoutParams.FILL_PARENT, 2));
-//			heading.addView(departureHeading, 0);
-//
-//			TextView lineHeading = new TextView(rootView.getContext());
-//			lineHeading.setText("Nr");
-//			lineHeading.setBackgroundColor(Color.parseColor("#FFAA5A"));
-//			lineHeading.setLayoutParams(new TableRow.LayoutParams(0,
-//					android.view.ViewGroup.LayoutParams.FILL_PARENT, 1));
-//			heading.addView(lineHeading, 1);
-//
-//			TextView directionHeading = new TextView(rootView.getContext());
-//			directionHeading.setText("Richtung");
-//			directionHeading.setBackgroundColor(Color.parseColor("#FFAA5A"));
-//			departureHeading.setLayoutParams(new TableRow.LayoutParams(0,
-//					android.view.ViewGroup.LayoutParams.FILL_PARENT, 3));
-//			heading.addView(directionHeading, 2);
-//
-//			buslines.addView(heading);
-			
-			if(busLines.isEmpty()){
-				System.out.println("busLines empty"); 
-			}
-		
 
-//			for (BusLine bus : busLines) {
-//				System.out.println("foreach"); 
-//				TableRow busRow = new TableRow(rootView.getContext());
-//				TextView departure = new TextView(rootView.getContext());
-//				SimpleDateFormat sdf = new SimpleDateFormat("kk:mm",
-//						Locale.GERMAN);
-//				departure.setText(sdf.format(bus.getDeparture()));
-//				departure.setLayoutParams(new TableRow.LayoutParams(0,
-//						android.view.ViewGroup.LayoutParams.FILL_PARENT, 2));
-//				// departure.setLayoutParams(bus.LayoutParams(3));
-//				busRow.addView(departure, 0);
-//
-//				TextView line = new TextView(rootView.getContext());
-//				line.setText(bus.getLine());
-//				line.setLayoutParams(new TableRow.LayoutParams(0,
-//						android.view.ViewGroup.LayoutParams.FILL_PARENT, 1));
-//				busRow.addView(line, 1);
-//
-//				TextView direction = new TextView(rootView.getContext());
-//				direction.setText(bus.getDirection());
-//				departure.setLayoutParams(new TableRow.LayoutParams(0,
-//						android.view.ViewGroup.LayoutParams.FILL_PARENT, 3));
-//				busRow.addView(direction, 2);
-//
-//				buslines.addView(busRow);
-//			}
-			
+			buslines.setAdapter(adapter);
+
+			// TableLayout buslines = (TableLayout) rootView
+			// .findViewById(R.id.buslines);
+			// TableRow heading = new TableRow(rootView.getContext());
+			//
+			// TextView departureHeading = new TextView(rootView.getContext());
+			// departureHeading.setText("Abfahrt");
+			// departureHeading.setBackgroundColor(Color.parseColor("#FFAA5A"));
+			// departureHeading.setLayoutParams(new TableRow.LayoutParams(0,
+			// android.view.ViewGroup.LayoutParams.FILL_PARENT, 2));
+			// heading.addView(departureHeading, 0);
+			//
+			// TextView lineHeading = new TextView(rootView.getContext());
+			// lineHeading.setText("Nr");
+			// lineHeading.setBackgroundColor(Color.parseColor("#FFAA5A"));
+			// lineHeading.setLayoutParams(new TableRow.LayoutParams(0,
+			// android.view.ViewGroup.LayoutParams.FILL_PARENT, 1));
+			// heading.addView(lineHeading, 1);
+			//
+			// TextView directionHeading = new TextView(rootView.getContext());
+			// directionHeading.setText("Richtung");
+			// directionHeading.setBackgroundColor(Color.parseColor("#FFAA5A"));
+			// departureHeading.setLayoutParams(new TableRow.LayoutParams(0,
+			// android.view.ViewGroup.LayoutParams.FILL_PARENT, 3));
+			// heading.addView(directionHeading, 2);
+			//
+			// buslines.addView(heading);
+
+			if (busLines.isEmpty()) {
+				System.out.println("busLines empty");
+			}
+
+			// for (BusLine bus : busLines) {
+			// System.out.println("foreach");
+			// TableRow busRow = new TableRow(rootView.getContext());
+			// TextView departure = new TextView(rootView.getContext());
+			// SimpleDateFormat sdf = new SimpleDateFormat("kk:mm",
+			// Locale.GERMAN);
+			// departure.setText(sdf.format(bus.getDeparture()));
+			// departure.setLayoutParams(new TableRow.LayoutParams(0,
+			// android.view.ViewGroup.LayoutParams.FILL_PARENT, 2));
+			// // departure.setLayoutParams(bus.LayoutParams(3));
+			// busRow.addView(departure, 0);
+			//
+			// TextView line = new TextView(rootView.getContext());
+			// line.setText(bus.getLine());
+			// line.setLayoutParams(new TableRow.LayoutParams(0,
+			// android.view.ViewGroup.LayoutParams.FILL_PARENT, 1));
+			// busRow.addView(line, 1);
+			//
+			// TextView direction = new TextView(rootView.getContext());
+			// direction.setText(bus.getDirection());
+			// departure.setLayoutParams(new TableRow.LayoutParams(0,
+			// android.view.ViewGroup.LayoutParams.FILL_PARENT, 3));
+			// busRow.addView(direction, 2);
+			//
+			// buslines.addView(busRow);
+			// }
+
 		}
 	}
 }

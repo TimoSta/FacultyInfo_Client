@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +34,11 @@ public class NewsFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_news, container,
 				false);
 
-		getActivity().setTitle(R.string.title_news);
+		getActivity().getActionBar().setTitle(
+				getActivity().getApplicationContext().getString(
+						R.string.title_news));
+		getActivity().getActionBar().setNavigationMode(
+				ActionBar.NAVIGATION_MODE_STANDARD);
 
 		NewsLoader newsLoader = new NewsLoader(rootView);
 		newsLoader.execute();

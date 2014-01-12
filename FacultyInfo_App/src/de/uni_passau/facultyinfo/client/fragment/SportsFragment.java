@@ -60,13 +60,15 @@ public class SportsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// getActivity().getActionBar().setNavigationMode(
-		// ActionBar.NAVIGATION_MODE_TABS);
 		rootView = inflater.inflate(R.layout.fragment_sports, container, false);
 
 		setHasOptionsMenu(true);
 
-		getActivity().setTitle(R.string.title_sports);
+		getActivity().getActionBar().setTitle(
+				getActivity().getApplicationContext().getString(
+						R.string.title_sports));
+		getActivity().getActionBar().setNavigationMode(
+				ActionBar.NAVIGATION_MODE_TABS);
 
 		TabListener tabListener = new ActionBar.TabListener() {
 

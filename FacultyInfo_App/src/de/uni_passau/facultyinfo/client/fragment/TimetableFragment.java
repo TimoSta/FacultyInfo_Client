@@ -2,13 +2,13 @@ package de.uni_passau.facultyinfo.client.fragment;
 
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
@@ -30,9 +30,11 @@ public class TimetableFragment extends Fragment {
 		rootView = inflater.inflate(R.layout.fragment_timetable, container,
 				false);
 
-		getActivity().setTitle(R.string.title_timetable);
-
-		TableLayout timetable = (TableLayout) rootView.findViewById(R.id.time);
+		getActivity().getActionBar().setTitle(
+				getActivity().getApplicationContext().getString(
+						R.string.title_timetable));
+		getActivity().getActionBar().setNavigationMode(
+				ActionBar.NAVIGATION_MODE_STANDARD);
 
 		TableRow th = (TableRow) rootView.findViewById(R.id.th);
 		th.setPadding(0, 0, 0, 0);

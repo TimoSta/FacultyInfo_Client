@@ -13,42 +13,32 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.SimpleAdapter;
-import android.widget.TabHost;
 import de.uni_passau.facultyinfo.client.R;
-import de.uni_passau.facultyinfo.client.R.id;
-import de.uni_passau.facultyinfo.client.R.layout;
-import de.uni_passau.facultyinfo.client.R.string;
 import de.uni_passau.facultyinfo.client.activity.DisplayBusinessHoursActivity;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.BusinessHoursFacility;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+
 //import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 
 public class BusinessHoursFragment extends Fragment {
 
 	public final static String LIBRARY = "Bibliotheken";
 	public final static String CAFETERIA = "Cafeterien / Mensa";
-//	static Tab library;
-//	static Tab cafeteria;
+	// static Tab library;
+	// static Tab cafeteria;
 	static ActionBar.TabListener tabListener;
 
 	static String TAB_SELECTED = null;
 	private String selectedTab;
 
-//	private static boolean first = true;
-
 	private View rootView;
-	private TabHost mTabHost;
-	// AppSectionsPagerAdapter mAppSectionsPagerAdapter;
 
 	ViewPager mViewPager;
 
@@ -68,7 +58,11 @@ public class BusinessHoursFragment extends Fragment {
 
 		setHasOptionsMenu(true);
 
-		getActivity().setTitle(R.string.title_activity_display_day_fragment);
+		getActivity().getActionBar().setTitle(
+				getActivity().getApplicationContext().getString(
+						R.string.title_businesshours));
+		getActivity().getActionBar().setNavigationMode(
+				ActionBar.NAVIGATION_MODE_TABS);
 
 		tabListener = new ActionBar.TabListener() {
 
@@ -92,8 +86,8 @@ public class BusinessHoursFragment extends Fragment {
 					System.out.println("Cafete");
 					selectedTab = CAFETERIA;
 				}
-				
-				(new BusinessHourFacilityLoader(rootView)).execute(); 
+
+				(new BusinessHourFacilityLoader(rootView)).execute();
 
 				// mViewPager.setCurrentItem(tab.getPosition());
 				System.out.println("tabposition: " + tab.getPosition());
@@ -108,42 +102,42 @@ public class BusinessHoursFragment extends Fragment {
 			}
 		};
 
-//		if (first == true) {
-//			System.out.println("first==true");
-//			library = (Tab) getActivity().getActionBar().newTab()
-//					.setText(LIBRARY).setTabListener(tabListener);
-//			getActivity().getActionBar().addTab(library);
-//
-//			cafeteria = getActivity().getActionBar().newTab()
-//					.setText(CAFETERIA).setTabListener(tabListener);
-//			getActivity().getActionBar().addTab(cafeteria);
-//			first = false;
-//		} else {
-//			library.setTabListener(tabListener);
-//			cafeteria.setTabListener(tabListener);
-//		}
-		
+		// if (first == true) {
+		// System.out.println("first==true");
+		// library = (Tab) getActivity().getActionBar().newTab()
+		// .setText(LIBRARY).setTabListener(tabListener);
+		// getActivity().getActionBar().addTab(library);
+		//
+		// cafeteria = getActivity().getActionBar().newTab()
+		// .setText(CAFETERIA).setTabListener(tabListener);
+		// getActivity().getActionBar().addTab(cafeteria);
+		// first = false;
+		// } else {
+		// library.setTabListener(tabListener);
+		// cafeteria.setTabListener(tabListener);
+		// }
+
 		getActivity().getActionBar().removeAllTabs();
-		Tab library = (Tab) getActivity().getActionBar().newTab().setText(LIBRARY)
-				.setTabListener(tabListener);
+		Tab library = (Tab) getActivity().getActionBar().newTab()
+				.setText(LIBRARY).setTabListener(tabListener);
 		getActivity().getActionBar().addTab(library);
-		Tab cafeteria = (Tab) getActivity().getActionBar().newTab().setText(CAFETERIA)
-				.setTabListener(tabListener);
+		Tab cafeteria = (Tab) getActivity().getActionBar().newTab()
+				.setText(CAFETERIA).setTabListener(tabListener);
 		getActivity().getActionBar().addTab(cafeteria);
 
 		return rootView;
 
 	}
 
-//	@Override
-//	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//		// TODO Auto-generated method stub
-//		super.onCreateOptionsMenu(menu, inflater);
-//		inflater.inflate(R.menu.sports, menu);
-//		searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-//		// searchView = (SearchView) rootView.findViewById(R.id.search);
-//
-//	}
+	// @Override
+	// public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	// // TODO Auto-generated method stub
+	// super.onCreateOptionsMenu(menu, inflater);
+	// inflater.inflate(R.menu.sports, menu);
+	// searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+	// // searchView = (SearchView) rootView.findViewById(R.id.search);
+	//
+	// }
 
 	protected class BusinessHourFacilityLoader extends
 			AsyncDataLoader<List<BusinessHoursFacility>> {
@@ -231,18 +225,20 @@ public class BusinessHoursFragment extends Fragment {
 						int position, long id) {
 					System.out.println("click");
 					System.out.println(position);
-					displayBusinessHours(facilityList.get(position).get("facilityId"), facilityList.get(position).get("name")); 
-				} 
+					displayBusinessHours(
+							facilityList.get(position).get("facilityId"),
+							facilityList.get(position).get("name"));
+				}
 			});
 		}
 	}
-	
-	void displayBusinessHours(String facilityId, String name){
-		Intent intent = new Intent(rootView.getContext(), DisplayBusinessHoursActivity.class); 
-		intent.putExtra("facilityId", facilityId); 
-		intent.putExtra("name", name); 
-		startActivity(intent); 
+
+	void displayBusinessHours(String facilityId, String name) {
+		Intent intent = new Intent(rootView.getContext(),
+				DisplayBusinessHoursActivity.class);
+		intent.putExtra("facilityId", facilityId);
+		intent.putExtra("name", name);
+		startActivity(intent);
 	}
 
-	
 }

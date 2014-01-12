@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,7 +31,11 @@ public class FaqsFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_faqs, container,
 				false);
 
-		getActivity().setTitle(R.string.title_faqs);
+		getActivity().getActionBar().setTitle(
+				getActivity().getApplicationContext().getString(
+						R.string.title_faqs));
+		getActivity().getActionBar().setNavigationMode(
+				ActionBar.NAVIGATION_MODE_STANDARD);
 
 		new FaqLoader(rootView).execute();
 

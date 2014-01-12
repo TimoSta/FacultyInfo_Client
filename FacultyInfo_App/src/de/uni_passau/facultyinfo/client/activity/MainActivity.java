@@ -56,33 +56,22 @@ public class MainActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 
-		// mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
-		mDrawerLayout, /* DrawerLayout object */
-		R.drawable.ic_drawer, /* nav drawer icon to replace 'Up' caret */
-		R.string.drawer_open, /* "open drawer" description */
-		R.string.drawer_close /* "close drawer" description */
-		) {
-
-			/** Called when a drawer has settled in a completely closed state. */
-			public void onDrawerClosed(View view) {
-				getActionBar().setTitle(mTitle);
-			}
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+				R.drawable.ic_drawer, R.string.drawer_open,
+				R.string.drawer_close) {
 
 			/** Called when a drawer has settled in a completely open state. */
 			public void onDrawerOpened(View drawerView) {
-				getActionBar().setTitle(mDrawerTitle);
 				invalidateOptionsMenu();
 			}
 		};
 
 		// Set the drawer toggle as the DrawerListener
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		
 
-		// if (savedInstanceState == null) {
-		// selectItem(0);
-		// }
+		if (savedInstanceState == null) {
+			selectItem(0);
+		}
 
 	}
 
@@ -98,7 +87,7 @@ public class MainActivity extends Activity {
 		// If the nav drawer is open, hide action items related to the content
 		// view
 		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-//		menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
+		// menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -165,78 +154,40 @@ public class MainActivity extends Activity {
 			selectItem(position);
 		}
 	}
-	
+
 	public void selectItem(int position) {
 		Fragment fragment = null;
 
-		// update the main content by replacing fragments
 		switch (position) {
 		case 0:
-			getActionBar()
-					.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			fragment = new HomeFragment();
-			System.out.println("home");
 			break;
 		case 1:
-			System.out.println("news");
-			getActionBar()
-					.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			fragment = new NewsFragment();
 			break;
 		case 2:
-			System.out.println("timetable");
-			getActionBar()
-					.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			fragment = new TimetableFragment();
 			break;
 		case 3:
-			System.out.println("busfahrplan");
-			getActionBar()
-					.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			fragment = new BuslinesFragment();
 			break;
 		case 4:
-			getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-			// getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-			// ViewPager mViewPager = new ViewPager(getApplicationContext());
-			// ((FrameLayout)findViewById(R.id.content_frame)).addView(mViewPager);
-			// mViewPager.setAdapter(new AppSectionsPagerAdapter(
-			// getSupportFragmentManager()));
-			// mViewPager
-			// .setOnPageChangeListener(new
-			// ViewPager.SimpleOnPageChangeListener() {
-			// @Override
-			// public void onPageSelected(int position) {
-			// System.out.println("position: " + position);
-			// getActionBar().setSelectedNavigationItem(position);
-			// }
-			// });
 			fragment = new SportsFragment();
-//			fragment.setHasOptionsMenu(true); 
 			break;
 		case 5:
-			getActionBar()
-					.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			fragment = new CafeteriaFragment();
 			break;
 		case 6:
-			getActionBar()
-					.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			fragment = new ContactFragment();
 			break;
 		case 7:
-			getActionBar()
-					.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			fragment = new FaqsFragment();
 			break;
 		case 8:
-			getActionBar()
-					.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			fragment = new MapFragment();
 			break;
-		case 9: 
-			getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS); 
-			fragment = new BusinessHoursFragment(); 
+		case 9:
+			fragment = new BusinessHoursFragment();
 		}
 
 		android.app.FragmentManager fragmentManager = getFragmentManager();
@@ -245,7 +196,6 @@ public class MainActivity extends Activity {
 
 		// update selected item and title, then close the drawer
 		mDrawerList.setItemChecked(position, true);
-		setTitle(drawerValues[position]);
 		mDrawerLayout.closeDrawer(mDrawerList);
 	}
 

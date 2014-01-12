@@ -1,5 +1,6 @@
 package de.uni_passau.facultyinfo.client.fragment;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,10 +17,14 @@ public class CafeteriaFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_cafeteria, container,
-				false);
+		View rootView = inflater.inflate(R.layout.fragment_cafeteria,
+				container, false);
 
-		getActivity().setTitle(R.string.title_cafeteria);
+		getActivity().getActionBar().setTitle(
+				getActivity().getApplicationContext().getString(
+						R.string.title_cafeteria));
+		getActivity().getActionBar().setNavigationMode(
+				ActionBar.NAVIGATION_MODE_STANDARD);
 
 		return rootView;
 

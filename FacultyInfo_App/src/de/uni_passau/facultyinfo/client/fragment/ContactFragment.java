@@ -1,12 +1,11 @@
 package de.uni_passau.facultyinfo.client.fragment;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,22 +16,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleAdapter;
-import android.widget.AdapterView.OnItemClickListener;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.activity.DisplayChairContactsActivity;
-import de.uni_passau.facultyinfo.client.activity.DisplayNewsActivity;
 import de.uni_passau.facultyinfo.client.activity.SearchContactsActivity;
-import de.uni_passau.facultyinfo.client.activity.SearchSportsActivity;
 import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
-import de.uni_passau.facultyinfo.client.model.dto.BusLine;
 import de.uni_passau.facultyinfo.client.model.dto.ContactGroup;
-import de.uni_passau.facultyinfo.client.model.dto.News;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 
 public class ContactFragment extends Fragment {
@@ -55,7 +48,11 @@ public class ContactFragment extends Fragment {
 
 		setHasOptionsMenu(true);
 
-		getActivity().setTitle(R.string.title_contacts);
+		getActivity().getActionBar().setTitle(
+				getActivity().getApplicationContext().getString(
+						R.string.title_contacts));
+		getActivity().getActionBar().setNavigationMode(
+				ActionBar.NAVIGATION_MODE_STANDARD);
 
 		// ListView listView = (ListView) rootView
 		// .findViewById(R.id.contactChairs);
