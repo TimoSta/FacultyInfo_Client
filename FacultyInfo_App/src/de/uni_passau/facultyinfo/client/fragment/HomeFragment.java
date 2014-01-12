@@ -90,7 +90,7 @@ public class HomeFragment extends Fragment {
 		// busView.setAdapter(adapterbus);
 
 		(new NewsLoader(rootView)).execute();
-		(new BusLineLoader(rootView)).execute(); 
+		(new BusLineLoader(rootView)).execute();
 
 		return rootView;
 	}
@@ -175,21 +175,26 @@ public class HomeFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(List<BusLine> busLines) {
-			ListView buslines = (ListView) rootView.findViewById(R.id.home_buslines);
+			ListView buslines = (ListView) rootView
+					.findViewById(R.id.home_buslines);
 
 			final ArrayList<HashMap<String, String>> busList = new ArrayList<HashMap<String, String>>();
 
-			for (int i=0; i<2; i++) {
-				
-				BusLine busLine = busLines.get(i); 
-				System.out.println("for");
-				HashMap<String, String> temp1 = new HashMap<String, String>();
-				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm",
-						Locale.GERMAN);
-				temp1.put("title", sdf.format(busLine.getDeparture()) + " - "
-						+ busLine.getLine());
-				temp1.put("direction", busLine.getDirection());
-				busList.add(temp1);
+			if (!busLines.isEmpty()) {
+				System.out.println("busLines.isEmpty()");
+
+				for (int i = 0; i < 2; i++) {
+
+					BusLine busLine = busLines.get(i);
+					System.out.println("for");
+					HashMap<String, String> temp1 = new HashMap<String, String>();
+					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm",
+							Locale.GERMAN);
+					temp1.put("title", sdf.format(busLine.getDeparture())
+							+ " - " + busLine.getLine());
+					temp1.put("direction", busLine.getDirection());
+					busList.add(temp1);
+				}
 			}
 
 			SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
