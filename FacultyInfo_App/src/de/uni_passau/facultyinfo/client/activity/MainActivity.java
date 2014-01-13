@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -38,11 +39,10 @@ public class MainActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		Intent intent = getIntent();
 
 		setContentView(R.layout.activity_main);
-
+		
 		drawerValues = getResources().getStringArray(R.array.drawer_values);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -56,7 +56,6 @@ public class MainActivity extends Activity {
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
-
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.ic_drawer, R.string.drawer_open,
 				R.string.drawer_close) {
@@ -142,50 +141,53 @@ public class MainActivity extends Activity {
 	}
 
 	public void selectItem(int position) {
-		Fragment fragment = null;
+		if (position == 0 || position != selectedItem) {
+			Fragment fragment = null;
 
-		switch (position) {
-		case 0:
-			fragment = new HomeFragment();
-			break;
-		case 1:
-			fragment = new NewsFragment();
-			break;
-		case 2:
-			fragment = new TimetableFragment();
-			break;
-		case 3:
-			fragment = new BuslinesFragment();
-			break;
-		case 4:
-			fragment = new SportsFragment();
-			break;
-		case 5:
-			fragment = new CafeteriaFragment();
-			break;
-		case 6:
-			fragment = new ContactFragment();
-			break;
-		case 7:
-			fragment = new FaqsFragment();
-			break;
-		case 8:
-			// fragment = ((MapFragment) getFragmentManager().findFragmentById(
-			// R.layout.fragment_map));
-			// if (fragment == null || !fragment.isAdded()) {
-			fragment = new MapFragment();
-			// }
-			break;
-		case 9:
-			fragment = new BusinessHoursFragment();
+			switch (position) {
+			case 0:
+				fragment = new HomeFragment();
+				break;
+			case 1:
+				fragment = new NewsFragment();
+				break;
+			case 2:
+				fragment = new TimetableFragment();
+				break;
+			case 3:
+				fragment = new BuslinesFragment();
+				break;
+			case 4:
+				fragment = new SportsFragment();
+				break;
+			case 5:
+				fragment = new CafeteriaFragment();
+				break;
+			case 6:
+				fragment = new ContactFragment();
+				break;
+			case 7:
+				fragment = new FaqsFragment();
+				break;
+			case 8:
+				// fragment = ((MapFragment)
+				// getFragmentManager().findFragmentById(
+				// R.layout.fragment_map));
+				// if (fragment == null || !fragment.isAdded()) {
+				fragment = new MapFragment();
+				// }
+				break;
+			case 9:
+				fragment = new BusinessHoursFragment();
+			}
+
+			android.app.FragmentManager fragmentManager = getFragmentManager();
+			fragmentManager.beginTransaction()
+					.replace(R.id.content_frame, fragment).commit();
+			selectedItem = position;
+			// update selected item and title, then close the drawer
+			mDrawerList.setItemChecked(position, true);
 		}
-
-		android.app.FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragment).commit();
-		selectedItem = position;
-		// update selected item and title, then close the drawer
-		mDrawerList.setItemChecked(position, true);
 		mDrawerLayout.closeDrawer(mDrawerList);
 	}
 

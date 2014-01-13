@@ -151,7 +151,6 @@ public class MapFragment extends Fragment {
 				np1.setDisplayedValues(np1Values.toArray(new String[np1Values
 						.size()]));
 			}
-			np1.setWrapSelectorWheel(false);
 			np1.setValue(position1 == null || position1 >= markers.size() ? 0
 					: position1);
 
@@ -162,10 +161,11 @@ public class MapFragment extends Fragment {
 							.get(position1 == null
 									|| position1 >= markers.size() ? 0
 									: position1).getMapMarkerCategories() != null) {
-				List<MapMarkerCategory> level2 = markers.get(0)
-						.getMapMarkerCategories();
+				List<MapMarkerCategory> level2 = markers.get(
+						position1 == null || position1 >= markers.size() ? 0
+								: position1).getMapMarkerCategories();
 
-				if (!level2.isEmpty()) {
+				if (level2 != null && !level2.isEmpty()) {
 					np2.setMinValue(0);
 					ArrayList<String> np2Values = new ArrayList<String>();
 					for (MapMarkerCategory category : level2) {
@@ -181,11 +181,11 @@ public class MapFragment extends Fragment {
 						np2.setDisplayedValues(np2Values
 								.toArray(new String[np2Values.size()]));
 					}
-					np2.setWrapSelectorWheel(false);
 					np2.setValue(position2 == null
 							|| position2 >= level2.size() ? 0 : position2);
 
-					if (level2.get(0) != null
+					if (level2.get(position2 == null
+							|| position2 >= level2.size() ? 0 : position2) != null
 							&& level2.get(
 									position2 == null
 											|| position2 >= level2.size() ? 0
@@ -195,7 +195,7 @@ public class MapFragment extends Fragment {
 										|| position2 >= level2.size() ? 0
 										: position2).getMapMarkers();
 
-						if (!level3.isEmpty()) {
+						if (level3 != null && !level3.isEmpty()) {
 							np3.setMinValue(0);
 							ArrayList<String> np3Values = new ArrayList<String>();
 							for (MapMarker mapMarker : level3) {
@@ -214,7 +214,6 @@ public class MapFragment extends Fragment {
 								np3.setDisplayedValues(np3Values
 										.toArray(new String[np3Values.size()]));
 							}
-							np3.setWrapSelectorWheel(false);
 
 							np3.setValue(position3 == null
 									|| position3 >= level3.size() ? 0
@@ -251,17 +250,15 @@ public class MapFragment extends Fragment {
 			np3.setMaxValue(0);
 			np3.setDisplayedValues(new String[] { "" });
 		}
+
 	}
 
 	private void displayMarker(String name, String description, double lat,
 			double lng) {
-		// GoogleMap map = ((com.google.android.gms.maps.MapFragment)
-		// getFragmentManager()
-		// .findFragmentById(R.id.map)).getMap();
 
 		map.clear();
 		LatLng markerLatLng = new LatLng(lat, lng);
-		map.moveCamera(CameraUpdateFactory.newLatLngZoom(markerLatLng, 17.0f));
+		map.animateCamera(CameraUpdateFactory.newLatLngZoom(markerLatLng, 16.0f));
 		map.addMarker(new MarkerOptions().title(name).position(markerLatLng)
 				.snippet(description));
 
