@@ -75,5 +75,7 @@
     <string name="title_activity_business_hours_fragment">BusinessHoursFragment</string>
     <string name="title_activity_display_business_hours">DisplayBusinessHoursActivity</string>
     <string name="title_activity_display_news">Uni4You | Neuigkeiten</string>
+    <string name="title_activity_display_faq">DisplayFAQActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

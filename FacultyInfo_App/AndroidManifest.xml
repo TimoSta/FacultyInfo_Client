@@ -119,6 +119,10 @@
             android:name="de.uni_passau.facultyinfo.client.activity.DisplayBusinessHoursActivity"
             android:label="@string/title_activity_display_business_hours" >
         </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.activity.DisplayFAQActivity"
+            android:label="@string/title_activity_display_faq" >
+        </activity>
     </application>
 
 </manifest>

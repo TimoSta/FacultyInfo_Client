@@ -15,10 +15,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.activity.DisplayFAQActivity;
+import de.uni_passau.facultyinfo.client.activity.DisplayNewsActivity;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.Faq;
 import de.uni_passau.facultyinfo.client.model.dto.FaqCategory;
@@ -62,9 +66,10 @@ public class FaqsFragment extends Fragment {
 			final Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
 					Uri.parse("mailto:mail@fs-wiwi.de"));
 			emailIntent.putExtra(Intent.EXTRA_SUBJECT, "");
-//			emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			// emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			getActivity().startActivity(
-					Intent.createChooser(emailIntent, "Mail an die Fachschaft..."));
+					Intent.createChooser(emailIntent,
+							"Mail an die Fachschaft..."));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -143,7 +148,28 @@ public class FaqsFragment extends Fragment {
 
 			listView.setAdapter(adapter);
 
-		}
-	}
+			listView.setOnItemClickListener(new OnItemClickListener() {
 
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					System.out.println("click");
+					System.out.println(position);
+					displayFaq(faqList.get(position).get("id"),
+							faqList.get(position).get("category"));
+				}
+			});
+
+		}
+
+		private void displayFaq(String id, String category) {
+			Intent intent = new Intent(rootView.getContext(),
+					DisplayFAQActivity.class);
+
+			intent.putExtra("faqId", id);
+			intent.putExtra("category", category);
+			startActivity(intent);
+		}
+
+	}
 }
