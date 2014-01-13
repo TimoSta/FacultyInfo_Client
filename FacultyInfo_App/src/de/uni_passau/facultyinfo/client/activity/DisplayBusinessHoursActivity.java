@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
@@ -27,7 +28,10 @@ public class DisplayBusinessHoursActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_business_hours);
 
-		System.out.println("DisplayBusinessHoursActivity->onCreate()");
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayShowHomeEnabled(true);
+		getActionBar().setDisplayShowTitleEnabled(true);
+
 		Intent intent = getIntent();
 		facilityId = intent.getStringExtra("facilityId");
 		String name = intent.getStringExtra("name");
@@ -43,6 +47,16 @@ public class DisplayBusinessHoursActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.display_business_hours, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			onBackPressed();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	protected class BusinessHoursLoader extends
@@ -210,23 +224,23 @@ public class DisplayBusinessHoursActivity extends Activity {
 			BusinessHours businessHoursBreak_mo = facility.getBusinessHours(
 					BusinessHours.PHASE_BREAK, BusinessHours.MONDAY);
 			if (businessHoursBreak_mo != null) {
-				System.out.println("businessHoursBreak_mo!=null"); 
+				System.out.println("businessHoursBreak_mo!=null");
 				if (businessHoursBreak_mo.getStatus() == BusinessHours.STATUS_CLOSED) {
-					System.out.println("status_closed"); 
+					System.out.println("status_closed");
 					break_mo.setText("geschlossen");
 				} else if (businessHoursBreak_mo.getStatus() == BusinessHours.STATUS_OPEN) {
-					System.out.println("status_open"); 
+					System.out.println("status_open");
 					break_mo.setText(businessHoursBreak_mo.getOpeningTime()
 							.toString()
 							+ "-"
 							+ businessHoursBreak_mo.getClosingTime().toString());
 				}
-			}else{
-				TextView break_business_hours = (TextView) findViewById(R.id.break_business_hours); 
-				break_business_hours.setText(""); 
-				
-				TextView break_mo_h =(TextView) findViewById(R.id.break_mo_h); 
-				break_mo_h.setText(""); 
+			} else {
+				TextView break_business_hours = (TextView) findViewById(R.id.break_business_hours);
+				break_business_hours.setText("");
+
+				TextView break_mo_h = (TextView) findViewById(R.id.break_mo_h);
+				break_mo_h.setText("");
 			}
 
 			TextView break_di = (TextView) findViewById(R.id.break_di);
@@ -241,9 +255,9 @@ public class DisplayBusinessHoursActivity extends Activity {
 							+ "-"
 							+ businessHoursBreak_di.getClosingTime().toString());
 				}
-			}else{
-				TextView break_di_h =(TextView) findViewById(R.id.break_di_h); 
-				break_di_h.setText(""); 
+			} else {
+				TextView break_di_h = (TextView) findViewById(R.id.break_di_h);
+				break_di_h.setText("");
 			}
 
 			TextView break_mi = (TextView) findViewById(R.id.break_mi);
@@ -258,9 +272,9 @@ public class DisplayBusinessHoursActivity extends Activity {
 							+ "-"
 							+ businessHoursBreak_mi.getClosingTime().toString());
 				}
-			}else{
-				TextView break_mi_h =(TextView) findViewById(R.id.break_mi_h); 
-				break_mi_h.setText(""); 
+			} else {
+				TextView break_mi_h = (TextView) findViewById(R.id.break_mi_h);
+				break_mi_h.setText("");
 			}
 
 			TextView break_do = (TextView) findViewById(R.id.break_do);
@@ -275,9 +289,9 @@ public class DisplayBusinessHoursActivity extends Activity {
 							+ "-"
 							+ businessHoursBreak_do.getClosingTime().toString());
 				}
-			}else{
-				TextView break_do_h =(TextView) findViewById(R.id.break_do_h); 
-				break_do_h.setText(""); 
+			} else {
+				TextView break_do_h = (TextView) findViewById(R.id.break_do_h);
+				break_do_h.setText("");
 			}
 
 			TextView break_fr = (TextView) findViewById(R.id.break_fr);
@@ -292,9 +306,9 @@ public class DisplayBusinessHoursActivity extends Activity {
 							+ "-"
 							+ businessHoursBreak_fr.getClosingTime().toString());
 				}
-			}else{
-				TextView break_fr_h =(TextView) findViewById(R.id.break_fr_h); 
-				break_fr_h.setText(""); 
+			} else {
+				TextView break_fr_h = (TextView) findViewById(R.id.break_fr_h);
+				break_fr_h.setText("");
 			}
 
 			TextView break_sa = (TextView) findViewById(R.id.break_sa);
@@ -309,9 +323,9 @@ public class DisplayBusinessHoursActivity extends Activity {
 							+ "-"
 							+ businessHoursBreak_sa.getClosingTime().toString());
 				}
-			}else{
-				TextView break_sa_h =(TextView) findViewById(R.id.break_sa_h); 
-				break_sa_h.setText(""); 
+			} else {
+				TextView break_sa_h = (TextView) findViewById(R.id.break_sa_h);
+				break_sa_h.setText("");
 			}
 
 			TextView break_so = (TextView) findViewById(R.id.break_so);
@@ -326,9 +340,9 @@ public class DisplayBusinessHoursActivity extends Activity {
 							+ "-"
 							+ businessHoursBreak_so.getClosingTime().toString());
 				}
-			}else{
-				TextView break_so_h =(TextView) findViewById(R.id.break_so_h); 
-				break_so_h.setText(""); 
+			} else {
+				TextView break_so_h = (TextView) findViewById(R.id.break_so_h);
+				break_so_h.setText("");
 			}
 
 		}

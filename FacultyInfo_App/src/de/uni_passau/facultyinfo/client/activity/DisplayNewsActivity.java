@@ -9,51 +9,47 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.News;
 
-public class DisplayNewsActivity extends Activity /*
-												 * implements
-												 * OnNavigationListener
-												 */{
+public class DisplayNewsActivity extends Activity {
 
 	private String newsId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		System.out.println("DisplayNews->onCreate");
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_display_news);
 
 		Intent intent = getIntent();
 		newsId = intent.getStringExtra("newsId");
 		System.out.println(newsId);
 
-		// getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowHomeEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(true);
 
-		/*
-		 * ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-		 * this, R.array.spinner_menu_news,
-		 * android.R.layout.simple_spinner_item);
-		 * getActionBar().setSelectedNavigationItem(1);
-		 * getActionBar().setListNavigationCallbacks(adapter, this);
-		 */
-
-		NewsLoader newsLoader = new NewsLoader();
-		newsLoader.execute();
-
+		new NewsLoader().execute();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.news, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			onBackPressed();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	/*

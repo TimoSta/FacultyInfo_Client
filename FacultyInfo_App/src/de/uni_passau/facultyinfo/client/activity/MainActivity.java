@@ -1,6 +1,5 @@
 package de.uni_passau.facultyinfo.client.activity;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -32,16 +31,18 @@ public class MainActivity extends Activity {
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 
-	private CharSequence mDrawerTitle;
-	private CharSequence mTitle;
 	private String[] drawerValues;
+
+	private int selectedItem = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		Intent intent = getIntent();
+
 		setContentView(R.layout.activity_main);
 
-		mTitle = mDrawerTitle = getTitle();
 		drawerValues = getResources().getStringArray(R.array.drawer_values);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -69,10 +70,21 @@ public class MainActivity extends Activity {
 		// Set the drawer toggle as the DrawerListener
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-		if (savedInstanceState == null) {
+		if (intent == null) {
 			selectItem(0);
+		} else {
+			selectItem(intent.getIntExtra("module", 0));
 		}
 
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (selectedItem == 0) {
+			super.onBackPressed();
+		} else {
+			selectItem(0);
+		}
 	}
 
 	@Override
@@ -83,18 +95,8 @@ public class MainActivity extends Activity {
 	}
 
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		// If the nav drawer is open, hide action items related to the content
-		// view
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-		// menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
-		return super.onPrepareOptionsMenu(menu);
-	}
-
-	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		// Sync the toggle state after onRestoreInstanceState has occurred.
 		mDrawerToggle.syncState();
 	}
 
@@ -116,26 +118,10 @@ public class MainActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	// getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-	// getActionBar().setDisplayHomeAsUpEnabled(false);
-	// getActionBar().setDisplayShowHomeEnabled(true);
-	// getActionBar().setDisplayShowTitleEnabled(false);
-	//
-	// ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-	// this, R.array.spinner_menu,
-	// android.R.layout.simple_spinner_item);
-	// getActionBar().setListNavigationCallbacks(adapter, this);
-	// }
-
 	@Override
 	protected void onResume() {
 
-		isGooglePlayServicesAvailable();
 		super.onResume();
-	}
-
-	private void isGooglePlayServicesAvailable() {
-
 	}
 
 	// @Override
@@ -184,7 +170,11 @@ public class MainActivity extends Activity {
 			fragment = new FaqsFragment();
 			break;
 		case 8:
+			// fragment = ((MapFragment) getFragmentManager().findFragmentById(
+			// R.layout.fragment_map));
+			// if (fragment == null || !fragment.isAdded()) {
 			fragment = new MapFragment();
+			// }
 			break;
 		case 9:
 			fragment = new BusinessHoursFragment();
@@ -193,7 +183,7 @@ public class MainActivity extends Activity {
 		android.app.FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()
 				.replace(R.id.content_frame, fragment).commit();
-
+		selectedItem = position;
 		// update selected item and title, then close the drawer
 		mDrawerList.setItemChecked(position, true);
 		mDrawerLayout.closeDrawer(mDrawerList);

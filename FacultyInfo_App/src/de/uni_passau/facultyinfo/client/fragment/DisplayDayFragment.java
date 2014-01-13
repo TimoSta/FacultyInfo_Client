@@ -182,6 +182,7 @@ public class DisplayDayFragment extends Fragment {
 	}
 
 	protected void showEventTT(View v) {
+
 		if (v.getId() == (rootView.findViewById(R.id.td810)).getId()) {
 			timeslotId = TimetableEntry.FROM_08_TO_10;
 		} else if (v.getId() == (rootView.findViewById(R.id.td1012)).getId()) {
@@ -195,19 +196,21 @@ public class DisplayDayFragment extends Fragment {
 		} else if (v.getId() == (rootView.findViewById(R.id.td1820)).getId()) {
 			timeslotId = TimetableEntry.FROM_18_TO_20;
 		}
-		// if(timetableEntryLoader.search(timeslotId, dayId)){
-		Intent intent = new Intent(rootView.getContext(),
-				DisplayTimeTableEntryActivity.class);
-		intent.putExtra("dayId", dayC);
-		intent.putExtra("timeslotId", timeslotId);
-		startActivity(intent);
-		// }
 
+		if (!timetableEntryLoader.search(timeslotId, dayC)) {
+			CreateEventTT dialog = new CreateEventTT();
+			dialog.setAttributes(rootView, timeslotId, dayC);
+			dialog.show(this.getFragmentManager(), "createEventTT");
+		} else {
+			Intent intent = new Intent(rootView.getContext(),
+					DisplayTimeTableEntryActivity.class);
+			intent.putExtra("dayId", dayC);
+			intent.putExtra("timeslotId", timeslotId);
+			startActivity(intent);
+		}
 	}
 
 	protected void editEventTT(View v) {
-		System.out.println("longClick -> showEventTT" + v.getId());
-
 		if (v.getId() == (rootView.findViewById(R.id.td810)).getId()) {
 			timeslotId = TimetableEntry.FROM_08_TO_10;
 		} else if (v.getId() == (rootView.findViewById(R.id.td1012)).getId()) {
@@ -222,9 +225,42 @@ public class DisplayDayFragment extends Fragment {
 			timeslotId = TimetableEntry.FROM_18_TO_20;
 		}
 
-		final class CreateEventTT extends DialogFragment {
-			@Override
-			public Dialog onCreateDialog(Bundle savedInstanceState) {
+		if (!timetableEntryLoader.search(timeslotId, dayC)) {
+			CreateEventTT dialog = new CreateEventTT();
+			dialog.setAttributes(rootView, timeslotId, dayC);
+			dialog.show(this.getFragmentManager(), "createEventTT");
+		} else {
+			System.out.println("Daten laden");
+			// EditTimeTable, aber Daten laden!!
+			Intent intent = new Intent(rootView.getContext(),
+					EditTimeTableActivity.class);
+			intent.putExtra("timeslotId", timeslotId);
+			intent.putExtra("dayId", dayC);
+			intent.putExtra("new", false);
+			intent.putExtra("toOverview", true);
+			startActivity(intent);
+		}
+
+	}
+
+	public static final class CreateEventTT extends DialogFragment {
+		private View rootView;
+		private int timeslotId;
+		private int dayC;
+
+		public CreateEventTT() {
+			super();
+		}
+
+		private void setAttributes(View rootView, int timeslotId, int dayC) {
+			this.rootView = rootView;
+			this.timeslotId = timeslotId;
+			this.dayC = dayC;
+		}
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			if (rootView != null) {
 				// Use the Builder class for convenient dialog construction
 				AlertDialog.Builder builder = new AlertDialog.Builder(
 						getActivity());
@@ -242,6 +278,8 @@ public class DisplayDayFragment extends Fragment {
 												timeslotId);
 										intent.putExtra("dayId", dayC);
 										intent.putExtra("new", true);
+										intent.putExtra("toOverview", true);
+										intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 										startActivity(intent);
 									}
 								})
@@ -255,24 +293,10 @@ public class DisplayDayFragment extends Fragment {
 								});
 				// Create the AlertDialog object and return it
 				return builder.create();
+			} else {
+				throw new NullPointerException();
 			}
 		}
-		int day;
-
-		if (!timetableEntryLoader.search(timeslotId, dayC)) {
-			CreateEventTT dialog = new CreateEventTT();
-			dialog.show(this.getFragmentManager(), "createEventTT");
-		} else {
-			System.out.println("Daten laden");
-			// EditTimeTable, aber Daten laden!!
-			Intent intent = new Intent(rootView.getContext(),
-					EditTimeTableActivity.class);
-			intent.putExtra("timeslotId", timeslotId);
-			intent.putExtra("dayId", dayC);
-			intent.putExtra("new", false);
-			startActivity(intent);
-		}
-
 	}
 
 	protected class TimetableEntryLoader extends

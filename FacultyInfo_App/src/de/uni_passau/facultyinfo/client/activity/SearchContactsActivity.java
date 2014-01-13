@@ -1,41 +1,43 @@
 package de.uni_passau.facultyinfo.client.activity;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import de.uni_passau.facultyinfo.client.R;
-import de.uni_passau.facultyinfo.client.R.id;
-import de.uni_passau.facultyinfo.client.R.layout;
-import de.uni_passau.facultyinfo.client.R.menu;
-//import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
-import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
-import de.uni_passau.facultyinfo.client.model.dto.ContactGroup;
-import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.AdapterView.OnItemClickListener;
+import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
+import de.uni_passau.facultyinfo.client.model.dto.ContactGroup;
+import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+
+//import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 
 public class SearchContactsActivity extends Activity {
-	
-	private String query; 
+
+	private String query;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_contacts);
-		
-		Intent intent = getIntent(); 
-		query=intent.getStringExtra("query"); 
-		
-		(new ChairLoader()).execute(); 
+
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayShowHomeEnabled(true);
+		getActionBar().setDisplayShowTitleEnabled(true);
+
+		Intent intent = getIntent();
+		query = intent.getStringExtra("query");
+
+		(new ChairLoader()).execute();
 	}
 
 	@Override
@@ -44,8 +46,17 @@ public class SearchContactsActivity extends Activity {
 		getMenuInflater().inflate(R.menu.search_contacts, menu);
 		return true;
 	}
-	
-	
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			onBackPressed();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
 	protected class ChairLoader extends AsyncDataLoader<List<ContactGroup>> {
 
 		@Override
@@ -55,16 +66,16 @@ public class SearchContactsActivity extends Activity {
 			List<ContactGroup> groups = accessFacade.getContactPersonAccess()
 					.find(query);
 
-//			if (groups == null) {
-//				publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
-//				groups = accessFacade.getContactPersonAccess()
-//						.getContactGroupsFromCache();
-//			}
-//
-//			if (groups == null) {
-//				groups = Collections
-//						.unmodifiableList(new ArrayList<ContactGroup>());
-//			}
+			// if (groups == null) {
+			// publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
+			// groups = accessFacade.getContactPersonAccess()
+			// .getContactGroupsFromCache();
+			// }
+			//
+			// if (groups == null) {
+			// groups = Collections
+			// .unmodifiableList(new ArrayList<ContactGroup>());
+			// }
 
 			return groups;
 		}
@@ -120,7 +131,7 @@ public class SearchContactsActivity extends Activity {
 			});
 		}
 	}
-	
+
 	private void displayChairContacts(String id, String title) {
 		Intent intent = new Intent(getApplicationContext(),
 				DisplayChairContactsActivity.class);

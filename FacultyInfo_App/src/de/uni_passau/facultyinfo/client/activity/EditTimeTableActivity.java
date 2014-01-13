@@ -33,6 +33,7 @@ public class EditTimeTableActivity extends FragmentActivity {
 	private int timeslotId;
 	private int colorId = Color.WHITE;
 	private boolean isNew;
+	private boolean toOverview;
 
 	private TimetableEntry entry = null;
 
@@ -49,6 +50,7 @@ public class EditTimeTableActivity extends FragmentActivity {
 		timeslotId = intent.getIntExtra("timeslotId", 0);
 		System.out.println(intent.getIntExtra("timeslotId", 0));
 		dayId = intent.getIntExtra("dayId", 0);
+		toOverview = intent.getBooleanExtra("toOverview", false);
 		System.out.println(intent.getIntExtra("dayId", 0));
 		String day = "";
 		String timeslot = "";
@@ -260,6 +262,9 @@ public class EditTimeTableActivity extends FragmentActivity {
 			System.out.println(location);
 			// setLocation(location);
 			return true;
+		case android.R.id.home:
+			onBackPressed();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -328,9 +333,11 @@ public class EditTimeTableActivity extends FragmentActivity {
 						"Termin erfolgreich gespeichert", Toast.LENGTH_SHORT);
 				toast.show();
 				Intent intent = new Intent(getApplicationContext(),
-						DisplayTimeTableEntryActivity.class);
+						toOverview ? DisplayDayActivity.class
+								: DisplayTimeTableEntryActivity.class);
 				intent.putExtra("dayId", dayId);
 				intent.putExtra("timeslotId", timeslotId);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 			} else {
 				Toast toast = Toast.makeText(

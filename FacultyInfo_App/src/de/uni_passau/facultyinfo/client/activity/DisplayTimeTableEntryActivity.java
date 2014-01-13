@@ -2,7 +2,6 @@ package de.uni_passau.facultyinfo.client.activity;
 
 import java.util.List;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -12,12 +11,8 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
-import de.uni_passau.facultyinfo.client.R.id;
-import de.uni_passau.facultyinfo.client.R.layout;
-import de.uni_passau.facultyinfo.client.R.menu;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
-import de.uni_passau.facultyinfo.client.model.dto.util.Color;
 
 public class DisplayTimeTableEntryActivity extends Activity {
 	private int timeslotId;
@@ -69,10 +64,10 @@ public class DisplayTimeTableEntryActivity extends Activity {
 		timeTextView.setText(day + timeslot);
 
 	}
-	
+
 	@Override
 	protected void onResume() {
-		(new TimetableEntryLoader()).execute(); 
+		(new TimetableEntryLoader()).execute();
 		super.onResume();
 	}
 
@@ -92,6 +87,9 @@ public class DisplayTimeTableEntryActivity extends Activity {
 			intent.putExtra("timeslotId", timeslotId);
 			intent.putExtra("new", false);
 			startActivity(intent);
+			return true;
+		case android.R.id.home:
+			onBackPressed();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -131,7 +129,7 @@ public class DisplayTimeTableEntryActivity extends Activity {
 					descriptionEditText
 							.setText(timetableEntry.getDescription());
 					descriptionEditText.setKeyListener(null);
-					
+
 					colorId = timetableEntry.getColor();
 				}
 			}

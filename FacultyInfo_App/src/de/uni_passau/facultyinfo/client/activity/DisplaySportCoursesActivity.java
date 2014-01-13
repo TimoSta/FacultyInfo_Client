@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -29,6 +30,10 @@ public class DisplaySportCoursesActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_sport_courses);
+		
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayShowHomeEnabled(true);
+		getActionBar().setDisplayShowTitleEnabled(true);
 
 		Intent intent = getIntent();
 		categoryId = intent.getStringExtra("categoryId");
@@ -55,12 +60,19 @@ public class DisplaySportCoursesActivity extends Activity {
 		getMenuInflater().inflate(R.menu.display_sport_courses, menu);
 		return true;
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			onBackPressed();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
 	protected class SportsCourseLoader extends
 			AsyncDataLoader<SportsCourseCategory> {
-		// private SportsCourseLoader(View rootView) {
-		// super(rootView);
-		// }
 
 		@Override
 		protected SportsCourseCategory doInBackground(Void... unused) {

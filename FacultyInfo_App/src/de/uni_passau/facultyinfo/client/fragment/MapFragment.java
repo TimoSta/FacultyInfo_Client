@@ -6,10 +6,12 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
 
@@ -28,6 +30,8 @@ public class MapFragment extends Fragment {
 
 	List<MapMarkerCategory> markers = null;
 
+	GoogleMap map;
+
 	public MapFragment() {
 		// Empty constructor required for fragment subclasses
 	}
@@ -35,6 +39,7 @@ public class MapFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
 		final View rootView = inflater.inflate(R.layout.fragment_map,
 				container, false);
 
@@ -43,8 +48,8 @@ public class MapFragment extends Fragment {
 						R.string.title_map));
 		getActivity().getActionBar().setNavigationMode(
 				ActionBar.NAVIGATION_MODE_STANDARD);
-		
-		GoogleMap map = ((com.google.android.gms.maps.MapFragment) getFragmentManager()
+
+		map = ((com.google.android.gms.maps.MapFragment) getFragmentManager()
 				.findFragmentById(R.id.map)).getMap();
 		map.getUiSettings().setCompassEnabled(true);
 		map.getUiSettings().setZoomControlsEnabled(true);
@@ -250,15 +255,39 @@ public class MapFragment extends Fragment {
 
 	private void displayMarker(String name, String description, double lat,
 			double lng) {
-		GoogleMap map = ((com.google.android.gms.maps.MapFragment) getFragmentManager()
-				.findFragmentById(R.id.map)).getMap();
+		// GoogleMap map = ((com.google.android.gms.maps.MapFragment)
+		// getFragmentManager()
+		// .findFragmentById(R.id.map)).getMap();
 
 		map.clear();
 		LatLng markerLatLng = new LatLng(lat, lng);
 		map.moveCamera(CameraUpdateFactory.newLatLngZoom(markerLatLng, 17.0f));
-		map.addMarker(new MarkerOptions().title(name)
-				.position(markerLatLng)
+		map.addMarker(new MarkerOptions().title(name).position(markerLatLng)
 				.snippet(description));
 
+	}
+
+	@Override
+	public void onDestroyView() {
+		com.google.android.gms.maps.MapFragment mapFragment = ((com.google.android.gms.maps.MapFragment) getActivity()
+				.getFragmentManager().findFragmentById(R.id.map));
+
+		if (mapFragment != null) {
+			FragmentManager fM = getFragmentManager();
+			fM.beginTransaction().remove(mapFragment).commit();
+		}
+		super.onDestroyView();
+	}
+
+	@Override
+	public void onDetach() {
+		com.google.android.gms.maps.MapFragment mapFragment = ((com.google.android.gms.maps.MapFragment) getActivity()
+				.getFragmentManager().findFragmentById(R.id.map));
+
+		if (mapFragment != null) {
+			FragmentManager fM = getFragmentManager();
+			fM.beginTransaction().remove(mapFragment).commit();
+		}
+		super.onDetach();
 	}
 }

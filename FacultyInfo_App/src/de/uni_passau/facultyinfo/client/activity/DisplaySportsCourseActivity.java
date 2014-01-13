@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
@@ -43,11 +44,18 @@ public class DisplaySportsCourseActivity extends Activity {
 		getMenuInflater().inflate(R.menu.display_sports_course, menu);
 		return true;
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			onBackPressed();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
 	protected class CourseLoader extends AsyncDataLoader<SportsCourse> {
-		// private CourseLoader(View rootView) {
-		// super(rootView);
-		// }
 
 		@Override
 		protected SportsCourse doInBackground(Void... unused) {

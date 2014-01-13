@@ -22,7 +22,7 @@
     <application
         android:name="de.uni_passau.facultyinfo.client.application.FacultyInfoApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/hut"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.Light" >
         <meta-data
@@ -34,8 +34,8 @@
 
         <activity
             android:name="de.uni_passau.facultyinfo.client.activity.MainActivity"
-            android:icon="@drawable/menu_icon"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -54,74 +54,89 @@
         <activity
             android:name="de.uni_passau.facultyinfo.client.activity.DisplayNewsActivity"
             android:label="@string/title_activity_display_news"
-            android:parentActivityName="de.uni_passau.facultyinfo.client.activity.NewsActivity" >
+            android:parentActivityName="de.uni_passau.facultyinfo.client.activity.MainActivity"
+            android:screenOrientation="portrait" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.uni_passau.facultyinfo.client.activity.NewsActivity" />
+                android:value="de.uni_passau.facultyinfo.client.activity.MainActivity" />
         </activity>
         <activity
             android:name="de.uni_passau.facultyinfo.client.activity.DisplayDayActivity"
-            android:label="@string/title_activity_display_day" >
+            android:label="@string/title_activity_display_day"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="de.uni_passau.facultyinfo.client.fragment.DisplayDayFragment"
-            android:label="@string/title_activity_display_day_fragment" >
+            android:label="@string/title_activity_display_day_fragment"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="de.uni_passau.facultyinfo.client.activity.EditTimeTableActivity"
-            android:label="@string/title_activity_edit_time_table" >
+            android:label="@string/title_activity_edit_time_table"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="de.uni_passau.facultyinfo.client.activity.DisplayChairContactsActivity"
-            android:label="@string/title_activity_display_chair_contacts" >
+            android:label="@string/title_activity_display_chair_contacts"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="de.uni_passau.facultyinfo.client.activity.DisplayTimeTableEntryActivity"
-            android:label="@string/title_activity_display_time_table_entry" >
+            android:label="@string/title_activity_display_time_table_entry"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="de.uni_passau.facultyinfo.client.fragment.SportsCategoryFragment"
-            android:label="@string/title_activity_sports_category_fragment" >
+            android:label="@string/title_activity_sports_category_fragment"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="de.uni_passau.facultyinfo.client.activity.DisplaySportsCourseActivity"
-            android:label="@string/title_activity_display_sports_course" >
+            android:label="@string/title_activity_display_sports_course"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.uni_passau.facultyinfo.client.activity.DisplaySportCourses.Activity" />
         </activity>
         <activity
             android:name="de.uni_passau.facultyinfo.client.activity.DisplaySportCoursesActivity"
-            android:label="@string/title_activity_display_sport_courses" >
+            android:label="@string/title_activity_display_sport_courses"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="de.uni_passau.facultyinfo.client.fragment.HomeFragment"
-            android:label="@string/title_activity_home_fragment" >
+            android:label="@string/title_activity_home_fragment"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="de.uni_passau.facultyinfo.client.activity.SearchSportsActivity"
-            android:label="@string/title_activity_search_sports" >
+            android:label="@string/title_activity_search_sports"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.uni_passau.facultyinfo.client.activity.MainActivity" />
         </activity>
         <activity
             android:name="de.uni_passau.facultyinfo.client.activity.SearchContactsActivity"
-            android:label="@string/title_activity_search_contacts" >
+            android:label="@string/title_activity_search_contacts"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="de.uni_passau.facultyinfo.client.fragment.BusinessHoursFragment"
-            android:label="@string/title_activity_business_hours_fragment" >
+            android:label="@string/title_activity_business_hours_fragment"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="de.uni_passau.facultyinfo.client.activity.DisplayBusinessHoursActivity"
-            android:label="@string/title_activity_display_business_hours" >
+            android:label="@string/title_activity_display_business_hours"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="de.uni_passau.facultyinfo.client.activity.DisplayFAQActivity"
-            android:label="@string/title_activity_display_faq" >
+            android:label="@string/title_activity_display_faq"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

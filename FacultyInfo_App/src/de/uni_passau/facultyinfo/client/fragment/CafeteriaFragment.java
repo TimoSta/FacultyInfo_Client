@@ -1,8 +1,13 @@
 package de.uni_passau.facultyinfo.client.fragment;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -35,13 +40,12 @@ public class CafeteriaFragment extends Fragment {
 	private final static int EMPLOYEE = 2;
 	private final static int EXTERNAL = 3;
 
-	private int daySelected;
-
-	private int priceSelected;
-
 	private View rootView;
-	
-	private ArrayList<HashMap<String, String>> menuList = new ArrayList<HashMap<String, String>>();
+
+	private int currentDay = MenuItem.MONDAY;
+	private int currentPrice = STUDENT;
+
+	private List<MenuItem> menuItems = null;
 
 	public CafeteriaFragment() {
 		// Empty constructor required for fragment subclasses
@@ -61,57 +65,47 @@ public class CafeteriaFragment extends Fragment {
 		getActivity().getActionBar().setNavigationMode(
 				ActionBar.NAVIGATION_MODE_TABS);
 
-		priceSelected = STUDENT;
+		Calendar cal = Calendar.getInstance();
+		cal.setFirstDayOfWeek(Calendar.MONDAY);
+		cal.setTime(new Date());
+		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+		if (dayOfWeek == Calendar.MONDAY) {
+			currentDay = MenuItem.MONDAY;
+		} else if (dayOfWeek == Calendar.TUESDAY) {
+			currentDay = MenuItem.TUESDAY;
+		} else if (dayOfWeek == Calendar.WEDNESDAY) {
+			currentDay = MenuItem.WEDNESDAY;
+		} else if (dayOfWeek == Calendar.THURSDAY) {
+			currentDay = MenuItem.THURSDAY;
+		} else if (dayOfWeek == Calendar.FRIDAY) {
+			currentDay = MenuItem.FRIDAY;
+		}
 
 		TabListener tabListener = new ActionBar.TabListener() {
-
-			@Override
-			public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
-				// TODO Auto-generated method stub
-				System.out.println("onTabUnselected");
-
-			}
-
 			@Override
 			public void onTabSelected(Tab tab, FragmentTransaction arg1) {
-				// TODO Auto-generated method stub
-				System.out.println("onTabSelected");
-				// TextView textView = null;
-
 				if (tab.getText() == MONDAY) {
-					System.out.println("Montag");
-					daySelected = MenuItem.MONDAY;
-					(new MenuLoader(rootView)).execute();
-					fillList(priceSelected); 
+					currentDay = MenuItem.MONDAY;
 				} else if (tab.getText() == TUESDAY) {
-					System.out.println("Dienstag");
-					daySelected = MenuItem.TUESDAY;
-					(new MenuLoader(rootView)).execute();
-					fillList(priceSelected); 
+					currentDay = MenuItem.TUESDAY;
 				} else if (tab.getText() == WEDNESDAY) {
-					daySelected = MenuItem.WEDNESDAY;
-					(new MenuLoader(rootView)).execute();
-					fillList(priceSelected); 
+					currentDay = MenuItem.WEDNESDAY;
 				} else if (tab.getText() == THURSDAY) {
-					daySelected = MenuItem.THURSDAY;
-					(new MenuLoader(rootView)).execute();
-					fillList(priceSelected); 
+					currentDay = MenuItem.THURSDAY;
 				} else if (tab.getText() == FRIDAY) {
-					daySelected = MenuItem.FRIDAY;
-					(new MenuLoader(rootView)).execute();
-					fillList(priceSelected); 
+					currentDay = MenuItem.FRIDAY;
 				}
-
-				// mViewPager.setCurrentItem(tab.getPosition());
-				System.out.println("tabposition: " + tab.getPosition());
-				// fillList(STUDENT);
-
+				updateValues();
 			}
 
 			@Override
 			public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
-				// TODO Auto-generated method stub
 				System.out.println("onTabReselected");
+
+			}
+
+			@Override
+			public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 
 			}
 		};
@@ -137,6 +131,8 @@ public class CafeteriaFragment extends Fragment {
 				.setTabListener(tabListener);
 		getActivity().getActionBar().addTab(fri);
 
+		new MenuLoader().execute();
+
 		return rootView;
 
 	}
@@ -150,64 +146,63 @@ public class CafeteriaFragment extends Fragment {
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
 		super.onPrepareOptionsMenu(menu);
-		android.view.MenuItem menuItem;
-		menuItem = menu.findItem(R.id.student);
-		switch (priceSelected) {
+
+		switch (currentPrice) {
 		case STUDENT:
-			menuItem = menu.findItem(R.id.student);
-			priceSelected=STUDENT; 
-			fillList(priceSelected); 
+			setMenuPriceSelectionVisibility(menu, false, true, true);
 			break;
 		case EMPLOYEE:
-			menuItem = menu.findItem(R.id.employee);
-			priceSelected=EMPLOYEE; 
-			fillList(priceSelected); 
+			setMenuPriceSelectionVisibility(menu, true, false, true);
 			break;
 		case EXTERNAL:
-			menuItem = menu.findItem(R.id.external);
-			priceSelected=EXTERNAL; 
-			fillList(priceSelected); 
+			setMenuPriceSelectionVisibility(menu, true, true, false);
 			break;
 		}
-		menuItem.setVisible(false);
 	}
 
+	private void setMenuPriceSelectionVisibility(Menu menu, boolean student,
+			boolean employee, boolean external) {
+		menu.findItem(R.id.student).setVisible(student);
+		menu.findItem(R.id.employee).setVisible(employee);
+		menu.findItem(R.id.external).setVisible(external);
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(android.view.MenuItem item) {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 		case R.id.student:
-			return true;
+			currentPrice = STUDENT;
+			break;
 		case R.id.external:
-			return true;
+			currentPrice = EXTERNAL;
+			break;
 		case R.id.employee:
-			return true;
-		default:
-			return false;
+			currentPrice = EMPLOYEE;
+			break;
 		}
+
+		updateValues();
+		return true;
 	}
 
 	protected class MenuLoader extends AsyncDataLoader<List<MenuItem>> {
 
-		public MenuLoader(View rootView) {
-			super(rootView);
+		public MenuLoader() {
+			super();
 		}
 
 		@Override
 		protected List<MenuItem> doInBackground(Void... unused) {
-			System.out.println(daySelected);
 			AccessFacade accessFacade = new AccessFacade();
 			List<MenuItem> menu = null;
 
-			menu = accessFacade.getMenuAccess().getMenuItems(daySelected);
+			menu = accessFacade.getMenuAccess().getMenuItems();
 
 			if (menu == null) {
 				publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
-				menu = accessFacade.getMenuAccess().getMenuItemsFromCache(
-						daySelected);
+				menu = accessFacade.getMenuAccess().getMenuItemsFromCache();
 			}
 
 			if (menu == null) {
@@ -219,65 +214,114 @@ public class CafeteriaFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(List<MenuItem> menu) {
-			System.out.println("onPostExecute");
-			int type = 0;
 
-//			final ArrayList<HashMap<String, String>> menuList = new ArrayList<HashMap<String, String>>();
-//menuList.removeAll(); 
-//			menuList=null; 
-			menuList.clear(); 
-			for (MenuItem menuItem : menu) {
-				System.out.println(menuItem.getName());
-				System.out.println(menuItem.getType());
-				String courseType = null;
-				boolean first = false;
-				if (menuItem.getType() != type) {
-					first = true;
-					type = menuItem.getType();
-				}
-
-				HashMap<String, String> temp1 = new HashMap<String, String>();
-				temp1.put("name", menuItem.getName());
-
-				temp1.put("studentPrice",
-						String.valueOf(menuItem.getPriceStudent()));
-				temp1.put("employeePrice",
-						String.valueOf(menuItem.getPriceEmployee()));
-				temp1.put("externalPrice",
-						String.valueOf(menuItem.getPriceEmployee()));
-				temp1.put("first", first ? "true" : "false");
-
-				if (menuItem.getType() == MenuItem.TYPE_SOUP) {
-					courseType = "Suppen";
-				} else if (menuItem.getType() == MenuItem.TYPE_MAIN) {
-					courseType = "Hauptspeise";
-				} else if (menuItem.getType() == MenuItem.TYPE_APPETIZER) {
-					courseType = "Beilagen";
-				} else if (menuItem.getType() == MenuItem.TYPE_DESSERT) {
-					courseType = "Nachspeisen";
-				}
-
-				temp1.put("type", courseType);
-
-				menuList.add(temp1);
-			}
-
-//			fillList(menuList, STUDENT);
-
+			menuItems = menu;
+			updateValues();
 		}
 
 	}
 
-//	void fillList(final ArrayList<HashMap<String, String>> menuList, int price) {
-		void fillList(int price) {
+	private void updateValues() {
+		if (menuItems != null) {
+			ArrayList<HashMap<String, String>> menuList = new ArrayList<HashMap<String, String>>();
+			boolean first = true;
+			for (MenuItem menuItem : menuItems) {
+				if (menuItem.getDayOfWeek() == currentDay) {
+					double price = currentPrice == STUDENT ? menuItem
+							.getPriceStudent()
+							: currentPrice == EMPLOYEE ? menuItem
+									.getPriceEmployee() : menuItem
+									.getPriceExternal();
+					if (menuItem.getType() == MenuItem.TYPE_SOUP) {
+						menuList.add(generateHashMap(menuItem.getName(), price,
+								MenuItem.TYPE_SOUP, first));
+						first = false;
+					}
+				}
+			}
+			first = true;
+			for (MenuItem menuItem : menuItems) {
+				if (menuItem.getDayOfWeek() == currentDay) {
+					double price = currentPrice == STUDENT ? menuItem
+							.getPriceStudent()
+							: currentPrice == EMPLOYEE ? menuItem
+									.getPriceEmployee() : menuItem
+									.getPriceExternal();
+					if (menuItem.getType() == MenuItem.TYPE_APPETIZER) {
+						menuList.add(generateHashMap(menuItem.getName(), price,
+								MenuItem.TYPE_APPETIZER, first));
+						first = false;
+					}
+				}
+			}
+			first = true;
+			for (MenuItem menuItem : menuItems) {
+				if (menuItem.getDayOfWeek() == currentDay) {
+					double price = currentPrice == STUDENT ? menuItem
+							.getPriceStudent()
+							: currentPrice == EMPLOYEE ? menuItem
+									.getPriceEmployee() : menuItem
+									.getPriceExternal();
+					if (menuItem.getType() == MenuItem.TYPE_MAIN) {
+						menuList.add(generateHashMap(menuItem.getName(), price,
+								MenuItem.TYPE_MAIN, first));
+						first = false;
+					}
+				}
+			}
+			first = true;
+			for (MenuItem menuItem : menuItems) {
+				if (menuItem.getDayOfWeek() == currentDay) {
+					double price = currentPrice == STUDENT ? menuItem
+							.getPriceStudent()
+							: currentPrice == EMPLOYEE ? menuItem
+									.getPriceEmployee() : menuItem
+									.getPriceExternal();
+					if (menuItem.getType() == MenuItem.TYPE_DESSERT) {
+						menuList.add(generateHashMap(menuItem.getName(), price,
+								MenuItem.TYPE_DESSERT, first));
+						first = false;
+					}
+				}
+			}
 
+			fillList(menuList);
+		}
+	}
+
+	private HashMap<String, String> generateHashMap(String name, double price,
+			int type, boolean first) {
+		DecimalFormat df = new DecimalFormat("#.00", new DecimalFormatSymbols(
+				Locale.GERMANY));
+		String priceString = df.format(price) + " €";
+		String typeString = "";
+		if (type == MenuItem.TYPE_SOUP) {
+			typeString = "Suppen";
+		} else if (type == MenuItem.TYPE_MAIN) {
+			typeString = "Hauptspeise";
+		} else if (type == MenuItem.TYPE_APPETIZER) {
+			typeString = "Beilagen";
+		} else if (type == MenuItem.TYPE_DESSERT) {
+			typeString = "Nachspeisen";
+		}
+
+		HashMap<String, String> hashMap = new HashMap<String, String>();
+		hashMap.put("name", name);
+		hashMap.put("price", priceString);
+		hashMap.put("first", first ? "true" : "false");
+		hashMap.put("type", typeString);
+
+		return hashMap;
+	}
+
+	private void fillList(final List<HashMap<String, String>> menuList) {
 		ListView listView = (ListView) rootView
 				.findViewById(R.id.cafeteria_list);
 
 		SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
 				menuList, R.layout.menu_row_view, new String[] { "type",
-						"name", "studentPrice" }, new int[] {
-						R.id.menu_row_header, R.id.menu_name, R.id.menu_price }
+						"name", "price" }, new int[] { R.id.menu_row_header,
+						R.id.menu_name, R.id.menu_price }
 
 		) {
 			@Override
@@ -294,6 +338,5 @@ public class CafeteriaFragment extends Fragment {
 		};
 
 		listView.setAdapter(adapter);
-
 	}
 }
