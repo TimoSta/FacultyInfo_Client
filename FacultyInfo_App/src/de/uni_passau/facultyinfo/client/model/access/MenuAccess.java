@@ -68,7 +68,7 @@ public class MenuAccess {
 	 * Gives a list of all Menu items that are cached locally.
 	 * 
 	 */
-	public List<News> getMenuItemsFromCache() {
+	public List<MenuItem> getMenuItemsFromCache() {
 		return getMenuItemsFromCache(null);
 	}
 
@@ -76,9 +76,9 @@ public class MenuAccess {
 	 * Gives a list of all Menu items that are cached locally.
 	 * 
 	 */
-	public List<News> getMenuItemsFromCache(Integer dayOfWeek) {
+	public List<MenuItem> getMenuItemsFromCache(Integer dayOfWeek) {
 		// TODO: Load cached data
-		return Collections.unmodifiableList(new ArrayList<News>());
+		return Collections.unmodifiableList(new ArrayList<MenuItem>());
 	}
 
 	/**

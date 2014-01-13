@@ -38,36 +38,35 @@
         android:textSize="12sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/home_bus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/home_news_description"
+        android:text="Buslinien vom ZOB"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
     <FrameLayout
         android:id="@+id/bus_frame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/home_news_description"
+        android:layout_below="@+id/home_bus"
         android:layout_marginRight="58dp" >
-
-        <TextView
-            android:id="@+id/home_bus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:text="Buslinien vom ZOB"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ListView
             android:id="@+id/home_buslines"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/home_bus"
             android:divider="#FF8000"
             android:dividerHeight="1dp" >
         </ListView>
     </FrameLayout>
-    
+
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,5 +1,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     
-
+ <item
+        android:id="@+id/student"
+        android:showAsAction="never"
+        android:title="@string/student"/>
+ 
+  <item
+        android:id="@+id/employee"
+        android:showAsAction="never"
+        android:title="@string/employee"/>
+  
+   <item
+        android:id="@+id/external"
+        android:showAsAction="never"
+        android:title="@string/external"/>
+   
 </menu>

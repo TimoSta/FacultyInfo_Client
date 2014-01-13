@@ -77,5 +77,8 @@
     <string name="title_activity_display_news">Uni4You | Neuigkeiten</string>
     <string name="title_activity_display_faq">DisplayFAQActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="student">Student</string>
+    <string name="employee">Mitarbeiter</string>
+    <string name="external">Gast</string>
 
 </resources>
