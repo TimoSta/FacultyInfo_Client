@@ -37,13 +37,25 @@ public class MainActivity extends Activity {
 
 	private int selectedItem = 0;
 
+	public final static int HOME = 0;
+	public final static int TIMETABLE = 1;
+	public final static int NEWS = 2;
+	public final static int EVENTS = 3;
+	public final static int MAP = 4;
+	public final static int BUSLINES = 5;
+	public final static int MENU = 6;
+	public final static int SPORTS = 7;
+	public final static int BUSINESSHOURS = 8;
+	public final static int CONTACTS = 9;
+	public final static int FAQ = 10;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Intent intent = getIntent();
 
 		setContentView(R.layout.activity_main);
-		
+
 		drawerValues = getResources().getStringArray(R.array.drawer_values);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -146,31 +158,31 @@ public class MainActivity extends Activity {
 			Fragment fragment = null;
 
 			switch (position) {
-			case 0:
+			case HOME:
 				fragment = new HomeFragment();
 				break;
-			case 1:
+			case NEWS:
 				fragment = new NewsFragment();
 				break;
-			case 2:
+			case TIMETABLE:
 				fragment = new TimetableFragment();
 				break;
-			case 3:
+			case BUSLINES:
 				fragment = new BuslinesFragment();
 				break;
-			case 4:
+			case SPORTS:
 				fragment = new SportsFragment();
 				break;
-			case 5:
+			case MENU:
 				fragment = new CafeteriaFragment();
 				break;
-			case 6:
+			case CONTACTS:
 				fragment = new ContactFragment();
 				break;
-			case 7:
+			case FAQ:
 				fragment = new FaqsFragment();
 				break;
-			case 8:
+			case MAP:
 				// fragment = ((MapFragment)
 				// getFragmentManager().findFragmentById(
 				// R.layout.fragment_map));
@@ -178,12 +190,12 @@ public class MainActivity extends Activity {
 				fragment = new MapFragment();
 				// }
 				break;
-			case 9:
+			case BUSINESSHOURS:
 				fragment = new BusinessHoursFragment();
-				break; 
-			case 10: 
-				fragment= new EventFragment(); 
-				break; 
+				break;
+			case EVENTS:
+				fragment = new EventFragment();
+				break;
 			}
 
 			android.app.FragmentManager fragmentManager = getFragmentManager();

@@ -96,7 +96,7 @@ public class HomeFragment extends Fragment {
 					@Override
 					public void onClick(View v) {
 						System.out.println("open NewsFragment");
-						((MainActivity) getActivity()).selectItem(1);
+						((MainActivity) getActivity()).selectItem(MainActivity.NEWS);
 						// open NewsFragment
 					}
 				};
@@ -172,7 +172,7 @@ public class HomeFragment extends Fragment {
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1,
 						int arg2, long arg3) {
-					((MainActivity) getActivity()).selectItem(3);
+					((MainActivity) getActivity()).selectItem(MainActivity.BUSLINES);
 				}
 			};
 
@@ -251,7 +251,7 @@ public class HomeFragment extends Fragment {
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1,
 						int arg2, long arg3) {
-					((MainActivity) getActivity()).selectItem(5);
+					((MainActivity) getActivity()).selectItem(MainActivity.MENU);
 				}
 			};
 

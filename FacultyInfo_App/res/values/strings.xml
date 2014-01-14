@@ -3,16 +3,16 @@
 
     <string-array name="drawer_values">
         <item>Home</item>
-        <item>Neuigkeiten</item>
         <item>Stundenplan</item>
+        <item>Neuigkeiten</item>
+        <item>Veranstaltungen</item>
+        <item>Lageplan</item>
         <item>Busfahrplan</item>
-        <item>Hochschulsport</item>
         <item>Mensaplan</item>
+        <item>Hochschulsport</item>
+        <item>Öffnungszeiten</item>
         <item>Ansprechpartner</item>
         <item>FAQs</item>
-        <item>Universitätsplan</item>
-        <item>Öffnungszeiten</item>
-        <item>Veranstaltungen</item>
     </string-array>
     <string-array name="day_values">
         <item>Montag</item>
