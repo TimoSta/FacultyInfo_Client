@@ -20,6 +20,7 @@ import de.uni_passau.facultyinfo.client.fragment.BusinessHoursFragment;
 import de.uni_passau.facultyinfo.client.fragment.BuslinesFragment;
 import de.uni_passau.facultyinfo.client.fragment.CafeteriaFragment;
 import de.uni_passau.facultyinfo.client.fragment.ContactFragment;
+import de.uni_passau.facultyinfo.client.fragment.EventFragment;
 import de.uni_passau.facultyinfo.client.fragment.FaqsFragment;
 import de.uni_passau.facultyinfo.client.fragment.HomeFragment;
 import de.uni_passau.facultyinfo.client.fragment.MapFragment;
@@ -179,6 +180,10 @@ public class MainActivity extends Activity {
 				break;
 			case 9:
 				fragment = new BusinessHoursFragment();
+				break; 
+			case 10: 
+				fragment= new EventFragment(); 
+				break; 
 			}
 
 			android.app.FragmentManager fragmentManager = getFragmentManager();

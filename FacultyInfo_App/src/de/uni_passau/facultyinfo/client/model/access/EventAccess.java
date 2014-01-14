@@ -73,7 +73,7 @@ public class EventAccess {
 	 * @param eventId
 	 * @return Event
 	 */
-	public News getEventFromCache(String eventId) {
+	public Event getEventFromCache(String eventId) {
 		// TODO: load cached data
 		return null;
 	}

@@ -12,6 +12,7 @@
         <item>FAQs</item>
         <item>Universitätsplan</item>
         <item>Öffnungszeiten</item>
+        <item>Veranstaltungen</item>
     </string-array>
     <string-array name="day_values">
         <item>Montag</item>
@@ -80,5 +81,6 @@
     <string name="student">Student</string>
     <string name="employee">Mitarbeiter</string>
     <string name="external">Gast</string>
+    <string name="title_events">Uni4You | Veranstaltungen</string>
 
 </resources>
