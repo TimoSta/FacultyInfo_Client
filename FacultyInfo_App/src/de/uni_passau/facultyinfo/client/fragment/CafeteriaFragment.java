@@ -65,22 +65,6 @@ public class CafeteriaFragment extends Fragment {
 		getActivity().getActionBar().setNavigationMode(
 				ActionBar.NAVIGATION_MODE_TABS);
 
-		Calendar cal = Calendar.getInstance();
-		cal.setFirstDayOfWeek(Calendar.MONDAY);
-		cal.setTime(new Date());
-		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-		if (dayOfWeek == Calendar.MONDAY) {
-			currentDay = MenuItem.MONDAY;
-		} else if (dayOfWeek == Calendar.TUESDAY) {
-			currentDay = MenuItem.TUESDAY;
-		} else if (dayOfWeek == Calendar.WEDNESDAY) {
-			currentDay = MenuItem.WEDNESDAY;
-		} else if (dayOfWeek == Calendar.THURSDAY) {
-			currentDay = MenuItem.THURSDAY;
-		} else if (dayOfWeek == Calendar.FRIDAY) {
-			currentDay = MenuItem.FRIDAY;
-		}
-
 		TabListener tabListener = new ActionBar.TabListener() {
 			@Override
 			public void onTabSelected(Tab tab, FragmentTransaction arg1) {
@@ -130,6 +114,22 @@ public class CafeteriaFragment extends Fragment {
 		Tab fri = (Tab) getActivity().getActionBar().newTab().setText(FRIDAY)
 				.setTabListener(tabListener);
 		getActivity().getActionBar().addTab(fri);
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setFirstDayOfWeek(Calendar.MONDAY);
+		cal.setTime(new Date());
+		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+		if (dayOfWeek == Calendar.MONDAY) {
+			getActivity().getActionBar().selectTab(mon);
+		} else if (dayOfWeek == Calendar.TUESDAY) {
+			getActivity().getActionBar().selectTab(tue);
+		} else if (dayOfWeek == Calendar.WEDNESDAY) {
+			getActivity().getActionBar().selectTab(wed);
+		} else if (dayOfWeek == Calendar.THURSDAY) {
+			getActivity().getActionBar().selectTab(thu);
+		} else if (dayOfWeek == Calendar.FRIDAY) {
+			getActivity().getActionBar().selectTab(fri);
+		}
 
 		new MenuLoader().execute();
 

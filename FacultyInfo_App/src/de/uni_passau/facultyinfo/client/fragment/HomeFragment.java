@@ -36,7 +36,6 @@ public class HomeFragment extends Fragment {
 		// Empty constructor required for fragment subclasses
 	}
 
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -180,7 +179,6 @@ public class HomeFragment extends Fragment {
 			buslineList.setOnItemClickListener(onClickListener);
 		}
 	}
-	
 
 	protected class MenuLoader extends AsyncDataLoader<List<MenuItem>> {
 
@@ -214,6 +212,22 @@ public class HomeFragment extends Fragment {
 			cal.setFirstDayOfWeek(Calendar.MONDAY);
 			cal.setTime(new Date());
 			int currentDay = cal.get(Calendar.DAY_OF_WEEK);
+
+			if (currentDay == Calendar.MONDAY) {
+				currentDay = MenuItem.MONDAY;
+			} else if (currentDay == Calendar.TUESDAY) {
+				currentDay = MenuItem.TUESDAY;
+			} else if (currentDay == Calendar.WEDNESDAY) {
+				currentDay = MenuItem.WEDNESDAY;
+			} else if (currentDay == Calendar.THURSDAY) {
+				currentDay = MenuItem.THURSDAY;
+			} else if (currentDay == Calendar.FRIDAY) {
+				currentDay = MenuItem.FRIDAY;
+			} else if (currentDay == Calendar.SATURDAY) {
+				currentDay = MenuItem.SATURDAY;
+			} else if (currentDay == Calendar.SUNDAY) {
+				currentDay = MenuItem.SUNDAY;
+			}
 
 			for (MenuItem menuItem : menu) {
 				if (menuItem.getDayOfWeek() == currentDay) {
