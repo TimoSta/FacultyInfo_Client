@@ -44,7 +44,7 @@ public class BusLineAccess {
 		Date now = new Date();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(now);
-		cal.add(Calendar.MINUTE, 20);
+		cal.add(Calendar.MINUTE, 60);
 		Date soon = cal.getTime();
 		
 		for (BusLine busLine : busLines) {
