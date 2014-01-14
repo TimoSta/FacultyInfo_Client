@@ -205,7 +205,7 @@ public class TimetableFragment extends Fragment {
 			// TODO: Einträge an der GUI anzeigen
 
 			for (TimetableEntry timetableEntry : timetableEntries) {
-				if (timetableEntry.getDayOfWeek() == 1) {
+				if (timetableEntry.getDayOfWeek() == TimetableEntry.MONDAY) {
 					if (timetableEntry.getTime() == TimetableEntry.FROM_08_TO_10) {
 						prepareCell(R.id.mo810, timetableEntry);
 					} else if (timetableEntry.getTime() == TimetableEntry.FROM_10_TO_12) {
@@ -219,7 +219,7 @@ public class TimetableFragment extends Fragment {
 					} else if (timetableEntry.getTime() == TimetableEntry.FROM_18_TO_20) {
 						prepareCell(R.id.mo1820, timetableEntry);
 					}
-				} else if (timetableEntry.getDayOfWeek() == 2) {
+				} else if (timetableEntry.getDayOfWeek() == TimetableEntry.TUESDAY) {
 					if (timetableEntry.getTime() == TimetableEntry.FROM_08_TO_10) {
 						prepareCell(R.id.di810, timetableEntry);
 					} else if (timetableEntry.getTime() == TimetableEntry.FROM_10_TO_12) {
@@ -233,7 +233,7 @@ public class TimetableFragment extends Fragment {
 					} else if (timetableEntry.getTime() == TimetableEntry.FROM_18_TO_20) {
 						prepareCell(R.id.di1820, timetableEntry);
 					}
-				} else if (timetableEntry.getDayOfWeek() == 3){
+				} else if (timetableEntry.getDayOfWeek() == TimetableEntry.WEDNESDAY){
 					if (timetableEntry.getTime() == TimetableEntry.FROM_08_TO_10) {
 						prepareCell(R.id.mi810, timetableEntry);
 					} else if (timetableEntry.getTime() == TimetableEntry.FROM_10_TO_12) {
@@ -247,7 +247,7 @@ public class TimetableFragment extends Fragment {
 					} else if (timetableEntry.getTime() == TimetableEntry.FROM_18_TO_20) {
 						prepareCell(R.id.mi1820, timetableEntry);
 					}
-				}else if (timetableEntry.getDayOfWeek() == 4) {
+				}else if (timetableEntry.getDayOfWeek() == TimetableEntry.THURSDAY) {
 					if (timetableEntry.getTime() == TimetableEntry.FROM_08_TO_10) {
 						prepareCell(R.id.don810, timetableEntry);
 					} else if (timetableEntry.getTime() == TimetableEntry.FROM_10_TO_12) {
@@ -261,8 +261,7 @@ public class TimetableFragment extends Fragment {
 					} else if (timetableEntry.getTime() == TimetableEntry.FROM_18_TO_20) {
 						prepareCell(R.id.don1820, timetableEntry);
 					}
-				} else if (timetableEntry.getDayOfWeek() == 4) {
-					if (timetableEntry.getTime() == TimetableEntry.FROM_08_TO_10) {
+				} else if (timetableEntry.getDayOfWeek() == TimetableEntry.FRIDAY) {
 						if (timetableEntry.getTime() == TimetableEntry.FROM_08_TO_10) {
 							prepareCell(R.id.fr810, timetableEntry);
 						} else if (timetableEntry.getTime() == TimetableEntry.FROM_10_TO_12) {
@@ -276,7 +275,6 @@ public class TimetableFragment extends Fragment {
 						} else if (timetableEntry.getTime() == TimetableEntry.FROM_18_TO_20) {
 							prepareCell(R.id.fr1820, timetableEntry);
 						}
-					}
 				}
 			}
 

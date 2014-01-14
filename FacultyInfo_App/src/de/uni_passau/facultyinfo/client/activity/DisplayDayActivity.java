@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.TabHost;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.fragment.DisplayDayFragment;
+import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
 
 public class DisplayDayActivity extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -32,6 +33,8 @@ public class DisplayDayActivity extends FragmentActivity implements
 		Intent intent = getIntent();
 		int dayId = intent.getIntExtra("dayId", 0);
 		System.out.println("Intent -> getExtra");
+		
+//		boolean toOverview = intent.getBooleanExtra("toOverview", false); 
 
 		if (dayId == 0) {
 			System.out.println("Montag");
@@ -112,11 +115,26 @@ public class DisplayDayActivity extends FragmentActivity implements
 
 		@Override
 		public Fragment getItem(int i) {
+			
+			
+			int day=TimetableEntry.MONDAY; 
+			if(i==0){
+				day=TimetableEntry.MONDAY;  
+			}else if(i==1){
+				day=TimetableEntry.TUESDAY; 
+			}else if(i==2){
+				day=TimetableEntry.WEDNESDAY; 
+			}else if(i==3){
+				day=TimetableEntry.THURSDAY; 
+			}else if(i==4){
+				day=TimetableEntry.FRIDAY; 
+			}
+			
 			System.out.println("getItem: " + i);
 			Fragment fragment = new DisplayDayFragment();
 			Bundle args = new Bundle();
 			
-			args.putInt(DisplayDayFragment.ARG_DAY, i+1);
+			args.putInt(DisplayDayFragment.ARG_DAY, day);
 			fragment.setArguments(args);
 			return fragment;
 

@@ -335,7 +335,23 @@ public class EditTimeTableActivity extends FragmentActivity {
 				Intent intent = new Intent(getApplicationContext(),
 						toOverview ? DisplayDayActivity.class
 								: DisplayTimeTableEntryActivity.class);
-				intent.putExtra("dayId", dayId);
+//				if(toOverview){
+//					intent.putExtra("displayDay", true); 
+//				}
+				int day=TimetableEntry.MONDAY; 
+				if(dayId==TimetableEntry.MONDAY){
+					day=0; 
+				}else if(dayId==TimetableEntry.TUESDAY){
+					day=1; 
+				}else if(dayId==TimetableEntry.WEDNESDAY){
+					day=2; 
+				}else if(dayId==TimetableEntry.THURSDAY){
+					day=3; 
+				}else if(dayId==TimetableEntry.FRIDAY){
+					day=4; 
+				}
+				
+				intent.putExtra("dayId", day);
 				intent.putExtra("timeslotId", timeslotId);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
