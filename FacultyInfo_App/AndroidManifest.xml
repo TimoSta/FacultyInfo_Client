@@ -143,6 +143,10 @@
             android:label="@string/title_events"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="de.uni_passau.facultyinfo.client.activity.SearchEventsActivity"
+            android:label="@string/title_activity_search_events" >
+        </activity>
     </application>
 
 </manifest>

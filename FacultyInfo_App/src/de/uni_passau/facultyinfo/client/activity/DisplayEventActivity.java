@@ -6,7 +6,9 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
@@ -21,6 +23,10 @@ public class DisplayEventActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_event);
+		
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayShowHomeEnabled(true);
+		getActionBar().setDisplayShowTitleEnabled(true);
 
 		Intent intent = getIntent();
 		eventId = intent.getStringExtra("eventId");
@@ -29,14 +35,21 @@ public class DisplayEventActivity extends Activity {
 
 	}
 
-	//
-	// @Override
-	// public boolean onCreateOptionsMenu(Menu menu) {
-	// // Inflate the menu; this adds items to the action bar if it is present.
-	// getMenuInflater().inflate(R.menu., menu);
-	// return true;
-	// }
-	//
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.display_event, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			onBackPressed();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 	protected class EventLoader extends AsyncDataLoader<Event> {
 		@Override
 		protected Event doInBackground(Void... unused) {
@@ -64,6 +77,7 @@ public class DisplayEventActivity extends Activity {
 
 			TextView description = (TextView) findViewById(R.id.event_description);
 			description.setText(event.getDescription());
+			description.setMovementMethod(new ScrollingMovementMethod());
 
 			TextView location = (TextView) findViewById(R.id.event_location);
 			location.setText(event.getLocation());

@@ -115,7 +115,8 @@ public class DisplaySportCoursesActivity extends Activity {
 				System.out.println("Number: " + course.getNumber());
 				String details = course.getDetails();
 				if (details == null || details.isEmpty()) {
-					details = "Keine Beschreibung verfügbar";
+//					details = "Keine Beschreibung verfügbar";
+					details = course.getCategory().getTitle(); 
 				}
 				temp1.put("details", details);
 

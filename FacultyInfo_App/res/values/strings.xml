@@ -82,5 +82,6 @@
     <string name="employee">Mitarbeiter</string>
     <string name="external">Gast</string>
     <string name="title_events">Uni4You | Veranstaltungen</string>
+    <string name="title_activity_search_events">SearchEventsActivity</string>
 
 </resources>

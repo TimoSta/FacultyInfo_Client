@@ -12,7 +12,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="Vorlesungszeit:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TableLayout
@@ -35,7 +34,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:text="Mo "
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
@@ -56,7 +54,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:text="Di"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
@@ -77,7 +74,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:text="Mi"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
@@ -98,7 +94,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:text="Do"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
@@ -119,7 +114,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:text="Fr"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
@@ -140,7 +134,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:text="Sa"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
@@ -161,7 +154,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:text="So"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
@@ -180,7 +172,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/table_semester"
-        android:text="vorlesungsfreie Zeit:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TableLayout
@@ -203,7 +194,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:text="Mo "
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
@@ -224,14 +214,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:text="Di"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                 android:id="@+id/break_di"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_column="2"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </TableRow>
 
@@ -245,14 +233,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:text="Mi"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                 android:id="@+id/break_mi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_column="2"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </TableRow>
 
@@ -266,14 +252,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:text="Do"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                 android:id="@+id/break_do"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_column="2"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </TableRow>
 
@@ -287,7 +271,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:text="Fr"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
@@ -308,7 +291,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:text="Sa"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
@@ -329,7 +311,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:text="So"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView

@@ -134,7 +134,30 @@ public class DisplayBusinessHoursActivity extends Activity {
 					BusinessHours.MONDAY) == null) {
 				TextView semester = (TextView) findViewById(R.id.semester);
 				semester.setText("");
+			}else{
+				TextView semester = (TextView) findViewById(R.id.semester);
+				semester.setText("Vorlesungszeit");
+				
+				TextView breakBH = (TextView) findViewById(R.id.break_business_hours);
+				breakBH.setText("vorlesungsfreie Zeit");
+				
+				((TextView) findViewById(R.id.break_mo_h)).setText("Mo"); 
+				((TextView) findViewById(R.id.break_di_h)).setText("Di"); 
+				((TextView) findViewById(R.id.break_mi_h)).setText("Mi"); 
+				((TextView) findViewById(R.id.break_do_h)).setText("Do"); 
+				((TextView) findViewById(R.id.break_fr_h)).setText("Fr"); 
+				((TextView) findViewById(R.id.break_sa_h)).setText("Sa"); 
+				((TextView) findViewById(R.id.break_so_h)).setText("So"); 
 			}
+			
+			((TextView) findViewById(R.id.semester_mo_h)).setText("Mo"); 
+			((TextView) findViewById(R.id.semester_di_h)).setText("Di"); 
+			((TextView) findViewById(R.id.semester_mi_h)).setText("Mi"); 
+			((TextView) findViewById(R.id.semester_do_h)).setText("Do"); 
+			((TextView) findViewById(R.id.semester_fr_h)).setText("Fr"); 
+			((TextView) findViewById(R.id.semester_sa_h)).setText("Sa"); 
+			((TextView) findViewById(R.id.semester_so_h)).setText("So"); 
+			
 
 			TextView semester_mo = (TextView) findViewById(R.id.semester_mo);
 			BusinessHours businessHours_mo = facility.getBusinessHours(
