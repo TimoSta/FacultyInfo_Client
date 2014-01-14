@@ -59,6 +59,7 @@ public class CafeteriaFragment extends Fragment {
 
 		setHasOptionsMenu(true);
 
+		getActivity().getActionBar().removeAllTabs(); 
 		getActivity().getActionBar().setTitle(
 				getActivity().getApplicationContext().getString(
 						R.string.title_cafeteria));
@@ -319,7 +320,7 @@ public class CafeteriaFragment extends Fragment {
 				.findViewById(R.id.cafeteria_list);
 
 		SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
-				menuList, R.layout.menu_row_view, new String[] { "type",
+				menuList, R.layout.menu_row_view_test, new String[] { "type",
 						"name", "price" }, new int[] { R.id.menu_row_header,
 						R.id.menu_name, R.id.menu_price }
 

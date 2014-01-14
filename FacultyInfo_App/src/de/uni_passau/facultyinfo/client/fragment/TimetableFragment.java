@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableRow;
+//import android.widget.TableRow;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
@@ -27,7 +27,7 @@ public class TimetableFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_timetable, container,
+		rootView = inflater.inflate(R.layout.fragment_timetable_test, container,
 				false);
 
 		getActivity().getActionBar().setTitle(
@@ -36,8 +36,8 @@ public class TimetableFragment extends Fragment {
 		getActivity().getActionBar().setNavigationMode(
 				ActionBar.NAVIGATION_MODE_STANDARD);
 
-		TableRow th = (TableRow) rootView.findViewById(R.id.th);
-		th.setPadding(0, 0, 0, 0);
+//		TableRow th = (TableRow) rootView.findViewById(R.id.th);
+//		th.setPadding(0, 0, 0, 0);
 
 		TextView mo = (TextView) rootView.findViewById(R.id.mo);
 		mo.setText("Mo");

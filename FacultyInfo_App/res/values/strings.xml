@@ -48,8 +48,8 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="action_websearch">Action Websearch</string>
-    <string name="title_activity_display_day">DisplayDayActivity</string>
-    <string name="title_activity_display_day_fragment">DisplayDayFragment</string>
+    <string name="title_activity_display_day">Uni4You | Stundenplan</string>
+    <string name="title_activity_display_day_fragment">Uni4You | Stundenplan</string>
     <string name="create_event_TT_dialog">Zu dieser Zeit ist keine Veranstaltung vorhanden! </string>
     <string name="cancel">Abbrechen</string>
     <string name="create">Jetzt Anlegen</string>
@@ -63,16 +63,16 @@
     <string name="title_activity_display_time_table_entry">DisplayTimeTableEntryActivity</string>
     <string name="descriptionTTh">Beschreibung</string>
     <string name="color">Farbe</string>
-    <string name="title_activity_sports_category_fragment">SportsCategoryFragment</string>
+    <string name="title_activity_sports_category_fragment">Uni4You | Hochschulsport</string>
     <string name="title_activity_display_sports_course">DisplaySportsCourseActivity</string>
-    <string name="title_activity_display_sport_courses">DisplaySportCoursesActivity</string>
+    <string name="title_activity_display_sport_courses">Uni4You | Hochschulsport</string>
     <string name="title_activity_home_fragment">HomeFragment</string>
     <string name="app_label">AppLabel</string>
     <string name="search_hint">Sportkurs</string>
     <string name="menu_search">Suche</string>
     <string name="menu_email">Mail an Fachschaft</string>
-    <string name="title_activity_search_sports">SearchSportsActivity</string>
-    <string name="title_activity_search_contacts">SearchContactsActivity</string>
+    <string name="title_activity_search_sports">Uni4You | Hochschulsport</string>
+    <string name="title_activity_search_contacts">Uni4You | Ansprechpartner</string>
     <string name="title_activity_business_hours_fragment">BusinessHoursFragment</string>
     <string name="title_activity_display_business_hours">DisplayBusinessHoursActivity</string>
     <string name="title_activity_display_news">Uni4You | Neuigkeiten</string>
@@ -82,6 +82,6 @@
     <string name="employee">Mitarbeiter</string>
     <string name="external">Gast</string>
     <string name="title_events">Uni4You | Veranstaltungen</string>
-    <string name="title_activity_search_events">SearchEventsActivity</string>
+    <string name="title_activity_search_events">Uni4You | Veranstaltungen</string>
 
 </resources>
