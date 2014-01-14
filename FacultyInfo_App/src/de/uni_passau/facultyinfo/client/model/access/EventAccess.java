@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import de.uni_passau.facultyinfo.client.model.connection.RestConnection;
+import de.uni_passau.facultyinfo.client.model.dto.ContactGroup;
+import de.uni_passau.facultyinfo.client.model.dto.ContactPerson;
 import de.uni_passau.facultyinfo.client.model.dto.Event;
 import de.uni_passau.facultyinfo.client.model.dto.News;
 
@@ -76,6 +78,33 @@ public class EventAccess {
 	public Event getEventFromCache(String eventId) {
 		// TODO: load cached data
 		return null;
+	}
+
+	/**
+	 * Gives a list of Events that contain the search string in one or more of
+	 * the following attributes:
+	 * <ul>
+	 * <li>Title</li>
+	 * <li>Subtitle</li>
+	 * <li>Description</li>
+	 * <li>Host</li>
+	 * <li>Location</li>
+	 * </ul>
+	 * 
+	 * The search is case insensitive.
+	 * 
+	 * @param input
+	 *            The search parameter
+	 */
+	public List<Event> find(String input) {
+		if (input != null && !input.isEmpty()) {
+			List<Event> events = null;
+
+			events = restConnection.getRessourceAsList(RESSOURCE + "/find/"
+					+ input);
+			return events != null ? Collections.unmodifiableList(events) : null;
+		}
+		return Collections.unmodifiableList(new ArrayList<Event>());
 	}
 
 }
