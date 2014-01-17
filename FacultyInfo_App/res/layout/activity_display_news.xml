@@ -23,6 +23,8 @@
         android:layout_alignLeft="@+id/newsHeading"
         android:layout_below="@+id/newsHeading"
         android:layout_marginTop="27dp"
+        android:autoLink="web"
+        android:linksClickable="true"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
