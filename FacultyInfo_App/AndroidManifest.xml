@@ -145,7 +145,8 @@
         </activity>
         <activity
             android:name="de.uni_passau.facultyinfo.client.activity.SearchEventsActivity"
-            android:label="@string/title_activity_search_events" >
+            android:label="@string/title_activity_search_events" 
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

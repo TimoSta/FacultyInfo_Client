@@ -332,26 +332,35 @@ public class EditTimeTableActivity extends FragmentActivity {
 						FacultyInfoApplication.getContext(),
 						"Termin erfolgreich gespeichert", Toast.LENGTH_SHORT);
 				toast.show();
-				Intent intent = new Intent(getApplicationContext(),
-						toOverview ? DisplayDayActivity.class
-								: DisplayTimeTableEntryActivity.class);
-//				if(toOverview){
-//					intent.putExtra("displayDay", true); 
-//				}
-				int day=TimetableEntry.MONDAY; 
-				if(dayId==TimetableEntry.MONDAY){
-					day=0; 
-				}else if(dayId==TimetableEntry.TUESDAY){
-					day=1; 
-				}else if(dayId==TimetableEntry.WEDNESDAY){
-					day=2; 
-				}else if(dayId==TimetableEntry.THURSDAY){
-					day=3; 
-				}else if(dayId==TimetableEntry.FRIDAY){
-					day=4; 
+				// Intent intent = new Intent(getApplicationContext(),
+				// toOverview ? DisplayDayActivity.class
+				// : DisplayTimeTableEntryActivity.class);
+				// if(toOverview){
+				// intent.putExtra("displayDay", true);
+				// }
+
+				Intent intent;
+				if (toOverview) {
+					intent = new Intent(getApplicationContext(),
+							DisplayDayActivity.class);
+
+					int day = TimetableEntry.MONDAY;
+					if (dayId == TimetableEntry.MONDAY) {
+						dayId = 0;
+					} else if (dayId == TimetableEntry.TUESDAY) {
+						dayId = 1;
+					} else if (dayId == TimetableEntry.WEDNESDAY) {
+						dayId = 2;
+					} else if (dayId == TimetableEntry.THURSDAY) {
+						dayId = 3;
+					} else if (dayId == TimetableEntry.FRIDAY) {
+						dayId = 4;
+					}
+				}else{
+					intent=new Intent(getApplicationContext(),DisplayTimeTableEntryActivity.class); 
 				}
-				
-				intent.putExtra("dayId", day);
+
+				intent.putExtra("dayId", dayId);
 				intent.putExtra("timeslotId", timeslotId);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
