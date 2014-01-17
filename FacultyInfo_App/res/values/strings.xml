@@ -60,7 +60,7 @@
     <string name="title_activity_display_chair_contacts">DisplayChairContactsActivity</string>
     <string name="create_event_no_location_dialog">Es ist kein Ort für die Veranstaltung angegeben.</string>
     <string name="create2">Trotzdem anlegen</string>
-    <string name="title_activity_display_time_table_entry">DisplayTimeTableEntryActivity</string>
+    <string name="title_activity_display_time_table_entry">Uni4You | Stundenplan</string>
     <string name="descriptionTTh">Beschreibung</string>
     <string name="color">Farbe</string>
     <string name="title_activity_sports_category_fragment">Uni4You | Hochschulsport</string>

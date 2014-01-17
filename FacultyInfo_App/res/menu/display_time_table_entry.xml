@@ -6,5 +6,12 @@
         android:showAsAction="ifRoom"
         android:icon="@drawable/ic_action_edit"
         android:title="Bearbeiten"/>
+    
+    <item
+        android:id="@+id/action_delete"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/ic_action_discard"
+        android:title="Löschen"/>
 
 </menu>

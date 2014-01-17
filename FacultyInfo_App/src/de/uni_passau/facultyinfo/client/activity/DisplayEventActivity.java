@@ -23,15 +23,15 @@ public class DisplayEventActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_event);
-		
+
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowHomeEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(true);
 
 		Intent intent = getIntent();
 		eventId = intent.getStringExtra("eventId");
-		
-		(new EventLoader()).execute(); 
+
+		(new EventLoader()).execute();
 
 	}
 
@@ -50,6 +50,7 @@ public class DisplayEventActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
 	protected class EventLoader extends AsyncDataLoader<Event> {
 		@Override
 		protected Event doInBackground(Void... unused) {

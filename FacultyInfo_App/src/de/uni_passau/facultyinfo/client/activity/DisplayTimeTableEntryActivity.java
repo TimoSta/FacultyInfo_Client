@@ -10,13 +10,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.application.FacultyInfoApplication;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
 
 public class DisplayTimeTableEntryActivity extends Activity {
 	private int timeslotId;
 	private int dayId;
+	private String entryId;
 	private int colorId;
 
 	@Override
@@ -67,6 +70,7 @@ public class DisplayTimeTableEntryActivity extends Activity {
 
 	@Override
 	protected void onResume() {
+		System.out.println("onResume");
 		(new TimetableEntryLoader()).execute();
 		super.onResume();
 	}
@@ -88,6 +92,8 @@ public class DisplayTimeTableEntryActivity extends Activity {
 			intent.putExtra("new", false);
 			startActivity(intent);
 			return true;
+		case R.id.action_delete:
+			(new TimetableEntrySaver()).execute(); 
 		case android.R.id.home:
 			onBackPressed();
 			return true;
@@ -115,8 +121,10 @@ public class DisplayTimeTableEntryActivity extends Activity {
 		@Override
 		protected void onPostExecute(List<TimetableEntry> timetableEntries) {
 			for (TimetableEntry timetableEntry : timetableEntries) {
+				System.out.println("onPostExecute->for");
 				if (dayId == timetableEntry.getDayOfWeek()
 						&& timeslotId == timetableEntry.getTime()) {
+					System.out.println("onPostExecute->if");
 					EditText titleEditText = (EditText) findViewById(R.id.veranstaltungddisplay);
 					titleEditText.setText(timetableEntry.getTitle());
 					titleEditText.setKeyListener(null);
@@ -131,9 +139,74 @@ public class DisplayTimeTableEntryActivity extends Activity {
 					descriptionEditText.setKeyListener(null);
 
 					colorId = timetableEntry.getColor();
+					entryId = timetableEntry.getId();
 				}
 			}
 		}
 	}
 
+	protected class TimetableEntrySaver extends
+			AsyncTask<TimetableEntry, Void, Boolean> {
+		// View rootView = null;
+		//
+		// public TimetableEntrySaver(View rootView) {
+		// super();
+		// this.rootView = rootView;
+		// }
+
+		@Override
+		protected Boolean doInBackground(TimetableEntry... timetableEntries) {
+			AccessFacade accessFacade = new AccessFacade();
+
+//			boolean result = true;
+//			for (TimetableEntry timetableEntry : timetableEntries) {
+//				result = accessFacade.getTimetableAccess()
+//						.deleteTimetableEntry(entryId) && result;
+//			}
+			boolean result = accessFacade.getTimetableAccess()
+					.deleteTimetableEntry(entryId);
+
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			if (result) {
+				Toast toast = Toast.makeText(
+						FacultyInfoApplication.getContext(),
+						"Termin erfolgreich gelöscht", Toast.LENGTH_SHORT);
+				toast.show();
+				Intent intent = new Intent(getApplicationContext(),
+						DisplayDayActivity.class);
+				// if(toOverview){
+				// intent.putExtra("displayDay", true);
+				// }
+				int day = TimetableEntry.MONDAY;
+				if (dayId == TimetableEntry.MONDAY) {
+					day = 0;
+				} else if (dayId == TimetableEntry.TUESDAY) {
+					day = 1;
+				} else if (dayId == TimetableEntry.WEDNESDAY) {
+					day = 2;
+				} else if (dayId == TimetableEntry.THURSDAY) {
+					day = 3;
+				} else if (dayId == TimetableEntry.FRIDAY) {
+					day = 4;
+				}
+				
+				
+				
+
+				intent.putExtra("dayId", day);
+				intent.putExtra("timeslotId", timeslotId);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+			} else {
+				Toast toast = Toast.makeText(
+						FacultyInfoApplication.getContext(),
+						"Fehler beim Löschen", Toast.LENGTH_SHORT);
+				toast.show();
+			}
+		}
+	}
 }
