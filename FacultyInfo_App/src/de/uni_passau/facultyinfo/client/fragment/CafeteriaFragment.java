@@ -292,7 +292,7 @@ public class CafeteriaFragment extends Fragment {
 
 	private HashMap<String, String> generateHashMap(String name, double price,
 			int type, boolean first) {
-		DecimalFormat df = new DecimalFormat("#.00", new DecimalFormatSymbols(
+		DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(
 				Locale.GERMANY));
 		String priceString = df.format(price) + " €";
 		String typeString = "";
