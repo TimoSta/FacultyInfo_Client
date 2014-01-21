@@ -7,13 +7,11 @@ package de.uni_passau.facultyinfo.client.model.access;
  */
 public class AccessFacade {
 	private FaqAccess faqAccess = null;
-	private BusLineAccess busLineAccess = null;
 	private EventAccess eventAccess = null;
 	private TimetableAccess timetableAccess = null;
 	private MapMarkerAccess mapMarkerAccess = null;
 	private SportsCourseAccess sportsCourseAccess = null;
 	private ContactPersonAccess contactPersonAccess = null;
-	private BusinessHoursAccess businessHoursAccess = null;
 	private MenuAccess menuAccess = null;
 
 	public NewsAccess getNewsAccess() {
@@ -28,10 +26,7 @@ public class AccessFacade {
 	}
 
 	public BusLineAccess getBusLineAccess() {
-		if (busLineAccess == null) {
-			busLineAccess = new BusLineAccess();
-		}
-		return busLineAccess;
+		return BusLineAccess.getInstance();
 	}
 
 	public EventAccess getEventAccess() {
@@ -70,10 +65,7 @@ public class AccessFacade {
 	}
 
 	public BusinessHoursAccess getBusinessHoursAccess() {
-		if (businessHoursAccess == null) {
-			businessHoursAccess = new BusinessHoursAccess();
-		}
-		return businessHoursAccess;
+		return BusinessHoursAccess.getInstance();
 	}
 
 	public MenuAccess getMenuAccess() {

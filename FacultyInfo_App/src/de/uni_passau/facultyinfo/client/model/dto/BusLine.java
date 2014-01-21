@@ -12,10 +12,12 @@ public class BusLine {
 	private Date departure;
 
 	@JsonCreator
-	public BusLine(@JsonProperty("line") String line,
+	public BusLine(@JsonProperty("id") String id,
+			@JsonProperty("line") String line,
 			@JsonProperty("direction") String direction,
 			@JsonProperty("departure") Date departure) {
 		super();
+		this.id = id;
 		this.line = line;
 		this.direction = direction;
 		this.departure = departure;

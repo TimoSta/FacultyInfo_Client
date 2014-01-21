@@ -50,4 +50,11 @@ public class Time {
 						"0");
 	}
 
+	public String toStringWithSeconds() {
+		return String.format("%2s", Integer.toString(hour)).replace(" ", "0")
+				+ ":"
+				+ String.format("%2s", Integer.toString(minute)).replace(" ",
+						"0") + ":00";
+	}
+
 }
