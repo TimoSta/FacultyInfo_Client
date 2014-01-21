@@ -11,13 +11,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import de.uni_passau.facultyinfo.client.R;
@@ -51,6 +53,8 @@ public class MapFragment extends Fragment {
 
 		map = ((com.google.android.gms.maps.MapFragment) getFragmentManager()
 				.findFragmentById(R.id.map)).getMap();
+		map.setInfoWindowAdapter(new PopupAdapter(getActivity()
+				.getLayoutInflater()));
 		map.getUiSettings().setCompassEnabled(true);
 		map.getUiSettings().setZoomControlsEnabled(true);
 		map.setMyLocationEnabled(true);
@@ -258,7 +262,8 @@ public class MapFragment extends Fragment {
 
 		map.clear();
 		LatLng markerLatLng = new LatLng(lat, lng);
-		map.animateCamera(CameraUpdateFactory.newLatLngZoom(markerLatLng, 16.0f));
+		map.animateCamera(CameraUpdateFactory
+				.newLatLngZoom(markerLatLng, 16.0f));
 		map.addMarker(new MarkerOptions().title(name).position(markerLatLng)
 				.snippet(description));
 
@@ -286,5 +291,30 @@ public class MapFragment extends Fragment {
 			fM.beginTransaction().remove(mapFragment).commit();
 		}
 		super.onDetach();
+	}
+
+	class PopupAdapter implements InfoWindowAdapter {
+		LayoutInflater inflater = null;
+
+		PopupAdapter(LayoutInflater inflater) {
+			this.inflater = inflater;
+		}
+
+		@Override
+		public View getInfoWindow(Marker marker) {
+			return (null);
+		}
+
+		@Override
+		public View getInfoContents(Marker marker) {
+			View popup = inflater.inflate(R.layout.maps_popup, null);
+
+			TextView tv = (TextView) popup.findViewById(R.id.maps_popup_title);
+			tv.setText(marker.getTitle());
+			tv = (TextView) popup.findViewById(R.id.maps_popup_snippet);
+			tv.setText(marker.getSnippet());
+
+			return (popup);
+		}
 	}
 }
