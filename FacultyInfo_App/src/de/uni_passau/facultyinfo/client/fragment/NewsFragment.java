@@ -53,7 +53,6 @@ public class NewsFragment extends Fragment {
 
 		@Override
 		protected List<News> doInBackground(Void... unused) {
-			System.out.println("NewsActivity->doInBackground");
 			AccessFacade accessFacade = new AccessFacade();
 
 			List<News> news = accessFacade.getNewsAccess().getNews();

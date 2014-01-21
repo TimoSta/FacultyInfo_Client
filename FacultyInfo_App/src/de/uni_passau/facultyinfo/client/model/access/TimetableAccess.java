@@ -29,7 +29,7 @@ public class TimetableAccess {
 	private static final int INDEX_COLOR = 6;
 	private static final String KEY_COLOR = "color";
 
-	CacheOpenHelper cacheOpenHelper = null;
+	private CacheOpenHelper cacheOpenHelper = null;
 
 	private CacheOpenHelper getCacheOpenHelper() {
 		if (cacheOpenHelper == null) {

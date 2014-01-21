@@ -6,7 +6,6 @@ package de.uni_passau.facultyinfo.client.model.access;
  * 
  */
 public class AccessFacade {
-	private NewsAccess newsAccess = null;
 	private FaqAccess faqAccess = null;
 	private BusLineAccess busLineAccess = null;
 	private EventAccess eventAccess = null;
@@ -18,10 +17,7 @@ public class AccessFacade {
 	private MenuAccess menuAccess = null;
 
 	public NewsAccess getNewsAccess() {
-		if (newsAccess == null) {
-			newsAccess = new NewsAccess();
-		}
-		return newsAccess;
+		return NewsAccess.getInstance();
 	}
 
 	public FaqAccess getFaqAccess() {

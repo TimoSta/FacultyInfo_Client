@@ -2,37 +2,95 @@ package de.uni_passau.facultyinfo.client.model.access;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
+import com.google.common.base.Joiner;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import de.uni_passau.facultyinfo.client.model.connection.RestConnection;
 import de.uni_passau.facultyinfo.client.model.dto.News;
+import de.uni_passau.facultyinfo.client.util.CacheHelper;
 
 /**
  * @author Timo Staudinger
  * 
  */
-public class NewsAccess {
+public class NewsAccess extends Access {
 	private static final String RESSOURCE = "/news";
+
+	private static final String TABLE_NAME = "news";
+	private static final int INDEX_ID = 0;
+	private static final String KEY_ID = "id";
+	private static final int INDEX_TITLE = 1;
+	private static final String KEY_TITLE = "title";
+	private static final int INDEX_DESCRIPTION = 2;
+	private static final String KEY_DESCRIPTION = "description";
+	private static final int INDEX_URL = 3;
+	private static final String KEY_URL = "url";
+	private static final int INDEX_TEXT = 4;
+	private static final String KEY_TEXT = "text";
+	private static final int INDEX_PUBLICATIONDATE = 5;
+	private static final String KEY_PUBLICATIONDATE = "publishingdate";
+
+	private static NewsAccess instance = null;
+
+	protected static NewsAccess getInstance() {
+		if (instance == null) {
+			instance = new NewsAccess();
+		}
+		return instance;
+	}
 
 	private RestConnection<News> restConnection = null;
 
-	protected NewsAccess() {
+	private List<News> cachedNewsList = null;
+	private Date cachedNewsListTimestamp = null;
+
+	private HashMap<News, Date> cachedNews = new HashMap<News, Date>();
+
+	private NewsAccess() {
 		restConnection = new RestConnection<News>(News.class);
 	}
 
 	/**
 	 * Gives a list of available News.
 	 * 
-	 * @return List<News>
-	 * @author Timo Staudinger
 	 */
 	public List<News> getNews() {
+		return getNews(false);
+	}
+
+	/**
+	 * Gives a list of available News.
+	 * 
+	 */
+	public List<News> getNews(boolean forceRefresh) {
 		List<News> news = null;
 
-		// news = createNewsSampleData();
-		news = restConnection.getRessourceAsList(RESSOURCE);
+		if (forceRefresh
+				|| cachedNewsList == null
+				|| cachedNewsListTimestamp == null
+				|| cachedNewsListTimestamp
+						.before(CacheHelper.getExpiringDate())) {
 
-		// TODO: Database operations
+			news = restConnection.getRessourceAsList(RESSOURCE);
+
+			if (news != null) {
+				cachedNewsList = news;
+				cachedNewsListTimestamp = new Date();
+
+				writeCache(news);
+			}
+
+		} else {
+			news = cachedNewsList;
+		}
 
 		if (news == null) {
 			return null;
@@ -44,34 +102,54 @@ public class NewsAccess {
 	/**
 	 * Gives a list of available News that are cached locally.
 	 * 
-	 * @return List<News>
-	 * @author Timo Staudinger
 	 */
 	public List<News> getNewsFromCache() {
-		// TODO: Load cached data
-		return Collections.unmodifiableList(new ArrayList<News>());
+		List<News> news = readCache();
+
+		if (news == null) {
+			return null;
+		}
+
+		return Collections.unmodifiableList(news);
 	}
 
 	/**
 	 * Gives detailed information about a specific News.
 	 * 
-	 * @param newsId
-	 * @return News
-	 * @author Timo Staudinger
 	 */
 	public News getNews(String newsId) {
+		return getNews(newsId, false);
+	}
+
+	/**
+	 * Gives detailed information about a specific News.
+	 * 
+	 */
+	public News getNews(String newsId, boolean forceRefresh) {
 		News news = null;
 
-		news = restConnection.getRessource(RESSOURCE + '/' + newsId);
+		if (!forceRefresh) {
+			Iterator<Entry<News, Date>> iterator = cachedNews.entrySet()
+					.iterator();
+			while (iterator.hasNext()) {
+				Entry<News, Date> entry = iterator.next();
+				if (entry.getKey().getId().equals(newsId)
+						&& !entry.getValue().before(
+								CacheHelper.getExpiringDate())) {
+					news = entry.getKey();
+					break;
+				}
+			}
+		}
 
-		// for (News newsElement : createNewsSampleData()) {
-		// if (newsElement.getId().equals(newsId)) {
-		// news = newsElement;
-		// break;
-		// }
-		// }
+		if (news == null) {
+			news = restConnection.getRessource(RESSOURCE + '/' + newsId);
+			if (news != null) {
+				cachedNews.put(news, new Date());
 
-		// TODO: Database operations
+				writeCache(news);
+			}
+		}
 
 		return news;
 	}
@@ -79,40 +157,96 @@ public class NewsAccess {
 	/**
 	 * Gives detailed information about a specific News that is cached locally.
 	 * 
-	 * @param newsId
-	 * @return News
-	 * @author Timo Staudinger
 	 */
 	public News getNewsFromCache(String newsId) {
-		// TODO: load cached data
-		return null;
+		return readCache(newsId);
 	}
 
-	// private ArrayList<News> createNewsSampleData() {
-	// ArrayList<News> newsList = new ArrayList<News>();
-	//
-	// newsList.add(new News(
-	// "072f25e5-9922-4821-a897-e30838db2e94",
-	// "Protokolle der Evaluation WS 12/13",
-	// "Die Ergebnisse der Qualitätsevaluation unserer Fachschaft vom Wintersemester 2012/13 sind...",
-	// "http://www.neu.fs-wiwi.de/index.php/de/aktuelles/565-protokolle-evaluation",
-	// "Die Ergebnisse der Qualitätsevaluation unserer Fachschaft vom Wintersemester 2012/13 sind bekannt und wurden von uns bei den entsprechenden Stellen vorgestellt, damit sich das Angebot in Zukunft stetig in Eurem Sinne verbessert. Die Gesprächsprotokolle findest du hier: Protokoll Auslandsamt Protokoll Bibliothek Protokoll Mensa Protokoll Rechenzentrum Protokoll Sprachenzentrum Protokoll Zentrum für Schlüsselqualifikationen",
-	// new Date(2013, 10, 26)));
-	// newsList.add(new News(
-	// "0dccf734-892a-4f50-b02b-94ddefb3c001",
-	// "Orientierungswoche Wintersemester 2013/2014",
-	// "Um dir deinen Start an der Uni Passau zu erleichtern, organisiert dir deine Fachschaft eine Orientierungswoche...",
-	// "http://www.neu.fs-wiwi.de/index.php/de/aktuelles/563-orientierungswoche-wintersemester-20132014",
-	// "Um dir deinen Start an der Uni Passau zu erleichtern, organisiert dir deine Fachschaft eine Orientierungswoche für Erstsemester. Die sogenannte O-Woche findet stets eine Woche vor Vorlesungsbeginn statt und ist eine gute Möglichkeit für dich deine Kommilitonen, die Stadt Passau, wie auch die Uni kennen zu lernen und deine Fragen und Orientierungslosigkeit zum Studium loszuwerden. In der O-Woche bieten wir dir ein umfassendes Programm von Uni-Führungen, Stadtführungen bis hin zu Sport und zum Kneipenbummel. Für jeden ist etwas dabei! Die O-Woche im Wintersemester 2013/2014 findet vom 07. bis 11. Oktober 2013 statt! Der Ablaufplan der O-Woche 2013 ist fertig, du findest ihn unter folgendem Link! >> Link zum O-Wochenplan Unsere Erstsemesterbroschüre, das sogenannte Quietschie-Heft, beantwortet alle Fragen zum Studienstart und bietet darüber hinaus interessante Informationen rund um das Leben und Studieren in Passau! Du kannst es unter folgendem Link downloaden, außerdem verteilen wir das Heft in gedruckter Form während der Orientierungswoche! >> Link zur Erstsemesterbroschüre",
-	// new java.util.Date(2013, 9, 26)));
-	// newsList.add(new News(
-	// "1927a25a-b838-4620-a6c2-13e9f348cd81",
-	// "Verlängerte Bibliotheksöffnungszeiten",
-	// "Nachtschwärmer aufgepasst: Die Klausurenphase hat mal wieder begonnen und die Bibliotheken haben länger für euch geöffnet. Lesesaal Wirtschaft: verlängert ab Mo, 8. Juli bis...",
-	// "http://www.neu.fs-wiwi.de/index.php/de/aktuelles/481-verlaengerte-bibliotheksoeffnungszeiten",
-	// "Nachtschwärmer aufgepasst: Die Klausurenphase hat mal wieder begonnen und die Bibliotheken haben länger für euch geöffnet. Lesesaal Wirtschaft: verlängert ab Mo, 8. Juli bis So, 28. Juli Mo-Fr von 08:00-02:00 Uhr Sa von 09:00-22:00 Uhr So von 11:00-19.00 Uhr verlängert ab Mo, 29. Juli bis Di, 6. August Mo-Do von 08:00-24:00 Uhr Fr von 08:00-22:00 Uhr Sa von 09:00-22:00 Uhr So von 11:00-19:00 Uhr NEU: Ab dem 08. Juli wird vom Bibliothekspersonal das Einhalten der Parkuhrregelung überprüft - sollte die eine Stunde Freihalten des Platzes überschritten werden, wird das Personal die Unterlagen beiseite schieben und für andere Kommilitonen den Tisch zur Verfügung stellen. Es wird in dem Fall ein Hinweiszettel vorzufinden sein, auf welchem notiert ist, dass das Bibliothekspersonal die Unterlagen beiseite geräumt hat. Viel Erfolg beim lernen und bei euren Klausuren! Eure Fachschaft Wirtschaft",
-	// new Date(2013, 7, 8)));
-	//
-	// return newsList;
-	// }
+	private boolean writeCache(List<News> newsList) {
+		boolean result = true;
+
+		ArrayList<String> idArray = new ArrayList<String>();
+		for (News news : newsList) {
+			idArray.add(news.getId());
+		}
+		String idList = Joiner.on(',').skipNulls()
+				.join(idArray.toArray(new String[idArray.size()]));
+
+		SQLiteDatabase writableDatabase = getCacheOpenHelper()
+				.getWritableDatabase();
+		writableDatabase.execSQL("DELETE FROM " + TABLE_NAME
+				+ " WHERE id NOT IN (" + idList + ")");
+		for (News news : newsList) {
+			ContentValues values = new ContentValues();
+			values.put(KEY_ID, news.getId());
+			values.put(KEY_TITLE, news.getTitle());
+			values.put(KEY_DESCRIPTION, news.getDescription());
+			values.put(KEY_PUBLICATIONDATE, news.getPublicationDate().getTime());
+			result = (writableDatabase.replace(TABLE_NAME, null, values) != -1L)
+					&& result;
+		}
+
+		writableDatabase.close();
+		return result;
+	}
+
+	private boolean writeCache(News news) {
+		boolean result = true;
+		SQLiteDatabase writableDatabase = getCacheOpenHelper()
+				.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(KEY_ID, news.getId());
+		values.put(KEY_TITLE, news.getTitle());
+		values.put(KEY_DESCRIPTION, news.getDescription());
+		values.put(KEY_URL, news.getUrl());
+		values.put(KEY_TEXT, news.getText());
+		values.put(KEY_PUBLICATIONDATE, news.getPublicationDate().getTime());
+		result = writableDatabase.replace(TABLE_NAME, null, values) != -1L;
+
+		writableDatabase.close();
+		return result;
+	}
+
+	private List<News> readCache() {
+		SQLiteDatabase db = getCacheOpenHelper().getReadableDatabase();
+		Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME
+				+ " ORDER BY " + KEY_PUBLICATIONDATE + " DESC, " + KEY_TITLE,
+				null);
+		ArrayList<News> entries = new ArrayList<News>();
+		if (cursor != null && cursor.moveToFirst()) {
+			do {
+				String id = cursor.getString(INDEX_ID);
+				String title = cursor.getString(INDEX_TITLE);
+				String description = cursor.getString(INDEX_DESCRIPTION);
+				String url = null;
+				String text = null;
+				Date publicationDate = new Date(
+						cursor.getLong(INDEX_PUBLICATIONDATE));
+				News entry = new News(id, title, description, url, text,
+						publicationDate);
+				entries.add(entry);
+			} while (cursor.moveToNext());
+		}
+		db.close();
+		return entries;
+	}
+
+	private News readCache(String newsId) {
+		News news = null;
+		SQLiteDatabase db = getCacheOpenHelper().getReadableDatabase();
+		Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME
+				+ " WHERE id = ?", new String[] { newsId });
+		if (cursor != null && cursor.moveToFirst()) {
+			String id = cursor.getString(INDEX_ID);
+			String title = cursor.getString(INDEX_TITLE);
+			String description = cursor.getString(INDEX_DESCRIPTION);
+			String url = cursor.getString(INDEX_URL);
+			String text = cursor.getString(INDEX_TEXT);
+			Date publicationDate = new Date(
+					cursor.getLong(INDEX_PUBLICATIONDATE));
+			news = new News(id, title, description, url, text, publicationDate);
+		}
+		db.close();
+		return news;
+	}
 }

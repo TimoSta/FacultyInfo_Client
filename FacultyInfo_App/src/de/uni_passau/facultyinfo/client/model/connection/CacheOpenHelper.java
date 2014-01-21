@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class CacheOpenHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "cache";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 4;
 
 	public CacheOpenHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -19,18 +19,19 @@ public class CacheOpenHelper extends SQLiteOpenHelper {
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'events' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT, 'subtitle' TEXT, 'location' TEXT, 'description' TEXT, 'startdate' TEXT, 'enddate' TEXT, 'host' TEXT, 'url' TEXT)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'faqcategories' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT NOT NULL)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'faqs' ('id' TEXT NOT NULL, 'category' TEXT NOT NULL, 'title' TEXT NOT NULL, 'text' TEXT NOT NULL)");
-		db.execSQL("CREATE TABLE IF NOT EXISTS 'news' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT NOT NULL, 'description' TEXT NOT NULL, 'url' TEXT NOT NULL, 'text' TEXT NOT NULL, 'publishingdate' TEXT NOT NULL)");
+		db.execSQL("CREATE TABLE IF NOT EXISTS 'news' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT NOT NULL, 'description' TEXT, 'url' TEXT, 'text' TEXT, 'publishingdate' INTEGER)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'timetable' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT NOT NULL, 'description' TEXT, 'location' TEXT, 'time' INTEGER NOT NULL, 'dayofweek' INTEGER NOT NULL, 'color' INTEGER)");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DELETE FROM 'timetable'");
+		db.execSQL("DROP TABLE 'timetable'");
+		db.execSQL("DROP TABLE 'news'");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'buslines' ('id' TEXT PRIMARY KEY NOT NULL, 'line' TEXT NOT NULL, 'direction' TEXT NOT NULL, 'departure' TEXT NOT NULL)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'events' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT, 'subtitle' TEXT, 'location' TEXT, 'description' TEXT, 'startdate' TEXT, 'enddate' TEXT, 'host' TEXT, 'url' TEXT)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'faqcategories' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT NOT NULL)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'faqs' ('id' TEXT NOT NULL, 'category' TEXT NOT NULL, 'title' TEXT NOT NULL, 'text' TEXT NOT NULL)");
-		db.execSQL("CREATE TABLE IF NOT EXISTS 'news' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT NOT NULL, 'description' TEXT NOT NULL, 'url' TEXT NOT NULL, 'text' TEXT NOT NULL, 'publishingdate' TEXT NOT NULL)");
+		db.execSQL("CREATE TABLE IF NOT EXISTS 'news' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT NOT NULL, 'description' TEXT, 'url' TEXT, 'text' TEXT, 'publishingdate' INTEGER)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'timetable' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT NOT NULL, 'description' TEXT, 'location' TEXT, 'time' INTEGER NOT NULL, 'dayofweek' INTEGER NOT NULL, 'color' INTEGER)");
 	}
 
