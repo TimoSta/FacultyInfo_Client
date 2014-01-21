@@ -15,12 +15,14 @@ public class ContactPerson {
 	private ContactGroup contactGroup;
 
 	@JsonCreator
-	public ContactPerson(@JsonProperty("name") String name,
+	public ContactPerson(@JsonProperty("id") String id,
+			@JsonProperty("name") String name,
 			@JsonProperty("office") String office,
 			@JsonProperty("phone") String phone,
 			@JsonProperty("email") String email,
 			@JsonProperty("description") String description) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.office = office;
 		this.phone = phone;

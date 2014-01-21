@@ -82,53 +82,56 @@ public class SearchContactsActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(List<ContactGroup> groups) {
-			ListView listView = (ListView) findViewById(R.id.contacts_search_results);
-			if (groups.isEmpty()) {
-				System.out.println("groups.isEmpty");
-			}
-
-			final ArrayList<HashMap<String, String>> groupList = new ArrayList<HashMap<String, String>>();
-
-			for (ContactGroup group : groups) {
-				System.out.println("for");
-				HashMap<String, String> temp1 = new HashMap<String, String>();
-				temp1.put("title", group.getTitle());
-				temp1.put("groupId", group.getId());
-				groupList.add(temp1);
-			}
-
-			SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(),
-					groupList, R.layout.custom_row_view,
-					new String[] { "title" }, new int[] { R.id.title }
-
-			);
-			System.out.println("SimpleAdapter");
-
-			if (adapter.isEmpty()) {
-				System.out.println("adapter isEmpty");
-			}
-
-			listView.setAdapter(adapter);
-
-			System.out.println("setAdapter");
-
-			if (listView.getAdapter().isEmpty()) {
-				System.out.println("ListViewAdapter is empty");
-			}
-
-			listView.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-					System.out.println("click");
-					System.out.println(position);
-					displayChairContacts(
-							groupList.get(position).get("groupId"), groupList
-									.get(position).get("title"));
-
+			if (groups != null) {
+				ListView listView = (ListView) findViewById(R.id.contacts_search_results);
+				if (groups.isEmpty()) {
+					System.out.println("groups.isEmpty");
 				}
-			});
+
+				final ArrayList<HashMap<String, String>> groupList = new ArrayList<HashMap<String, String>>();
+
+				for (ContactGroup group : groups) {
+					System.out.println("for");
+					HashMap<String, String> temp1 = new HashMap<String, String>();
+					temp1.put("title", group.getTitle());
+					temp1.put("groupId", group.getId());
+					groupList.add(temp1);
+				}
+
+				SimpleAdapter adapter = new SimpleAdapter(
+						getApplicationContext(), groupList,
+						R.layout.custom_row_view, new String[] { "title" },
+						new int[] { R.id.title }
+
+				);
+				System.out.println("SimpleAdapter");
+
+				if (adapter.isEmpty()) {
+					System.out.println("adapter isEmpty");
+				}
+
+				listView.setAdapter(adapter);
+
+				System.out.println("setAdapter");
+
+				if (listView.getAdapter().isEmpty()) {
+					System.out.println("ListViewAdapter is empty");
+				}
+
+				listView.setOnItemClickListener(new OnItemClickListener() {
+
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view,
+							int position, long id) {
+						System.out.println("click");
+						System.out.println(position);
+						displayChairContacts(
+								groupList.get(position).get("groupId"),
+								groupList.get(position).get("title"));
+
+					}
+				});
+			}
 		}
 	}
 

@@ -57,7 +57,6 @@ public class DisplayBusinessHoursActivity extends Activity {
 
 		@Override
 		protected BusinessHoursFacility doInBackground(Void... unused) {
-			System.out.println("doInBackground");
 			AccessFacade accessFacade = new AccessFacade();
 
 			BusinessHoursFacility facility = accessFacade

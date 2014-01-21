@@ -2,21 +2,70 @@ package de.uni_passau.facultyinfo.client.model.access;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.google.common.base.Joiner;
 
 import de.uni_passau.facultyinfo.client.model.connection.RestConnection;
 import de.uni_passau.facultyinfo.client.model.dto.ContactGroup;
 import de.uni_passau.facultyinfo.client.model.dto.ContactPerson;
+import de.uni_passau.facultyinfo.client.util.CacheHelper;
 
 /**
  * Enables access to remote Contact person ressources.
  * 
  * @author Timo Staudinger
  */
-public class ContactPersonAccess {
+public class ContactPersonAccess extends Access {
 	private static final String RESSOURCE = "/contactperson";
 
+	private static final String TABLE_NAME_PERSONS = "contactpersons";
+	private static final int INDEX_PERSONS_ID = 0;
+	private static final String KEY_PERSONS_ID = "id";
+	private static final int INDEX_PERSONS_CONTACTGROUP = 1;
+	private static final String KEY_PERSONS_CONTACTGROUP = "contactgroup";
+	private static final int INDEX_PERSONS_NAME = 2;
+	private static final String KEY_PERSONS_NAME = "name";
+	private static final int INDEX_PERSONS_OFFICE = 3;
+	private static final String KEY_PERSONS_OFFICE = "office";
+	private static final int INDEX_PERSONS_PHONE = 4;
+	private static final String KEY_PERSONS_PHONE = "phone";
+	private static final int INDEX_PERSONS_EMAIL = 5;
+	private static final String KEY_PERSONS_EMAIL = "email";
+	private static final int INDEX_PERSONS_DESCRIPTION = 6;
+	private static final String KEY_PERSONS_DESCRIPTION = "description";
+
+	private static final String TABLE_NAME_GROUPS = "contactgroups";
+	private static final int INDEX_GROUP_ID = 0;
+	private static final String KEY_GROUP_ID = "id";
+	private static final int INDEX_GROUP_TITLE = 1;
+	private static final String KEY_GROUP_TITLE = "title";
+	private static final int INDEX_GROUP_DESCRIPTION = 2;
+	private static final String KEY_GROUP_DESCRIPTION = "description";
+
+	private static ContactPersonAccess instance = null;
+
+	protected static ContactPersonAccess getInstance() {
+		if (instance == null) {
+			instance = new ContactPersonAccess();
+		}
+		return instance;
+	}
+
 	private RestConnection<ContactGroup> restConnection = null;
+
+	private List<ContactGroup> cachedContactGroups = null;
+	private Date cachedContactGroupsTimestamp = null;
+
+	private HashMap<ContactGroup, Date> cachedContactGroupsList = new HashMap<ContactGroup, Date>();
 
 	private RestConnection<ContactGroup> getRestConnection() {
 		if (restConnection == null) {
@@ -26,7 +75,7 @@ public class ContactPersonAccess {
 		return restConnection;
 	}
 
-	protected ContactPersonAccess() {
+	private ContactPersonAccess() {
 		super();
 	}
 
@@ -35,15 +84,36 @@ public class ContactPersonAccess {
 	 * 
 	 */
 	public List<ContactGroup> getContactGroups() {
+		return getContactGroups(false);
+	}
+
+	/**
+	 * Gives a list of available Contact groups in alphabetical order.
+	 * 
+	 */
+	public List<ContactGroup> getContactGroups(boolean forceRefresh) {
 		List<ContactGroup> contactGroups = null;
 
-		contactGroups = getRestConnection().getRessourceAsList(RESSOURCE);
+		if (forceRefresh
+				|| cachedContactGroups == null
+				|| cachedContactGroupsTimestamp == null
+				|| cachedContactGroupsTimestamp.before(CacheHelper
+						.getExpiringDate())) {
+			contactGroups = getRestConnection().getRessourceAsList(RESSOURCE);
+
+			if (contactGroups != null) {
+				cachedContactGroups = contactGroups;
+				cachedContactGroupsTimestamp = new Date();
+
+				writeCache(contactGroups);
+			}
+		} else {
+			contactGroups = cachedContactGroups;
+		}
 
 		if (contactGroups == null) {
 			return null;
 		}
-
-		// TODO: Database operations
 
 		return Collections.unmodifiableList(contactGroups);
 	}
@@ -53,7 +123,8 @@ public class ContactPersonAccess {
 	 * 
 	 */
 	public List<ContactGroup> getContactGroupsFromCache() {
-		return Collections.unmodifiableList(new ArrayList<ContactGroup>());
+		List<ContactGroup> contactGroups = readCache();
+		return Collections.unmodifiableList(contactGroups);
 	}
 
 	/**
@@ -61,21 +132,44 @@ public class ContactPersonAccess {
 	 * 
 	 */
 	public ContactGroup getContactGroup(String id) {
+		return getContactGroup(id, false);
+	}
+
+	/**
+	 * Gives detailed information about a single Contact Group.
+	 * 
+	 */
+	public ContactGroup getContactGroup(String id, boolean forceRefresh) {
 		ContactGroup contactGroup = null;
 
-		contactGroup = getRestConnection().getRessource(RESSOURCE + "/" + id);
-
-		if (contactGroup == null) {
-			return null;
-		}
-
-		if (contactGroup.getContactPersons() != null) {
-			for (ContactPerson contactPerson : contactGroup.getContactPersons()) {
-				contactPerson.setContactGroup(contactGroup);
+		if (!forceRefresh) {
+			Iterator<Entry<ContactGroup, Date>> iterator = cachedContactGroupsList
+					.entrySet().iterator();
+			while (iterator.hasNext()) {
+				Entry<ContactGroup, Date> entry = iterator.next();
+				if (entry.getKey().getId().equals(id)
+						&& !entry.getValue().before(
+								CacheHelper.getExpiringDate())) {
+					contactGroup = entry.getKey();
+					break;
+				}
 			}
 		}
 
-		// TODO: Database operations
+		if (contactGroup == null) {
+			contactGroup = restConnection.getRessource(RESSOURCE + "/" + id);
+
+			if (contactGroup != null) {
+				for (ContactPerson contactPerson : contactGroup
+						.getContactPersons()) {
+					contactPerson.setContactGroup(contactGroup);
+				}
+
+				cachedContactGroupsList.put(contactGroup, new Date());
+
+				writeCache(contactGroup);
+			}
+		}
 
 		return contactGroup;
 	}
@@ -86,7 +180,7 @@ public class ContactPersonAccess {
 	 * 
 	 */
 	public ContactGroup getContactGroupFromCache(String id) {
-		return null;
+		return readCache(id);
 	}
 
 	/**
@@ -127,5 +221,128 @@ public class ContactPersonAccess {
 			return contactGroups;
 		}
 		return Collections.unmodifiableList(new ArrayList<ContactGroup>());
+	}
+
+	private boolean writeCache(List<ContactGroup> contactGroups) {
+		boolean result = true;
+
+		ArrayList<String> idArray = new ArrayList<String>();
+		for (ContactGroup contactGroup : contactGroups) {
+			idArray.add(contactGroup.getId());
+		}
+		String idList = "'"
+				+ Joiner.on("','").skipNulls()
+						.join(idArray.toArray(new String[idArray.size()]))
+				+ "'";
+
+		SQLiteDatabase writableDatabase = getCacheOpenHelper()
+				.getWritableDatabase();
+		writableDatabase.execSQL("DELETE FROM " + TABLE_NAME_PERSONS
+				+ " WHERE contactgroup NOT IN (" + idList + ")");
+		writableDatabase.execSQL("DELETE FROM " + TABLE_NAME_GROUPS
+				+ " WHERE id NOT IN (" + idList + ")");
+
+		for (ContactGroup contactGroup : contactGroups) {
+			ContentValues values = new ContentValues();
+			values.put(KEY_GROUP_ID, contactGroup.getId());
+			values.put(KEY_GROUP_TITLE, contactGroup.getTitle());
+			values.put(KEY_GROUP_DESCRIPTION, contactGroup.getDescription());
+			result = (writableDatabase.replace(TABLE_NAME_GROUPS, null, values) != -1L)
+					&& result;
+		}
+
+		writableDatabase.close();
+		return result;
+	}
+
+	private boolean writeCache(ContactGroup contactGroup) {
+		boolean result = true;
+		SQLiteDatabase writableDatabase = getCacheOpenHelper()
+				.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(KEY_GROUP_ID, contactGroup.getId());
+		values.put(KEY_GROUP_TITLE, contactGroup.getTitle());
+		values.put(KEY_GROUP_DESCRIPTION, contactGroup.getDescription());
+		result = (writableDatabase.replace(TABLE_NAME_GROUPS, null, values) != -1L)
+				&& result;
+		if (result && contactGroup.getContactPersons() != null) {
+			for (ContactPerson contactPerson : contactGroup.getContactPersons()) {
+				ContentValues personValues = new ContentValues();
+				personValues.put(KEY_PERSONS_ID, contactPerson.getId());
+				personValues.put(KEY_PERSONS_CONTACTGROUP, contactPerson
+						.getContactGroup().getId());
+				personValues.put(KEY_PERSONS_NAME,
+						contactPerson.getName());
+				personValues.put(KEY_PERSONS_OFFICE,
+						contactPerson.getOffice());
+				personValues.put(KEY_PERSONS_PHONE,
+						contactPerson.getPhone());
+				personValues.put(KEY_PERSONS_EMAIL,
+						contactPerson.getEmail());
+				personValues.put(KEY_PERSONS_DESCRIPTION,
+						contactPerson.getDescription());
+				result = (writableDatabase.replace(TABLE_NAME_PERSONS, null,
+						personValues) != -1L) && result;
+			}
+		}
+
+		writableDatabase.close();
+		return result;
+	}
+
+	private List<ContactGroup> readCache() {
+		SQLiteDatabase db = getCacheOpenHelper().getReadableDatabase();
+		Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME_GROUPS
+				+ " ORDER BY " + KEY_GROUP_TITLE, null);
+		ArrayList<ContactGroup> contactGroups = new ArrayList<ContactGroup>();
+		if (cursor != null && cursor.moveToFirst()) {
+			do {
+				String id = cursor.getString(INDEX_GROUP_ID);
+				String title = cursor.getString(INDEX_GROUP_TITLE);
+				String description = cursor.getString(INDEX_GROUP_DESCRIPTION);
+				ContactGroup contactGroup = new ContactGroup(id, title,
+						description);
+				contactGroups.add(contactGroup);
+			} while (cursor.moveToNext());
+		}
+
+		db.close();
+		return contactGroups;
+	}
+
+	private ContactGroup readCache(String id) {
+		ContactGroup contactGroup = null;
+		SQLiteDatabase db = getCacheOpenHelper().getReadableDatabase();
+		Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME_GROUPS
+				+ " WHERE id = ?", new String[] { id });
+		if (cursor != null && cursor.moveToFirst()) {
+			String title = cursor.getString(INDEX_GROUP_TITLE);
+			String description = cursor.getString(INDEX_GROUP_DESCRIPTION);
+			contactGroup = new ContactGroup(id, title, description);
+
+			cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME_PERSONS
+					+ " WHERE " + KEY_PERSONS_CONTACTGROUP + " = ?",
+					new String[] { id });
+			ArrayList<ContactPerson> contactPersons = new ArrayList<ContactPerson>();
+			if (cursor != null && cursor.moveToFirst()) {
+				do {
+					String personId = cursor.getString(INDEX_PERSONS_ID);
+					String name = cursor.getString(INDEX_PERSONS_NAME);
+					String office = cursor.getString(INDEX_PERSONS_OFFICE);
+					String phone = cursor.getString(INDEX_PERSONS_PHONE);
+					String email = cursor.getString(INDEX_PERSONS_EMAIL);
+					String personDescription = cursor
+							.getString(INDEX_PERSONS_DESCRIPTION);
+					ContactPerson contactPerson = new ContactPerson(personId,
+							name, office, phone, email, personDescription);
+					contactPerson.setContactGroup(contactGroup);
+					contactPersons.add(contactPerson);
+				} while (cursor.moveToNext());
+			}
+			contactGroup.setContactPersons(contactPersons);
+		}
+
+		db.close();
+		return contactGroup;
 	}
 }

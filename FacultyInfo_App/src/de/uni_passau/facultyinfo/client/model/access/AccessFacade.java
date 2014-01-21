@@ -11,7 +11,6 @@ public class AccessFacade {
 	private TimetableAccess timetableAccess = null;
 	private MapMarkerAccess mapMarkerAccess = null;
 	private SportsCourseAccess sportsCourseAccess = null;
-	private ContactPersonAccess contactPersonAccess = null;
 	private MenuAccess menuAccess = null;
 
 	public NewsAccess getNewsAccess() {
@@ -58,10 +57,7 @@ public class AccessFacade {
 	}
 
 	public ContactPersonAccess getContactPersonAccess() {
-		if (contactPersonAccess == null) {
-			contactPersonAccess = new ContactPersonAccess();
-		}
-		return contactPersonAccess;
+		return ContactPersonAccess.getInstance();
 	}
 
 	public BusinessHoursAccess getBusinessHoursAccess() {
