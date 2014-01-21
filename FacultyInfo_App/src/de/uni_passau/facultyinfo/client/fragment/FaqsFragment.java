@@ -101,12 +101,6 @@ public class FaqsFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(List<FaqCategory> faqs) {
-			for (FaqCategory faqCategory : faqs) {
-				System.out.println(faqCategory.getTitle());
-				for (Faq faq : faqCategory.getFaqs()) {
-					System.out.println("-- " + faq.getTitle());
-				}
-			}
 
 			ListView listView = (ListView) rootView.findViewById(R.id.faq_list);
 
