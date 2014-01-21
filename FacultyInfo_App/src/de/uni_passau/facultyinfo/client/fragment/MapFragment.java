@@ -144,7 +144,8 @@ public class MapFragment extends Fragment {
 			ArrayList<String> np1Values = new ArrayList<String>();
 			for (MapMarkerCategory category : markers) {
 				np1Values.add(category.getTitle() != null ? category.getTitle()
-						: "");
+						.length() > 13 ? category.getTitle().substring(0, 11)
+						+ "." : category.getTitle() : "");
 			}
 			if (np1.getMaxValue() < markers.size()) {
 				np1.setDisplayedValues(np1Values.toArray(new String[np1Values
@@ -174,7 +175,9 @@ public class MapFragment extends Fragment {
 					ArrayList<String> np2Values = new ArrayList<String>();
 					for (MapMarkerCategory category : level2) {
 						np2Values.add(category.getTitle() != null ? category
-								.getTitle() : "");
+								.getTitle().length() > 13 ? category.getTitle()
+								.substring(0, 11) + "." : category.getTitle()
+								: "");
 					}
 					if (np2.getMaxValue() < level2.size()) {
 						np2.setDisplayedValues(np2Values
@@ -205,7 +208,10 @@ public class MapFragment extends Fragment {
 							for (MapMarker mapMarker : level3) {
 								np3Values
 										.add(mapMarker.getName() != null ? mapMarker
-												.getName() : "");
+												.getName().length() > 13 ? mapMarker
+												.getName().substring(0, 11)
+												+ "." : mapMarker.getName()
+												: "");
 							}
 							if (np3.getMaxValue() < level3.size()) {
 								np3.setDisplayedValues(np3Values
