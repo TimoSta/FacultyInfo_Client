@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
@@ -70,36 +69,38 @@ public class DisplayEventActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(Event event) {
-			TextView title = (TextView) findViewById(R.id.event_title);
-			title.setText(event.getTitle());
+			if (event != null) {
+				TextView title = (TextView) findViewById(R.id.event_title);
+				title.setText(event.getTitle());
 
-			TextView subtitle = (TextView) findViewById(R.id.event_subtitle);
-			subtitle.setText(event.getTitle());
+				TextView subtitle = (TextView) findViewById(R.id.event_subtitle);
+				subtitle.setText(event.getTitle());
 
-			TextView description = (TextView) findViewById(R.id.event_description);
-			description.setText(event.getDescription());
-			description.setMovementMethod(new ScrollingMovementMethod());
+				TextView description = (TextView) findViewById(R.id.event_description);
+				description.setText(event.getDescription());
+				description.setMovementMethod(new ScrollingMovementMethod());
 
-			TextView location = (TextView) findViewById(R.id.event_location);
-			location.setText(event.getLocation());
+				TextView location = (TextView) findViewById(R.id.event_location);
+				location.setText(event.getLocation());
 
-			TextView time = (TextView) findViewById(R.id.event_time);
-			SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy",
-					Locale.GERMAN);
-			SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm", Locale.GERMAN);
-			if ((sdf.format(event.getStartDate())).equals(sdf.format(event
-					.getEndDate()))) {
-				time.setText(sdf.format(event.getStartDate()) + " "
-						+ sdf2.format(event.getStartDate()) + " - "
-						+ sdf2.format(event.getEndDate()));
+				TextView time = (TextView) findViewById(R.id.event_time);
+				SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy",
+						Locale.GERMAN);
+				SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm",
+						Locale.GERMAN);
+				if ((sdf.format(event.getStartDate())).equals(sdf.format(event
+						.getEndDate()))) {
+					time.setText(sdf.format(event.getStartDate()) + " "
+							+ sdf2.format(event.getStartDate()) + " - "
+							+ sdf2.format(event.getEndDate()));
 
-			} else {
-				time.setText(sdf.format(event.getStartDate()) + " - "
-						+ sdf.format(event.getEndDate()) + " "
-						+ sdf2.format(event.getStartDate()) + " - "
-						+ sdf2.format(event.getEndDate()));
+				} else {
+					time.setText(sdf.format(event.getStartDate()) + " - "
+							+ sdf.format(event.getEndDate()) + " "
+							+ sdf2.format(event.getStartDate()) + " - "
+							+ sdf2.format(event.getEndDate()));
+				}
 			}
-
 		}
 	}
 

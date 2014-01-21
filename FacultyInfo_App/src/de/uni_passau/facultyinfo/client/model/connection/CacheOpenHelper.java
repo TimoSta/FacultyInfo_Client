@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class CacheOpenHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "cache";
-	private static final int DATABASE_VERSION = 6;
+	private static final int DATABASE_VERSION = 7;
 
 	public CacheOpenHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -16,7 +16,7 @@ public class CacheOpenHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'buslines' ('id' TEXT PRIMARY KEY NOT NULL, 'line' TEXT, 'direction' TEXT, 'departure' INTEGER)");
-		db.execSQL("CREATE TABLE IF NOT EXISTS 'events' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT, 'subtitle' TEXT, 'location' TEXT, 'description' TEXT, 'startdate' TEXT, 'enddate' TEXT, 'host' TEXT, 'url' TEXT)");
+		db.execSQL("CREATE TABLE IF NOT EXISTS 'events' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT, 'subtitle' TEXT, 'location' TEXT, 'description' TEXT, 'startdate' INTEGER, 'enddate' INTEGER, 'host' TEXT, 'url' TEXT)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'faqcategories' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT NOT NULL)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'faqs' ('id' TEXT NOT NULL, 'category' TEXT NOT NULL, 'title' TEXT NOT NULL, 'text' TEXT NOT NULL)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'news' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT NOT NULL, 'description' TEXT, 'url' TEXT, 'text' TEXT, 'publishingdate' INTEGER)");
@@ -31,13 +31,14 @@ public class CacheOpenHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		db.execSQL("DROP TABLE IF EXISTS 'timetable'");
 		db.execSQL("DROP TABLE IF EXISTS 'news'");
+		db.execSQL("DROP TABLE IF EXISTS 'events'");
 		db.execSQL("DROP TABLE IF EXISTS 'buslines'");
 		db.execSQL("DROP TABLE IF EXISTS 'businesshours'");
 		db.execSQL("DROP TABLE IF EXISTS 'businesshoursfacilities'");
 		db.execSQL("DROP TABLE IF EXISTS 'contactgroups'");
 		db.execSQL("DROP TABLE IF EXISTS 'contactpersons'");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'buslines' ('id' TEXT PRIMARY KEY NOT NULL, 'line' TEXT, 'direction' TEXT, 'departure' INTEGER)");
-		db.execSQL("CREATE TABLE IF NOT EXISTS 'events' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT, 'subtitle' TEXT, 'location' TEXT, 'description' TEXT, 'startdate' TEXT, 'enddate' TEXT, 'host' TEXT, 'url' TEXT)");
+		db.execSQL("CREATE TABLE IF NOT EXISTS 'events' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT, 'subtitle' TEXT, 'location' TEXT, 'description' TEXT, 'startdate' INTEGER, 'enddate' INTEGER, 'host' TEXT, 'url' TEXT)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'faqcategories' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT NOT NULL)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'faqs' ('id' TEXT NOT NULL, 'category' TEXT NOT NULL, 'title' TEXT NOT NULL, 'text' TEXT NOT NULL)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'news' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT NOT NULL, 'description' TEXT, 'url' TEXT, 'text' TEXT, 'publishingdate' INTEGER)");
