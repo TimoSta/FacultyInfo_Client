@@ -16,13 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.activity.DisplayFAQActivity;
-import de.uni_passau.facultyinfo.client.activity.DisplayNewsActivity;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.Faq;
 import de.uni_passau.facultyinfo.client.model.dto.FaqCategory;
@@ -137,9 +136,11 @@ public class FaqsFragment extends Fragment {
 						ViewGroup parent) {
 					View view = super.getView(position, convertView, parent);
 					if (faqList.get(position).get("first").equals("true")) {
-
 						((TextView) view.findViewById(R.id.faq_row_header))
 								.setVisibility(TextView.VISIBLE);
+					} else {
+						((TextView) view.findViewById(R.id.faq_row_header))
+								.setVisibility(TextView.GONE);
 					}
 
 					return view;

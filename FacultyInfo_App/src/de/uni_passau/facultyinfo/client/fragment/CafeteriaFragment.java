@@ -59,7 +59,7 @@ public class CafeteriaFragment extends Fragment {
 
 		setHasOptionsMenu(true);
 
-		getActivity().getActionBar().removeAllTabs(); 
+		getActivity().getActionBar().removeAllTabs();
 		getActivity().getActionBar().setTitle(
 				getActivity().getApplicationContext().getString(
 						R.string.title_cafeteria));
@@ -115,7 +115,7 @@ public class CafeteriaFragment extends Fragment {
 		Tab fri = (Tab) getActivity().getActionBar().newTab().setText(FRIDAY)
 				.setTabListener(tabListener);
 		getActivity().getActionBar().addTab(fri);
-		
+
 		Calendar cal = Calendar.getInstance();
 		cal.setFirstDayOfWeek(Calendar.MONDAY);
 		cal.setTime(new Date());
@@ -332,6 +332,9 @@ public class CafeteriaFragment extends Fragment {
 
 					((TextView) view.findViewById(R.id.menu_row_header))
 							.setVisibility(TextView.VISIBLE);
+				} else {
+					((TextView) view.findViewById(R.id.menu_row_header))
+							.setVisibility(TextView.GONE);
 				}
 
 				return view;
