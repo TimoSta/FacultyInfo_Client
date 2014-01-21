@@ -44,7 +44,7 @@ public class DisplaySportsCourseActivity extends Activity {
 		getMenuInflater().inflate(R.menu.display_sports_course, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -133,12 +133,15 @@ public class DisplaySportsCourseActivity extends Activity {
 				time.setText(timeString);
 			}
 
-			TextView timeperiod = (TextView) findViewById(R.id.timeperiod);
-			SimpleDateFormat sdf = new SimpleDateFormat(" d MMM ",
-					Locale.GERMAN);
-			timeperiod.setText("Zeitraum: "
-					+ (sdf.format(sportscourse.getStartDate())) + "- "
-					+ (sdf.format(sportscourse.getEndDate())));
+			if (sportscourse.getStartDate() != null
+					&& sportscourse.getEndDate() != null) {
+				TextView timeperiod = (TextView) findViewById(R.id.timeperiod);
+				SimpleDateFormat sdf = new SimpleDateFormat(" d MMM ",
+						Locale.GERMAN);
+				timeperiod.setText("Zeitraum: "
+						+ (sdf.format(sportscourse.getStartDate())) + "- "
+						+ (sdf.format(sportscourse.getEndDate())));
+			}
 
 			TextView price = (TextView) findViewById(R.id.price);
 			if (sportscourse.getPrice() > 0) {
