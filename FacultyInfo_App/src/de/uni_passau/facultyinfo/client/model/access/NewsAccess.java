@@ -169,8 +169,8 @@ public class NewsAccess extends Access {
 		for (News news : newsList) {
 			idArray.add(news.getId());
 		}
-		String idList = Joiner.on(',').skipNulls()
-				.join(idArray.toArray(new String[idArray.size()]));
+		String idList = "'" + Joiner.on("','").skipNulls()
+				.join(idArray.toArray(new String[idArray.size()])) + "'";
 
 		SQLiteDatabase writableDatabase = getCacheOpenHelper()
 				.getWritableDatabase();
