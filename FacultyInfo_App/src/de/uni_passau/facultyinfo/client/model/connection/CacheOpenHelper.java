@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class CacheOpenHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "cache";
-	private static final int DATABASE_VERSION = 10;
+	private static final int DATABASE_VERSION = 11;
 
 	public CacheOpenHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -26,6 +26,7 @@ public class CacheOpenHelper extends SQLiteOpenHelper {
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'contactpersons' ('id' TEXT PRIMARY KEY NOT NULL, 'contactgroup' TEXT NOT NULL, 'name' TEXT, 'office' TEXT, 'phone' TEXT, 'email' TEXT, 'description' TEXT)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'mapmarkers' ('id' TEXT PRIMARY KEY NOT NULL, 'category' TEXT, 'name' TEXT, 'description' TEXT, 'latitude' REAL, 'longitude' REAL)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'mapmarkercategories' ('id' TEXT PRIMARY KEY NOT NULL, 'category' TEXT, 'title' TEXT)");
+		db.execSQL("CREATE TABLE IF NOT EXISTS 'menuitems' ('id' TEXT PRIMARY KEY NOT NULL, 'day' INTEGER, 'name' TEXT, 'type' INTEGER, 'attributes' INTEGER, 'pricestudent' REAL, 'priceemployee' REAL, 'priceexternal' REAL)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'timetable' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT NOT NULL, 'description' TEXT, 'location' TEXT, 'time' INTEGER NOT NULL, 'dayofweek' INTEGER NOT NULL, 'color' INTEGER)");
 	}
 
@@ -43,6 +44,7 @@ public class CacheOpenHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS 'contactgroups'");
 		db.execSQL("DROP TABLE IF EXISTS 'mapmarkers'");
 		db.execSQL("DROP TABLE IF EXISTS 'mapmarkercategories'");
+		db.execSQL("DROP TABLE IF EXISTS 'menuitems'");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'buslines' ('id' TEXT PRIMARY KEY NOT NULL, 'line' TEXT, 'direction' TEXT, 'departure' INTEGER)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'events' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT, 'subtitle' TEXT, 'location' TEXT, 'description' TEXT, 'startdate' INTEGER, 'enddate' INTEGER, 'host' TEXT, 'url' TEXT)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'faqcategories' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT NOT NULL)");
@@ -54,6 +56,7 @@ public class CacheOpenHelper extends SQLiteOpenHelper {
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'contactpersons' ('id' TEXT PRIMARY KEY NOT NULL, 'contactgroup' TEXT NOT NULL, 'name' TEXT, 'office' TEXT, 'phone' TEXT, 'email' TEXT, 'description' TEXT)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'mapmarkers' ('id' TEXT PRIMARY KEY NOT NULL, 'category' TEXT, 'name' TEXT, 'description' TEXT, 'latitude' REAL, 'longitude' REAL)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'mapmarkercategories' ('id' TEXT PRIMARY KEY NOT NULL, 'category' TEXT, 'title' TEXT)");
+		db.execSQL("CREATE TABLE IF NOT EXISTS 'menuitems' ('id' TEXT PRIMARY KEY NOT NULL, 'day' INTEGER, 'name' TEXT, 'type' INTEGER, 'attributes' INTEGER, 'pricestudent' REAL, 'priceemployee' REAL, 'priceexternal' REAL)");
 		db.execSQL("CREATE TABLE IF NOT EXISTS 'timetable' ('id' TEXT PRIMARY KEY NOT NULL, 'title' TEXT NOT NULL, 'description' TEXT, 'location' TEXT, 'time' INTEGER NOT NULL, 'dayofweek' INTEGER NOT NULL, 'color' INTEGER)");
 	}
 
