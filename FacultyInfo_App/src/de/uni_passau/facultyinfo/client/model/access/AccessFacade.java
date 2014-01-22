@@ -7,7 +7,6 @@ package de.uni_passau.facultyinfo.client.model.access;
  */
 public class AccessFacade {
 	private TimetableAccess timetableAccess = null;
-	private SportsCourseAccess sportsCourseAccess = null;
 
 	public NewsAccess getNewsAccess() {
 		return NewsAccess.getInstance();
@@ -37,10 +36,7 @@ public class AccessFacade {
 	}
 
 	public SportsCourseAccess getSportsCourseAccess() {
-		if (sportsCourseAccess == null) {
-			sportsCourseAccess = new SportsCourseAccess();
-		}
-		return sportsCourseAccess;
+		return SportsCourseAccess.getInstance();
 	}
 
 	public ContactPersonAccess getContactPersonAccess() {

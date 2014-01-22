@@ -30,7 +30,7 @@ public class DisplaySportCoursesActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_sport_courses);
-		
+
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowHomeEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(true);
@@ -60,7 +60,7 @@ public class DisplaySportCoursesActivity extends Activity {
 		getMenuInflater().inflate(R.menu.display_sport_courses, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -76,21 +76,15 @@ public class DisplaySportCoursesActivity extends Activity {
 
 		@Override
 		protected SportsCourseCategory doInBackground(Void... unused) {
-			System.out.println("doInBackground");
 			AccessFacade accessFacade = new AccessFacade();
 
 			SportsCourseCategory sportsCourseCategory = accessFacade
 					.getSportsCourseAccess().getCategory(categoryId);
 			if (sportsCourseCategory == null) {
-				// publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
+				publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
 				sportsCourseCategory = accessFacade.getSportsCourseAccess()
 						.getCategoryFromCache(categoryId);
 			}
-
-			// if (sportsCourse == null) {
-			// sportsCourse = Collections
-			// .unmodifiableList(new ArrayList<SportsCourseCategory>());
-			// }
 
 			return sportsCourseCategory;
 		}
@@ -115,8 +109,8 @@ public class DisplaySportCoursesActivity extends Activity {
 				System.out.println("Number: " + course.getNumber());
 				String details = course.getDetails();
 				if (details == null || details.isEmpty()) {
-//					details = "Keine Beschreibung verfügbar";
-					details = course.getCategory().getTitle(); 
+					// details = "Keine Beschreibung verfügbar";
+					details = course.getCategory().getTitle();
 				}
 				temp1.put("details", details);
 
@@ -186,103 +180,101 @@ public class DisplaySportCoursesActivity extends Activity {
 
 		@Override
 		protected SportsCourseCategory doInBackground(Void... unused) {
-			System.out.println("doInBackground");
 			AccessFacade accessFacade = new AccessFacade();
 
 			SportsCourseCategory sportsCourseCategory = accessFacade
 					.getSportsCourseAccess().getCategoryToday(categoryId);
 			if (sportsCourseCategory == null) {
-				// publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
+				publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
 				sportsCourseCategory = accessFacade.getSportsCourseAccess()
 						.getCategoryTodayFromCache(categoryId);
 			}
-
-			// if (sportsCourse == null) {
-			// sportsCourse = Collections
-			// .unmodifiableList(new ArrayList<SportsCourseCategory>());
-			// }
 
 			return sportsCourseCategory;
 		}
 
 		@Override
 		protected void onPostExecute(SportsCourseCategory sportsCourseCategory) {
-			ListView sportsoffer = (ListView) findViewById(R.id.sportsCourses);
+			if (sportsCourseCategory != null) {
+				ListView sportsoffer = (ListView) findViewById(R.id.sportsCourses);
 
-			if (sportsCourseCategory == null) {
-				System.out.println("sportsCourseCategory==null");
-			} else {
-				System.out.println("sportsCourseCategory!=null");
+				if (sportsCourseCategory == null) {
+					System.out.println("sportsCourseCategory==null");
+				} else {
+					System.out.println("sportsCourseCategory!=null");
+				}
+
+				final ArrayList<HashMap<String, String>> courseList = new ArrayList<HashMap<String, String>>();
+
+				for (SportsCourse course : sportsCourseCategory
+						.getSportsCourses()) {
+
+					HashMap<String, String> temp1 = new HashMap<String, String>();
+					temp1.put("id", course.getId());
+					temp1.put("number", course.getNumber());
+					System.out.println("Number: " + course.getNumber());
+					String details = course.getDetails();
+					if (details == null || details.isEmpty()) {
+						details = "Keine Beschreibung verfügbar";
+					}
+					temp1.put("details", details);
+
+					String dayOfWeek = null;
+					switch (course.getDayOfWeek()) {
+					case SportsCourse.MONDAY:
+						dayOfWeek = "Mo";
+						break;
+					case SportsCourse.TUESDAY:
+						dayOfWeek = "Di";
+						break;
+					case SportsCourse.WEDNESDAY:
+						dayOfWeek = "Mi";
+						break;
+					case SportsCourse.THURSDAY:
+						dayOfWeek = "Do";
+						break;
+					case SportsCourse.FRIDAY:
+						dayOfWeek = "Fr";
+						break;
+					case SportsCourse.SATURDAY:
+						dayOfWeek = "Sa";
+						break;
+					case SportsCourse.SUNDAY:
+						dayOfWeek = "So";
+						break;
+					}
+
+					if (dayOfWeek != null) {
+						String time = dayOfWeek + " "
+								+ course.getStartTime().toString() + "-"
+								+ course.getEndTime().toString();
+						temp1.put("time", time);
+					}
+
+					courseList.add(temp1);
+				}
+
+				SimpleAdapter adapter = new SimpleAdapter(
+						getApplicationContext(), courseList,
+						R.layout.course_view, new String[] { "number",
+								"details", "time" }, new int[] { R.id.number,
+								R.id.details_sports_course,
+								R.id.time_sports_course });
+
+				sportsoffer.setAdapter(adapter);
+
+				sportsoffer.setOnItemClickListener(new OnItemClickListener() {
+
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view,
+							int position, long id) {
+						System.out.println("click");
+						System.out.println(position);
+						displaySportsCourse(courseList.get(position).get("id"));
+					}
+
+				});
 			}
-
-			final ArrayList<HashMap<String, String>> courseList = new ArrayList<HashMap<String, String>>();
-
-			for (SportsCourse course : sportsCourseCategory.getSportsCourses()) {
-
-				HashMap<String, String> temp1 = new HashMap<String, String>();
-				temp1.put("id", course.getId());
-				temp1.put("number", course.getNumber());
-				System.out.println("Number: " + course.getNumber());
-				String details = course.getDetails();
-				if (details == null || details.isEmpty()) {
-					details = "Keine Beschreibung verfügbar";
-				}
-				temp1.put("details", details);
-
-				String dayOfWeek = null;
-				switch (course.getDayOfWeek()) {
-				case SportsCourse.MONDAY:
-					dayOfWeek = "Mo";
-					break;
-				case SportsCourse.TUESDAY:
-					dayOfWeek = "Di";
-					break;
-				case SportsCourse.WEDNESDAY:
-					dayOfWeek = "Mi";
-					break;
-				case SportsCourse.THURSDAY:
-					dayOfWeek = "Do";
-					break;
-				case SportsCourse.FRIDAY:
-					dayOfWeek = "Fr";
-					break;
-				case SportsCourse.SATURDAY:
-					dayOfWeek = "Sa";
-					break;
-				case SportsCourse.SUNDAY:
-					dayOfWeek = "So";
-					break;
-				}
-
-				if (dayOfWeek != null) {
-					String time = dayOfWeek + " "
-							+ course.getStartTime().toString() + "-"
-							+ course.getEndTime().toString();
-					temp1.put("time", time);
-				}
-
-				courseList.add(temp1);
-			}
-
-			SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(),
-					courseList, R.layout.course_view, new String[] { "number",
-							"details", "time" },
-					new int[] { R.id.number, R.id.details_sports_course,
-							R.id.time_sports_course });
-
-			sportsoffer.setAdapter(adapter);
-
-			sportsoffer.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-					System.out.println("click");
-					System.out.println(position);
-					displaySportsCourse(courseList.get(position).get("id"));
-				}
-
-			});
 		}
 
 	}
