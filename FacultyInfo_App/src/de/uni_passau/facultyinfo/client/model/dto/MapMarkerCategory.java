@@ -1,5 +1,6 @@
 package de.uni_passau.facultyinfo.client.model.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -54,6 +55,14 @@ public class MapMarkerCategory {
 	public void setMapMarkerCategories(
 			List<MapMarkerCategory> mapMarkerCategories) {
 		this.mapMarkerCategories = mapMarkerCategories;
+	}
+
+	public void addMapMarkerCategory(MapMarkerCategory mapMarkerCategory) {
+		if (mapMarkerCategories == null) {
+			mapMarkerCategories = new ArrayList<MapMarkerCategory>();
+		}
+
+		mapMarkerCategories.add(mapMarkerCategory);
 	}
 
 	public List<MapMarker> getMapMarkers() {

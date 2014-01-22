@@ -14,22 +14,20 @@ public class MapMarker {
 	private double latitude;
 	private double longitude;
 	@JsonIgnore
-	private int category;
+	private MapMarkerCategory category;
 
 	@JsonCreator
 	public MapMarker(@JsonProperty("id") String id,
 			@JsonProperty("name") String name,
 			@JsonProperty("description") String description,
-			@JsonProperty("latitude") float latitude,
-			@JsonProperty("longitude") float longitude,
-			@JsonProperty("category") int category) {
+			@JsonProperty("latitude") double latitude,
+			@JsonProperty("longitude") double longitude) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.category = category;
 	}
 
 	public String getId() {
@@ -72,11 +70,11 @@ public class MapMarker {
 		this.longitude = longitude;
 	}
 
-	public int getCategory() {
+	public MapMarkerCategory getCategory() {
 		return category;
 	}
 
-	public void setCategory(int category) {
+	public void setCategory(MapMarkerCategory category) {
 		this.category = category;
 	}
 }
