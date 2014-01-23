@@ -39,7 +39,7 @@ public class FaqAccess extends Access {
 	private static final String KEY_FAQS_CATEGORY = "category";
 	private static final int INDEX_FAQS_TITLE = 2;
 	private static final String KEY_FAQS_TITLE = "title";
-	private static final int INDEX_FAQS_TEXT = 2;
+	private static final int INDEX_FAQS_TEXT = 3;
 	private static final String KEY_FAQS_TEXT = "text";
 
 	private static FaqAccess instance = null;

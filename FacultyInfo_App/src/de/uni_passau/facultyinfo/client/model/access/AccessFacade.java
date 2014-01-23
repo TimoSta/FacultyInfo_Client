@@ -7,9 +7,6 @@ package de.uni_passau.facultyinfo.client.model.access;
  */
 public class AccessFacade {
 	private TimetableAccess timetableAccess = null;
-	private MapMarkerAccess mapMarkerAccess = null;
-	private SportsCourseAccess sportsCourseAccess = null;
-	private MenuAccess menuAccess = null;
 
 	public NewsAccess getNewsAccess() {
 		return NewsAccess.getInstance();
@@ -35,17 +32,11 @@ public class AccessFacade {
 	}
 
 	public MapMarkerAccess getMapMarkerAccess() {
-		if (mapMarkerAccess == null) {
-			mapMarkerAccess = new MapMarkerAccess();
-		}
-		return mapMarkerAccess;
+		return MapMarkerAccess.getInstance();
 	}
 
 	public SportsCourseAccess getSportsCourseAccess() {
-		if (sportsCourseAccess == null) {
-			sportsCourseAccess = new SportsCourseAccess();
-		}
-		return sportsCourseAccess;
+		return SportsCourseAccess.getInstance();
 	}
 
 	public ContactPersonAccess getContactPersonAccess() {
@@ -57,9 +48,6 @@ public class AccessFacade {
 	}
 
 	public MenuAccess getMenuAccess() {
-		if (menuAccess == null) {
-			menuAccess = new MenuAccess();
-		}
-		return menuAccess;
+		return MenuAccess.getInstance();
 	}
 }

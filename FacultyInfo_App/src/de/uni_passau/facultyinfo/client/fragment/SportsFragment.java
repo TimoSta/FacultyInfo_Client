@@ -445,7 +445,6 @@ public class SportsFragment extends Fragment {
 
 		@Override
 		protected List<SportsCourseCategory> doInBackground(Void... unused) {
-			System.out.println("SportsCourseCategoryLoader->doInBackground()");
 			accessFacade = new AccessFacade();
 
 			List<SportsCourseCategory> sportsCourseCategories = accessFacade
