@@ -9,12 +9,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-//import android.widget.TableRow;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
+import de.uni_passau.facultyinfo.client.model.dto.util.Color;
 import de.uni_passau.facultyinfo.client.util.ColorHelper;
+//import android.widget.TableRow;
 
 public class TimetableFragment extends Fragment {
 
@@ -182,7 +183,76 @@ public class TimetableFragment extends Fragment {
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
+		((TextView) rootView.findViewById(R.id.mo810)).setText(null); 
+		((TextView) rootView.findViewById(R.id.mo1012)).setText(null); 
+		((TextView) rootView.findViewById(R.id.mo1214)).setText(null); 
+		((TextView) rootView.findViewById(R.id.mo1416)).setText(null); 
+		((TextView) rootView.findViewById(R.id.mo1618)).setText(null); 
+		((TextView) rootView.findViewById(R.id.mo1820)).setText(null); 
+		
+		((TextView) rootView.findViewById(R.id.di810)).setText(null); 
+		((TextView) rootView.findViewById(R.id.di1012)).setText(null); 
+		((TextView) rootView.findViewById(R.id.di1214)).setText(null); 
+		((TextView) rootView.findViewById(R.id.di1416)).setText(null); 
+		((TextView) rootView.findViewById(R.id.di1618)).setText(null); 
+		((TextView) rootView.findViewById(R.id.di1820)).setText(null); 
+		
+		((TextView) rootView.findViewById(R.id.mi810)).setText(null); 
+		((TextView) rootView.findViewById(R.id.mi1012)).setText(null); 
+		((TextView) rootView.findViewById(R.id.mi1214)).setText(null); 
+		((TextView) rootView.findViewById(R.id.mi1416)).setText(null); 
+		((TextView) rootView.findViewById(R.id.mi1618)).setText(null); 
+		((TextView) rootView.findViewById(R.id.mi1820)).setText(null); 
+		
+		((TextView) rootView.findViewById(R.id.don810)).setText(null); 
+		((TextView) rootView.findViewById(R.id.don1012)).setText(null); 
+		((TextView) rootView.findViewById(R.id.don1214)).setText(null); 
+		((TextView) rootView.findViewById(R.id.don1416)).setText(null); 
+		((TextView) rootView.findViewById(R.id.don1618)).setText(null); 
+		((TextView) rootView.findViewById(R.id.don1820)).setText(null); 
+		
+		((TextView) rootView.findViewById(R.id.fr810)).setText(null); 
+		((TextView) rootView.findViewById(R.id.fr1012)).setText(null); 
+		((TextView) rootView.findViewById(R.id.fr1214)).setText(null); 
+		((TextView) rootView.findViewById(R.id.fr1416)).setText(null); 
+		((TextView) rootView.findViewById(R.id.fr1618)).setText(null); 
+		((TextView) rootView.findViewById(R.id.fr1820)).setText(null); 
+		
+		((TextView) rootView.findViewById(R.id.mo810)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.mo1012)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.mo1214)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.mo1416)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.mo1618)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.mo1820)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		
+		((TextView) rootView.findViewById(R.id.di810)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.di1012)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.di1214)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.di1416)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.di1618)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.di1820)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		
+		((TextView) rootView.findViewById(R.id.mi810)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.mi1012)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.mi1214)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.mi1416)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.mi1618)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.mi1820)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		
+		((TextView) rootView.findViewById(R.id.don810)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.don1012)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.don1214)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.don1416)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.don1618)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.don1820)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		
+		((TextView) rootView.findViewById(R.id.fr810)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.fr1012)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.fr1214)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.fr1416)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.fr1618)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		((TextView) rootView.findViewById(R.id.fr1820)).setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF")); 
+		
 		new TimetableEntryLoader().execute();
 		super.onResume();
 	}
@@ -192,6 +262,7 @@ public class TimetableFragment extends Fragment {
 
 		@Override
 		protected List<TimetableEntry> doInBackground(Void... unused) {
+			System.out.println("doInBackground"); 
 			AccessFacade accessFacade = new AccessFacade();
 
 			List<TimetableEntry> timetableEntries = accessFacade
@@ -202,9 +273,13 @@ public class TimetableFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(List<TimetableEntry> timetableEntries) {
-			// TODO: Einträge an der GUI anzeigen
+			System.out.println("onPostExecute"); 
+			
+			
+			
 
 			for (TimetableEntry timetableEntry : timetableEntries) {
+				System.out.println("for"); 
 				if (timetableEntry.getDayOfWeek() == TimetableEntry.MONDAY) {
 					if (timetableEntry.getTime() == TimetableEntry.FROM_08_TO_10) {
 						prepareCell(R.id.mo810, timetableEntry);
@@ -281,6 +356,7 @@ public class TimetableFragment extends Fragment {
 		}
 
 		private void prepareCell(int id, TimetableEntry entry) {
+			System.out.println("prepareCell"); 
 			ColorHelper colorHelper = new ColorHelper();
 			TextView view = (TextView) rootView.findViewById(id);
 			view.setText(entry.getTitle());
