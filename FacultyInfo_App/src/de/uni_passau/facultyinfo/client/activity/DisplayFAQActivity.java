@@ -70,11 +70,9 @@ public class DisplayFAQActivity extends Activity {
 		protected void onPostExecute(Faq faq) {
 			if (faq != null) {
 				TextView headingView = (TextView) findViewById(R.id.faqHeading);
-				System.out.println(faq.getTitle());
 				headingView.setText(faq.getTitle());
 
 				TextView textView = (TextView) findViewById(R.id.faqText);
-				System.out.println(faq.getText());
 				textView.setMovementMethod(new ScrollingMovementMethod());
 				textView.setText(faq.getText());
 			}
