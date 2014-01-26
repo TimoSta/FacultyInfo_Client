@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Locale;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,7 +34,6 @@ public class HomeFragment extends Fragment {
 	private View rootView;
 
 	public HomeFragment() {
-		// Empty constructor required for fragment subclasses
 	}
 
 	@Override
@@ -41,10 +41,12 @@ public class HomeFragment extends Fragment {
 			Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-		getActivity().getActionBar().setTitle(
-				getActivity().getApplicationContext().getString(
+		Activity activity = getActivity();
+		ActionBar actionBar = activity.getActionBar();
+		actionBar.setTitle(
+				activity.getApplicationContext().getString(
 						R.string.title_home));
-		getActivity().getActionBar().setNavigationMode(
+		actionBar.setNavigationMode(
 				ActionBar.NAVIGATION_MODE_STANDARD);
 
 		(new NewsLoader(rootView)).execute();
@@ -61,7 +63,6 @@ public class HomeFragment extends Fragment {
 
 		@Override
 		protected List<News> doInBackground(Void... unused) {
-			System.out.println("NewsActivity->doInBackground");
 			AccessFacade accessFacade = new AccessFacade();
 
 			List<News> news = accessFacade.getNewsAccess().getNews();
@@ -80,7 +81,6 @@ public class HomeFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(List<News> news) {
-			System.out.println("NewsLoader->onPostExecute");
 
 			if (news != null && !news.isEmpty()) {
 				TextView homeNewsTitle = (TextView) HomeFragment.this.rootView
@@ -92,12 +92,9 @@ public class HomeFragment extends Fragment {
 				homeNewsDescription.setText(news.get(0).getDescription());
 
 				OnClickListener onNewsClickListener = new OnClickListener() {
-
 					@Override
 					public void onClick(View v) {
-						System.out.println("open NewsFragment");
 						((MainActivity) getActivity()).selectItem(MainActivity.NEWS);
-						// open NewsFragment
 					}
 				};
 
@@ -143,19 +140,16 @@ public class HomeFragment extends Fragment {
 			final ArrayList<HashMap<String, String>> busList = new ArrayList<HashMap<String, String>>();
 
 			if (!busLines.isEmpty()) {
-				System.out.println("busLines.isEmpty()");
-
 				for (int i = 0; i < (busLines.size() >= 2 ? 2 : busLines.size()); i++) {
 
 					BusLine busLine = busLines.get(i);
-					System.out.println("for");
-					HashMap<String, String> temp1 = new HashMap<String, String>();
+					HashMap<String, String> listEntry = new HashMap<String, String>();
 					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm",
 							Locale.GERMAN);
-					temp1.put("title", sdf.format(busLine.getDeparture())
+					listEntry.put("title", sdf.format(busLine.getDeparture())
 							+ " - " + busLine.getLine());
-					temp1.put("direction", busLine.getDirection());
-					busList.add(temp1);
+					listEntry.put("direction", busLine.getDirection());
+					busList.add(listEntry);
 				}
 			}
 

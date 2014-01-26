@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
@@ -30,7 +31,6 @@ import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 public class FaqsFragment extends Fragment {
 
 	public FaqsFragment() {
-		// Empty constructor required for fragment subclasses
 	}
 
 	@Override
@@ -41,13 +41,13 @@ public class FaqsFragment extends Fragment {
 
 		setHasOptionsMenu(true);
 
-		getActivity().getActionBar().setTitle(
-				getActivity().getApplicationContext().getString(
-						R.string.title_faqs));
-		getActivity().getActionBar().setNavigationMode(
-				ActionBar.NAVIGATION_MODE_STANDARD);
+		Activity activity = getActivity();
+		ActionBar actionBar = activity.getActionBar();
+		actionBar.setTitle(activity.getApplicationContext().getString(
+				R.string.title_faqs));
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
-		new FaqLoader(rootView).execute();
+		(new FaqLoader(rootView)).execute();
 
 		return rootView;
 
@@ -65,7 +65,6 @@ public class FaqsFragment extends Fragment {
 			final Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
 					Uri.parse("mailto:mail@fs-wiwi.de"));
 			emailIntent.putExtra(Intent.EXTRA_SUBJECT, "");
-			// emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			getActivity().startActivity(
 					Intent.createChooser(emailIntent,
 							"Mail an die Fachschaft..."));
@@ -148,8 +147,6 @@ public class FaqsFragment extends Fragment {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
-					System.out.println("click");
-					System.out.println(position);
 					displayFaq(faqList.get(position).get("id"),
 							faqList.get(position).get("category"));
 				}
@@ -160,7 +157,6 @@ public class FaqsFragment extends Fragment {
 		private void displayFaq(String id, String category) {
 			Intent intent = new Intent(rootView.getContext(),
 					DisplayFAQActivity.class);
-
 			intent.putExtra("faqId", id);
 			intent.putExtra("category", category);
 			startActivity(intent);

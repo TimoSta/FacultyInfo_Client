@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -35,7 +36,6 @@ public class MapFragment extends Fragment {
 	GoogleMap map;
 
 	public MapFragment() {
-		// Empty constructor required for fragment subclasses
 	}
 
 	@Override
@@ -45,15 +45,17 @@ public class MapFragment extends Fragment {
 		final View rootView = inflater.inflate(R.layout.fragment_map,
 				container, false);
 
-		getActivity().getActionBar().setTitle(
-				getActivity().getApplicationContext().getString(
+		Activity activity = getActivity();
+		ActionBar actionBar = activity.getActionBar();
+		actionBar.setTitle(
+				activity.getApplicationContext().getString(
 						R.string.title_map));
-		getActivity().getActionBar().setNavigationMode(
+		actionBar.setNavigationMode(
 				ActionBar.NAVIGATION_MODE_STANDARD);
 
 		map = ((com.google.android.gms.maps.MapFragment) getFragmentManager()
 				.findFragmentById(R.id.map)).getMap();
-		map.setInfoWindowAdapter(new PopupAdapter(getActivity()
+		map.setInfoWindowAdapter(new PopupAdapter(activity
 				.getLayoutInflater()));
 		map.getUiSettings().setCompassEnabled(true);
 		map.getUiSettings().setZoomControlsEnabled(true);
