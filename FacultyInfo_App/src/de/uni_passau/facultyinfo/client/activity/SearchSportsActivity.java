@@ -86,39 +86,43 @@ public class SearchSportsActivity extends Activity {
 		@Override
 		protected void onPostExecute(
 				List<SportsCourseCategory> sportsCourseCategories) {
-			ListView sportsoffer = (ListView) findViewById(R.id.sports_search_result);
+			if (sportsCourseCategories != null) {
+				ListView sportsoffer = (ListView) findViewById(R.id.sports_search_result);
 
-			System.out.println("SportsCourseCategoryLoader->onPostExecute()");
+				System.out
+						.println("SportsCourseCategoryLoader->onPostExecute()");
 
-			final ArrayList<HashMap<String, String>> categoryList = new ArrayList<HashMap<String, String>>();
+				final ArrayList<HashMap<String, String>> categoryList = new ArrayList<HashMap<String, String>>();
 
-			for (SportsCourseCategory category : sportsCourseCategories) {
+				for (SportsCourseCategory category : sportsCourseCategories) {
 
-				HashMap<String, String> temp1 = new HashMap<String, String>();
-				temp1.put("id", category.getId());
-				temp1.put("title", category.getTitle());
-				categoryList.add(temp1);
-			}
-
-			SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(),
-					categoryList, R.layout.custom_row_view,
-					new String[] { "title", }, new int[] { R.id.title });
-
-			sportsoffer.setAdapter(adapter);
-
-			sportsoffer.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-					System.out.println("click");
-					System.out.println(position);
-					displaySportsCourses(categoryList.get(position).get("id"),
-							categoryList.get(position).get("title"));
+					HashMap<String, String> temp1 = new HashMap<String, String>();
+					temp1.put("id", category.getId());
+					temp1.put("title", category.getTitle());
+					categoryList.add(temp1);
 				}
 
-			});
+				SimpleAdapter adapter = new SimpleAdapter(
+						getApplicationContext(), categoryList,
+						R.layout.custom_row_view, new String[] { "title", },
+						new int[] { R.id.title });
 
+				sportsoffer.setAdapter(adapter);
+
+				sportsoffer.setOnItemClickListener(new OnItemClickListener() {
+
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view,
+							int position, long id) {
+						System.out.println("click");
+						System.out.println(position);
+						displaySportsCourses(
+								categoryList.get(position).get("id"),
+								categoryList.get(position).get("title"));
+					}
+
+				});
+			}
 		}
 	}
 
