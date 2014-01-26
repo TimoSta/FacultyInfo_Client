@@ -6,23 +6,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import de.uni_passau.facultyinfo.client.R;
-import de.uni_passau.facultyinfo.client.R.layout;
-import de.uni_passau.facultyinfo.client.R.menu;
-import de.uni_passau.facultyinfo.client.activity.SearchContactsActivity.ChairLoader;
-import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
-import de.uni_passau.facultyinfo.client.model.dto.Event;
-import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
-import android.os.Bundle;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.AdapterView.OnItemClickListener;
+import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
+import de.uni_passau.facultyinfo.client.model.dto.Event;
+import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 
 public class SearchEventsActivity extends Activity {
 
@@ -33,9 +31,10 @@ public class SearchEventsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_events);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setDisplayShowHomeEnabled(true);
-		getActionBar().setDisplayShowTitleEnabled(true);
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
 
 		Intent intent = getIntent();
 		query = intent.getStringExtra("query");
@@ -46,7 +45,6 @@ public class SearchEventsActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.search_events, menu);
 		return true;
 	}
@@ -69,11 +67,6 @@ public class SearchEventsActivity extends Activity {
 
 			events = accessFacade.getEventAccess().find(query);
 
-			// if (events == null) {
-			// publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
-			// events = accessFacade.getEventAccess().find(query);
-			// }
-
 			if (events == null) {
 				events = new ArrayList<Event>();
 			}
@@ -88,13 +81,13 @@ public class SearchEventsActivity extends Activity {
 			final ArrayList<HashMap<String, String>> eventList = new ArrayList<HashMap<String, String>>();
 
 			for (Event event : events) {
-				HashMap<String, String> temp1 = new HashMap<String, String>();
-				temp1.put("title", event.getTitle());
+				HashMap<String, String> listEntry = new HashMap<String, String>();
+				listEntry.put("title", event.getTitle());
 				SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy",
 						Locale.GERMAN);
-				temp1.put("date", sdf.format(event.getStartDate()));
-				temp1.put("eventId", event.getId());
-				eventList.add(temp1);
+				listEntry.put("date", sdf.format(event.getStartDate()));
+				listEntry.put("eventId", event.getId());
+				eventList.add(listEntry);
 			}
 
 			SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(),
@@ -105,7 +98,6 @@ public class SearchEventsActivity extends Activity {
 			listView.setAdapter(adapter);
 
 			listView.setOnItemClickListener(new OnItemClickListener() {
-
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
@@ -114,13 +106,11 @@ public class SearchEventsActivity extends Activity {
 					displayEvent(eventList.get(position).get("eventId"));
 				}
 			});
-
 		}
 
 		private void displayEvent(String id) {
 			Intent intent = new Intent(getApplicationContext(),
 					DisplayEventActivity.class);
-
 			intent.putExtra("eventId", id);
 			startActivity(intent);
 		}

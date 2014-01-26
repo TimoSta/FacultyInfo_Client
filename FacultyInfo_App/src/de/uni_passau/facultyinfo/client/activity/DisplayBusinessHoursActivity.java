@@ -1,5 +1,6 @@
 package de.uni_passau.facultyinfo.client.activity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,9 +22,10 @@ public class DisplayBusinessHoursActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_business_hours);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setDisplayShowHomeEnabled(true);
-		getActionBar().setDisplayShowTitleEnabled(true);
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
 
 		Intent intent = getIntent();
 		facilityId = intent.getStringExtra("facilityId");
@@ -37,7 +39,6 @@ public class DisplayBusinessHoursActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.display_business_hours, menu);
 		return true;
 	}

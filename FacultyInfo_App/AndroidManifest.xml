@@ -101,7 +101,7 @@
                 android:value="de.uni_passau.facultyinfo.client.activity.DisplaySportCourses.Activity" />
         </activity>
         <activity
-            android:name="de.uni_passau.facultyinfo.client.activity.DisplaySportCoursesActivity"
+            android:name="de.uni_passau.facultyinfo.client.activity.DisplaySportsCourseListActivity"
             android:label="@string/title_activity_display_sport_courses"
             android:screenOrientation="portrait" >
         </activity>

@@ -1,5 +1,6 @@
 package de.uni_passau.facultyinfo.client.activity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -11,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -67,19 +67,17 @@ public class MainActivity extends Activity {
 				R.layout.drawer_list_item, drawerValues));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setHomeButtonEnabled(true);
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.ic_drawer, R.string.drawer_open,
 				R.string.drawer_close) {
-
-			/** Called when a drawer has settled in a completely open state. */
 			public void onDrawerOpened(View drawerView) {
 				invalidateOptionsMenu();
 			}
 		};
 
-		// Set the drawer toggle as the DrawerListener
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 		if (intent == null) {
@@ -87,7 +85,6 @@ public class MainActivity extends Activity {
 		} else {
 			selectItem(intent.getIntExtra("module", 0));
 		}
-
 	}
 
 	@Override
@@ -120,30 +117,12 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(android.view.MenuItem item) {
-		// Pass the event to ActionBarDrawerToggle, if it returns
-		// true, then it has handled the app icon touch event
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
-		// Handle your other action bar items...
-
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
-	protected void onResume() {
-
-		super.onResume();
-	}
-
-	// @Override
-	// public boolean onCreateOptionsMenu(Menu menu) {
-	// // Inflate the menu; this adds items to the action bar if it is present.
-	// getMenuInflater().inflate(R.menu.main, menu);
-	// return true;
-	// }
-
-	/* The click listner for ListView in the navigation drawer */
 	private class DrawerItemClickListener implements
 			ListView.OnItemClickListener {
 		@Override
@@ -183,12 +162,7 @@ public class MainActivity extends Activity {
 				fragment = new FaqsFragment();
 				break;
 			case MAP:
-				// fragment = ((MapFragment)
-				// getFragmentManager().findFragmentById(
-				// R.layout.fragment_map));
-				// if (fragment == null || !fragment.isAdded()) {
 				fragment = new MapFragment();
-				// }
 				break;
 			case BUSINESSHOURS:
 				fragment = new BusinessHoursFragment();
@@ -202,7 +176,6 @@ public class MainActivity extends Activity {
 			fragmentManager.beginTransaction()
 					.replace(R.id.content_frame, fragment).commit();
 			selectedItem = position;
-			// update selected item and title, then close the drawer
 			mDrawerList.setItemChecked(position, true);
 		}
 		mDrawerLayout.closeDrawer(mDrawerList);
@@ -259,94 +232,5 @@ public class MainActivity extends Activity {
 
 		intent.putExtra("dayId", dayId);
 		startActivity(intent);
-		System.out.println("startActivity");
 	}
-
-	/**
-	 * Fragment that appears in the "content_frame", shows a planet
-	 */
-
-	// @Override
-	// public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-	//
-	// System.out.println("MainActivity->onNavigationItemSelected->itemId");
-	// System.out.println(itemId);
-	//
-	// if (itemId == 1) {
-	// System.out.println("itemId==1");
-	// Intent intent = new Intent(this, NewsActivity.class);
-	// startActivity(intent);
-	// return true;
-	// } else if (itemId == 2) {
-	// Intent intent = new Intent(this, TimetableActivity.class);
-	// startActivity(intent);
-	// return true;
-	// } else if (itemId == 3) {
-	// Intent intent = new Intent(this, BuslinesActivity.class);
-	// startActivity(intent);
-	// return true;
-	// } else if (itemId == 4) {
-	// Intent intent = new Intent(this, SportsActivity.class);
-	// startActivity(intent);
-	// return true;
-	// } else if (itemId == 5) {
-	// Intent intent = new Intent(this, CafeteriaActivity.class);
-	// startActivity(intent);
-	// return true;
-	// } else if (itemId == 6) {
-	// Intent intent = new Intent(this, ContactsActivity.class);
-	// startActivity(intent);
-	// return true;
-	// } else if (itemId == 7) {
-	// Intent intent = new Intent(this, FAQsActivity.class);
-	// startActivity(intent);
-	// return true;
-	// }
-	// return false;
-	// }
-
-	// /**
-	// * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-	// * one of the primary sections of the app.
-	// */
-	// public static class AppSectionsPagerAdapter extends FragmentPagerAdapter
-	// {
-	//
-	// public AppSectionsPagerAdapter(
-	// android.support.v4.app.FragmentManager fragmentManager) {
-	// super(fragmentManager);
-	// }
-	//
-	// @Override
-	// public android.support.v4.app.Fragment getItem(int i) {
-	// System.out.println("getItem: " + i);
-	// android.support.v4.app.Fragment fragment = new SportsCategoryFragment();
-	// Bundle args = new Bundle();
-	//
-	// args.putInt(SportsCategoryFragment.ARG_PERIOD, i + 1);
-	// fragment.setArguments(args);
-	// return fragment;
-	//
-	// }
-	//
-	// @Override
-	// public int getCount() {
-	// return 2;
-	// }
-	//
-	// @Override
-	// public CharSequence getPageTitle(int position) {
-	// String tab = "";
-	// switch (position) {
-	// case 0:
-	// tab = "A-Z";
-	// break;
-	// case 1:
-	// tab = "heute";
-	// break;
-	// }
-	// return tab;
-	// }
-	// }
-
 }

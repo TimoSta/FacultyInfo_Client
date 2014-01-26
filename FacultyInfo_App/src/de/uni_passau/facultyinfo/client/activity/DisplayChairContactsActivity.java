@@ -3,6 +3,7 @@ package de.uni_passau.facultyinfo.client.activity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,32 +18,31 @@ import de.uni_passau.facultyinfo.client.model.dto.ContactPerson;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 
 public class DisplayChairContactsActivity extends Activity {
+
 	private String chairId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		System.out.println("DisplayChairContactsActivity->onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_chair_contacts);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setDisplayShowHomeEnabled(true);
-		getActionBar().setDisplayShowTitleEnabled(true);
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
 
 		Intent intent = getIntent();
 		chairId = intent.getStringExtra("chairId");
-		System.out.println(chairId);
+		String title = intent.getStringExtra("title");
 
-		setTitle(intent.getStringExtra("title"));
+		setTitle(title);
 
-		ContactLoader contactLoader = new ContactLoader();
-		contactLoader.execute();
+		(new ContactLoader()).execute();
 
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.display_chair_contacts, menu);
 		return true;
 	}
@@ -80,19 +80,16 @@ public class DisplayChairContactsActivity extends Activity {
 			if (group != null) {
 				ListView listView = (ListView) findViewById(R.id.chairContacts);
 
-				System.out
-						.println("DisplayChairContactsActivity->onPostExecute");
-
 				final ArrayList<HashMap<String, String>> personList = new ArrayList<HashMap<String, String>>();
 
 				for (ContactPerson person : group.getContactPersons()) {
-					HashMap<String, String> temp1 = new HashMap<String, String>();
-					temp1.put("name", person.getName());
-					temp1.put("office", person.getOffice());
-					temp1.put("telefon", person.getPhone());
-					temp1.put("email", person.getEmail());
-					temp1.put("description", person.getDescription());
-					personList.add(temp1);
+					HashMap<String, String> listEntry = new HashMap<String, String>();
+					listEntry.put("name", person.getName());
+					listEntry.put("office", person.getOffice());
+					listEntry.put("telefon", person.getPhone());
+					listEntry.put("email", person.getEmail());
+					listEntry.put("description", person.getDescription());
+					personList.add(listEntry);
 				}
 
 				SimpleAdapter adapter = new SimpleAdapter(

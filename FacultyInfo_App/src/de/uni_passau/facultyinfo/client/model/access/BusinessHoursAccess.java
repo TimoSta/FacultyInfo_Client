@@ -25,6 +25,7 @@ import de.uni_passau.facultyinfo.client.util.CacheHelper;
  * @author Timo Staudinger
  * 
  */
+@SuppressWarnings("unused")
 public class BusinessHoursAccess extends Access {
 	private static final String RESSOURCE = "/businesshours";
 

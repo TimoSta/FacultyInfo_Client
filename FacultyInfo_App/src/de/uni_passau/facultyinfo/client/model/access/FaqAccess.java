@@ -23,6 +23,7 @@ import de.uni_passau.facultyinfo.client.util.CacheHelper;
  * @author Timo Staudinger
  * 
  */
+@SuppressWarnings("unused")
 public class FaqAccess extends Access {
 	private static final String RESSOURCE = "/faq";
 

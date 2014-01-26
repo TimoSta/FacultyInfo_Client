@@ -26,7 +26,7 @@ import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 import android.widget.TabHost;
 import de.uni_passau.facultyinfo.client.R;
-import de.uni_passau.facultyinfo.client.activity.DisplaySportCoursesActivity;
+import de.uni_passau.facultyinfo.client.activity.DisplaySportsCourseListActivity;
 import de.uni_passau.facultyinfo.client.activity.SearchSportsActivity;
 import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
@@ -508,7 +508,7 @@ public class SportsFragment extends Fragment {
 	private void displaySportsCourses(String categoryId, String title,
 			String offerTime) {
 		Intent intent = new Intent(rootView.getContext(),
-				DisplaySportCoursesActivity.class);
+				DisplaySportsCourseListActivity.class);
 		intent.putExtra("categoryId", categoryId);
 		intent.putExtra("title", title);
 		intent.putExtra("offerTime", offerTime);

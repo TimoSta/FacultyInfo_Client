@@ -2,6 +2,7 @@ package de.uni_passau.facultyinfo.client.activity;
 
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -20,16 +21,16 @@ public class DisplayTimeTableEntryActivity extends Activity {
 	private int timeslotId;
 	private int dayId;
 	private String entryId;
-	private int colorId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_time_table_entry);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setDisplayShowHomeEnabled(true);
-		getActionBar().setDisplayShowTitleEnabled(true);
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
 
 		Intent intent = (Intent) getIntent();
 		timeslotId = intent.getIntExtra("timeslotId", 0);
@@ -77,7 +78,6 @@ public class DisplayTimeTableEntryActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.display_time_table_entry, menu);
 		return true;
 	}
@@ -93,7 +93,7 @@ public class DisplayTimeTableEntryActivity extends Activity {
 			startActivity(intent);
 			return true;
 		case R.id.action_delete:
-			(new TimetableEntrySaver()).execute(); 
+			(new TimetableEntryDeleter()).execute();
 		case android.R.id.home:
 			onBackPressed();
 			return true;
@@ -109,7 +109,6 @@ public class DisplayTimeTableEntryActivity extends Activity {
 
 		@Override
 		protected List<TimetableEntry> doInBackground(Void... unused) {
-			// AccessFacade accessFacade = new AccessFacade();
 			accessFacade = new AccessFacade();
 
 			List<TimetableEntry> timetableEntries = accessFacade
@@ -121,10 +120,8 @@ public class DisplayTimeTableEntryActivity extends Activity {
 		@Override
 		protected void onPostExecute(List<TimetableEntry> timetableEntries) {
 			for (TimetableEntry timetableEntry : timetableEntries) {
-				System.out.println("onPostExecute->for");
 				if (dayId == timetableEntry.getDayOfWeek()
 						&& timeslotId == timetableEntry.getTime()) {
-					System.out.println("onPostExecute->if");
 					EditText titleEditText = (EditText) findViewById(R.id.veranstaltungddisplay);
 					titleEditText.setText(timetableEntry.getTitle());
 					titleEditText.setKeyListener(null);
@@ -138,31 +135,19 @@ public class DisplayTimeTableEntryActivity extends Activity {
 							.setText(timetableEntry.getDescription());
 					descriptionEditText.setKeyListener(null);
 
-					colorId = timetableEntry.getColor();
 					entryId = timetableEntry.getId();
 				}
 			}
 		}
 	}
 
-	protected class TimetableEntrySaver extends
+	protected class TimetableEntryDeleter extends
 			AsyncTask<TimetableEntry, Void, Boolean> {
-		// View rootView = null;
-		//
-		// public TimetableEntrySaver(View rootView) {
-		// super();
-		// this.rootView = rootView;
-		// }
 
 		@Override
 		protected Boolean doInBackground(TimetableEntry... timetableEntries) {
 			AccessFacade accessFacade = new AccessFacade();
 
-//			boolean result = true;
-//			for (TimetableEntry timetableEntry : timetableEntries) {
-//				result = accessFacade.getTimetableAccess()
-//						.deleteTimetableEntry(entryId) && result;
-//			}
 			boolean result = accessFacade.getTimetableAccess()
 					.deleteTimetableEntry(entryId);
 
@@ -178,9 +163,6 @@ public class DisplayTimeTableEntryActivity extends Activity {
 				toast.show();
 				Intent intent = new Intent(getApplicationContext(),
 						DisplayDayActivity.class);
-				// if(toOverview){
-				// intent.putExtra("displayDay", true);
-				// }
 				int day = TimetableEntry.MONDAY;
 				if (dayId == TimetableEntry.MONDAY) {
 					day = 0;
@@ -193,9 +175,6 @@ public class DisplayTimeTableEntryActivity extends Activity {
 				} else if (dayId == TimetableEntry.FRIDAY) {
 					day = 4;
 				}
-				
-				
-				
 
 				intent.putExtra("dayId", day);
 				intent.putExtra("timeslotId", timeslotId);

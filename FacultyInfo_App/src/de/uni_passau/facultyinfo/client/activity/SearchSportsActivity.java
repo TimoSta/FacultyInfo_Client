@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,21 +30,19 @@ public class SearchSportsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_sports);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setDisplayShowHomeEnabled(true);
-		getActionBar().setDisplayShowTitleEnabled(true);
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
 
 		Intent intent = getIntent();
 		query = intent.getStringExtra("query");
-		System.out.println(query);
 
-		(new SportsCourseCategoryLoader()).execute();
-
+		(new SportsCourseFinder()).execute();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.search_sports, menu);
 		return true;
 	}
@@ -58,7 +57,7 @@ public class SearchSportsActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	protected class SportsCourseCategoryLoader extends
+	protected class SportsCourseFinder extends
 			AsyncDataLoader<List<SportsCourseCategory>> {
 
 		@Override
@@ -69,17 +68,6 @@ public class SearchSportsActivity extends Activity {
 			List<SportsCourseCategory> sportsCourseCategories = accessFacade
 					.getSportsCourseAccess().find(query);
 
-			// if (sportsCourseCategories == null) {
-			// publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
-			// sportsCourseCategories = accessFacade.getSportsCourseAccess()
-			// .getCategoriesFromCache();
-			// }
-			//
-			// if (sportsCourseCategories == null) {
-			// sportsCourseCategories = Collections
-			// .unmodifiableList(new ArrayList<SportsCourseCategory>());
-			// }
-
 			return sportsCourseCategories;
 		}
 
@@ -89,17 +77,13 @@ public class SearchSportsActivity extends Activity {
 			if (sportsCourseCategories != null) {
 				ListView sportsoffer = (ListView) findViewById(R.id.sports_search_result);
 
-				System.out
-						.println("SportsCourseCategoryLoader->onPostExecute()");
-
 				final ArrayList<HashMap<String, String>> categoryList = new ArrayList<HashMap<String, String>>();
 
 				for (SportsCourseCategory category : sportsCourseCategories) {
-
-					HashMap<String, String> temp1 = new HashMap<String, String>();
-					temp1.put("id", category.getId());
-					temp1.put("title", category.getTitle());
-					categoryList.add(temp1);
+					HashMap<String, String> listEntry = new HashMap<String, String>();
+					listEntry.put("id", category.getId());
+					listEntry.put("title", category.getTitle());
+					categoryList.add(listEntry);
 				}
 
 				SimpleAdapter adapter = new SimpleAdapter(
@@ -110,17 +94,13 @@ public class SearchSportsActivity extends Activity {
 				sportsoffer.setAdapter(adapter);
 
 				sportsoffer.setOnItemClickListener(new OnItemClickListener() {
-
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
-						System.out.println("click");
-						System.out.println(position);
 						displaySportsCourses(
 								categoryList.get(position).get("id"),
 								categoryList.get(position).get("title"));
 					}
-
 				});
 			}
 		}
@@ -128,7 +108,7 @@ public class SearchSportsActivity extends Activity {
 
 	private void displaySportsCourses(String categoryId, String title) {
 		Intent intent = new Intent(getApplicationContext(),
-				DisplaySportCoursesActivity.class);
+				DisplaySportsCourseListActivity.class);
 		intent.putExtra("categoryId", categoryId);
 		intent.putExtra("title", title);
 		intent.putExtra("offerTime", SportsFragment.AZ);

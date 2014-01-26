@@ -5,6 +5,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,14 +26,16 @@ public class DisplaySportsCourseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_sports_course);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setDisplayShowHomeEnabled(true);
-		getActionBar().setDisplayShowTitleEnabled(true);
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
 
 		Intent intent = getIntent();
 		courseId = intent.getStringExtra("courseId");
+		String title = intent.getStringExtra("title");
 
-		setTitle(intent.getStringExtra("title"));
+		setTitle(title);
 
 		(new CourseLoader()).execute();
 
@@ -40,7 +43,6 @@ public class DisplaySportsCourseActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.display_sports_course, menu);
 		return true;
 	}
@@ -74,13 +76,13 @@ public class DisplaySportsCourseActivity extends Activity {
 		}
 
 		@Override
-		protected void onPostExecute(SportsCourse sportscourse) {
-			if (sportscourse != null) {
+		protected void onPostExecute(SportsCourse sportsCourse) {
+			if (sportsCourse != null) {
 				TextView number = (TextView) findViewById(R.id.number_course);
-				number.setText(sportscourse.getNumber());
+				number.setText(sportsCourse.getNumber());
 
 				TextView details = (TextView) findViewById(R.id.description_course);
-				String detailsString = sportscourse.getDetails();
+				String detailsString = sportsCourse.getDetails();
 				if (detailsString == null || detailsString.isEmpty()) {
 					detailsString = "Keine Beschreibung verfügbar";
 				}
@@ -89,68 +91,61 @@ public class DisplaySportsCourseActivity extends Activity {
 				TextView time = (TextView) findViewById(R.id.time_course);
 
 				String dayOfWeek = null;
-				switch (sportscourse.getDayOfWeek()) {
-				case SportsCourse.MONDAY:
+				int dayOfWeekCode = sportsCourse.getDayOfWeek();
+				if (dayOfWeekCode == SportsCourse.MONDAY) {
 					dayOfWeek = "Mo";
-					break;
-				case SportsCourse.TUESDAY:
+				} else if (dayOfWeekCode == SportsCourse.TUESDAY) {
 					dayOfWeek = "Di";
-					break;
-				case SportsCourse.WEDNESDAY:
+				} else if (dayOfWeekCode == SportsCourse.WEDNESDAY) {
 					dayOfWeek = "Mi";
-					break;
-				case SportsCourse.THURSDAY:
+				} else if (dayOfWeekCode == SportsCourse.THURSDAY) {
 					dayOfWeek = "Do";
-					break;
-				case SportsCourse.FRIDAY:
+				} else if (dayOfWeekCode == SportsCourse.FRIDAY) {
 					dayOfWeek = "Fr";
-					break;
-				case SportsCourse.SATURDAY:
+				} else if (dayOfWeekCode == SportsCourse.SATURDAY) {
 					dayOfWeek = "Sa";
-					break;
-				case SportsCourse.SUNDAY:
+				} else if (dayOfWeekCode == SportsCourse.SUNDAY) {
 					dayOfWeek = "So";
-					break;
 				}
 
 				String timeString = "";
 				if (dayOfWeek != null) {
 					timeString = dayOfWeek;
-					if (sportscourse.getStartTime() != null) {
+					if (sportsCourse.getStartTime() != null) {
 						timeString += " "
-								+ sportscourse.getStartTime().toString();
-						if (sportscourse.getEndTime() != null) {
+								+ sportsCourse.getStartTime().toString();
+						if (sportsCourse.getEndTime() != null) {
 							timeString += " - "
-									+ sportscourse.getEndTime().toString();
+									+ sportsCourse.getEndTime().toString();
 						}
 					}
 
 					time.setText(timeString);
 				}
 
-				if (sportscourse.getStartDate() != null
-						&& sportscourse.getEndDate() != null) {
+				if (sportsCourse.getStartDate() != null
+						&& sportsCourse.getEndDate() != null) {
 					TextView timeperiod = (TextView) findViewById(R.id.timeperiod);
 					SimpleDateFormat sdf = new SimpleDateFormat(" d MMM ",
 							Locale.GERMAN);
 					timeperiod.setText("Zeitraum: "
-							+ (sdf.format(sportscourse.getStartDate())) + "- "
-							+ (sdf.format(sportscourse.getEndDate())));
+							+ (sdf.format(sportsCourse.getStartDate())) + "- "
+							+ (sdf.format(sportsCourse.getEndDate())));
 				}
 
 				TextView price = (TextView) findViewById(R.id.price);
-				if (sportscourse.getPrice() > 0) {
+				if (sportsCourse.getPrice() > 0) {
 					DecimalFormat df = new DecimalFormat("#.00",
 							new DecimalFormatSymbols(Locale.GERMANY));
 					price.setText("Kosten: "
-							+ df.format(sportscourse.getPrice()) + " Euro");
+							+ df.format(sportsCourse.getPrice()) + " Euro");
 				} else {
 					price.setText("Kosten: keine");
 				}
 
 				TextView status = (TextView) findViewById(R.id.status);
 				String statusString = null;
-				switch (sportscourse.getStatus()) {
+				switch (sportsCourse.getStatus()) {
 				case SportsCourse.STATUS_OPEN:
 					statusString = "Anmeldungen sind möglich";
 					break;

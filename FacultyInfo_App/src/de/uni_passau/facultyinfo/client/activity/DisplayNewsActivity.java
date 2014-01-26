@@ -3,6 +3,7 @@ package de.uni_passau.facultyinfo.client.activity;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,18 +23,17 @@ public class DisplayNewsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_display_news);
 
 		Intent intent = getIntent();
 		newsId = intent.getStringExtra("newsId");
-		System.out.println(newsId);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setDisplayShowHomeEnabled(true);
-		getActionBar().setDisplayShowTitleEnabled(true);
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
 
-		new NewsLoader().execute();
+		(new NewsLoader()).execute();
 	}
 
 	@Override
@@ -52,27 +52,6 @@ public class DisplayNewsActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	/*
-	 * @Override public boolean onNavigationItemSelected(int itemPosition, long
-	 * itemId) {
-	 * 
-	 * System.out.println("NewsActivity->onNavigationItemSelected->itemId");
-	 * System.out.println(itemId);
-	 * 
-	 * if (itemId == 1) { Intent intent = new Intent(this, MainActivity.class);
-	 * startActivity(intent); return true; } else if (itemId == 2) { Intent
-	 * intent = new Intent(this, TimetableActivity.class);
-	 * startActivity(intent); return true; } else if (itemId == 3) { Intent
-	 * intent = new Intent(this, BuslinesActivity.class); startActivity(intent);
-	 * return true; } else if (itemId == 4) { Intent intent = new Intent(this,
-	 * SportsActivity.class); startActivity(intent); return true; } else if
-	 * (itemId == 5) { Intent intent = new Intent(this,
-	 * CafeteriaActivity.class); startActivity(intent); return true; } else if
-	 * (itemId == 6) { Intent intent = new Intent(this, ContactsActivity.class);
-	 * startActivity(intent); return true; } else if (itemId == 7) { Intent
-	 * intent = new Intent(this, FAQsActivity.class); startActivity(intent);
-	 * return true; } return false; }
-	 */
 	private class NewsLoader extends AsyncDataLoader<News> {
 
 		@Override
@@ -97,7 +76,8 @@ public class DisplayNewsActivity extends Activity {
 
 				TextView textView = (TextView) findViewById(R.id.newsText);
 				textView.setMovementMethod(new ScrollingMovementMethod());
-				textView.setText(news.getText() == null ? news.getDescription() : news.getText());
+				textView.setText(news.getText() == null ? news.getDescription()
+						: news.getText());
 
 				TextView dateView = (TextView) findViewById(R.id.newsDate);
 				SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy",
