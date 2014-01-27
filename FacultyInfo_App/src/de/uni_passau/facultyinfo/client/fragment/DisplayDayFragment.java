@@ -12,6 +12,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
@@ -20,8 +22,6 @@ import de.uni_passau.facultyinfo.client.activity.EditTimeTableActivity;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
 import de.uni_passau.facultyinfo.client.util.ColorHelper;
-
-//import android.app.DialogFragment;
 
 public class DisplayDayFragment extends Fragment {
 
@@ -39,136 +39,60 @@ public class DisplayDayFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// View rootView = inflater.inflate(R.layout.fragment_display_day,
-		// container, false);
 		rootView = inflater.inflate(R.layout.fragment_display_day, container,
 				false);
 		Bundle args = getArguments();
 		dayId = args.getInt(ARG_DAY);
-		String day;
 
 		if (dayId == 1) {
-			System.out.println("DisplayDayFragment -> Montag");
-			day = "Montag";
 			dayC = TimetableEntry.MONDAY;
 		} else if (dayId == 2) {
-			System.out.println("DisplayDayFragment -> Dienstag");
-			day = "Dienstag";
 			dayC = TimetableEntry.TUESDAY;
 		} else if (dayId == 3) {
-			System.out.println("DisplayDayFragment -> Mittwoch");
-			day = "Mittwoch";
 			dayC = TimetableEntry.WEDNESDAY;
 		} else if (dayId == 4) {
-			System.out.println("DisplayDayFragment -> Donnerstag");
-			day = "Donnerstag";
 			dayC = TimetableEntry.THURSDAY;
 		} else if (dayId == 5) {
-			System.out.println("DisplayDayFragment -> Freitag");
-			day = "Freitag";
 			dayC = TimetableEntry.FRIDAY;
 		}
 
-		// TextView textview = (TextView)rootView.findViewById(R.id.text1);
-		// textview.setText(day);
-		// ((TextView) rootView.findViewById(R.id.text1)).setText(
-		// getString(args.getInt(ARG_DAY)));
+		OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				editEventTT(v);
+				return true;
+			}
+		};
+		OnClickListener onClickListener = new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showEventTT(v);
+			}
+		};
 
 		TextView td810 = (TextView) rootView.findViewById(R.id.td810);
-		// td810.setText("get - " + dayId + " - 0810");
-		td810.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				editEventTT(v);
-				return true;
-			}
-		});
-		td810.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				showEventTT(v);
-			}
-		});
+		td810.setOnLongClickListener(onLongClickListener);
+		td810.setOnClickListener(onClickListener);
 
 		TextView td1012 = (TextView) rootView.findViewById(R.id.td1012);
-		// td1012.setText("get - " + dayId + " - 1012");
-		td1012.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				editEventTT(v);
-				return true;
-			}
-		});
-		td1012.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				showEventTT(v);
-			}
-		});
+		td1012.setOnLongClickListener(onLongClickListener);
+		td1012.setOnClickListener(onClickListener);
 
 		TextView td1214 = (TextView) rootView.findViewById(R.id.td1214);
-		// td1214.setText("get - " + dayId + " - 1214");
-		td1214.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				editEventTT(v);
-				return true;
-			}
-		});
-		td1214.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				showEventTT(v);
-			}
-		});
+		td1214.setOnLongClickListener(onLongClickListener);
+		td1214.setOnClickListener(onClickListener);
 
 		TextView td1416 = (TextView) rootView.findViewById(R.id.td1416);
-		// td1416.setText("get - " + dayId + " - 1416");
-		td1416.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				editEventTT(v);
-				return true;
-			}
-		});
-		td1416.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				showEventTT(v);
-			}
-		});
+		td1416.setOnLongClickListener(onLongClickListener);
+		td1416.setOnClickListener(onClickListener);
 
 		TextView td1618 = (TextView) rootView.findViewById(R.id.td1618);
-		// td1618.setText("get - " + dayId + " - 1618");
-		td1618.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				editEventTT(v);
-				return true;
-			}
-		});
-		td1618.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				showEventTT(v);
-			}
-		});
+		td1618.setOnLongClickListener(onLongClickListener);
+		td1618.setOnClickListener(onClickListener);
 
 		TextView td1820 = (TextView) rootView.findViewById(R.id.td1820);
-		// td1820.setText("get - " + dayId + " - 1820");
-		td1820.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				editEventTT(v);
-				return true;
-			}
-		});
-		td1820.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				showEventTT(v);
-			}
-		});
+		td1820.setOnLongClickListener(onLongClickListener);
+		td1820.setOnClickListener(onClickListener);
 
 		return rootView;
 
@@ -176,8 +100,7 @@ public class DisplayDayFragment extends Fragment {
 
 	@Override
 	public void onResume() {
-		timetableEntryLoader = new TimetableEntryLoader();
-		timetableEntryLoader.execute();
+		(new TimetableEntryLoader()).execute();
 		super.onResume();
 	}
 
@@ -230,8 +153,6 @@ public class DisplayDayFragment extends Fragment {
 			dialog.setAttributes(rootView, timeslotId, dayC);
 			dialog.show(this.getFragmentManager(), "createEventTT");
 		} else {
-			System.out.println("Daten laden");
-			// EditTimeTable, aber Daten laden!!
 			Intent intent = new Intent(rootView.getContext(),
 					EditTimeTableActivity.class);
 			intent.putExtra("timeslotId", timeslotId);
@@ -261,7 +182,6 @@ public class DisplayDayFragment extends Fragment {
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			if (rootView != null) {
-				// Use the Builder class for convenient dialog construction
 				AlertDialog.Builder builder = new AlertDialog.Builder(
 						getActivity());
 				builder.setMessage(R.string.create_event_TT_dialog)
@@ -269,8 +189,6 @@ public class DisplayDayFragment extends Fragment {
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int id) {
-										System.out
-												.println("Veranstaltung anlegen");
 										Intent intent = new Intent(rootView
 												.getContext(),
 												EditTimeTableActivity.class);
@@ -287,11 +205,8 @@ public class DisplayDayFragment extends Fragment {
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int id) {
-										System.out.println("Abbruch");
-										// User cancelled the dialog
 									}
 								});
-				// Create the AlertDialog object and return it
 				return builder.create();
 			} else {
 				throw new NullPointerException();
@@ -306,7 +221,6 @@ public class DisplayDayFragment extends Fragment {
 
 		@Override
 		protected List<TimetableEntry> doInBackground(Void... unused) {
-			// AccessFacade accessFacade = new AccessFacade();
 			accessFacade = new AccessFacade();
 
 			List<TimetableEntry> timetableEntries = accessFacade
@@ -317,15 +231,6 @@ public class DisplayDayFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(List<TimetableEntry> timetableEntries) {
-
-			// DATENTYP onLongClickListener
-			// onLongClickListener = new View.OnLongClickListener() {
-			// @Override
-			// public boolean onLongClick(View v) {
-			// showEventTT(v);
-			// return true;
-			// }
-			// };
 
 			for (TimetableEntry timetableEntry : timetableEntries) {
 				if (timetableEntry.getDayOfWeek() == dayC) {

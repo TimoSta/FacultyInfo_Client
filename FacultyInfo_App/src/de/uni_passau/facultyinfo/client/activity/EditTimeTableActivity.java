@@ -2,6 +2,7 @@ package de.uni_passau.facultyinfo.client.activity;
 
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -32,7 +33,6 @@ public class EditTimeTableActivity extends FragmentActivity {
 	private int dayId;
 	private int timeslotId;
 	private int colorId = Color.WHITE;
-	private boolean isNew;
 	private boolean toOverview;
 
 	private TimetableEntry entry = null;
@@ -42,16 +42,15 @@ public class EditTimeTableActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_time_table);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setDisplayShowHomeEnabled(true);
-		getActionBar().setDisplayShowTitleEnabled(true);
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
 
 		Intent intent = (Intent) getIntent();
 		timeslotId = intent.getIntExtra("timeslotId", 0);
-		System.out.println(intent.getIntExtra("timeslotId", 0));
 		dayId = intent.getIntExtra("dayId", 0);
 		toOverview = intent.getBooleanExtra("toOverview", false);
-		System.out.println(intent.getIntExtra("dayId", 0));
 		String day = "";
 		String timeslot = "";
 
@@ -85,40 +84,16 @@ public class EditTimeTableActivity extends FragmentActivity {
 		timeTextView.setText(day + timeslot);
 
 		if (!intent.getBooleanExtra("new", true)) {
-			TimetableEntryLoader timetableEntryLoader = new TimetableEntryLoader();
-			timetableEntryLoader.execute();
+			(new TimetableEntryLoader()).execute();
 		}
-
-		// Spinner colorSpinner = (Spinner) findViewById(R.id.colorSpinner);
-		//
-		// for (int i = 0; i < 12; i++) {
-		// ShapeDrawable rect = new ShapeDrawable(new RectShape());
-		// if (i == 0) {
-		// // String color = TimetableEntry.COLOR_1;
-		// rect.getPaint().setColor(Color.parseColor("#F5A9D0"));
-		// } else if (i == 1) {
-		// rect.getPaint().setColor(Color.parseColor("#E2A9F3"));
-		// } else if (i == 2) {
-		// rect.getPaint().setColor(Color.parseColor("#A9A9F5"));
-		// } else if (i == 3) {
-		// rect.getPaint().setColor(Color.parseColor("#A9E2F3"));
-		// } else if (i == 4) {
-		// rect.getPaint().setColor(Color.parseColor("#A9F5A9"));
-		// }
-		//
-		// }
 
 		final class ColorPickerDialogFragment extends DialogFragment {
 			@Override
 			public Dialog onCreateDialog(Bundle savedInstanceState) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(
 						getActivity());
-				// Get the layout inflater
 				LayoutInflater inflater = getActivity().getLayoutInflater();
 
-				// Inflate and set the layout for the dialog
-				// Pass null as the parent view because its going in the dialog
-				// layout
 				View colorPickerView = inflater.inflate(
 						R.layout.popup_colorchoice, null);
 
@@ -179,28 +154,10 @@ public class EditTimeTableActivity extends FragmentActivity {
 			}
 		});
 
-		// ArrayAdapter<CharSequence> dayAdapter =
-		// ArrayAdapter.createFromResource(
-		// this, R.array.day_values,
-		// android.R.layout.simple_spinner_item);
-		//
-		// Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner);
-		// daySpinner.setAdapter(dayAdapter);
-
-		// TODO: nur ein Beispiel, wie das Speichern von Terminen funktioniert
-		// TimetableEntrySaver saver = new TimetableEntrySaver();
-		// TimetableEntry entry = TimetableEntryFactory.createTimetableEntry(
-		// "Testeintrag", "Dies ist nur ein Testeintrag. Bla.",
-		// "Café Aran", TimetableEntry.MONDAY,
-		// TimetableEntry.FROM_10_TO_12, TimetableEntry.COLOR_12);
-		// saver.execute(entry);
-		// ENDE Beispiel
-
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.edit_time_table, menu);
 		return true;
 	}
@@ -209,8 +166,6 @@ public class EditTimeTableActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_save:
-			System.out.println("Save");
-
 			EditText editTextTitle = (EditText) findViewById(R.id.veranstaltungd);
 			String title = editTextTitle.getText().toString();
 			EditText editTextLocation = (EditText) findViewById(R.id.locationd);
@@ -225,8 +180,6 @@ public class EditTimeTableActivity extends FragmentActivity {
 				final class CreateEventTT extends DialogFragment {
 					@Override
 					public Dialog onCreateDialog(Bundle savedInstanceState) {
-						// Use the Builder class for convenient dialog
-						// construction
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								getActivity());
 						builder.setMessage(
@@ -236,8 +189,6 @@ public class EditTimeTableActivity extends FragmentActivity {
 											public void onClick(
 													DialogInterface dialog,
 													int id) {
-												System.out
-														.println("Veranstaltung anlegen");
 												save();
 											}
 										})
@@ -248,7 +199,6 @@ public class EditTimeTableActivity extends FragmentActivity {
 													int id) {
 											}
 										});
-						// Create the AlertDialog object and return it
 						return builder.create();
 					}
 				}
@@ -258,9 +208,6 @@ public class EditTimeTableActivity extends FragmentActivity {
 			} else {
 				save();
 			}
-
-			System.out.println(location);
-			// setLocation(location);
 			return true;
 		case android.R.id.home:
 			onBackPressed();
@@ -297,20 +244,13 @@ public class EditTimeTableActivity extends FragmentActivity {
 
 			entry.setColor(colorId);
 
-			TimetableEntrySaver saver = new TimetableEntrySaver();
-			saver.execute(entry);
+			(new TimetableEntrySaver()).execute(entry);
 		}
 
 	}
 
 	protected class TimetableEntrySaver extends
 			AsyncTask<TimetableEntry, Void, Boolean> {
-		// View rootView = null;
-		//
-		// public TimetableEntrySaver(View rootView) {
-		// super();
-		// this.rootView = rootView;
-		// }
 
 		@Override
 		protected Boolean doInBackground(TimetableEntry... timetableEntries) {
@@ -332,19 +272,12 @@ public class EditTimeTableActivity extends FragmentActivity {
 						FacultyInfoApplication.getContext(),
 						"Termin erfolgreich gespeichert", Toast.LENGTH_SHORT);
 				toast.show();
-				// Intent intent = new Intent(getApplicationContext(),
-				// toOverview ? DisplayDayActivity.class
-				// : DisplayTimeTableEntryActivity.class);
-				// if(toOverview){
-				// intent.putExtra("displayDay", true);
-				// }
 
-				Intent intent;
+				Intent intent = null;
 				if (toOverview) {
 					intent = new Intent(getApplicationContext(),
 							DisplayDayActivity.class);
 
-					int day = TimetableEntry.MONDAY;
 					if (dayId == TimetableEntry.MONDAY) {
 						dayId = 0;
 					} else if (dayId == TimetableEntry.TUESDAY) {
@@ -356,8 +289,9 @@ public class EditTimeTableActivity extends FragmentActivity {
 					} else if (dayId == TimetableEntry.FRIDAY) {
 						dayId = 4;
 					}
-				}else{
-					intent=new Intent(getApplicationContext(),DisplayTimeTableEntryActivity.class); 
+				} else {
+					intent = new Intent(getApplicationContext(),
+							DisplayTimeTableEntryActivity.class);
 				}
 
 				intent.putExtra("dayId", dayId);
@@ -380,7 +314,6 @@ public class EditTimeTableActivity extends FragmentActivity {
 
 		@Override
 		protected List<TimetableEntry> doInBackground(Void... unused) {
-			// AccessFacade accessFacade = new AccessFacade();
 			accessFacade = new AccessFacade();
 
 			List<TimetableEntry> timetableEntries = accessFacade

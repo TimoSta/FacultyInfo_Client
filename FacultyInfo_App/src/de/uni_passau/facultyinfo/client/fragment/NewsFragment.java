@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,7 +26,6 @@ import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 public class NewsFragment extends Fragment {
 
 	public NewsFragment() {
-		// Empty constructor required for fragment subclasses
 	}
 
 	@Override
@@ -34,14 +34,13 @@ public class NewsFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_news, container,
 				false);
 
-		getActivity().getActionBar().setTitle(
-				getActivity().getApplicationContext().getString(
-						R.string.title_news));
-		getActivity().getActionBar().setNavigationMode(
-				ActionBar.NAVIGATION_MODE_STANDARD);
+		Activity activity = getActivity();
+		ActionBar actionBar = activity.getActionBar();
+		actionBar.setTitle(activity.getApplicationContext().getString(
+				R.string.title_news));
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
-		NewsLoader newsLoader = new NewsLoader(rootView);
-		newsLoader.execute();
+		(new NewsLoader(rootView)).execute();
 
 		return rootView;
 	}
@@ -71,17 +70,15 @@ public class NewsFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(List<News> news) {
-			System.out.println("NewsActivity->onPostExecute");
 
 			final ArrayList<HashMap<String, String>> newsList = new ArrayList<HashMap<String, String>>();
 
 			for (News newsElement : news) {
-				HashMap<String, String> temp1 = new HashMap<String, String>();
-				temp1.put("id", newsElement.getId());
-				System.out.println(newsElement.getTitle());
-				temp1.put("title", newsElement.getTitle());
-				temp1.put("description", newsElement.getDescription());
-				newsList.add(temp1);
+				HashMap<String, String> listEntry = new HashMap<String, String>();
+				listEntry.put("id", newsElement.getId());
+				listEntry.put("title", newsElement.getTitle());
+				listEntry.put("description", newsElement.getDescription());
+				newsList.add(listEntry);
 			}
 
 			ListView listView = (ListView) rootView.findViewById(R.id.list);
@@ -100,8 +97,6 @@ public class NewsFragment extends Fragment {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
-					System.out.println("click");
-					System.out.println(position);
 					displayNews(newsList.get(position).get("id"));
 				}
 			});
@@ -109,12 +104,9 @@ public class NewsFragment extends Fragment {
 		}
 
 		private void displayNews(String id) {
-			System.out.println("NewsActivity->displayNews()");
 			Intent intent = new Intent(rootView.getContext(),
 					DisplayNewsActivity.class);
-
 			intent.putExtra("newsId", id);
-			System.out.println("putExtra");
 			startActivity(intent);
 		}
 

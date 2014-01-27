@@ -3,6 +3,7 @@ package de.uni_passau.facultyinfo.client.activity;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,9 +24,10 @@ public class DisplayEventActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_event);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setDisplayShowHomeEnabled(true);
-		getActionBar().setDisplayShowTitleEnabled(true);
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
 
 		Intent intent = getIntent();
 		eventId = intent.getStringExtra("eventId");
@@ -84,21 +86,21 @@ public class DisplayEventActivity extends Activity {
 				location.setText(event.getLocation());
 
 				TextView time = (TextView) findViewById(R.id.event_time);
-				SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy",
+				SimpleDateFormat dateSDF = new SimpleDateFormat(
+						"EEE, d MMM yyyy", Locale.GERMAN);
+				SimpleDateFormat timeSDF = new SimpleDateFormat("HH:mm",
 						Locale.GERMAN);
-				SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm",
-						Locale.GERMAN);
-				if ((sdf.format(event.getStartDate())).equals(sdf.format(event
-						.getEndDate()))) {
-					time.setText(sdf.format(event.getStartDate()) + " "
-							+ sdf2.format(event.getStartDate()) + " - "
-							+ sdf2.format(event.getEndDate()));
+				if ((dateSDF.format(event.getStartDate())).equals(dateSDF
+						.format(event.getEndDate()))) {
+					time.setText(dateSDF.format(event.getStartDate()) + " "
+							+ timeSDF.format(event.getStartDate()) + " - "
+							+ timeSDF.format(event.getEndDate()));
 
 				} else {
-					time.setText(sdf.format(event.getStartDate()) + " - "
-							+ sdf.format(event.getEndDate()) + " "
-							+ sdf2.format(event.getStartDate()) + " - "
-							+ sdf2.format(event.getEndDate()));
+					time.setText(dateSDF.format(event.getStartDate()) + " - "
+							+ dateSDF.format(event.getEndDate()) + " "
+							+ timeSDF.format(event.getStartDate()) + " - "
+							+ timeSDF.format(event.getEndDate()));
 				}
 			}
 		}

@@ -1,5 +1,6 @@
 package de.uni_passau.facultyinfo.client.activity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import de.uni_passau.facultyinfo.client.model.dto.Faq;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 
 public class DisplayFAQActivity extends Activity {
+	
 	private String faqId;
 
 	@Override
@@ -20,22 +22,22 @@ public class DisplayFAQActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_faq);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setDisplayShowHomeEnabled(true);
-		getActionBar().setDisplayShowTitleEnabled(true);
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
 
 		Intent intent = getIntent();
 		faqId = intent.getStringExtra("faqId");
+		String category = intent.getStringExtra("category");
 
-		setTitle(intent.getStringExtra("category"));
+		setTitle(category);
 
 		(new FaqLoader()).execute();
-
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.display_faq, menu);
 		return true;
 	}
@@ -70,11 +72,9 @@ public class DisplayFAQActivity extends Activity {
 		protected void onPostExecute(Faq faq) {
 			if (faq != null) {
 				TextView headingView = (TextView) findViewById(R.id.faqHeading);
-				System.out.println(faq.getTitle());
 				headingView.setText(faq.getTitle());
 
 				TextView textView = (TextView) findViewById(R.id.faqText);
-				System.out.println(faq.getText());
 				textView.setMovementMethod(new ScrollingMovementMethod());
 				textView.setText(faq.getText());
 			}

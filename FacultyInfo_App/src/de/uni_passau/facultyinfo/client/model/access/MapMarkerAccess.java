@@ -20,6 +20,7 @@ import de.uni_passau.facultyinfo.client.util.CacheHelper;
  * @author Timo Staudinger
  * 
  */
+@SuppressWarnings("unused")
 public class MapMarkerAccess extends Access {
 	private static final String RESSOURCE = "/mapmarker";
 

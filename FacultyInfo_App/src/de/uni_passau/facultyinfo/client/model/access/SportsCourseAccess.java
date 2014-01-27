@@ -27,6 +27,7 @@ import de.uni_passau.facultyinfo.client.util.CacheHelper;
  * 
  * @author Timo Staudinger
  */
+@SuppressWarnings("unused")
 public class SportsCourseAccess extends Access {
 	private static final String RESSOURCE = "/sportscourse";
 

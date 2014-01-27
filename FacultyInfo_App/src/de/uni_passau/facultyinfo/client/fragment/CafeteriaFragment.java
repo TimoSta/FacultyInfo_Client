@@ -12,6 +12,7 @@ import java.util.Locale;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -48,7 +49,6 @@ public class CafeteriaFragment extends Fragment {
 	private List<MenuItem> menuItems = null;
 
 	public CafeteriaFragment() {
-		// Empty constructor required for fragment subclasses
 	}
 
 	@Override
@@ -59,12 +59,12 @@ public class CafeteriaFragment extends Fragment {
 
 		setHasOptionsMenu(true);
 
-		getActivity().getActionBar().removeAllTabs();
-		getActivity().getActionBar().setTitle(
-				getActivity().getApplicationContext().getString(
-						R.string.title_cafeteria));
-		getActivity().getActionBar().setNavigationMode(
-				ActionBar.NAVIGATION_MODE_TABS);
+		Activity activity = getActivity();
+		ActionBar actionBar = activity.getActionBar();
+		actionBar.removeAllTabs();
+		actionBar.setTitle(activity.getApplicationContext().getString(
+				R.string.title_cafeteria));
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		TabListener tabListener = new ActionBar.TabListener() {
 			@Override
@@ -85,54 +85,51 @@ public class CafeteriaFragment extends Fragment {
 
 			@Override
 			public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
-				System.out.println("onTabReselected");
-
 			}
 
 			@Override
 			public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-
 			}
 		};
 
-		getActivity().getActionBar().removeAllTabs();
-		Tab mon = (Tab) getActivity().getActionBar().newTab().setText(MONDAY)
+		actionBar.removeAllTabs();
+		Tab mon = (Tab) actionBar.newTab().setText(MONDAY)
 				.setTabListener(tabListener);
-		getActivity().getActionBar().addTab(mon);
+		actionBar.addTab(mon);
 
-		Tab tue = (Tab) getActivity().getActionBar().newTab().setText(TUESDAY)
+		Tab tue = (Tab) actionBar.newTab().setText(TUESDAY)
 				.setTabListener(tabListener);
-		getActivity().getActionBar().addTab(tue);
+		actionBar.addTab(tue);
 
-		Tab wed = (Tab) getActivity().getActionBar().newTab()
-				.setText(WEDNESDAY).setTabListener(tabListener);
-		getActivity().getActionBar().addTab(wed);
-
-		Tab thu = (Tab) getActivity().getActionBar().newTab().setText(THURSDAY)
+		Tab wed = (Tab) actionBar.newTab().setText(WEDNESDAY)
 				.setTabListener(tabListener);
-		getActivity().getActionBar().addTab(thu);
+		actionBar.addTab(wed);
 
-		Tab fri = (Tab) getActivity().getActionBar().newTab().setText(FRIDAY)
+		Tab thu = (Tab) actionBar.newTab().setText(THURSDAY)
 				.setTabListener(tabListener);
-		getActivity().getActionBar().addTab(fri);
+		actionBar.addTab(thu);
+
+		Tab fri = (Tab) actionBar.newTab().setText(FRIDAY)
+				.setTabListener(tabListener);
+		actionBar.addTab(fri);
 
 		Calendar cal = Calendar.getInstance();
 		cal.setFirstDayOfWeek(Calendar.MONDAY);
 		cal.setTime(new Date());
 		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 		if (dayOfWeek == Calendar.MONDAY) {
-			getActivity().getActionBar().selectTab(mon);
+			actionBar.selectTab(mon);
 		} else if (dayOfWeek == Calendar.TUESDAY) {
-			getActivity().getActionBar().selectTab(tue);
+			actionBar.selectTab(tue);
 		} else if (dayOfWeek == Calendar.WEDNESDAY) {
-			getActivity().getActionBar().selectTab(wed);
+			actionBar.selectTab(wed);
 		} else if (dayOfWeek == Calendar.THURSDAY) {
-			getActivity().getActionBar().selectTab(thu);
+			actionBar.selectTab(thu);
 		} else if (dayOfWeek == Calendar.FRIDAY) {
-			getActivity().getActionBar().selectTab(fri);
+			actionBar.selectTab(fri);
 		}
 
-		new MenuLoader().execute();
+		(new MenuLoader()).execute();
 
 		return rootView;
 
@@ -140,7 +137,6 @@ public class CafeteriaFragment extends Fragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		// TODO Auto-generated method stub
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.cafeteria, menu);
 	}
@@ -171,7 +167,6 @@ public class CafeteriaFragment extends Fragment {
 
 	@Override
 	public boolean onOptionsItemSelected(android.view.MenuItem item) {
-		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 		case R.id.student:
 			currentPrice = STUDENT;
@@ -215,7 +210,6 @@ public class CafeteriaFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(List<MenuItem> menu) {
-
 			menuItems = menu;
 			updateValues();
 		}

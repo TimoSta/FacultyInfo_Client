@@ -23,6 +23,7 @@ import de.uni_passau.facultyinfo.client.util.CacheHelper;
  * @author Timo Staudinger
  * 
  */
+@SuppressWarnings("unused")
 public class FaqAccess extends Access {
 	private static final String RESSOURCE = "/faq";
 
@@ -242,10 +243,10 @@ public class FaqAccess extends Access {
 		SQLiteDatabase writableDatabase = getCacheOpenHelper()
 				.getWritableDatabase();
 		ContentValues faqValues = new ContentValues();
-		faqValues.put(KEY_FAQS_ID, faq.getId());
 		faqValues.put(KEY_FAQS_TITLE, faq.getTitle());
 		faqValues.put(KEY_FAQS_TEXT, faq.getText());
-		result = (writableDatabase.replace(TABLE_NAME_FAQS, null, faqValues) != -1L)
+		result = (writableDatabase.update(TABLE_NAME_FAQS, faqValues,
+				KEY_FAQS_ID + " = ?", new String[] { faq.getId() })) == 1
 				&& result;
 		writableDatabase.close();
 		return result;

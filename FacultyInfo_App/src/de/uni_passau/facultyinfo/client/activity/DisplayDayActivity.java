@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TabHost;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.fragment.DisplayDayFragment;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
@@ -25,28 +24,11 @@ public class DisplayDayActivity extends FragmentActivity implements
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		System.out.println("DisplayDayActivity");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_day);
-		System.out.println("DisplayDayActivity -> onCreate");
 
 		Intent intent = getIntent();
 		int dayId = intent.getIntExtra("dayId", 0);
-		System.out.println("Intent -> getExtra");
-		
-//		boolean toOverview = intent.getBooleanExtra("toOverview", false); 
-
-		if (dayId == 0) {
-			System.out.println("Montag");
-		} else if (dayId == 1) {
-			System.out.println("Dienstag");
-		} else if (dayId == 2) {
-			System.out.println("Mittwoch");
-		} else if (dayId == 3) {
-			System.out.println("Donnerstag");
-		} else if (dayId == 4) {
-			System.out.println("Freitag");
-		}
 
 		mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(
 				getSupportFragmentManager());
@@ -63,25 +45,16 @@ public class DisplayDayActivity extends FragmentActivity implements
 				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
 					public void onPageSelected(int position) {
-						System.out.println("position: " + position);
 						actionBar.setSelectedNavigationItem(position);
 					}
 				});
 
-		// For each of the sections in the app, add a tab to the action bar.
 		for (int i = 0; i < mAppSectionsPagerAdapter.getCount(); i++) {
-			System.out.println("i: " + i);
-			// Create a tab with text corresponding to the page title defined by
-			// the adapter.
-			// Also specify this Activity object, which implements the
-			// TabListener interface, as the
-			// listener for when this tab is selected.
 			actionBar.addTab(actionBar.newTab()
 					.setText(mAppSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
-			// mAppSectionsPagerAdapter.getItem(i);
 		}
-		actionBar.setSelectedNavigationItem(dayId); 
+		actionBar.setSelectedNavigationItem(dayId);
 	}
 
 	@Override
@@ -92,21 +65,14 @@ public class DisplayDayActivity extends FragmentActivity implements
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-		// When the given tab is selected, switch to the corresponding page in
-		// the ViewPager.
 		mViewPager.setCurrentItem(tab.getPosition());
-		System.out.println("tabposition: " + tab.getPosition()); 
 	}
 
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) { 
+			FragmentTransaction fragmentTransaction) {
 	}
 
-	/**
-	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-	 * one of the primary sections of the app.
-	 */
 	public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
 
 		public AppSectionsPagerAdapter(FragmentManager fm) {
@@ -114,30 +80,27 @@ public class DisplayDayActivity extends FragmentActivity implements
 		}
 
 		@Override
-		public Fragment getItem(int i) {
-			
-			
-			int day=TimetableEntry.MONDAY; 
-			if(i==0){
-				day=TimetableEntry.MONDAY;  
-			}else if(i==1){
-				day=TimetableEntry.TUESDAY; 
-			}else if(i==2){
-				day=TimetableEntry.WEDNESDAY; 
-			}else if(i==3){
-				day=TimetableEntry.THURSDAY; 
-			}else if(i==4){
-				day=TimetableEntry.FRIDAY; 
+		public Fragment getItem(int item) {
+
+			int day = TimetableEntry.MONDAY;
+			if (item == 0) {
+				day = TimetableEntry.MONDAY;
+			} else if (item == 1) {
+				day = TimetableEntry.TUESDAY;
+			} else if (item == 2) {
+				day = TimetableEntry.WEDNESDAY;
+			} else if (item == 3) {
+				day = TimetableEntry.THURSDAY;
+			} else if (item == 4) {
+				day = TimetableEntry.FRIDAY;
 			}
-			
-			System.out.println("getItem: " + i);
+
 			Fragment fragment = new DisplayDayFragment();
 			Bundle args = new Bundle();
-			
+
 			args.putInt(DisplayDayFragment.ARG_DAY, day);
 			fragment.setArguments(args);
 			return fragment;
-
 		}
 
 		@Override
@@ -148,79 +111,27 @@ public class DisplayDayActivity extends FragmentActivity implements
 		@Override
 		public CharSequence getPageTitle(int position) {
 			String day = "";
-			switch (position) {
-			case 0:
+			if (position == 0) {
 				day = "Montag";
-				break;
-			case 1:
+			} else if (position == 1) {
 				day = "Dienstag";
-				break;
-			case 2:
+			} else if (position == 2) {
 				day = "Mittwoch";
-				break;
-			case 3:
+			} else if (position == 3) {
 				day = "Donnerstag";
-				break;
-			case 4:
+			} else if (position == 4) {
 				day = "Freitag";
-				break;
 			}
 			return day;
 		}
 	}
 
-	/**
-	 * A fragment that launches other parts of the demo application.
-	 */
-
-	// public class DisplaySpecificDayFragment extends Fragment {
-	//
-	// public DisplaySpecificDayFragment(){
-	//
-	// }
-	// @Override
-	// public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	// Bundle savedInstanceState) {
-	// View rootView = inflater.inflate(R.layout.fragment_display_day,
-	// container,
-	// false);
-	//
-	//
-	//
-	// return rootView;
-	//
-	// }
-	//
-	// }
-
-	/**
-	 * A dummy fragment representing a section of the app, but that simply
-	 * displays dummy text.
-	 */
-
-	// Intent intent = getIntent();
-	// int dayId = intent.getIntExtra("dayId", 0);
-	// System.out.println("getExtra");
-	//
-	// if(dayId==0){
-	// System.out.println("Montag");
-	// }else if(dayId==1){
-	// System.out.println("Dienstag");
-	// }else if(dayId==2){
-	// System.out.println("Mittwoch");
-	// }else if(dayId==3){
-	// System.out.println("Donnerstag");
-	// }else if(dayId==4){
-	// System.out.println("Freitag");
-	// }
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.display_day, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
