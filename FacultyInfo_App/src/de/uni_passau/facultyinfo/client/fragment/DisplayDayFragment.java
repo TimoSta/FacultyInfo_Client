@@ -30,7 +30,6 @@ public class DisplayDayFragment extends Fragment {
 	private int timeslotId;
 	private int dayId;
 	private int dayC;
-	private TimetableEntryLoader timetableEntryLoader;
 
 	public DisplayDayFragment() {
 
@@ -120,17 +119,7 @@ public class DisplayDayFragment extends Fragment {
 			timeslotId = TimetableEntry.FROM_18_TO_20;
 		}
 
-		if (!timetableEntryLoader.search(timeslotId, dayC)) {
-			CreateEventTT dialog = new CreateEventTT();
-			dialog.setAttributes(rootView, timeslotId, dayC);
-			dialog.show(this.getFragmentManager(), "createEventTT");
-		} else {
-			Intent intent = new Intent(rootView.getContext(),
-					DisplayTimeTableEntryActivity.class);
-			intent.putExtra("dayId", dayC);
-			intent.putExtra("timeslotId", timeslotId);
-			startActivity(intent);
-		}
+		(new TimetableEntrySearcher(false)).execute();
 	}
 
 	protected void editEventTT(View v) {
@@ -148,20 +137,7 @@ public class DisplayDayFragment extends Fragment {
 			timeslotId = TimetableEntry.FROM_18_TO_20;
 		}
 
-		if (!timetableEntryLoader.search(timeslotId, dayC)) {
-			CreateEventTT dialog = new CreateEventTT();
-			dialog.setAttributes(rootView, timeslotId, dayC);
-			dialog.show(this.getFragmentManager(), "createEventTT");
-		} else {
-			Intent intent = new Intent(rootView.getContext(),
-					EditTimeTableActivity.class);
-			intent.putExtra("timeslotId", timeslotId);
-			intent.putExtra("dayId", dayC);
-			intent.putExtra("new", false);
-			intent.putExtra("toOverview", true);
-			startActivity(intent);
-		}
-
+		(new TimetableEntrySearcher(true)).execute();
 	}
 
 	public static final class CreateEventTT extends DialogFragment {
@@ -261,18 +237,74 @@ public class DisplayDayFragment extends Fragment {
 					.getFontColor());
 		}
 
-		boolean search(int time, int day) {
+		// boolean search(int time, int day) {
+		// List<TimetableEntry> timetableEntries = accessFacade
+		// .getTimetableAccess().getTimetableEntries();
+		//
+		// for (TimetableEntry timetableEntry : timetableEntries) {
+		// if (timetableEntry.getTime() == time
+		// && timetableEntry.getDayOfWeek() == day) {
+		// return true;
+		// }
+		// }
+		// return false;
+		//
+		// }
+	}
+
+	protected class TimetableEntrySearcher extends
+			AsyncTask<Void, Void, List<TimetableEntry>> {
+
+		boolean edit = false;
+
+		private TimetableEntrySearcher(boolean edit) {
+			super();
+			this.edit = edit;
+		}
+
+		@Override
+		protected List<TimetableEntry> doInBackground(Void... unused) {
+			AccessFacade accessFacade = new AccessFacade();
+
 			List<TimetableEntry> timetableEntries = accessFacade
 					.getTimetableAccess().getTimetableEntries();
 
+			return timetableEntries;
+		}
+
+		@Override
+		protected void onPostExecute(List<TimetableEntry> timetableEntries) {
+			boolean exists = false;
+
 			for (TimetableEntry timetableEntry : timetableEntries) {
-				if (timetableEntry.getTime() == time
-						&& timetableEntry.getDayOfWeek() == day) {
-					return true;
+				if (timetableEntry.getTime() == timeslotId
+						&& timetableEntry.getDayOfWeek() == dayC) {
+					exists = true;
+					break;
 				}
 			}
-			return false;
-
+			if (!exists) {
+				CreateEventTT dialog = new CreateEventTT();
+				dialog.setAttributes(rootView, timeslotId, dayC);
+				dialog.show(DisplayDayFragment.this.getFragmentManager(),
+						"createEventTT");
+			} else {
+				if (edit) {
+					Intent intent = new Intent(rootView.getContext(),
+							EditTimeTableActivity.class);
+					intent.putExtra("timeslotId", timeslotId);
+					intent.putExtra("dayId", dayC);
+					intent.putExtra("new", false);
+					intent.putExtra("toOverview", true);
+					startActivity(intent);
+				} else {
+					Intent intent = new Intent(rootView.getContext(),
+							DisplayTimeTableEntryActivity.class);
+					intent.putExtra("dayId", dayC);
+					intent.putExtra("timeslotId", timeslotId);
+					startActivity(intent);
+				}
+			}
 		}
 	}
 }
