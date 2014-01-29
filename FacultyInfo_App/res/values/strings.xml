@@ -44,7 +44,7 @@
     <string name="title_home">Uni4You</string>
     <string name="title_businesshours">Uni4You | Öffnungszeiten</string>
     <string name="title_buslines">Uni4You | Busfahrplan ab ZOB</string>
-    <string name="title_map">Uni4You | Universitätsplan</string>
+    <string name="title_map">Uni4You | Lageplan</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="action_websearch">Action Websearch</string>
