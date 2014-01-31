@@ -542,18 +542,26 @@ public class SportsCourseAccess extends Access {
 			for (SportsCourse course : category.getSportsCourses()) {
 				values = new ContentValues();
 				values.put(KEY_COURSES_ID, course.getId());
-				values.put(KEY_COURSES_CATEGORY, course.getCategory().getId());
+				if (course.getCategory() != null) {
+					values.put(KEY_COURSES_CATEGORY, course.getCategory()
+							.getId());
+				}
 				values.put(KEY_COURSES_NUMBER, course.getNumber());
 				values.put(KEY_COURSES_DETAILS, course.getDetails());
 				values.put(KEY_COURSES_DAYOFWEEK, course.getDayOfWeek());
-				values.put(KEY_COURSES_STARTTIME, course.getStartTime()
-						.toStringWithSeconds());
-				values.put(KEY_COURSES_ENDTIME, course.getEndTime()
-						.toStringWithSeconds());
+				values.put(KEY_COURSES_STARTTIME,
+						course.getStartTime() != null ? course.getStartTime()
+								.toStringWithSeconds() : null);
+				values.put(KEY_COURSES_ENDTIME,
+						course.getEndTime() != null ? course.getEndTime()
+								.toStringWithSeconds() : null);
 				values.put(KEY_COURSES_LOCATION, course.getLocation());
-				values.put(KEY_COURSES_STARTDATE, course.getStartDate()
-						.getTime());
-				values.put(KEY_COURSES_ENDDATE, course.getEndDate().getTime());
+				values.put(KEY_COURSES_STARTDATE,
+						course.getStartDate() != null ? course.getStartDate()
+								.getTime() : null);
+				values.put(KEY_COURSES_ENDDATE,
+						course.getEndDate() != null ? course.getEndDate()
+								.getTime() : null);
 				values.put(KEY_COURSES_HOST, course.getHost());
 				values.put(KEY_COURSES_PRICE, course.getPrice());
 				values.put(KEY_COURSES_STATUS, course.getStatus());
