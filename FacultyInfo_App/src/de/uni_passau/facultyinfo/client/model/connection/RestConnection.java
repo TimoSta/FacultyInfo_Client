@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public final class RestConnection<T> {
-	private static final String REST_LOCATION = "http://87.230.19.154:8080/FacultyInfo";
+	private static final String REST_LOCATION = "http://176.28.10.221:8080/FacultyInfo";
 	// private static final String REST_LOCATION =
 	// "http://10.0.2.2:8080/FacultyInfo";
 
