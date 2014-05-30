@@ -32,4 +32,5 @@ abstract public class AsyncDataLoader<T> extends AsyncTask<Void, Integer, T> {
 
 	@Override
 	abstract protected void onPostExecute(T result);
+	
 }

@@ -1,125 +1,130 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
-    <ScrollView
-        android:id="@+id/scrollView"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:fillViewport="true" >
+        android:orientation="vertical" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="#FF8000"
-            android:dividerHeight="2dp"
-            android:orientation="vertical"
-            tools:context=".HomeFragment" >
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fillViewport="true" >
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_height="match_parent"
+                android:divider="#FF8000"
+                android:dividerHeight="2dp"
                 android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
+                tools:context=".HomeFragment" >
 
-                <TextView
-                    android:id="@+id/home_news"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:text="Neuigkeiten"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <TextView
-                    android:id="@+id/home_newstitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:paddingBottom="4dp"
-                    android:paddingTop="4dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#000000"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/home_newsdescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:paddingBottom="4dp"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:background="#FF8000" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/home_bus"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
                     android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="Buslinien vom ZOB"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:paddingRight="10dp" >
 
-                <FrameLayout
-                    android:id="@+id/bus_frame"
+                    <TextView
+                        android:id="@+id/home_news"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:text="Neuigkeiten"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
+                        android:id="@+id/home_newstitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:paddingBottom="4dp"
+                        android:paddingTop="4dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#000000"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/home_newsdescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:paddingBottom="4dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#FF8000" />
 
-                    <ListView
-                        android:id="@+id/home_buslines"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/home_bus"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="Buslinien vom ZOB"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <FrameLayout
+                        android:id="@+id/bus_frame"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <ListView
+                            android:id="@+id/home_buslines"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:divider="#FF8000"
+                            android:dividerHeight="1dp" >
+                        </ListView>
+                    </FrameLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#FF8000" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/home_mensa_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="Mensa heute | Hauptspeisen"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <ListView
+                        android:id="@+id/home_mensa"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
                         android:divider="#FF8000"
                         android:dividerHeight="1dp" >
                     </ListView>
-                </FrameLayout>
+                </LinearLayout>
             </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:background="#FF8000" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/home_mensa_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="Mensa heute | Hauptspeisen"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <ListView
-                    android:id="@+id/home_mensa"
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:divider="#FF8000"
-                    android:dividerHeight="1dp" >
-                </ListView>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-
-</LinearLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

@@ -7,7 +7,6 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -23,9 +22,9 @@ import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.activity.DisplayNewsActivity;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.News;
-import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
-public class NewsFragment extends Fragment {
+public class NewsFragment extends SwipeRefreshLayoutFragment {
 
 	public NewsFragment() {
 	}
@@ -35,10 +34,8 @@ public class NewsFragment extends Fragment {
 			Bundle savedInstanceState) {
 		final SwipeRefreshLayout rootView = (SwipeRefreshLayout) inflater
 				.inflate(R.layout.fragment_news, container, false);
-		rootView.setColorScheme(R.color.loading_indicator_1,
-				R.color.loading_indicator_2, R.color.loading_indicator_3,
-				R.color.loading_indicator_4);
-		rootView.setOnRefreshListener(new OnRefreshListener() {
+
+		initializeSwipeRefresh(rootView, new OnRefreshListener() {
 			@Override
 			public void onRefresh() {
 				new NewsLoader(rootView, true).execute();
@@ -56,26 +53,22 @@ public class NewsFragment extends Fragment {
 		return rootView;
 	}
 
-	protected class NewsLoader extends AsyncDataLoader<List<News>> {
+	protected class NewsLoader extends SwipeRefreshAsyncDataLoader<List<News>> {
 		private boolean forceRefresh = false;
 
-		private NewsLoader(View rootView) {
+		private NewsLoader(SwipeRefreshLayout rootView) {
 			super(rootView);
-			showLoadingAnimation(true);
 		}
 
-		private NewsLoader(View rootView, boolean forceRefresh) {
+		private NewsLoader(SwipeRefreshLayout rootView, boolean forceRefresh) {
 			super(rootView);
-			showLoadingAnimation(true);
 			this.forceRefresh = forceRefresh;
-		}
-
-		private void showLoadingAnimation(boolean showAnimation) {
-			((SwipeRefreshLayout) rootView).setRefreshing(showAnimation);
 		}
 
 		@Override
 		protected List<News> doInBackground(Void... unused) {
+			showLoadingAnimation(true);
+
 			AccessFacade accessFacade = new AccessFacade();
 
 			List<News> news = accessFacade.getNewsAccess()
@@ -95,6 +88,7 @@ public class NewsFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(List<News> news) {
+			super.onPostExecute(news);
 
 			final ArrayList<HashMap<String, String>> newsList = new ArrayList<HashMap<String, String>>();
 
@@ -125,9 +119,6 @@ public class NewsFragment extends Fragment {
 					displayNews(newsList.get(position).get("id"));
 				}
 			});
-
-			showLoadingAnimation(false);
-
 		}
 
 		private void displayNews(String id) {

@@ -10,8 +10,9 @@ import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,10 +29,9 @@ import de.uni_passau.facultyinfo.client.model.dto.BusLine;
 import de.uni_passau.facultyinfo.client.model.dto.Dashboard;
 import de.uni_passau.facultyinfo.client.model.dto.MenuItem;
 import de.uni_passau.facultyinfo.client.model.dto.News;
-import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
-public class HomeFragment extends Fragment {
-	private View rootView;
+public class HomeFragment extends SwipeRefreshLayoutFragment {
 
 	public HomeFragment() {
 	}
@@ -39,7 +39,27 @@ public class HomeFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_home, container, false);
+		final SwipeRefreshLayout rootView = (SwipeRefreshLayout) inflater
+				.inflate(R.layout.fragment_home, container, false);
+
+		rootView.setColorScheme(R.color.loading_indicator_1,
+				R.color.loading_indicator_2, R.color.loading_indicator_3,
+				R.color.loading_indicator_4);
+		rootView.setOnRefreshListener(new OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				new DashboardLoader(rootView, true).execute();
+			}
+		});
+
+		initializeSwipeRefresh(rootView, new OnRefreshListener() {
+
+			@Override
+			public void onRefresh() {
+				new DashboardLoader(rootView, true).execute();
+
+			}
+		});
 
 		Activity activity = getActivity();
 		ActionBar actionBar = activity.getActionBar();
@@ -52,9 +72,18 @@ public class HomeFragment extends Fragment {
 		return rootView;
 	}
 
-	protected class DashboardLoader extends AsyncDataLoader<Dashboard> {
-		private DashboardLoader(View rootView) {
+	protected class DashboardLoader extends
+			SwipeRefreshAsyncDataLoader<Dashboard> {
+		private boolean forceRefresh = false;
+
+		private DashboardLoader(SwipeRefreshLayout rootView) {
 			super(rootView);
+		}
+
+		private DashboardLoader(SwipeRefreshLayout rootView,
+				boolean forceRefresh) {
+			super(rootView);
+			this.forceRefresh = forceRefresh;
 		}
 
 		@Override
@@ -62,7 +91,7 @@ public class HomeFragment extends Fragment {
 			AccessFacade accessFacade = new AccessFacade();
 
 			Dashboard dashboard = accessFacade.getDashboardAccess()
-					.getDashboard();
+					.getDashboard(forceRefresh);
 
 			if (dashboard == null) {
 				publishProgress(DashboardLoader.NO_CONNECTION_PROGRESS);
@@ -114,14 +143,15 @@ public class HomeFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(Dashboard dashboard) {
+			super.onPostExecute(dashboard);
 
 			if (dashboard != null) {
 				if (dashboard.getNews() != null) {
-					TextView homeNewsTitle = (TextView) HomeFragment.this.rootView
+					TextView homeNewsTitle = (TextView) this.rootView
 							.findViewById(R.id.home_newstitle);
 					homeNewsTitle.setText(dashboard.getNews().getTitle());
 
-					TextView homeNewsDescription = (TextView) HomeFragment.this.rootView
+					TextView homeNewsDescription = (TextView) this.rootView
 							.findViewById(R.id.home_newsdescription);
 					homeNewsDescription.setText(dashboard.getNews()
 							.getDescription());
