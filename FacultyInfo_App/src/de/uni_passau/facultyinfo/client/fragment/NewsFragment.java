@@ -10,6 +10,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +33,17 @@ public class NewsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_news, container,
-				false);
+		final SwipeRefreshLayout rootView = (SwipeRefreshLayout) inflater
+				.inflate(R.layout.fragment_news, container, false);
+		rootView.setColorScheme(R.color.loading_indicator_1,
+				R.color.loading_indicator_2, R.color.loading_indicator_3,
+				R.color.loading_indicator_4);
+		rootView.setOnRefreshListener(new OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				new NewsLoader(rootView, true).execute();
+			}
+		});
 
 		Activity activity = getActivity();
 		ActionBar actionBar = activity.getActionBar();
@@ -46,15 +57,29 @@ public class NewsFragment extends Fragment {
 	}
 
 	protected class NewsLoader extends AsyncDataLoader<List<News>> {
+		private boolean forceRefresh = false;
+
 		private NewsLoader(View rootView) {
 			super(rootView);
+			showLoadingAnimation(true);
+		}
+
+		private NewsLoader(View rootView, boolean forceRefresh) {
+			super(rootView);
+			showLoadingAnimation(true);
+			this.forceRefresh = forceRefresh;
+		}
+
+		private void showLoadingAnimation(boolean showAnimation) {
+			((SwipeRefreshLayout) rootView).setRefreshing(showAnimation);
 		}
 
 		@Override
 		protected List<News> doInBackground(Void... unused) {
 			AccessFacade accessFacade = new AccessFacade();
 
-			List<News> news = accessFacade.getNewsAccess().getNews();
+			List<News> news = accessFacade.getNewsAccess()
+					.getNews(forceRefresh);
 
 			if (news == null) {
 				publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
@@ -100,6 +125,8 @@ public class NewsFragment extends Fragment {
 					displayNews(newsList.get(position).get("id"));
 				}
 			});
+
+			showLoadingAnimation(false);
 
 		}
 

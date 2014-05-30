@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="loading_indicator_1">#FF8000</color>
+    <color name="loading_indicator_2">#DDDDDD</color>
+    <color name="loading_indicator_3">#FF8000</color>
+    <color name="loading_indicator_4">#DDDDDD</color>
+</resources>
