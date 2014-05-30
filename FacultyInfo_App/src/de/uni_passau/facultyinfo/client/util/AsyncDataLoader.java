@@ -25,7 +25,7 @@ abstract public class AsyncDataLoader<T> extends AsyncTask<Void, Integer, T> {
 	protected final void onProgressUpdate(Integer... status) {
 		if (status[0] != null && status[0] == NO_CONNECTION_PROGRESS) {
 			Toast toast = Toast.makeText(FacultyInfoApplication.getContext(),
-					"Keine Verbindung zum Server.", Toast.LENGTH_LONG);
+					"Keine Verbindung zum Server.", Toast.LENGTH_SHORT);
 			toast.show();
 		}
 	}

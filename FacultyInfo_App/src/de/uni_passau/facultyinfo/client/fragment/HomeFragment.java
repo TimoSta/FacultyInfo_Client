@@ -3,7 +3,6 @@ package de.uni_passau.facultyinfo.client.fragment;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +25,7 @@ import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.activity.MainActivity;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.BusLine;
+import de.uni_passau.facultyinfo.client.model.dto.Dashboard;
 import de.uni_passau.facultyinfo.client.model.dto.MenuItem;
 import de.uni_passau.facultyinfo.client.model.dto.News;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
@@ -43,215 +43,183 @@ public class HomeFragment extends Fragment {
 
 		Activity activity = getActivity();
 		ActionBar actionBar = activity.getActionBar();
-		actionBar.setTitle(
-				activity.getApplicationContext().getString(
-						R.string.title_home));
-		actionBar.setNavigationMode(
-				ActionBar.NAVIGATION_MODE_STANDARD);
+		actionBar.setTitle(activity.getApplicationContext().getString(
+				R.string.title_home));
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
-		(new NewsLoader(rootView)).execute();
-		(new BusLineLoader(rootView)).execute();
-		(new MenuLoader(rootView)).execute();
+		(new DashboardLoader(rootView)).execute();
 
 		return rootView;
 	}
 
-	protected class NewsLoader extends AsyncDataLoader<List<News>> {
-		private NewsLoader(View rootView) {
+	protected class DashboardLoader extends AsyncDataLoader<Dashboard> {
+		private DashboardLoader(View rootView) {
 			super(rootView);
 		}
 
 		@Override
-		protected List<News> doInBackground(Void... unused) {
+		protected Dashboard doInBackground(Void... unused) {
 			AccessFacade accessFacade = new AccessFacade();
 
-			List<News> news = accessFacade.getNewsAccess().getNews();
+			Dashboard dashboard = accessFacade.getDashboardAccess()
+					.getDashboard();
 
-			if (news == null) {
-				publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
-				news = accessFacade.getNewsAccess().getNewsFromCache();
-			}
+			if (dashboard == null) {
+				publishProgress(DashboardLoader.NO_CONNECTION_PROGRESS);
+				List<News> newsList = accessFacade.getNewsAccess()
+						.getNewsFromCache();
+				News news = newsList != null && newsList.size() > 0 ? newsList
+						.get(0) : null;
 
-			if (news == null) {
-				news = Collections.unmodifiableList(new ArrayList<News>());
-			}
-
-			return news;
-		}
-
-		@Override
-		protected void onPostExecute(List<News> news) {
-
-			if (news != null && !news.isEmpty()) {
-				TextView homeNewsTitle = (TextView) HomeFragment.this.rootView
-						.findViewById(R.id.home_newstitle);
-				homeNewsTitle.setText(news.get(0).getTitle());
-
-				TextView homeNewsDescription = (TextView) HomeFragment.this.rootView
-						.findViewById(R.id.home_newsdescription);
-				homeNewsDescription.setText(news.get(0).getDescription());
-
-				OnClickListener onNewsClickListener = new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						((MainActivity) getActivity()).selectItem(MainActivity.NEWS);
-					}
-				};
-
-				homeNewsTitle.setOnClickListener(onNewsClickListener);
-				homeNewsDescription.setOnClickListener(onNewsClickListener);
-			}
-
-		}
-
-	}
-
-	protected class BusLineLoader extends AsyncDataLoader<List<BusLine>> {
-		private BusLineLoader(View rootView) {
-			super(rootView);
-		}
-
-		@Override
-		protected List<BusLine> doInBackground(Void... unused) {
-			AccessFacade accessFacade = new AccessFacade();
-
-			List<BusLine> busLines = accessFacade.getBusLineAccess()
-					.getNextBusLines();
-
-			if (busLines == null) {
-				publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
-				busLines = accessFacade.getBusLineAccess()
+				List<BusLine> busLines = accessFacade.getBusLineAccess()
 						.getNextBusLinesFromCache();
-			}
-
-			if (busLines == null) {
-				busLines = Collections
-						.unmodifiableList(new ArrayList<BusLine>());
-			}
-
-			return busLines;
-		}
-
-		@Override
-		protected void onPostExecute(List<BusLine> busLines) {
-			ListView buslineList = (ListView) rootView
-					.findViewById(R.id.home_buslines);
-
-			final ArrayList<HashMap<String, String>> busList = new ArrayList<HashMap<String, String>>();
-
-			if (!busLines.isEmpty()) {
-				for (int i = 0; i < (busLines.size() >= 2 ? 2 : busLines.size()); i++) {
-
-					BusLine busLine = busLines.get(i);
-					HashMap<String, String> listEntry = new HashMap<String, String>();
-					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm",
-							Locale.GERMAN);
-					listEntry.put("title", sdf.format(busLine.getDeparture())
-							+ " - " + busLine.getLine());
-					listEntry.put("direction", busLine.getDirection());
-					busList.add(listEntry);
+				if (busLines != null && busLines.size() > 0) {
+					busLines = busLines.subList(0, busLines.size() > 1 ? 1 : 0);
 				}
-			}
 
-			SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
-					busList, R.layout.home_two_line_row_view, new String[] {
-							"title", "direction", }, new int[] {
-							R.id.home_toprow, R.id.home_bottomrow }
+				Calendar cal = Calendar.getInstance();
+				cal.setFirstDayOfWeek(Calendar.MONDAY);
+				cal.setTime(new Date());
+				int currentDay = cal.get(Calendar.DAY_OF_WEEK);
 
-			);
-
-			buslineList.setAdapter(adapter);
-
-			OnItemClickListener onClickListener = new OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1,
-						int arg2, long arg3) {
-					((MainActivity) getActivity()).selectItem(MainActivity.BUSLINES);
+				if (currentDay == Calendar.MONDAY) {
+					currentDay = MenuItem.MONDAY;
+				} else if (currentDay == Calendar.TUESDAY) {
+					currentDay = MenuItem.TUESDAY;
+				} else if (currentDay == Calendar.WEDNESDAY) {
+					currentDay = MenuItem.WEDNESDAY;
+				} else if (currentDay == Calendar.THURSDAY) {
+					currentDay = MenuItem.THURSDAY;
+				} else if (currentDay == Calendar.FRIDAY) {
+					currentDay = MenuItem.FRIDAY;
+				} else if (currentDay == Calendar.SATURDAY) {
+					currentDay = MenuItem.SATURDAY;
+				} else if (currentDay == Calendar.SUNDAY) {
+					currentDay = MenuItem.SUNDAY;
 				}
-			};
+				List<MenuItem> menuItems = accessFacade.getMenuAccess()
+						.getMenuItemsFromCache(currentDay);
+				for (MenuItem menuItem : menuItems) {
+					if (menuItem.getType() != MenuItem.TYPE_MAIN) {
+						menuItems.remove(menuItem);
+					}
+				}
 
-			buslineList.setOnItemClickListener(onClickListener);
-		}
-	}
+				dashboard = new Dashboard(news, busLines, menuItems);
 
-	protected class MenuLoader extends AsyncDataLoader<List<MenuItem>> {
-
-		public MenuLoader(View rootView) {
-			super(rootView);
-		}
-
-		@Override
-		protected List<MenuItem> doInBackground(Void... unused) {
-			AccessFacade accessFacade = new AccessFacade();
-			List<MenuItem> menu = null;
-
-			menu = accessFacade.getMenuAccess().getMenuItems();
-
-			if (menu == null) {
-				publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
-				menu = accessFacade.getMenuAccess().getMenuItemsFromCache();
 			}
 
-			if (menu == null) {
-				menu = new ArrayList<MenuItem>();
-			}
-
-			return menu;
+			return dashboard;
 		}
 
 		@Override
-		protected void onPostExecute(List<MenuItem> menu) {
-			ArrayList<HashMap<String, String>> menuList = new ArrayList<HashMap<String, String>>();
-			Calendar cal = Calendar.getInstance();
-			cal.setFirstDayOfWeek(Calendar.MONDAY);
-			cal.setTime(new Date());
-			int currentDay = cal.get(Calendar.DAY_OF_WEEK);
+		protected void onPostExecute(Dashboard dashboard) {
 
-			if (currentDay == Calendar.MONDAY) {
-				currentDay = MenuItem.MONDAY;
-			} else if (currentDay == Calendar.TUESDAY) {
-				currentDay = MenuItem.TUESDAY;
-			} else if (currentDay == Calendar.WEDNESDAY) {
-				currentDay = MenuItem.WEDNESDAY;
-			} else if (currentDay == Calendar.THURSDAY) {
-				currentDay = MenuItem.THURSDAY;
-			} else if (currentDay == Calendar.FRIDAY) {
-				currentDay = MenuItem.FRIDAY;
-			} else if (currentDay == Calendar.SATURDAY) {
-				currentDay = MenuItem.SATURDAY;
-			} else if (currentDay == Calendar.SUNDAY) {
-				currentDay = MenuItem.SUNDAY;
-			}
+			if (dashboard != null) {
+				if (dashboard.getNews() != null) {
+					TextView homeNewsTitle = (TextView) HomeFragment.this.rootView
+							.findViewById(R.id.home_newstitle);
+					homeNewsTitle.setText(dashboard.getNews().getTitle());
 
-			for (MenuItem menuItem : menu) {
-				if (menuItem.getDayOfWeek() == currentDay) {
-					if (menuItem.getType() == MenuItem.TYPE_MAIN) {
+					TextView homeNewsDescription = (TextView) HomeFragment.this.rootView
+							.findViewById(R.id.home_newsdescription);
+					homeNewsDescription.setText(dashboard.getNews()
+							.getDescription());
+
+					OnClickListener onNewsClickListener = new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							((MainActivity) getActivity())
+									.selectItem(MainActivity.NEWS);
+						}
+					};
+
+					homeNewsTitle.setOnClickListener(onNewsClickListener);
+					homeNewsDescription.setOnClickListener(onNewsClickListener);
+				}
+
+				if (dashboard.getBusLines() != null
+						&& dashboard.getBusLines().size() > 0) {
+					List<BusLine> busLines = dashboard.getBusLines();
+
+					ListView buslineList = (ListView) rootView
+							.findViewById(R.id.home_buslines);
+
+					final ArrayList<HashMap<String, String>> busList = new ArrayList<HashMap<String, String>>();
+
+					if (!busLines.isEmpty()) {
+						for (int i = 0; i < (busLines.size() >= 2 ? 2
+								: busLines.size()); i++) {
+
+							BusLine busLine = busLines.get(i);
+							HashMap<String, String> listEntry = new HashMap<String, String>();
+							SimpleDateFormat sdf = new SimpleDateFormat(
+									"HH:mm", Locale.GERMAN);
+							listEntry.put("title",
+									sdf.format(busLine.getDeparture()) + " - "
+											+ busLine.getLine());
+							listEntry.put("direction", busLine.getDirection());
+							busList.add(listEntry);
+						}
+					}
+
+					SimpleAdapter adapter = new SimpleAdapter(
+							rootView.getContext(), busList,
+							R.layout.home_two_line_row_view, new String[] {
+									"title", "direction", }, new int[] {
+									R.id.home_toprow, R.id.home_bottomrow }
+
+					);
+
+					buslineList.setAdapter(adapter);
+
+					OnItemClickListener onClickListener = new OnItemClickListener() {
+						@Override
+						public void onItemClick(AdapterView<?> arg0, View arg1,
+								int arg2, long arg3) {
+							((MainActivity) getActivity())
+									.selectItem(MainActivity.BUSLINES);
+						}
+					};
+
+					buslineList.setOnItemClickListener(onClickListener);
+				}
+
+				if (dashboard.getMenuItems() != null
+						&& dashboard.getMenuItems().size() > 0) {
+					List<MenuItem> menuItems = dashboard.getMenuItems();
+
+					ArrayList<HashMap<String, String>> menuList = new ArrayList<HashMap<String, String>>();
+
+					for (MenuItem menuItem : menuItems) {
 						HashMap<String, String> hashMap = new HashMap<String, String>();
 						hashMap.put("name", menuItem.getName());
 						menuList.add(hashMap);
 					}
+
+					ListView listView = (ListView) rootView
+							.findViewById(R.id.home_mensa);
+
+					SimpleAdapter adapter = new SimpleAdapter(
+							rootView.getContext(), menuList,
+							R.layout.home_menu_row_view,
+							new String[] { "name" },
+							new int[] { R.id.menu_name });
+
+					listView.setAdapter(adapter);
+					OnItemClickListener onClickListener = new OnItemClickListener() {
+						@Override
+						public void onItemClick(AdapterView<?> arg0, View arg1,
+								int arg2, long arg3) {
+							((MainActivity) getActivity())
+									.selectItem(MainActivity.MENU);
+						}
+					};
+
+					listView.setOnItemClickListener(onClickListener);
 				}
 			}
-
-			ListView listView = (ListView) rootView
-					.findViewById(R.id.home_mensa);
-
-			SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
-					menuList, R.layout.home_menu_row_view,
-					new String[] { "name" }, new int[] { R.id.menu_name });
-
-			listView.setAdapter(adapter);
-			OnItemClickListener onClickListener = new OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1,
-						int arg2, long arg3) {
-					((MainActivity) getActivity()).selectItem(MainActivity.MENU);
-				}
-			};
-
-			listView.setOnItemClickListener(onClickListener);
 		}
-
 	}
 
 }
