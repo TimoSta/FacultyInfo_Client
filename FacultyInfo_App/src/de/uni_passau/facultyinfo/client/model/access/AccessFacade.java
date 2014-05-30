@@ -50,4 +50,8 @@ public class AccessFacade {
 	public MenuAccess getMenuAccess() {
 		return MenuAccess.getInstance();
 	}
+	
+	public DashboardAccess getDashboardAccess() {
+		return DashboardAccess.getInstance();
+	}
 }
