@@ -12,6 +12,8 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +23,13 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.activity.DisplayBusinessHoursActivity;
+import de.uni_passau.facultyinfo.client.fragment.EventFragment.EventLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.BusinessHoursFacility;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
-public class BusinessHoursFragment extends Fragment {
+public class BusinessHoursFragment extends SwipeRefreshLayoutFragment {
 
 	public final static String LIBRARY = "Bibliotheken";
 	public final static String CAFETERIA = "Cafeterien / Mensa";
@@ -34,7 +38,7 @@ public class BusinessHoursFragment extends Fragment {
 	static String TAB_SELECTED = null;
 	private String selectedTab;
 
-	private View rootView;
+	SwipeRefreshLayout rootView;
 
 	ViewPager mViewPager;
 
@@ -46,9 +50,15 @@ public class BusinessHoursFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_activity_business_hours,
+		rootView = (SwipeRefreshLayout) inflater.inflate(R.layout.fragment_activity_business_hours,
 				container, false);
 
+		initializeSwipeRefresh(rootView, new OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				new BusinessHourFacilityLoader(rootView, true).execute();
+			}
+		});
 		setHasOptionsMenu(true);
 
 		ActionBar actionBar = getActivity().getActionBar();
@@ -91,18 +101,28 @@ public class BusinessHoursFragment extends Fragment {
 	}
 
 	protected class BusinessHourFacilityLoader extends
-			AsyncDataLoader<List<BusinessHoursFacility>> {
-		private BusinessHourFacilityLoader(View rootView) {
+			SwipeRefreshAsyncDataLoader<List<BusinessHoursFacility>> {
+		private boolean forceRefresh = false;
+
+		
+		private BusinessHourFacilityLoader(SwipeRefreshLayout rootView) {
 			super(rootView);
+		}
+		
+		private BusinessHourFacilityLoader(SwipeRefreshLayout rootView, boolean forceRefresh) {
+			super(rootView);
+			this.forceRefresh = forceRefresh;
 		}
 
 		@Override
 		protected List<BusinessHoursFacility> doInBackground(Void... unused) {
+			showLoadingAnimation(true);
+			
 			AccessFacade accessFacade = new AccessFacade();
 			List<BusinessHoursFacility> list = null;
 
 			if (selectedTab == LIBRARY) {
-				list = accessFacade.getBusinessHoursAccess().getLibraries();
+				list = accessFacade.getBusinessHoursAccess().getLibraries(forceRefresh);
 
 				if (list == null) {
 					publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
@@ -111,7 +131,7 @@ public class BusinessHoursFragment extends Fragment {
 				}
 
 			} else if (selectedTab == CAFETERIA) {
-				list = accessFacade.getBusinessHoursAccess().getCafeterias();
+				list = accessFacade.getBusinessHoursAccess().getCafeterias(forceRefresh);
 
 				if (list == null) {
 					publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
@@ -130,6 +150,8 @@ public class BusinessHoursFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(List<BusinessHoursFacility> list) {
+			super.onPostExecute(list);
+			
 			ListView listView = (ListView) rootView
 					.findViewById(R.id.business_hour_list);
 
