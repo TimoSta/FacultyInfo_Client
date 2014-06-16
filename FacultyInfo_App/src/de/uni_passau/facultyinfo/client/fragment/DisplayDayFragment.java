@@ -72,26 +72,33 @@ public class DisplayDayFragment extends Fragment {
 		TextView td810 = (TextView) rootView.findViewById(R.id.td810);
 		td810.setOnLongClickListener(onLongClickListener);
 		td810.setOnClickListener(onClickListener);
+		td810.setText(System.getProperty("line.separator"));
 
 		TextView td1012 = (TextView) rootView.findViewById(R.id.td1012);
 		td1012.setOnLongClickListener(onLongClickListener);
 		td1012.setOnClickListener(onClickListener);
+		td1012.setText(System.getProperty("line.separator"));
+		
 
 		TextView td1214 = (TextView) rootView.findViewById(R.id.td1214);
 		td1214.setOnLongClickListener(onLongClickListener);
 		td1214.setOnClickListener(onClickListener);
+		td1214.setText(System.getProperty("line.separator"));
 
 		TextView td1416 = (TextView) rootView.findViewById(R.id.td1416);
 		td1416.setOnLongClickListener(onLongClickListener);
 		td1416.setOnClickListener(onClickListener);
+		td1416.setText(System.getProperty("line.separator"));
 
 		TextView td1618 = (TextView) rootView.findViewById(R.id.td1618);
 		td1618.setOnLongClickListener(onLongClickListener);
 		td1618.setOnClickListener(onClickListener);
+		td1618.setText(System.getProperty("line.separator"));
 
 		TextView td1820 = (TextView) rootView.findViewById(R.id.td1820);
 		td1820.setOnLongClickListener(onLongClickListener);
 		td1820.setOnClickListener(onClickListener);
+		td1820.setText(System.getProperty("line.separator"));
 
 		return rootView;
 
@@ -230,7 +237,7 @@ public class DisplayDayFragment extends Fragment {
 		private void prepareTextElement(int id, TimetableEntry entry) {
 			ColorHelper colorHelper = new ColorHelper();
 			TextView view = (TextView) rootView.findViewById(id);
-			view.setText(entry.getTitle());
+			view.setText(entry.getTitle()+ System.getProperty("line.separator") + entry.getLocation());
 			view.setBackgroundColor(colorHelper.getColor(entry.getColor())
 					.getBackgroundColor());
 			view.setTextColor(colorHelper.getColor(entry.getColor())

@@ -16,6 +16,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,11 +27,13 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.fragment.BusinessHoursFragment.BusinessHourFacilityLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.MenuItem;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
-public class CafeteriaFragment extends Fragment {
+public class CafeteriaFragment extends SwipeRefreshLayoutFragment {
 
 	private final static String MONDAY = "Montag";
 	private final static String TUESDAY = "Dienstag";
@@ -41,7 +45,7 @@ public class CafeteriaFragment extends Fragment {
 	private final static int EMPLOYEE = 2;
 	private final static int EXTERNAL = 3;
 
-	private View rootView;
+	private SwipeRefreshLayout rootView;
 
 	private int currentDay = MenuItem.MONDAY;
 	private int currentPrice = STUDENT;
@@ -54,8 +58,15 @@ public class CafeteriaFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_cafeteria, container,
-				false);
+		rootView = (SwipeRefreshLayout) inflater.inflate(
+				R.layout.fragment_cafeteria, container, false);
+
+		initializeSwipeRefresh(rootView, new OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				new MenuLoader(rootView, true).execute();
+			}
+		});
 
 		setHasOptionsMenu(true);
 
@@ -129,7 +140,7 @@ public class CafeteriaFragment extends Fragment {
 			actionBar.selectTab(fri);
 		}
 
-		(new MenuLoader()).execute();
+		(new MenuLoader(rootView)).execute();
 
 		return rootView;
 
@@ -183,18 +194,26 @@ public class CafeteriaFragment extends Fragment {
 		return true;
 	}
 
-	protected class MenuLoader extends AsyncDataLoader<List<MenuItem>> {
-
-		public MenuLoader() {
-			super();
+	protected class MenuLoader extends SwipeRefreshAsyncDataLoader<List<MenuItem>> {
+		private boolean forceRefresh = false;
+		
+		public MenuLoader(SwipeRefreshLayout rootView) {
+			super(rootView);
+		}
+		
+		private MenuLoader(SwipeRefreshLayout rootView, boolean forceRefresh) {
+			super(rootView);
+			this.forceRefresh = forceRefresh;
 		}
 
 		@Override
 		protected List<MenuItem> doInBackground(Void... unused) {
+			showLoadingAnimation(true);
+			
 			AccessFacade accessFacade = new AccessFacade();
 			List<MenuItem> menu = null;
 
-			menu = accessFacade.getMenuAccess().getMenuItems();
+			menu = accessFacade.getMenuAccess().getMenuItems(forceRefresh);
 
 			if (menu == null) {
 				publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
@@ -204,13 +223,22 @@ public class CafeteriaFragment extends Fragment {
 			if (menu == null) {
 				menu = new ArrayList<MenuItem>();
 			}
+			
 
 			return menu;
 		}
 
 		@Override
 		protected void onPostExecute(List<MenuItem> menu) {
+			System.out.println("onPostExecute"); 
+			if(menu==null){
+				System.out.println("onPostExecute: menu==null");
+			}
+			super.onPostExecute(menu);
 			menuItems = menu;
+			if(menuItems==null){
+				System.out.println("onPostExecute: menuItems==null");
+			}
 			updateValues();
 		}
 
@@ -218,9 +246,11 @@ public class CafeteriaFragment extends Fragment {
 
 	private void updateValues() {
 		if (menuItems != null) {
+			System.out.println("updateValues: menuItems!=null"); 
 			ArrayList<HashMap<String, String>> menuList = new ArrayList<HashMap<String, String>>();
 			boolean first = true;
 			for (MenuItem menuItem : menuItems) {
+				System.out.println("menuItem"); 
 				if (menuItem.getDayOfWeek() == currentDay) {
 					double price = currentPrice == STUDENT ? menuItem
 							.getPriceStudent()
@@ -281,11 +311,14 @@ public class CafeteriaFragment extends Fragment {
 			}
 
 			fillList(menuList);
+		}else{
+			System.out.println("menu==null"); 
 		}
 	}
 
 	private HashMap<String, String> generateHashMap(String name, double price,
 			int type, boolean first) {
+		System.out.println(name);
 		DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(
 				Locale.GERMANY));
 		String priceString = df.format(price) + " €";
@@ -310,6 +343,7 @@ public class CafeteriaFragment extends Fragment {
 	}
 
 	private void fillList(final List<HashMap<String, String>> menuList) {
+		System.out.println("fillList"); 
 		ListView listView = (ListView) rootView
 				.findViewById(R.id.cafeteria_list);
 

@@ -111,6 +111,7 @@
             android:layout_margin="1dp"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -119,6 +120,7 @@
             android:layout_margin="1dp"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -127,6 +129,7 @@
             android:layout_margin="1dp"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -135,6 +138,7 @@
             android:layout_margin="1dp"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -143,6 +147,7 @@
             android:layout_margin="1dp"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
     </TableRow>
 
@@ -164,6 +169,7 @@
             android:layout_column="2"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -171,6 +177,7 @@
             android:layout_column="3"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -178,6 +185,7 @@
             android:layout_column="4"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -185,6 +193,7 @@
             android:layout_column="5"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -192,6 +201,7 @@
             android:layout_column="6"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
     </TableRow>
 
@@ -213,6 +223,7 @@
             android:layout_column="2"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -220,6 +231,7 @@
             android:layout_column="3"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -227,6 +239,7 @@
             android:layout_column="4"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -234,6 +247,7 @@
             android:layout_column="5"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -241,6 +255,7 @@
             android:layout_column="6"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
     </TableRow>
 
@@ -262,6 +277,7 @@
             android:layout_column="2"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -269,6 +285,7 @@
             android:layout_column="3"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -276,6 +293,7 @@
             android:layout_column="4"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -283,6 +301,7 @@
             android:layout_column="5"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -290,6 +309,7 @@
             android:layout_column="6"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
     </TableRow>
 
@@ -311,6 +331,7 @@
             android:layout_column="2"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -318,6 +339,7 @@
             android:layout_column="3"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -325,6 +347,7 @@
             android:layout_column="4"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -332,6 +355,7 @@
             android:layout_column="5"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -339,6 +363,7 @@
             android:layout_column="6"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
     </TableRow>
 
@@ -360,6 +385,7 @@
             android:layout_column="2"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -367,6 +393,7 @@
             android:layout_column="3"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -374,6 +401,7 @@
             android:layout_column="4"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -381,6 +409,7 @@
             android:layout_column="5"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
 
         <TextView
@@ -388,6 +417,7 @@
             android:layout_column="6"
             android:layout_weight="1"
             android:clickable="true"
+            android:longClickable="true"
             android:onClick="showDay" />
     </TableRow>
 

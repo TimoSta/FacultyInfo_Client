@@ -9,6 +9,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +26,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.fragment.EventFragment.EventLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.MapMarker;
 import de.uni_passau.facultyinfo.client.model.dto.MapMarkerCategory;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
-public class MapFragment extends Fragment {
+public class MapFragment extends SwipeRefreshLayoutFragment {
 
 	List<MapMarkerCategory> markers = null;
 
@@ -42,21 +46,25 @@ public class MapFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		final View rootView = inflater.inflate(R.layout.fragment_map,
-				container, false);
+		final SwipeRefreshLayout rootView = (SwipeRefreshLayout) inflater
+				.inflate(R.layout.fragment_map, container, false);
+
+		initializeSwipeRefresh(rootView, new OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				new MarkerLoader(rootView, true).execute();
+			}
+		});
 
 		Activity activity = getActivity();
 		ActionBar actionBar = activity.getActionBar();
-		actionBar.setTitle(
-				activity.getApplicationContext().getString(
-						R.string.title_map));
-		actionBar.setNavigationMode(
-				ActionBar.NAVIGATION_MODE_STANDARD);
+		actionBar.setTitle(activity.getApplicationContext().getString(
+				R.string.title_map));
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
 		map = ((com.google.android.gms.maps.MapFragment) getFragmentManager()
 				.findFragmentById(R.id.map)).getMap();
-		map.setInfoWindowAdapter(new PopupAdapter(activity
-				.getLayoutInflater()));
+		map.setInfoWindowAdapter(new PopupAdapter(activity.getLayoutInflater()));
 		map.getUiSettings().setCompassEnabled(true);
 		map.getUiSettings().setZoomControlsEnabled(true);
 		map.setMyLocationEnabled(true);
@@ -99,9 +107,15 @@ public class MapFragment extends Fragment {
 	}
 
 	protected class MarkerLoader extends
-			AsyncDataLoader<List<MapMarkerCategory>> {
-		private MarkerLoader(View rootView) {
+			SwipeRefreshAsyncDataLoader<List<MapMarkerCategory>> {
+		private boolean forceRefresh = false;
+
+		private MarkerLoader(SwipeRefreshLayout rootView) {
 			super(rootView);
+		}
+		private MarkerLoader(SwipeRefreshLayout rootView, boolean forceRefresh){
+			super(rootView); 
+			this.forceRefresh=forceRefresh; 
 		}
 
 		@Override
@@ -109,7 +123,7 @@ public class MapFragment extends Fragment {
 			AccessFacade accessFacade = new AccessFacade();
 
 			List<MapMarkerCategory> markers = accessFacade.getMapMarkerAccess()
-					.getMapMarkers();
+					.getMapMarkers(forceRefresh);
 
 			if (markers == null) {
 				publishProgress(MarkerLoader.NO_CONNECTION_PROGRESS);
@@ -127,6 +141,7 @@ public class MapFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(List<MapMarkerCategory> markers) {
+			super.onPostExecute(markers);
 			MapFragment.this.markers = markers;
 			buildMarkerTree(rootView, null, null, null);
 		}

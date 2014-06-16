@@ -14,6 +14,9 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,19 +31,21 @@ import android.widget.SimpleAdapter;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.activity.DisplaySportsCourseListActivity;
 import de.uni_passau.facultyinfo.client.activity.SearchSportsActivity;
+import de.uni_passau.facultyinfo.client.fragment.BusinessHoursFragment.BusinessHourFacilityLoader;
 import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.SportsCourseCategory;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
-public class SportsFragment extends Fragment {
+public class SportsFragment extends SwipeRefreshLayoutFragment {
 
 	public final static String TODAY = "heute";
 	public final static String AZ = "A-Z";
 
 	static String TAB_SELECTED = null;
 
-	private View rootView;
+	SwipeRefreshLayout rootView;
 
 	ViewPager mViewPager;
 
@@ -52,8 +57,10 @@ public class SportsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_sports, container, false);
+		rootView = (SwipeRefreshLayout) inflater.inflate(
+				R.layout.fragment_sports, container, false);
 
+		
 		setHasOptionsMenu(true);
 
 		Activity activity = getActivity();
@@ -71,8 +78,22 @@ public class SportsFragment extends Fragment {
 			@Override
 			public void onTabSelected(Tab tab, FragmentTransaction arg1) {
 				if (tab.getText() == AZ) {
+					initializeSwipeRefresh(rootView, new OnRefreshListener() {
+						@Override
+						public void onRefresh() {
+							new SportsCourseCategoryLoader(rootView, true)
+									.execute();
+						}
+					});
 					(new SportsCourseCategoryLoader(rootView)).execute();
 				} else if (tab.getText() == TODAY) {
+					initializeSwipeRefresh(rootView, new OnRefreshListener() {
+						@Override
+						public void onRefresh() {
+							new TodaysSportsCourseCategoryLoader(rootView, true)
+									.execute();
+						}
+					});
 					(new TodaysSportsCourseCategoryLoader(rootView)).execute();
 				}
 			}
@@ -131,20 +152,28 @@ public class SportsFragment extends Fragment {
 	}
 
 	protected class SportsCourseCategoryLoader extends
-			AsyncDataLoader<List<SportsCourseCategory>> {
-
+			SwipeRefreshAsyncDataLoader<List<SportsCourseCategory>> {
+		private boolean forceRefresh = false;
 		private AccessFacade accessFacade;
 
-		private SportsCourseCategoryLoader(View rootView) {
+		private SportsCourseCategoryLoader(SwipeRefreshLayout rootView) {
 			super(rootView);
+		}
+
+		private SportsCourseCategoryLoader(SwipeRefreshLayout rootView,
+				boolean forceRefresh) {
+			super(rootView);
+			this.forceRefresh = forceRefresh;
 		}
 
 		@Override
 		protected List<SportsCourseCategory> doInBackground(Void... unused) {
+			showLoadingAnimation(true);
+
 			accessFacade = new AccessFacade();
 
 			List<SportsCourseCategory> sportsCourseCategories = accessFacade
-					.getSportsCourseAccess().getCategories();
+					.getSportsCourseAccess().getCategories(forceRefresh);
 
 			if (sportsCourseCategories == null) {
 				publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
@@ -163,6 +192,8 @@ public class SportsFragment extends Fragment {
 		@Override
 		protected void onPostExecute(
 				List<SportsCourseCategory> sportsCourseCategories) {
+			super.onPostExecute(sportsCourseCategories);
+
 			ListView sportsCourseList = (ListView) rootView
 					.findViewById(R.id.sportscategories);
 
@@ -205,17 +236,27 @@ public class SportsFragment extends Fragment {
 	}
 
 	protected class TodaysSportsCourseCategoryLoader extends
-			AsyncDataLoader<List<SportsCourseCategory>> {
-		private TodaysSportsCourseCategoryLoader(View rootView) {
+			SwipeRefreshAsyncDataLoader<List<SportsCourseCategory>> {
+		private boolean forceRefresh = false;
+
+		private TodaysSportsCourseCategoryLoader(SwipeRefreshLayout rootView) {
 			super(rootView);
+		}
+
+		private TodaysSportsCourseCategoryLoader(SwipeRefreshLayout rootView,
+				boolean forceRefresh) {
+			super(rootView);
+			this.forceRefresh = forceRefresh;
 		}
 
 		@Override
 		protected List<SportsCourseCategory> doInBackground(Void... unused) {
+			showLoadingAnimation(true);
+
 			AccessFacade accessFacade = new AccessFacade();
 
 			List<SportsCourseCategory> sportsCourseCategories = accessFacade
-					.getSportsCourseAccess().getCategoriesToday();
+					.getSportsCourseAccess().getCategoriesToday(forceRefresh);
 
 			if (sportsCourseCategories == null) {
 				publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
@@ -234,6 +275,7 @@ public class SportsFragment extends Fragment {
 		@Override
 		protected void onPostExecute(
 				List<SportsCourseCategory> sportsCourseCategories) {
+			super.onPostExecute(sportsCourseCategories);
 			if (sportsCourseCategories != null) {
 				ListView sportsCourseList = (ListView) rootView
 						.findViewById(R.id.sportscategories);

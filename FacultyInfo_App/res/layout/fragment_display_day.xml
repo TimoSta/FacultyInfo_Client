@@ -19,7 +19,8 @@
         <TableLayout
             android:id="@+id/day"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="fill_parent"
+            android:weightSum="7" >
 
             <TableRow
                 android:id="@+id/heading"
@@ -29,18 +30,22 @@
 
                 <TextView
                     android:id="@+id/timeh"
+                    android:layout_width="0dp"
                     android:layout_column="1"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="#FFAA5A"
+                    android:paddingLeft="2dp"
                     android:text="Zeit" />
 
                 <TextView
                     android:id="@+id/tdh"
+                    android:layout_width="0dp"
                     android:layout_column="2"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="#FFAA5A"
+                    android:paddingLeft="2dp"
                     android:text="Veranstaltung" />
             </TableRow>
 
@@ -52,18 +57,22 @@
 
                 <TextView
                     android:id="@+id/t810"
+                    android:layout_width="0dp"
                     android:layout_column="1"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
+                    android:paddingLeft="2dp"
                     android:text="8:00-10:00" />
 
                 <TextView
                     android:id="@+id/td810"
+                    android:layout_width="0dp"
                     android:layout_column="2"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:longClickable="true"
-                    android:onClick="true"/>
+                    android:onClick="true"
+                    android:paddingLeft="2dp" />
             </TableRow>
 
             <TableRow
@@ -74,18 +83,22 @@
 
                 <TextView
                     android:id="@+id/t1012"
+                    android:layout_width="0dp"
                     android:layout_column="1"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
+                    android:paddingLeft="2dp"
                     android:text="10:00-12:00" />
 
                 <TextView
                     android:id="@+id/td1012"
+                    android:layout_width="0dp"
                     android:layout_column="2"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:longClickable="true"
-                    android:onClick="true"/>
+                    android:onClick="true"
+                    android:paddingLeft="2dp" />
             </TableRow>
 
             <TableRow
@@ -96,18 +109,22 @@
 
                 <TextView
                     android:id="@+id/t1214"
+                    android:layout_width="0dp"
                     android:layout_column="1"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
+                    android:paddingLeft="2dp"
                     android:text="12:00-14:00" />
 
                 <TextView
                     android:id="@+id/td1214"
+                    android:layout_width="0dp"
                     android:layout_column="2"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:longClickable="true"
-                    android:onClick="true"/>
+                    android:onClick="true"
+                    android:paddingLeft="2dp" />
             </TableRow>
 
             <TableRow
@@ -118,18 +135,22 @@
 
                 <TextView
                     android:id="@+id/t1416"
+                    android:layout_width="0dp"
                     android:layout_column="1"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
+                    android:paddingLeft="2dp"
                     android:text="14:00-16:00" />
 
                 <TextView
                     android:id="@+id/td1416"
+                    android:layout_width="0dp"
                     android:layout_column="2"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:longClickable="true"
-                    android:onClick="true"/>
+                    android:onClick="true"
+                    android:paddingLeft="2dp" />
             </TableRow>
 
             <TableRow
@@ -140,18 +161,22 @@
 
                 <TextView
                     android:id="@+id/t1618"
+                    android:layout_width="0dp"
                     android:layout_column="1"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
+                    android:paddingLeft="2dp"
                     android:text="16:00-18:00" />
 
                 <TextView
                     android:id="@+id/td1618"
+                    android:layout_width="0dp"
                     android:layout_column="2"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:longClickable="true"
-                    android:onClick="true"/>
+                    android:onClick="true"
+                    android:paddingLeft="2dp" />
             </TableRow>
 
             <TableRow
@@ -162,18 +187,22 @@
 
                 <TextView
                     android:id="@+id/t1820"
+                    android:layout_width="0dp"
                     android:layout_column="1"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
+                    android:paddingLeft="2dp"
                     android:text="18:00-20:00" />
 
                 <TextView
                     android:id="@+id/td1820"
+                    android:layout_width="0dp"
                     android:layout_column="2"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:longClickable="true"
-                    android:onClick="true"/>
+                    android:onClick="true"
+                    android:paddingLeft="2dp" />
             </TableRow>
         </TableLayout>
     </FrameLayout>

@@ -34,9 +34,12 @@ import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
 public class EventFragment extends SwipeRefreshLayoutFragment {
-	private SearchView searchView;
-	//private View rootView;
-	SwipeRefreshLayout rootView=null; 
+	android.widget.SearchView searchView;
+	SwipeRefreshLayout rootView; 
+	
+	public EventFragment(){
+		
+	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -53,6 +56,8 @@ public class EventFragment extends SwipeRefreshLayoutFragment {
 				new EventLoader(rootView, true).execute();
 			}
 		});
+		
+		setHasOptionsMenu(true);
 
 		Activity activity = getActivity();
 		ActionBar actionBar = activity.getActionBar();
@@ -67,6 +72,7 @@ public class EventFragment extends SwipeRefreshLayoutFragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		System.out.println("onCreateOptionsMenu");
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.events, menu);
 		searchView = (SearchView) menu.findItem(R.id.events_search)

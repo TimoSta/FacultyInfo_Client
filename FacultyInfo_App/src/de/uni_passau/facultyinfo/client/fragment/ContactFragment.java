@@ -10,6 +10,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,13 +26,15 @@ import android.widget.SimpleAdapter;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.activity.DisplayChairContactsActivity;
 import de.uni_passau.facultyinfo.client.activity.SearchContactsActivity;
+import de.uni_passau.facultyinfo.client.fragment.EventFragment.EventLoader;
 import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.ContactGroup;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
-public class ContactFragment extends Fragment {
-	private View rootView;
+public class ContactFragment extends SwipeRefreshLayoutFragment {
+	private SwipeRefreshLayout rootView;
 	private SearchView searchView;
 
 	public ContactFragment() {
@@ -40,8 +44,15 @@ public class ContactFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		rootView = inflater.inflate(R.layout.fragment_contacts, container,
+		rootView = (SwipeRefreshLayout) inflater.inflate(R.layout.fragment_contacts, container,
 				false);
+		
+		initializeSwipeRefresh(rootView, new OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				new ChairLoader(rootView, true).execute();
+			}
+		});
 
 		setHasOptionsMenu(true);
 
@@ -102,9 +113,16 @@ public class ContactFragment extends Fragment {
 		startActivity(intent);
 	}
 
-	protected class ChairLoader extends AsyncDataLoader<List<ContactGroup>> {
-		private ChairLoader(View rootView) {
+	protected class ChairLoader extends SwipeRefreshAsyncDataLoader<List<ContactGroup>> {
+		private boolean forceRefresh = false; 
+		
+		private ChairLoader(SwipeRefreshLayout rootView) {
 			super(rootView);
+		}
+		
+		private ChairLoader(SwipeRefreshLayout rootView, boolean forceRefresh){
+			super(rootView); 
+			this.forceRefresh=forceRefresh; 
 		}
 
 		@Override
@@ -112,7 +130,7 @@ public class ContactFragment extends Fragment {
 			AccessFacade accessFacade = new AccessFacade();
 
 			List<ContactGroup> groups = accessFacade.getContactPersonAccess()
-					.getContactGroups();
+					.getContactGroups(forceRefresh);
 
 			if (groups == null) {
 				publishProgress(NewsLoader.NO_CONNECTION_PROGRESS);
@@ -130,6 +148,7 @@ public class ContactFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(List<ContactGroup> groups) {
+			super.onPostExecute(groups);
 			if (groups != null) {
 				ListView listView = (ListView) rootView
 						.findViewById(R.id.contactChairs);

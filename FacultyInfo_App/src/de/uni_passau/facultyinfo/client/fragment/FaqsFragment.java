@@ -10,6 +10,8 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,12 +25,14 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.activity.DisplayFAQActivity;
+import de.uni_passau.facultyinfo.client.fragment.BusinessHoursFragment.BusinessHourFacilityLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.Faq;
 import de.uni_passau.facultyinfo.client.model.dto.FaqCategory;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
-public class FaqsFragment extends Fragment {
+public class FaqsFragment extends SwipeRefreshLayoutFragment {
 
 	public FaqsFragment() {
 	}
@@ -36,8 +40,15 @@ public class FaqsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_faqs, container,
+		final SwipeRefreshLayout rootView = (SwipeRefreshLayout) inflater.inflate(R.layout.fragment_faqs, container,
 				false);
+		
+		initializeSwipeRefresh(rootView, new OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				new FaqLoader(rootView, true).execute();
+			}
+		});
 
 		setHasOptionsMenu(true);
 
@@ -73,18 +84,25 @@ public class FaqsFragment extends Fragment {
 		return super.onOptionsItemSelected(item);
 	}
 
-	protected class FaqLoader extends AsyncDataLoader<List<FaqCategory>> {
-
-		public FaqLoader(View rootView) {
+	protected class FaqLoader extends SwipeRefreshAsyncDataLoader<List<FaqCategory>> {
+		private boolean forceRefresh = false;
+		public FaqLoader(SwipeRefreshLayout rootView) {
 			super(rootView);
+		}
+		
+		private FaqLoader(SwipeRefreshLayout rootView, boolean forceRefresh) {
+			super(rootView);
+			this.forceRefresh = forceRefresh;
 		}
 
 		@Override
 		protected List<FaqCategory> doInBackground(Void... unused) {
+			showLoadingAnimation(true);
+			
 			AccessFacade accessFacade = new AccessFacade();
 			List<FaqCategory> faqs = null;
 
-			faqs = accessFacade.getFaqAccess().getFaqs();
+			faqs = accessFacade.getFaqAccess().getFaqs(forceRefresh);
 
 			if (faqs == null) {
 				publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
@@ -100,7 +118,8 @@ public class FaqsFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(List<FaqCategory> faqs) {
-
+			super.onPostExecute(faqs);
+			
 			ListView listView = (ListView) rootView.findViewById(R.id.faq_list);
 
 			final ArrayList<HashMap<String, String>> faqList = new ArrayList<HashMap<String, String>>();
