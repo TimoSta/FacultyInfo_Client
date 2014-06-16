@@ -83,9 +83,11 @@ public class SearchEventsActivity extends Activity {
 			for (Event event : events) {
 				HashMap<String, String> listEntry = new HashMap<String, String>();
 				listEntry.put("title", event.getTitle());
-				SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy",
-						Locale.GERMAN);
-				listEntry.put("date", sdf.format(event.getStartDate()));
+				if (event.getStartDate() != null) {
+					SimpleDateFormat sdf = new SimpleDateFormat(
+							"EEE, d MMM yyyy", Locale.GERMAN);
+					listEntry.put("date", sdf.format(event.getStartDate()));
+				}
 				listEntry.put("eventId", event.getId());
 				eventList.add(listEntry);
 			}
