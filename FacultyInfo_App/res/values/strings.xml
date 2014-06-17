@@ -83,5 +83,10 @@
     <string name="external">Gast</string>
     <string name="title_events">Uni4You | Veranstaltungen</string>
     <string name="title_activity_search_events">Uni4You | Veranstaltungen</string>
+    
+    <string name="action">Perform action</string>
+    <string name="undobar_sample_message">Action performed.</string>
+    <string name="undo">Undo</string>
+    
 
 </resources>

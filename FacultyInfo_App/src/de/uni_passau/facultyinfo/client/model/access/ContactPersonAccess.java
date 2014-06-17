@@ -207,6 +207,7 @@ public class ContactPersonAccess extends Access {
 					RESSOURCE + "/find/" + input);
 
 			if (contactGroups == null) {
+				System.out.println("ContactPersonAccess->find->contactGroups==null");
 				return null;
 			}
 

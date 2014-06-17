@@ -1,3 +1,5 @@
+
+
 package de.uni_passau.facultyinfo.client.activity;
 
 import java.util.List;
@@ -7,6 +9,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -17,10 +20,12 @@ import de.uni_passau.facultyinfo.client.application.FacultyInfoApplication;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
 
-public class DisplayTimeTableEntryActivity extends Activity {
+public class DisplayTimeTableEntryActivity extends Activity implements UndoBarController.UndoListener {
 	private int timeslotId;
 	private int dayId;
 	private String entryId;
+
+    private UndoBarController mUndoBarController;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +71,8 @@ public class DisplayTimeTableEntryActivity extends Activity {
 
 		TextView timeTextView = (TextView) findViewById(R.id.timeTTdisplay);
 		timeTextView.setText(day + timeslot);
+		
+		mUndoBarController = new UndoBarController(findViewById(R.id.undobar), this);
 
 	}
 
@@ -94,6 +101,11 @@ public class DisplayTimeTableEntryActivity extends Activity {
 			return true;
 		case R.id.action_delete:
 			(new TimetableEntryDeleter()).execute();
+			 mUndoBarController.showUndoBar(
+                     false,
+                     getString(R.string.undobar_sample_message),
+                     null);
+			 return true; 
 		case android.R.id.home:
 			onBackPressed();
 			return true;
@@ -101,6 +113,25 @@ public class DisplayTimeTableEntryActivity extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
+	
+	@Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mUndoBarController.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mUndoBarController.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onUndo(Parcelable token) {
+    	System.out.println("Undo"); 
+        // Perform the undo
+    }
+
 
 	protected class TimetableEntryLoader extends
 			AsyncTask<Void, Void, List<TimetableEntry>> {

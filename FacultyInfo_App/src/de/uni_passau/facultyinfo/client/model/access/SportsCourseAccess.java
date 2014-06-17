@@ -468,6 +468,7 @@ public class SportsCourseAccess extends Access {
 	 *         matching Sports Courses each.
 	 */
 	public List<SportsCourseCategory> find(String input) {
+		System.out.println("SportsCourseAccess->find");
 		if (input != null && !input.isEmpty()) {
 			List<SportsCourseCategory> sportsCourseCategories = null;
 
@@ -475,6 +476,7 @@ public class SportsCourseAccess extends Access {
 					.getRessourceAsList(RESSOURCE + "/find/" + input);
 
 			if (sportsCourseCategories == null) {
+				System.out.println("SportsCourseAccess->sportsCourseCategories==null");
 				return null;
 			}
 
@@ -486,6 +488,7 @@ public class SportsCourseAccess extends Access {
 					}
 				}
 			}
+			
 
 			return sportsCourseCategories;
 		}
