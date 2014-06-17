@@ -1,3 +1,4 @@
+
 package de.uni_passau.facultyinfo.client.fragment;
 
 import java.text.DecimalFormat;
@@ -370,5 +371,26 @@ public class CafeteriaFragment extends SwipeRefreshLayoutFragment {
 		};
 
 		listView.setAdapter(adapter);
+	}				R.id.menu_name, R.id.menu_price }
+
+		) {
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+				View view = super.getView(position, convertView, parent);
+				if (menuList.get(position).get("first").equals("true")) {
+
+					((TextView) view.findViewById(R.id.menu_row_header))
+							.setVisibility(TextView.VISIBLE);
+				} else {
+					((TextView) view.findViewById(R.id.menu_row_header))
+							.setVisibility(TextView.GONE);
+				}
+
+				return view;
+			}
+		};
+
+		listView.setAdapter(adapter);
 	}
+>>>>>>> ee10763c3c259004e2e56c9f427aae4716acb70d
 }

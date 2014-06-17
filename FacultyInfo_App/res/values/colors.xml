@@ -4,4 +4,5 @@
     <color name="loading_indicator_2">#DDDDDD</color>
     <color name="loading_indicator_3">#FF8000</color>
     <color name="loading_indicator_4">#DDDDDD</color>
+    <color name="orange">#FF8000</color>
 </resources>

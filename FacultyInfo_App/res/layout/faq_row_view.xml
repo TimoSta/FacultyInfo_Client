@@ -8,35 +8,27 @@
         android:id="@+id/faq_row_header"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#FF8000"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="16sp"
+        android:paddingBottom="8dp"
         android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FF8000"
         android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/faq_title"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="4dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/back"
+        android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="12sp"
-        android:textStyle="bold" />
-    
-     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="8sp" />
+        <TextView
+            android:id="@+id/faq_title"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:padding="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#222222"
+            android:textStyle="normal" />
+    </LinearLayout>
 
 </LinearLayout>

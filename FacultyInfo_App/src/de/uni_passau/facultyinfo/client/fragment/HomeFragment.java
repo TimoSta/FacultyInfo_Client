@@ -127,12 +127,7 @@ public class HomeFragment extends SwipeRefreshLayoutFragment {
 					currentDay = MenuItem.SUNDAY;
 				}
 				List<MenuItem> menuItems = accessFacade.getMenuAccess()
-						.getMenuItemsFromCache(currentDay);
-				for (MenuItem menuItem : menuItems) {
-					if (menuItem.getType() != MenuItem.TYPE_MAIN) {
-						menuItems.remove(menuItem);
-					}
-				}
+						.getMenuItemsFromCache(currentDay, MenuItem.TYPE_MAIN);
 
 				dashboard = new Dashboard(news, busLines, menuItems);
 

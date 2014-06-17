@@ -133,14 +133,14 @@ public class MenuAccess extends Access {
 	 * 
 	 */
 	public List<MenuItem> getMenuItemsFromCache() {
-		return getMenuItemsFromCache(null);
+		return getMenuItemsFromCache(null, null);
 	}
 
 	/**
 	 * Gives a list of all Menu items that are cached locally.
 	 * 
 	 */
-	public List<MenuItem> getMenuItemsFromCache(Integer dayOfWeek) {
+	public List<MenuItem> getMenuItemsFromCache(Integer dayOfWeek, Integer type) {
 		List<MenuItem> menuItems = readCache();
 
 		if (menuItems == null) {
@@ -157,7 +157,8 @@ public class MenuAccess extends Access {
 			cal.setTime(menuItem.getDay());
 			if (cal.get(Calendar.WEEK_OF_YEAR) == currentWeek
 					&& (dayOfWeek == null || dayOfWeek == menuItem
-							.getDayOfWeek())) {
+							.getDayOfWeek()
+							&& (type == null || menuItem.getType() == type))) {
 				filteredMenuItems.add(menuItem);
 			}
 		}
