@@ -8,32 +8,40 @@
         android:id="@+id/menu_row_header"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#FF8000"
+        android:paddingBottom="8dp"
         android:paddingLeft="10dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="16sp"
+        android:paddingTop="5dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FF8000"
         android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/menu_name"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:paddingLeft="10dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/menu_price"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:paddingRight="10dp"
-        android:layout_gravity="right"
-        android:gravity="right"
-        android:textAlignment="textEnd"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000000"
-        android:textSize="16sp" />
+        android:layout_height="match_parent"
+        android:background="@drawable/back"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/menu_name"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:padding="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#222222"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/menu_price"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:padding="10dp"
+            android:paddingRight="10dp"
+            android:textAlignment="textEnd"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#222222"
+            android:textStyle="normal" />
+    </LinearLayout>
 
 </LinearLayout>

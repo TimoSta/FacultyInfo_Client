@@ -29,7 +29,7 @@ public class SearchEventsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_search_events);
+		setContentView(R.layout.activity_search_events); 
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -97,7 +97,7 @@ public class SearchEventsActivity extends Activity {
 							"title" },
 					new int[] { R.id.title, R.id.description });
 
-			listView.setAdapter(adapter);
+			listView.setAdapter(adapter); 
 
 			listView.setOnItemClickListener(new OnItemClickListener() {
 				@Override

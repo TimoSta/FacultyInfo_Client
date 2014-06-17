@@ -1,5 +1,3 @@
-
-
 package de.uni_passau.facultyinfo.client.activity;
 
 import java.util.List;
@@ -16,16 +14,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.activity.EditTimeTableActivity.TimetableEntrySaver;
 import de.uni_passau.facultyinfo.client.application.FacultyInfoApplication;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
+import de.uni_passau.facultyinfo.client.model.dto.factory.TimetableEntryFactory;
 
-public class DisplayTimeTableEntryActivity extends Activity implements UndoBarController.UndoListener {
+public class DisplayTimeTableEntryActivity extends Activity implements
+		UndoBarController.UndoListener {
 	private int timeslotId;
 	private int dayId;
 	private String entryId;
+	private String title;
+	private String location;
+	private String description;
+	private int colorId;
 
-    private UndoBarController mUndoBarController;
+	private UndoBarController mUndoBarController;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +76,9 @@ public class DisplayTimeTableEntryActivity extends Activity implements UndoBarCo
 
 		TextView timeTextView = (TextView) findViewById(R.id.timeTTdisplay);
 		timeTextView.setText(day + timeslot);
-		
-		mUndoBarController = new UndoBarController(findViewById(R.id.undobar), this);
+
+		mUndoBarController = new UndoBarController(findViewById(R.id.undobar),
+				this);
 
 	}
 
@@ -101,11 +107,9 @@ public class DisplayTimeTableEntryActivity extends Activity implements UndoBarCo
 			return true;
 		case R.id.action_delete:
 			(new TimetableEntryDeleter()).execute();
-			 mUndoBarController.showUndoBar(
-                     false,
-                     getString(R.string.undobar_sample_message),
-                     null);
-			 return true; 
+			mUndoBarController.showUndoBar(false,
+					getString(R.string.undobar_sample_message), null);
+			return true;
 		case android.R.id.home:
 			onBackPressed();
 			return true;
@@ -113,25 +117,29 @@ public class DisplayTimeTableEntryActivity extends Activity implements UndoBarCo
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	@Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mUndoBarController.onSaveInstanceState(outState);
-    }
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		mUndoBarController.onSaveInstanceState(outState);
+	}
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        mUndoBarController.onRestoreInstanceState(savedInstanceState);
-    }
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		mUndoBarController.onRestoreInstanceState(savedInstanceState);
+	}
 
-    @Override
-    public void onUndo(Parcelable token) {
-    	System.out.println("Undo"); 
-        // Perform the undo
-    }
+	@Override
+	public void onUndo(Parcelable token) {
+		System.out.println("Undo");
+		TimetableEntry entry = TimetableEntryFactory.createTimetableEntry(
+				title, description, location, timeslotId, dayId, colorId);
 
+		(new TimetableEntrySaver()).execute(entry);
+
+		// Perform the undo
+	}
 
 	protected class TimetableEntryLoader extends
 			AsyncTask<Void, Void, List<TimetableEntry>> {
@@ -153,6 +161,7 @@ public class DisplayTimeTableEntryActivity extends Activity implements UndoBarCo
 			for (TimetableEntry timetableEntry : timetableEntries) {
 				if (dayId == timetableEntry.getDayOfWeek()
 						&& timeslotId == timetableEntry.getTime()) {
+
 					EditText titleEditText = (EditText) findViewById(R.id.veranstaltungddisplay);
 					titleEditText.setText(timetableEntry.getTitle());
 					titleEditText.setKeyListener(null);
@@ -167,6 +176,11 @@ public class DisplayTimeTableEntryActivity extends Activity implements UndoBarCo
 					descriptionEditText.setKeyListener(null);
 
 					entryId = timetableEntry.getId();
+
+					title = timetableEntry.getTitle();
+					location = timetableEntry.getLocation();
+					description = timetableEntry.getLocation();
+					colorId = timetableEntry.getColor();
 				}
 			}
 		}
@@ -219,4 +233,47 @@ public class DisplayTimeTableEntryActivity extends Activity implements UndoBarCo
 			}
 		}
 	}
+
+	protected class TimetableEntrySaver extends
+			AsyncTask<TimetableEntry, Void, Boolean> {
+
+		@Override
+		protected Boolean doInBackground(TimetableEntry... timetableEntries) {
+			AccessFacade accessFacade = new AccessFacade();
+
+			boolean result = true;
+			for (TimetableEntry timetableEntry : timetableEntries) {
+				result = accessFacade.getTimetableAccess()
+						.createOrUpdateTimetableEntry(timetableEntry) && result;
+			}
+
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			if (result) {
+				Toast toast = Toast.makeText(
+						FacultyInfoApplication.getContext(),
+						"Termin erfolgreich wiederhergestellt", Toast.LENGTH_SHORT);
+				toast.show();
+
+				Intent intent = null;
+
+				intent = new Intent(getApplicationContext(),
+						DisplayTimeTableEntryActivity.class);
+
+				intent.putExtra("dayId", dayId);
+				intent.putExtra("timeslotId", timeslotId);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+			} else {
+				Toast toast = Toast.makeText(
+						FacultyInfoApplication.getContext(),
+						"Fehler beim Wiederherstellen", Toast.LENGTH_SHORT);
+				toast.show();
+			}
+		}
+	}
+
 }

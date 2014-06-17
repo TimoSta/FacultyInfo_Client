@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -16,7 +15,7 @@ import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.News;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 
-public class DisplayNewsActivity extends Activity {
+public class DisplayNewsActivity extends SwipeRefreshLayoutActivity {
 
 	private String newsId;
 

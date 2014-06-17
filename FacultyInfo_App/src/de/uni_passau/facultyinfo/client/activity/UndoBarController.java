@@ -1,14 +1,17 @@
 package de.uni_passau.facultyinfo.client.activity;
-import de.uni_passau.facultyinfo.client.R;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
+import de.uni_passau.facultyinfo.client.R;
 
 public class UndoBarController {
     private View mBarView;
@@ -32,10 +35,12 @@ public class UndoBarController {
         mUndoListener = undoListener;
 
         mMessageView = (TextView) mBarView.findViewById(R.id.undobar_message);
+        mBarView.findViewById(R.id.undobar_button).setClickable(true);
         mBarView.findViewById(R.id.undobar_button)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                    	System.out.println("onClick");
                         hideUndoBar(false);
                         mUndoListener.onUndo(mUndoToken);
                     }
@@ -64,9 +69,9 @@ public class UndoBarController {
             mBarAnimator.cancel();
             mBarAnimator
                     .alpha(1)
-                    .setDuration(
-                            mBarView.getResources()
-                                    .getInteger(android.R.integer.config_shortAnimTime))
+                    .setDuration(10000)
+//                            mBarView.getResources()
+//                                    .getInteger(android.R.integer.config_longAnimTime))
                     .setListener(null);
         }
     }
@@ -86,7 +91,6 @@ public class UndoBarController {
             mBarAnimator
                     .alpha(0)
                     .setDuration(mBarView.getResources()
-//                            .getInteger(android.R.integer.config_shortAnimTime))
                     		.getInteger(android.R.integer.config_longAnimTime))
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
@@ -96,6 +100,7 @@ public class UndoBarController {
                             mUndoToken = null;
                         }
                     });
+            mBarView.setPressed(true);
         }
     }
 

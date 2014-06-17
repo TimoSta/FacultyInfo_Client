@@ -1,4 +1,3 @@
-
 package de.uni_passau.facultyinfo.client.fragment;
 
 import java.text.DecimalFormat;
@@ -14,7 +13,6 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -28,7 +26,6 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
-import de.uni_passau.facultyinfo.client.fragment.BusinessHoursFragment.BusinessHourFacilityLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.MenuItem;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
@@ -195,13 +192,14 @@ public class CafeteriaFragment extends SwipeRefreshLayoutFragment {
 		return true;
 	}
 
-	protected class MenuLoader extends SwipeRefreshAsyncDataLoader<List<MenuItem>> {
+	protected class MenuLoader extends
+			SwipeRefreshAsyncDataLoader<List<MenuItem>> {
 		private boolean forceRefresh = false;
-		
+
 		public MenuLoader(SwipeRefreshLayout rootView) {
 			super(rootView);
 		}
-		
+
 		private MenuLoader(SwipeRefreshLayout rootView, boolean forceRefresh) {
 			super(rootView);
 			this.forceRefresh = forceRefresh;
@@ -210,7 +208,7 @@ public class CafeteriaFragment extends SwipeRefreshLayoutFragment {
 		@Override
 		protected List<MenuItem> doInBackground(Void... unused) {
 			showLoadingAnimation(true);
-			
+
 			AccessFacade accessFacade = new AccessFacade();
 			List<MenuItem> menu = null;
 
@@ -224,20 +222,19 @@ public class CafeteriaFragment extends SwipeRefreshLayoutFragment {
 			if (menu == null) {
 				menu = new ArrayList<MenuItem>();
 			}
-			
 
 			return menu;
 		}
 
 		@Override
 		protected void onPostExecute(List<MenuItem> menu) {
-			System.out.println("onPostExecute"); 
-			if(menu==null){
+			System.out.println("onPostExecute");
+			if (menu == null) {
 				System.out.println("onPostExecute: menu==null");
 			}
 			super.onPostExecute(menu);
 			menuItems = menu;
-			if(menuItems==null){
+			if (menuItems == null) {
 				System.out.println("onPostExecute: menuItems==null");
 			}
 			updateValues();
@@ -247,11 +244,11 @@ public class CafeteriaFragment extends SwipeRefreshLayoutFragment {
 
 	private void updateValues() {
 		if (menuItems != null) {
-			System.out.println("updateValues: menuItems!=null"); 
+			System.out.println("updateValues: menuItems!=null");
 			ArrayList<HashMap<String, String>> menuList = new ArrayList<HashMap<String, String>>();
 			boolean first = true;
 			for (MenuItem menuItem : menuItems) {
-				System.out.println("menuItem"); 
+				System.out.println("menuItem");
 				if (menuItem.getDayOfWeek() == currentDay) {
 					double price = currentPrice == STUDENT ? menuItem
 							.getPriceStudent()
@@ -312,8 +309,8 @@ public class CafeteriaFragment extends SwipeRefreshLayoutFragment {
 			}
 
 			fillList(menuList);
-		}else{
-			System.out.println("menu==null"); 
+		} else {
+			System.out.println("menu==null");
 		}
 	}
 
@@ -344,7 +341,7 @@ public class CafeteriaFragment extends SwipeRefreshLayoutFragment {
 	}
 
 	private void fillList(final List<HashMap<String, String>> menuList) {
-		System.out.println("fillList"); 
+		System.out.println("fillList");
 		ListView listView = (ListView) rootView
 				.findViewById(R.id.cafeteria_list);
 
@@ -371,26 +368,5 @@ public class CafeteriaFragment extends SwipeRefreshLayoutFragment {
 		};
 
 		listView.setAdapter(adapter);
-	}				R.id.menu_name, R.id.menu_price }
-
-		) {
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
-				View view = super.getView(position, convertView, parent);
-				if (menuList.get(position).get("first").equals("true")) {
-
-					((TextView) view.findViewById(R.id.menu_row_header))
-							.setVisibility(TextView.VISIBLE);
-				} else {
-					((TextView) view.findViewById(R.id.menu_row_header))
-							.setVisibility(TextView.GONE);
-				}
-
-				return view;
-			}
-		};
-
-		listView.setAdapter(adapter);
 	}
->>>>>>> ee10763c3c259004e2e56c9f427aae4716acb70d
 }
