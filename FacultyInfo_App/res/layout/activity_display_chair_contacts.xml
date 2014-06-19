@@ -1,12 +1,22 @@
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/chairContacts"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentTop="true"
-    android:divider="#FF8000"
-    android:dividerHeight="1dp" >
+    android:layout_height="match_parent"
+    android:background="#eeeeee" >
 
-</ListView>
+    <ListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/chairContacts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:choiceMode="singleChoice"
+        android:divider="#eeeeee"
+        android:dividerHeight="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="5dp"
+        android:textColor="#000000" >
+    </ListView>
+
+</android.support.v4.widget.SwipeRefreshLayout>

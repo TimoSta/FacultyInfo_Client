@@ -88,7 +88,7 @@
         android:inputType="textMultiLine" />
     
     
-    <LinearLayout android:id="@+id/undobar" style="@style/UndoBar">
+    <LinearLayout android:id="@+id/undobar" style="@style/UndoBar" android:layout_alignParentBottom="true">
         <TextView android:id="@+id/undobar_message" style="@style/UndoBarMessage" />
         <Button android:id="@+id/undobar_button" style="@style/UndoBarButton" />
     </LinearLayout>

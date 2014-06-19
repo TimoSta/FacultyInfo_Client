@@ -5,12 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -19,9 +21,9 @@ import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.fragment.SportsFragment;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.SportsCourseCategory;
-import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
-public class SearchSportsActivity extends Activity {
+public class SearchSportsActivity extends SwipeRefreshLayoutActivity {
 
 	private String query;
 
@@ -38,7 +40,22 @@ public class SearchSportsActivity extends Activity {
 		Intent intent = getIntent();
 		query = intent.getStringExtra("query");
 
-		(new SportsCourseFinder()).execute();
+		initializeSwipeRefresh(
+				(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+						.getChildAt(0), new OnRefreshListener() {
+
+					@Override
+					public void onRefresh() {
+						new SportsCourseFinder(
+								(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+										.getChildAt(0), true).execute();
+					}
+
+				});
+
+		(new SportsCourseFinder(
+				(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+						.getChildAt(0))).execute();
 	}
 
 	@Override
@@ -58,11 +75,22 @@ public class SearchSportsActivity extends Activity {
 	}
 
 	protected class SportsCourseFinder extends
-			AsyncDataLoader<List<SportsCourseCategory>> {
+			SwipeRefreshAsyncDataLoader<List<SportsCourseCategory>> {
+		private boolean forceRefresh = false;
+
+		private SportsCourseFinder(SwipeRefreshLayout rootView) {
+			super(rootView);
+		}
+
+		private SportsCourseFinder(SwipeRefreshLayout rootView,
+				boolean forceRefresh) {
+			super(rootView);
+			this.forceRefresh = forceRefresh;
+		}
 
 		@Override
 		protected List<SportsCourseCategory> doInBackground(Void... unused) {
-
+			showLoadingAnimation(true);
 			AccessFacade accessFacade = new AccessFacade();
 
 			List<SportsCourseCategory> sportsCourseCategories = accessFacade
@@ -74,6 +102,7 @@ public class SearchSportsActivity extends Activity {
 		@Override
 		protected void onPostExecute(
 				List<SportsCourseCategory> sportsCourseCategories) {
+			super.onPostExecute(sportsCourseCategories);
 			if (sportsCourseCategories != null) {
 				ListView sportsoffer = (ListView) findViewById(R.id.sports_search_result);
 

@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Locale;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -21,15 +23,16 @@ import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.Event;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
-public class SearchEventsActivity extends Activity {
+public class SearchEventsActivity extends SwipeRefreshLayoutActivity {
 
 	private String query;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_search_events); 
+		setContentView(R.layout.activity_search_events);
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -39,7 +42,22 @@ public class SearchEventsActivity extends Activity {
 		Intent intent = getIntent();
 		query = intent.getStringExtra("query");
 
-		(new EventLoader()).execute();
+		initializeSwipeRefresh(
+				(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+						.getChildAt(0), new OnRefreshListener() {
+
+					@Override
+					public void onRefresh() {
+						new EventLoader(
+								(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+										.getChildAt(0), true).execute();
+					}
+
+				});
+
+		(new EventLoader(
+				(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+						.getChildAt(0))).execute();
 
 	}
 
@@ -59,9 +77,22 @@ public class SearchEventsActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	protected class EventLoader extends AsyncDataLoader<List<Event>> {
+	protected class EventLoader extends SwipeRefreshAsyncDataLoader<List<Event>> {
+		private boolean forceRefresh = false;
+
+		private EventLoader(SwipeRefreshLayout rootView) {
+			super(rootView);
+		}
+
+		private EventLoader(SwipeRefreshLayout rootView, boolean forceRefresh) {
+			super(rootView);
+			this.forceRefresh = forceRefresh;
+		}
+
 		@Override
 		protected List<Event> doInBackground(Void... unused) {
+			showLoadingAnimation(true);
+			
 			AccessFacade accessFacade = new AccessFacade();
 			List<Event> events = null;
 
@@ -76,6 +107,8 @@ public class SearchEventsActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(List<Event> events) {
+			super.onPostExecute(events);
+			
 			ListView listView = (ListView) findViewById(R.id.events_search_results);
 
 			final ArrayList<HashMap<String, String>> eventList = new ArrayList<HashMap<String, String>>();
@@ -97,7 +130,7 @@ public class SearchEventsActivity extends Activity {
 							"title" },
 					new int[] { R.id.title, R.id.description });
 
-			listView.setAdapter(adapter); 
+			listView.setAdapter(adapter);
 
 			listView.setOnItemClickListener(new OnItemClickListener() {
 				@Override

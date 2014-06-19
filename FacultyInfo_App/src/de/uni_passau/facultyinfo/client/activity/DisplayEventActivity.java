@@ -4,19 +4,22 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.Event;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
-public class DisplayEventActivity extends Activity {
+public class DisplayEventActivity extends SwipeRefreshLayoutActivity {
 	String eventId;
 
 	@Override
@@ -31,8 +34,16 @@ public class DisplayEventActivity extends Activity {
 
 		Intent intent = getIntent();
 		eventId = intent.getStringExtra("eventId");
+		
+		initializeSwipeRefresh((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), new OnRefreshListener() {
 
-		(new EventLoader()).execute();
+			@Override
+			public void onRefresh() {
+				new EventLoader((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), true).execute();
+			}
+
+		});
+		new EventLoader((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), true).execute();
 
 	}
 
@@ -52,13 +63,26 @@ public class DisplayEventActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	protected class EventLoader extends AsyncDataLoader<Event> {
+	protected class EventLoader extends SwipeRefreshAsyncDataLoader<Event> {
+		private boolean forceRefresh = false;
+
+		private EventLoader(SwipeRefreshLayout rootView) {
+			super(rootView);
+		}
+
+		private EventLoader(SwipeRefreshLayout rootView, boolean forceRefresh) {
+			super(rootView);
+			this.forceRefresh = forceRefresh;
+		}
+		
 		@Override
 		protected Event doInBackground(Void... unused) {
+			showLoadingAnimation(true);
+
 			AccessFacade accessFacade = new AccessFacade();
 			Event event = null;
 
-			event = accessFacade.getEventAccess().getEvent(eventId);
+			event = accessFacade.getEventAccess().getEvent(eventId, forceRefresh);
 
 			if (event == null) {
 				publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
@@ -71,12 +95,13 @@ public class DisplayEventActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(Event event) {
+			super.onPostExecute(event);
 			if (event != null) {
 				TextView title = (TextView) findViewById(R.id.event_title);
 				title.setText(event.getTitle());
 
-				TextView subtitle = (TextView) findViewById(R.id.event_subtitle);
-				subtitle.setText(event.getTitle());
+//				TextView subtitle = (TextView) findViewById(R.id.event_subtitle);
+//				subtitle.setText(event.getTitle());
 
 				TextView description = (TextView) findViewById(R.id.event_description);
 				description.setText(event.getDescription());

@@ -6,18 +6,21 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.SportsCourse;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
-public class DisplaySportsCourseActivity extends Activity {
+public class DisplaySportsCourseActivity extends SwipeRefreshLayoutActivity {
 
 	private String courseId;
 
@@ -36,8 +39,17 @@ public class DisplaySportsCourseActivity extends Activity {
 		String title = intent.getStringExtra("title");
 
 		setTitle(title);
+		
+		initializeSwipeRefresh((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), new OnRefreshListener() {
 
-		(new CourseLoader()).execute();
+			@Override
+			public void onRefresh() {
+				new CourseLoader((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), true).execute();
+			}
+
+		});
+
+		(new CourseLoader((SwipeRefreshLayout)((ViewGroup)findViewById(android.R.id.content)).getChildAt(0))).execute();
 
 	}
 
@@ -57,14 +69,25 @@ public class DisplaySportsCourseActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	protected class CourseLoader extends AsyncDataLoader<SportsCourse> {
+	protected class CourseLoader extends SwipeRefreshAsyncDataLoader<SportsCourse> {
+		private boolean forceRefresh = false;
 
+		private CourseLoader(SwipeRefreshLayout rootView) {
+			super(rootView);
+		}
+
+		private CourseLoader(SwipeRefreshLayout rootView, boolean forceRefresh) {
+			super(rootView);
+			this.forceRefresh = forceRefresh;
+		}
 		@Override
 		protected SportsCourse doInBackground(Void... unused) {
+			showLoadingAnimation(true);
+			
 			AccessFacade accessFacade = new AccessFacade();
 
 			SportsCourse sportsCourse = accessFacade.getSportsCourseAccess()
-					.getCourse(courseId);
+					.getCourse(courseId, forceRefresh);
 
 			if (sportsCourse == null) {
 				publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
@@ -77,6 +100,7 @@ public class DisplaySportsCourseActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(SportsCourse sportsCourse) {
+			super.onPostExecute(sportsCourse);
 			if (sportsCourse != null) {
 				TextView number = (TextView) findViewById(R.id.number_course);
 				number.setText(sportsCourse.getNumber());

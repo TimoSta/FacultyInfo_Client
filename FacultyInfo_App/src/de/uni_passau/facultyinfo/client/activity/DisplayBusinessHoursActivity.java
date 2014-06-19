@@ -1,19 +1,22 @@
 package de.uni_passau.facultyinfo.client.activity;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.BusinessHours;
 import de.uni_passau.facultyinfo.client.model.dto.BusinessHoursFacility;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
-public class DisplayBusinessHoursActivity extends Activity {
+public class DisplayBusinessHoursActivity extends SwipeRefreshLayoutActivity {
 
 	private String facilityId;
 
@@ -32,8 +35,17 @@ public class DisplayBusinessHoursActivity extends Activity {
 		String name = intent.getStringExtra("name");
 
 		setTitle(name);
+		
+		initializeSwipeRefresh((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), new OnRefreshListener() {
 
-		(new BusinessHoursLoader()).execute();
+			@Override
+			public void onRefresh() {
+				new BusinessHoursLoader((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), true).execute();
+			}
+
+		});
+
+		(new BusinessHoursLoader((SwipeRefreshLayout)((ViewGroup)findViewById(android.R.id.content)).getChildAt(0))).execute();
 
 	}
 
@@ -54,14 +66,25 @@ public class DisplayBusinessHoursActivity extends Activity {
 	}
 
 	protected class BusinessHoursLoader extends
-			AsyncDataLoader<BusinessHoursFacility> {
+			SwipeRefreshAsyncDataLoader<BusinessHoursFacility> {
+		private boolean forceRefresh = false;
+
+		private BusinessHoursLoader(SwipeRefreshLayout rootView) {
+			super(rootView);
+		}
+
+		private BusinessHoursLoader(SwipeRefreshLayout rootView, boolean forceRefresh) {
+			super(rootView);
+			this.forceRefresh = forceRefresh;
+		}
 
 		@Override
 		protected BusinessHoursFacility doInBackground(Void... unused) {
+			showLoadingAnimation(true);
 			AccessFacade accessFacade = new AccessFacade();
 
 			BusinessHoursFacility facility = accessFacade
-					.getBusinessHoursAccess().getFacility(facilityId);
+					.getBusinessHoursAccess().getFacility(facilityId, forceRefresh);
 
 			if (facility == null) {
 				publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
@@ -74,6 +97,7 @@ public class DisplayBusinessHoursActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(BusinessHoursFacility facility) {
+			super.onPostExecute(facility);
 			if (facility != null) {
 				if (facility.getBusinessHours(BusinessHours.PHASE_BREAK,
 						BusinessHours.MONDAY) == null) {

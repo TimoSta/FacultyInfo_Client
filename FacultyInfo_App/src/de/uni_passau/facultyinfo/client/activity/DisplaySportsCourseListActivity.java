@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -20,8 +22,9 @@ import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.SportsCourse;
 import de.uni_passau.facultyinfo.client.model.dto.SportsCourseCategory;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
+import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
-public class DisplaySportsCourseListActivity extends Activity {
+public class DisplaySportsCourseListActivity extends SwipeRefreshLayoutActivity {
 
 	private String categoryId;
 	private String offerTime;
@@ -45,9 +48,33 @@ public class DisplaySportsCourseListActivity extends Activity {
 		setTitle(title);
 
 		if (offerTime.equals(SportsFragment.AZ)) {
-			(new SportsCourseLoader()).execute();
+			// (new SportsCourseLoader()).execute();
+			initializeSwipeRefresh(
+					(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+							.getChildAt(0), new OnRefreshListener() {
+
+						@Override
+						public void onRefresh() {
+							new SportsCourseLoader(
+									(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+											.getChildAt(0), true).execute();
+						}
+
+					});
 		} else if (offerTime.equals(SportsFragment.TODAY)) {
-			(new TodaySportsCourseLoader()).execute();
+			// (new TodaySportsCourseLoader()).execute();
+			initializeSwipeRefresh(
+					(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+							.getChildAt(0), new OnRefreshListener() {
+
+						@Override
+						public void onRefresh() {
+							new TodaySportsCourseLoader(
+									(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+											.getChildAt(0), true).execute();
+						}
+
+					});
 		}
 
 	}
@@ -69,14 +96,28 @@ public class DisplaySportsCourseListActivity extends Activity {
 	}
 
 	protected class SportsCourseLoader extends
-			AsyncDataLoader<SportsCourseCategory> {
+			SwipeRefreshAsyncDataLoader<SportsCourseCategory> {
+		private boolean forceRefresh = false;
+
+		private SportsCourseLoader(SwipeRefreshLayout rootView) {
+			super(rootView);
+		}
+
+		private SportsCourseLoader(SwipeRefreshLayout rootView,
+				boolean forceRefresh) {
+			super(rootView);
+			this.forceRefresh = forceRefresh;
+		}
 
 		@Override
 		protected SportsCourseCategory doInBackground(Void... unused) {
+			showLoadingAnimation(true);
+
 			AccessFacade accessFacade = new AccessFacade();
 
 			SportsCourseCategory sportsCourseCategory = accessFacade
-					.getSportsCourseAccess().getCategory(categoryId);
+					.getSportsCourseAccess().getCategory(categoryId,
+							forceRefresh);
 			if (sportsCourseCategory == null) {
 				publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
 				sportsCourseCategory = accessFacade.getSportsCourseAccess()
@@ -88,6 +129,7 @@ public class DisplaySportsCourseListActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(SportsCourseCategory sportsCourseCategory) {
+			super.onPostExecute(sportsCourseCategory);
 			ListView sportsoffer = (ListView) findViewById(R.id.sportsCourses);
 
 			final ArrayList<HashMap<String, String>> courseList = new ArrayList<HashMap<String, String>>();
@@ -151,14 +193,28 @@ public class DisplaySportsCourseListActivity extends Activity {
 	}
 
 	protected class TodaySportsCourseLoader extends
-			AsyncDataLoader<SportsCourseCategory> {
+			SwipeRefreshAsyncDataLoader<SportsCourseCategory> {
+		private boolean forceRefresh = false;
+
+		private TodaySportsCourseLoader(SwipeRefreshLayout rootView) {
+			super(rootView);
+		}
+
+		private TodaySportsCourseLoader(SwipeRefreshLayout rootView,
+				boolean forceRefresh) {
+			super(rootView);
+			this.forceRefresh = forceRefresh;
+		}
 
 		@Override
 		protected SportsCourseCategory doInBackground(Void... unused) {
+			showLoadingAnimation(true);
+
 			AccessFacade accessFacade = new AccessFacade();
 
 			SportsCourseCategory sportsCourseCategory = accessFacade
-					.getSportsCourseAccess().getCategoryToday(categoryId);
+					.getSportsCourseAccess().getCategoryToday(categoryId,
+							forceRefresh);
 			if (sportsCourseCategory == null) {
 				publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
 				sportsCourseCategory = accessFacade.getSportsCourseAccess()
@@ -170,6 +226,7 @@ public class DisplaySportsCourseListActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(SportsCourseCategory sportsCourseCategory) {
+			super.onPostExecute(sportsCourseCategory);
 			if (sportsCourseCategory != null) {
 				ListView sportsoffer = (ListView) findViewById(R.id.sportsCourses);
 
