@@ -7,7 +7,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
@@ -101,9 +103,14 @@ public class DisplayBusinessHoursActivity extends SwipeRefreshLayoutActivity {
 			if (facility != null) {
 				if (facility.getBusinessHours(BusinessHours.PHASE_BREAK,
 						BusinessHours.MONDAY) == null) {
+					((TableLayout) findViewById(R.id.table_semester)).setVisibility(View.VISIBLE);
 					TextView semester = (TextView) findViewById(R.id.semester);
 					semester.setText("");
 				} else {
+					((TableLayout) findViewById(R.id.break_table)).setVisibility(View.VISIBLE);
+					((TableLayout) findViewById(R.id.table_semester)).setVisibility(View.VISIBLE);
+
+					
 					TextView semester = (TextView) findViewById(R.id.semester);
 					semester.setText("Vorlesungszeit");
 

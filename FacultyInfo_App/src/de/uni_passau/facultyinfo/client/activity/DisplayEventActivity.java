@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
@@ -97,6 +98,7 @@ public class DisplayEventActivity extends SwipeRefreshLayoutActivity {
 		protected void onPostExecute(Event event) {
 			super.onPostExecute(event);
 			if (event != null) {
+				((TextView)findViewById(R.id.event_description)).setVisibility(View.VISIBLE);
 				TextView title = (TextView) findViewById(R.id.event_title);
 				title.setText(event.getTitle());
 

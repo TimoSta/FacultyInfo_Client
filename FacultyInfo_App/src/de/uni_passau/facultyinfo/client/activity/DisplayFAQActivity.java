@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
@@ -103,6 +104,7 @@ public class DisplayFAQActivity extends SwipeRefreshLayoutActivity {
 			super.onPostExecute(faq);
 
 			if (faq != null) {
+				((TextView)findViewById(R.id.faqText)).setVisibility(View.VISIBLE);
 				TextView headingView = (TextView) findViewById(R.id.faqHeading);
 				headingView.setText(faq.getTitle());
 

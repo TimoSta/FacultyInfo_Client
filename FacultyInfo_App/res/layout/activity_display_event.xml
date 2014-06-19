@@ -38,17 +38,6 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#888888" />
 
-        <!--
-         TextView
-        android:id="@+id/event_subtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/event_title"
-        android:textAppearance="?android:attr/textAppearanceMedium" /
-        -->
-
         <TextView
             android:id="@+id/event_location"
             android:layout_width="wrap_content"
@@ -74,7 +63,8 @@
             android:padding="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#222222"
-            android:textStyle="" />
+            android:textStyle=""
+            android:visibility="gone" />
     </RelativeLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>

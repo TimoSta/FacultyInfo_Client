@@ -1,15 +1,3 @@
-<!--
- LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".DisplayFAQActivity"
--->
-
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -51,16 +39,8 @@
             android:padding="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#222222"
-            android:textStyle="" />
-
-        <!--
-         TextView
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="8sp" /
-        -->
-
+            android:textStyle=""
+            android:visibility="gone" />
     </RelativeLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>
