@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,7 +15,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.uni_passau.facultyinfo.client.R;
-import de.uni_passau.facultyinfo.client.activity.EditTimeTableActivity.TimetableEntrySaver;
 import de.uni_passau.facultyinfo.client.application.FacultyInfoApplication;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
@@ -79,6 +79,7 @@ public class DisplayTimeTableEntryActivity extends Activity implements
 
 		mUndoBarController = new UndoBarController(findViewById(R.id.undobar),
 				this);
+		mUndoBarController.hideUndoBar(true);
 
 	}
 
@@ -120,12 +121,14 @@ public class DisplayTimeTableEntryActivity extends Activity implements
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
+		System.out.println("DisplayTimeTableEntryActivity->onSaveInstanceState"); 
 		super.onSaveInstanceState(outState);
 		mUndoBarController.onSaveInstanceState(outState);
-	}
+	} 
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		System.out.println("DisplayTimeTableEntryActivity->onRestoreInstanceState"); 
 		super.onRestoreInstanceState(savedInstanceState);
 		mUndoBarController.onRestoreInstanceState(savedInstanceState);
 	}
@@ -188,6 +191,7 @@ public class DisplayTimeTableEntryActivity extends Activity implements
 
 	protected class TimetableEntryDeleter extends
 			AsyncTask<TimetableEntry, Void, Boolean> {
+		private Intent intent; 
 
 		@Override
 		protected Boolean doInBackground(TimetableEntry... timetableEntries) {
@@ -205,8 +209,10 @@ public class DisplayTimeTableEntryActivity extends Activity implements
 				Toast toast = Toast.makeText(
 						FacultyInfoApplication.getContext(),
 						"Termin erfolgreich gelöscht", Toast.LENGTH_SHORT);
-				toast.show();
-				Intent intent = new Intent(getApplicationContext(),
+//				toast.show();
+//				Intent intent = new Intent(getApplicationContext(),
+//						DisplayDayActivity.class);
+				intent = new Intent(getApplicationContext(),
 						DisplayDayActivity.class);
 				int day = TimetableEntry.MONDAY;
 				if (dayId == TimetableEntry.MONDAY) {
@@ -224,7 +230,9 @@ public class DisplayTimeTableEntryActivity extends Activity implements
 				intent.putExtra("dayId", day);
 				intent.putExtra("timeslotId", timeslotId);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
+				Handler mHandler = new Handler();
+				mHandler.postDelayed(mUpdateTimeTask, 3000);
+//				startActivity(intent);
 			} else {
 				Toast toast = Toast.makeText(
 						FacultyInfoApplication.getContext(),
@@ -232,6 +240,13 @@ public class DisplayTimeTableEntryActivity extends Activity implements
 				toast.show();
 			}
 		}
+		
+		private Runnable mUpdateTimeTask = new Runnable() {
+			   public void run() {
+			       // do what you need to do here after the delay
+				   startActivity(intent);
+			   }
+			};
 	}
 
 	protected class TimetableEntrySaver extends

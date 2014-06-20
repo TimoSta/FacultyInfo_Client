@@ -46,7 +46,7 @@ public class UndoBarController {
                     }
                 });
 
-        hideUndoBar(true);
+//        hideUndoBar(true);
     }
 
     public void showUndoBar(boolean immediate, CharSequence message, Parcelable undoToken) {
@@ -60,6 +60,7 @@ public class UndoBarController {
                 mBarView.getResources().getInteger(R.integer.undobar_hide_delay));
 
         mBarView.setVisibility(View.VISIBLE);
+//        mBarView.setAlpha(1);
         if (immediate) {
         	System.out.println("showUndoBar->immediate");
             mBarView.setAlpha(1);
@@ -67,11 +68,11 @@ public class UndoBarController {
         	System.out.println("showUndoBar->else");
         	mBarView.setAlpha(1);
             mBarAnimator.cancel();
+            mBarView.animate().setDuration(1000000); 
             mBarAnimator
-                    .alpha(1)
-                    .setDuration(10000)
-//                            mBarView.getResources()
-//                                    .getInteger(android.R.integer.config_longAnimTime))
+                    .setDuration(
+                            mBarView.getResources()
+                                    .getInteger(android.R.integer.config_longAnimTime))
                     .setListener(null);
         }
     }
@@ -87,7 +88,8 @@ public class UndoBarController {
             mUndoToken = null;
         } else {
         	System.out.println("hideUndoBar->else"); 
-            mBarAnimator.cancel();
+        	mBarView.setVisibility(View.VISIBLE);
+//            mBarAnimator.cancel();
             mBarAnimator
                     .alpha(0)
                     .setDuration(mBarView.getResources()
@@ -125,6 +127,7 @@ public class UndoBarController {
     private Runnable mHideRunnable = new Runnable() {
         @Override
         public void run() {
+        	System.out.println("Runnable->run");
             hideUndoBar(false);
         }
     };
