@@ -2,16 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back"
     android:orientation="vertical"
     android:paddingLeft="10dp"
-    android:paddingRight="10dp" >
+    android:paddingRight="10dp"
+    android:paddingTop="4dp" >
 
     <TextView
         android:id="@+id/menu_name"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:paddingTop="4dp"
         android:paddingBottom="4dp"
+        android:paddingTop="4dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#000000"
         android:textSize="12sp" />
