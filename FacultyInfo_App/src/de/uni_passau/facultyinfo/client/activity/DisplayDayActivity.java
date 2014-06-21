@@ -127,6 +127,13 @@ public class DisplayDayActivity extends FragmentActivity implements
 	}
 
 	@Override
+	public void onBackPressed(){
+		Intent intent = new Intent(getApplicationContext(), MainActivity.class); 
+		intent.putExtra("module", MainActivity.TIMETABLE); 
+		startActivity(intent);
+	}
+	
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.display_day, menu);
 		return true;

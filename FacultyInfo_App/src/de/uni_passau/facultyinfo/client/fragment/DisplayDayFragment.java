@@ -292,10 +292,17 @@ public class DisplayDayFragment extends Fragment {
 				}
 			}
 			if (!exists) {
-				CreateEventTT dialog = new CreateEventTT();
-				dialog.setAttributes(rootView, timeslotId, dayC);
-				dialog.show(DisplayDayFragment.this.getFragmentManager(),
-						"createEventTT");
+//				CreateEventTT dialog = new CreateEventTT();
+//				dialog.setAttributes(rootView, timeslotId, dayC);
+//				dialog.show(DisplayDayFragment.this.getFragmentManager(),
+//						"createEventTT");
+				Intent intent = new Intent(rootView.getContext(),
+						EditTimeTableActivity.class);
+				intent.putExtra("timeslotId", timeslotId);
+				intent.putExtra("dayId", dayC);
+				intent.putExtra("new", false);
+				intent.putExtra("toOverview", true);
+				startActivity(intent);
 			} else {
 				if (edit) {
 					Intent intent = new Intent(rootView.getContext(),

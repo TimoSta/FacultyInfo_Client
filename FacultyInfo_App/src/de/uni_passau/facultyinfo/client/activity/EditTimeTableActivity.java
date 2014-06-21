@@ -175,36 +175,35 @@ public class EditTimeTableActivity extends FragmentActivity {
 				Toast toast = Toast.makeText(getApplicationContext(),
 						"Veranstaltungstitel fehlt", Toast.LENGTH_SHORT);
 				toast.show();
-
-			} else if (location.isEmpty()) {
-				final class CreateEventTT extends DialogFragment {
-					@Override
-					public Dialog onCreateDialog(Bundle savedInstanceState) {
-						AlertDialog.Builder builder = new AlertDialog.Builder(
-								getActivity());
-						builder.setMessage(
-								R.string.create_event_no_location_dialog)
-								.setPositiveButton(R.string.create2,
-										new DialogInterface.OnClickListener() {
-											public void onClick(
-													DialogInterface dialog,
-													int id) {
-												save();
-											}
-										})
-								.setNegativeButton(R.string.cancel,
-										new DialogInterface.OnClickListener() {
-											public void onClick(
-													DialogInterface dialog,
-													int id) {
-											}
-										});
-						return builder.create();
-					}
-				}
-				CreateEventTT dialog = new CreateEventTT();
-				dialog.show(getSupportFragmentManager(),
-						"createEventTTnoLocation");
+//			} else if (location.isEmpty()) {
+//				final class CreateEventTT extends DialogFragment {
+//					@Override
+//					public Dialog onCreateDialog(Bundle savedInstanceState) {
+//						AlertDialog.Builder builder = new AlertDialog.Builder(
+//								getActivity());
+//						builder.setMessage(
+//								R.string.create_event_no_location_dialog)
+//								.setPositiveButton(R.string.create2,
+//										new DialogInterface.OnClickListener() {
+//											public void onClick(
+//													DialogInterface dialog,
+//													int id) {
+//												save();
+//											}
+//										})
+//								.setNegativeButton(R.string.cancel,
+//										new DialogInterface.OnClickListener() {
+//											public void onClick(
+//													DialogInterface dialog,
+//													int id) {
+//											}
+//										});
+//						return builder.create();
+//					}
+//				}
+//				CreateEventTT dialog = new CreateEventTT();
+//				dialog.show(getSupportFragmentManager(),
+//						"createEventTTnoLocation");
 			} else {
 				save();
 			}

@@ -586,10 +586,20 @@ public class TimetableFragment extends Fragment {
 			}
 			if (!exists) {
 				System.out.println("Anlegen");
-				CreateEventTT dialog = new CreateEventTT();
-				dialog.setAttributes(rootView, timeslotId, dayC);
-				 dialog.show(TimetableFragment.this.getFragmentManager(),
-				 "createEventTT");
+//				CreateEventTT dialog = new CreateEventTT();
+//				dialog.setAttributes(rootView, timeslotId, dayC);
+//				 dialog.show(TimetableFragment.this.getFragmentManager(),
+//				 "createEventTT");
+				Intent intent = new Intent(rootView
+						.getContext(),
+						EditTimeTableActivity.class);
+				intent.putExtra("timeslotId",
+						timeslotId);
+				intent.putExtra("dayId", dayC);
+				intent.putExtra("new", true);
+				intent.putExtra("toOverview", true);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
 			} else {
 				if (edit) {
 					Intent intent = new Intent(rootView.getContext(),
