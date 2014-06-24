@@ -53,7 +53,7 @@ public class BusLineAccess extends Access {
 	}
 
 	/**
-	 * Gives a list of bus lines departing during the next 20 minutes, ordered
+	 * Gives a list of bus lines departing during the next 60 minutes, ordered
 	 * by time of departure.
 	 * 
 	 */
@@ -62,7 +62,7 @@ public class BusLineAccess extends Access {
 	}
 
 	/**
-	 * Gives a list of bus lines departing during the next 20 minutes, ordered
+	 * Gives a list of bus lines departing during the next 60 minutes, ordered
 	 * by time of departure.
 	 * 
 	 */

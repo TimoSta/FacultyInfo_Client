@@ -18,7 +18,7 @@ public class SportsCourse {
 	public static final int STATUS_QUEUE = 6;
 	public static final int STATUS_NO_SIGNUP_REQUIRED = 7;
 	public static final int STATUS_NO_SIGNUP_POSSIBLE = 8;
-	
+
 	public static final int DATE_NOT_AVAILABLE = 0;
 	public static final int MONDAY = 1;
 	public static final int TUESDAY = 2;
@@ -44,20 +44,11 @@ public class SportsCourse {
 	private String host;
 	private double price;
 	private int status;
+	private String categoryTitle;
 
-	@JsonCreator
-	public SportsCourse(@JsonProperty("id") String id,
-			@JsonProperty("number") String number,
-			@JsonProperty("details") String details,
-			@JsonProperty("dayOfWeek") int dayOfWeek,
-			@JsonProperty("startTime") Time startTime,
-			@JsonProperty("endTime") Time endTime,
-			@JsonProperty("location") String location,
-			@JsonProperty("startDate") Date startDate,
-			@JsonProperty("endDate") Date endDate,
-			@JsonProperty("host") String host,
-			@JsonProperty("price") double price,
-			@JsonProperty("status") int status) {
+	public SportsCourse(String id, String number, String details,
+			int dayOfWeek, Time startTime, Time endTime, String location,
+			Date startDate, Date endDate, String host, double price, int status) {
 		super();
 		this.id = id;
 		this.number = number;
@@ -71,6 +62,37 @@ public class SportsCourse {
 		this.host = host;
 		this.price = price;
 		this.status = status;
+		this.categoryTitle = null;
+	}
+
+	@JsonCreator
+	public SportsCourse(@JsonProperty("id") String id,
+			@JsonProperty("number") String number,
+			@JsonProperty("details") String details,
+			@JsonProperty("dayOfWeek") int dayOfWeek,
+			@JsonProperty("startTime") Time startTime,
+			@JsonProperty("endTime") Time endTime,
+			@JsonProperty("location") String location,
+			@JsonProperty("startDate") Date startDate,
+			@JsonProperty("endDate") Date endDate,
+			@JsonProperty("host") String host,
+			@JsonProperty("price") double price,
+			@JsonProperty("status") int status,
+			@JsonProperty("categoryTitle") String categoryTitle) {
+		super();
+		this.id = id;
+		this.number = number;
+		this.details = details;
+		this.dayOfWeek = dayOfWeek;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.location = location;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.host = host;
+		this.price = price;
+		this.status = status;
+		this.categoryTitle = categoryTitle;
 	}
 
 	public String getId() {
@@ -175,6 +197,14 @@ public class SportsCourse {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public String getCategoryTitle() {
+		return category == null ? categoryTitle : category.getTitle();
+	}
+
+	public void setCategoryTitle(String categoryTitle) {
+		this.categoryTitle = categoryTitle;
 	}
 
 }

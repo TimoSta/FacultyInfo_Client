@@ -7,7 +7,6 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -27,11 +26,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import de.uni_passau.facultyinfo.client.R;
-import de.uni_passau.facultyinfo.client.fragment.EventFragment.EventLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.MapMarker;
 import de.uni_passau.facultyinfo.client.model.dto.MapMarkerCategory;
-import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
 public class MapFragment extends SwipeRefreshLayoutFragment {
@@ -49,6 +46,7 @@ public class MapFragment extends SwipeRefreshLayoutFragment {
 
 		final SwipeRefreshLayout rootView = (SwipeRefreshLayout) inflater
 				.inflate(R.layout.fragment_map, container, false);
+		rootView.setEnabled(false);
 
 		initializeSwipeRefresh(rootView, new OnRefreshListener() {
 			@Override
