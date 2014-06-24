@@ -9,14 +9,12 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,11 +29,9 @@ import android.widget.SimpleAdapter;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.activity.DisplaySportsCourseListActivity;
 import de.uni_passau.facultyinfo.client.activity.SearchSportsActivity;
-import de.uni_passau.facultyinfo.client.fragment.BusinessHoursFragment.BusinessHourFacilityLoader;
 import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.SportsCourseCategory;
-import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
 public class SportsFragment extends SwipeRefreshLayoutFragment {
@@ -57,10 +53,9 @@ public class SportsFragment extends SwipeRefreshLayoutFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = (SwipeRefreshLayout) inflater.inflate(
-				R.layout.fragment_sports, container, false);
+		rootView = (SwipeRefreshLayout) inflater.inflate(R.layout.view_list,
+				container, false);
 
-		
 		setHasOptionsMenu(true);
 
 		Activity activity = getActivity();
@@ -195,7 +190,7 @@ public class SportsFragment extends SwipeRefreshLayoutFragment {
 			super.onPostExecute(sportsCourseCategories);
 
 			ListView sportsCourseList = (ListView) rootView
-					.findViewById(R.id.sportscategories);
+					.findViewById(R.id.list);
 
 			final ArrayList<HashMap<String, String>> categoryList = new ArrayList<HashMap<String, String>>();
 
@@ -208,7 +203,7 @@ public class SportsFragment extends SwipeRefreshLayoutFragment {
 			}
 
 			SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
-					categoryList, R.layout.custom_row_view,
+					categoryList, R.layout.row_oneline,
 					new String[] { "title", }, new int[] { R.id.title });
 
 			sportsCourseList.setAdapter(adapter);
@@ -278,7 +273,7 @@ public class SportsFragment extends SwipeRefreshLayoutFragment {
 			super.onPostExecute(sportsCourseCategories);
 			if (sportsCourseCategories != null) {
 				ListView sportsCourseList = (ListView) rootView
-						.findViewById(R.id.sportscategories);
+						.findViewById(R.id.list);
 
 				final ArrayList<HashMap<String, String>> categoryList = new ArrayList<HashMap<String, String>>();
 
@@ -292,7 +287,7 @@ public class SportsFragment extends SwipeRefreshLayoutFragment {
 
 				SimpleAdapter adapter = new SimpleAdapter(
 						rootView.getContext(), categoryList,
-						R.layout.custom_row_view, new String[] { "title", },
+						R.layout.row_oneline, new String[] { "title" },
 						new int[] { R.id.title });
 
 				sportsCourseList.setAdapter(adapter);

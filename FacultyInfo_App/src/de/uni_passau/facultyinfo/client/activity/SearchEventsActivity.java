@@ -126,7 +126,7 @@ public class SearchEventsActivity extends SwipeRefreshLayoutActivity {
 			}
 
 			SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(),
-					eventList, R.layout.custom_row_view, new String[] { "date",
+					eventList, R.layout.row_threeline, new String[] { "date",
 							"title" },
 					new int[] { R.id.title, R.id.description });
 

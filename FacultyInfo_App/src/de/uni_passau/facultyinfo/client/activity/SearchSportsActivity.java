@@ -117,7 +117,7 @@ public class SearchSportsActivity extends SwipeRefreshLayoutActivity {
 
 				SimpleAdapter adapter = new SimpleAdapter(
 						getApplicationContext(), categoryList,
-						R.layout.custom_row_view, new String[] { "title", },
+						R.layout.row_threeline, new String[] { "title", },
 						new int[] { R.id.title });
 
 				sportsoffer.setAdapter(adapter);

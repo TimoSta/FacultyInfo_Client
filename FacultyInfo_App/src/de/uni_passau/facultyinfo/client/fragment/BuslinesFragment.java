@@ -1,4 +1,3 @@
-
 package de.uni_passau.facultyinfo.client.fragment;
 
 import java.text.SimpleDateFormat;
@@ -10,7 +9,6 @@ import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
@@ -20,13 +18,12 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import de.uni_passau.facultyinfo.client.R;
-import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.BusLine;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
 import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
-public class BuslinesFragment extends SwipeRefreshLayoutFragment{
+public class BuslinesFragment extends SwipeRefreshLayoutFragment {
 
 	public BuslinesFragment() {
 	}
@@ -35,7 +32,7 @@ public class BuslinesFragment extends SwipeRefreshLayoutFragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		final SwipeRefreshLayout rootView = (SwipeRefreshLayout) inflater
-				.inflate(R.layout.fragment_buslines, container, false);
+				.inflate(R.layout.view_list, container, false);
 
 		initializeSwipeRefresh(rootView, new OnRefreshListener() {
 			@Override
@@ -55,13 +52,14 @@ public class BuslinesFragment extends SwipeRefreshLayoutFragment{
 
 	}
 
-	protected class BusLineLoader extends SwipeRefreshAsyncDataLoader<List<BusLine>> {
+	protected class BusLineLoader extends
+			SwipeRefreshAsyncDataLoader<List<BusLine>> {
 		private boolean forceRefresh = false;
-		
+
 		private BusLineLoader(SwipeRefreshLayout rootView) {
 			super(rootView);
 		}
-		
+
 		private BusLineLoader(SwipeRefreshLayout rootView, boolean forceRefresh) {
 			super(rootView);
 			this.forceRefresh = forceRefresh;
@@ -70,7 +68,7 @@ public class BuslinesFragment extends SwipeRefreshLayoutFragment{
 		@Override
 		protected List<BusLine> doInBackground(Void... unused) {
 			showLoadingAnimation(true);
-			
+
 			AccessFacade accessFacade = new AccessFacade();
 
 			List<BusLine> busLines = accessFacade.getBusLineAccess()
@@ -93,10 +91,9 @@ public class BuslinesFragment extends SwipeRefreshLayoutFragment{
 		@Override
 		protected void onPostExecute(List<BusLine> busLines) {
 			super.onPostExecute(busLines);
-			
+
 			if (busLines != null) {
-				ListView buslines = (ListView) rootView
-						.findViewById(R.id.buslines);
+				ListView buslines = (ListView) rootView.findViewById(R.id.list);
 
 				final ArrayList<HashMap<String, String>> busList = new ArrayList<HashMap<String, String>>();
 
@@ -112,10 +109,9 @@ public class BuslinesFragment extends SwipeRefreshLayoutFragment{
 				}
 
 				SimpleAdapter adapter = new SimpleAdapter(
-						rootView.getContext(), busList,
-						R.layout.custom_row_view, new String[] { "title",
-								"direction", }, new int[] { R.id.title,
-								R.id.description }
+						rootView.getContext(), busList, R.layout.row_threeline,
+						new String[] { "title", "direction", }, new int[] {
+								R.id.title, R.id.description }
 
 				);
 

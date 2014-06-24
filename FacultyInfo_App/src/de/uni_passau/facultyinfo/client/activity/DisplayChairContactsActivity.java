@@ -10,7 +10,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import de.uni_passau.facultyinfo.client.R;
@@ -39,18 +42,23 @@ public class DisplayChairContactsActivity extends SwipeRefreshLayoutActivity {
 		String title = intent.getStringExtra("title");
 
 		setTitle(title);
-		
-		initializeSwipeRefresh((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), new OnRefreshListener() {
 
-			@Override
-			public void onRefresh() {
-				new ContactLoader((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), true).execute();
-			}
+		initializeSwipeRefresh(
+				(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+						.getChildAt(0), new OnRefreshListener() {
 
-		});
+					@Override
+					public void onRefresh() {
+						new ContactLoader(
+								(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+										.getChildAt(0), true).execute();
+					}
 
+				});
 
-		(new ContactLoader((SwipeRefreshLayout)((ViewGroup)findViewById(android.R.id.content)).getChildAt(0))).execute();
+		(new ContactLoader(
+				(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+						.getChildAt(0))).execute();
 
 	}
 
@@ -70,7 +78,8 @@ public class DisplayChairContactsActivity extends SwipeRefreshLayoutActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	protected class ContactLoader extends SwipeRefreshAsyncDataLoader<ContactGroup> {
+	protected class ContactLoader extends
+			SwipeRefreshAsyncDataLoader<ContactGroup> {
 		private boolean forceRefresh = false;
 
 		private ContactLoader(SwipeRefreshLayout rootView) {
@@ -81,6 +90,7 @@ public class DisplayChairContactsActivity extends SwipeRefreshLayoutActivity {
 			super(rootView);
 			this.forceRefresh = forceRefresh;
 		}
+
 		@Override
 		protected ContactGroup doInBackground(Void... unused) {
 			showLoadingAnimation(true);
@@ -113,23 +123,41 @@ public class DisplayChairContactsActivity extends SwipeRefreshLayoutActivity {
 					listEntry.put("telefon", person.getPhone());
 					listEntry.put("email", person.getEmail());
 					listEntry.put("description", person.getDescription());
+					listEntry.put("id", person.getId());
 					personList.add(listEntry);
 				}
 
 				SimpleAdapter adapter = new SimpleAdapter(
 						getApplicationContext(), personList,
-						R.layout.contact_view, new String[] { "name",
-								"description", "office", "telefon", "email" },
-						new int[] { R.id.contact_name,
-								R.id.contact_description, R.id.contact_office,
-								R.id.contact_phone, R.id.contact_email }
+						R.layout.row_twoline, new String[] { "name",
+								"description" }, new int[] { R.id.title,
+								R.id.description }
 
 				);
 
 				listView.setAdapter(adapter);
+
+				listView.setOnItemClickListener(new OnItemClickListener() {
+
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view,
+							int position, long id) {
+						HashMap<String, String> values = personList
+								.get(position);
+						displayPerson(values.get("id"), values.get("name"));
+
+					}
+				});
 			}
 		}
 
+		private void displayPerson(String id, String name) {
+			Intent intent = new Intent(rootView.getContext(),
+					DisplayContactPersonActivity.class);
+			intent.putExtra("personId", id);
+			intent.putExtra("title", name);
+			startActivity(intent);
+		}
 	}
 
 }

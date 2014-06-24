@@ -56,8 +56,8 @@ public class CafeteriaFragment extends SwipeRefreshLayoutFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = (SwipeRefreshLayout) inflater.inflate(
-				R.layout.fragment_cafeteria, container, false);
+		rootView = (SwipeRefreshLayout) inflater.inflate(R.layout.view_list,
+				container, false);
 
 		initializeSwipeRefresh(rootView, new OnRefreshListener() {
 			@Override
@@ -342,13 +342,12 @@ public class CafeteriaFragment extends SwipeRefreshLayoutFragment {
 
 	private void fillList(final List<HashMap<String, String>> menuList) {
 		System.out.println("fillList");
-		ListView listView = (ListView) rootView
-				.findViewById(R.id.cafeteria_list);
+		ListView listView = (ListView) rootView.findViewById(R.id.list);
 
 		SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
-				menuList, R.layout.menu_row_view_test, new String[] { "type",
-						"name", "price" }, new int[] { R.id.menu_row_header,
-						R.id.menu_name, R.id.menu_price }
+				menuList, R.layout.row_twoline_special, new String[] { "type",
+						"name", "price" }, new int[] { R.id.group, R.id.title,
+						R.id.description }
 
 		) {
 			@Override
@@ -356,10 +355,10 @@ public class CafeteriaFragment extends SwipeRefreshLayoutFragment {
 				View view = super.getView(position, convertView, parent);
 				if (menuList.get(position).get("first").equals("true")) {
 
-					((TextView) view.findViewById(R.id.menu_row_header))
+					((TextView) view.findViewById(R.id.group))
 							.setVisibility(TextView.VISIBLE);
 				} else {
-					((TextView) view.findViewById(R.id.menu_row_header))
+					((TextView) view.findViewById(R.id.group))
 							.setVisibility(TextView.GONE);
 				}
 

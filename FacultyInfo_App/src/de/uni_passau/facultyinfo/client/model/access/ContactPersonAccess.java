@@ -2,6 +2,7 @@ package de.uni_passau.facultyinfo.client.model.access;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,8 +16,10 @@ import android.database.sqlite.SQLiteDatabase;
 import com.google.common.base.Joiner;
 
 import de.uni_passau.facultyinfo.client.model.connection.RestConnection;
+import de.uni_passau.facultyinfo.client.model.dto.ContactGeneric;
 import de.uni_passau.facultyinfo.client.model.dto.ContactGroup;
 import de.uni_passau.facultyinfo.client.model.dto.ContactPerson;
+import de.uni_passau.facultyinfo.client.model.dto.ContactSearchResponse;
 import de.uni_passau.facultyinfo.client.util.CacheHelper;
 
 /**
@@ -62,6 +65,8 @@ public class ContactPersonAccess extends Access {
 	}
 
 	private RestConnection<ContactGroup> restConnection = null;
+	private RestConnection<ContactPerson> restConnectionPerson = null;
+	private RestConnection<ContactSearchResponse> restConnectionFind = null;
 
 	private List<ContactGroup> cachedContactGroups = null;
 	private Date cachedContactGroupsTimestamp = null;
@@ -74,6 +79,22 @@ public class ContactPersonAccess extends Access {
 					ContactGroup.class);
 		}
 		return restConnection;
+	}
+
+	private RestConnection<ContactPerson> getRestConnectionPerson() {
+		if (restConnectionPerson == null) {
+			restConnectionPerson = new RestConnection<ContactPerson>(
+					ContactPerson.class);
+		}
+		return restConnectionPerson;
+	}
+
+	private RestConnection<ContactSearchResponse> getRestConnectionFind() {
+		if (restConnectionFind == null) {
+			restConnectionFind = new RestConnection<ContactSearchResponse>(
+					ContactSearchResponse.class);
+		}
+		return restConnectionFind;
 	}
 
 	private ContactPersonAccess() {
@@ -185,6 +206,46 @@ public class ContactPersonAccess extends Access {
 	}
 
 	/**
+	 * Gives detailed information about a specific News.
+	 * 
+	 */
+	public ContactPerson getContactPerson(String personId) {
+		return getContactPerson(personId, false);
+	}
+
+	/**
+	 * Gives detailed information about a specific News.
+	 * 
+	 */
+	public ContactPerson getContactPerson(String personId, boolean forceRefresh) {
+		ContactPerson person = null;
+
+		if (!forceRefresh) {
+			Iterator<Entry<ContactGroup, Date>> iterator = cachedContactGroupsList
+					.entrySet().iterator();
+			outerLoop: while (iterator.hasNext()) {
+				Entry<ContactGroup, Date> entry = iterator.next();
+				if (entry.getKey().getContactPersons() != null) {
+					for (ContactPerson cachedPerson : entry.getKey()
+							.getContactPersons()) {
+						if (cachedPerson.getId().equals(personId)) {
+							person = cachedPerson;
+							break outerLoop;
+						}
+					}
+				}
+			}
+		}
+
+		if (person == null) {
+			person = getRestConnectionPerson().getRessource(
+					RESSOURCE + "/person/" + personId);
+		}
+
+		return person;
+	}
+
+	/**
 	 * Gives a list of Contact Groups that meet one or more of the following
 	 * criteria:
 	 * <ul>
@@ -199,30 +260,58 @@ public class ContactPersonAccess extends Access {
 	 * @return List of matching Contact Groups that contain a list of matching
 	 *         Contact Persons each.
 	 */
-	public List<ContactGroup> find(String input) {
+	public List<ContactGeneric> find(String input) {
 		if (input != null && !input.isEmpty()) {
-			List<ContactGroup> contactGroups = null;
+			ContactSearchResponse response = null;
 
-			contactGroups = getRestConnection().getRessourceAsList(
+			response = getRestConnectionFind().getRessource(
 					RESSOURCE + "/find/" + input);
 
-			if (contactGroups == null) {
-				System.out.println("ContactPersonAccess->find->contactGroups==null");
+			if (response == null) {
 				return null;
 			}
 
-			for (ContactGroup contactGroup : contactGroups) {
-				if (contactGroup.getContactPersons() != null) {
-					for (ContactPerson contactPerson : contactGroup
-							.getContactPersons()) {
-						contactPerson.setContactGroup(contactGroup);
-					}
+			ArrayList<ContactGeneric> results = new ArrayList<ContactGeneric>();
+
+			if (response.getGroups() != null) {
+				for (ContactGroup group : response.getGroups()) {
+					String subtitle = group.getDescription();
+					ContactGeneric generic = new ContactGeneric(
+							ContactGeneric.GROUP, group.getId(),
+							group.getTitle(), subtitle);
+					results.add(generic);
 				}
 			}
 
-			return contactGroups;
+			if (response.getPersons() != null) {
+				for (ContactPerson person : response.getPersons()) {
+					String subtitle = null;
+					subtitle = person.getPhone() != null ? person.getPhone()
+							: subtitle;
+					subtitle = person.getOffice() != null ? person.getOffice()
+							: subtitle;
+					subtitle = person.getEmail() != null ? person.getEmail()
+							: subtitle;
+					subtitle = person.getDescription() != null ? person
+							.getDescription() : subtitle;
+					ContactGeneric generic = new ContactGeneric(
+							ContactGeneric.PERSON, person.getId(),
+							person.getName(), subtitle);
+					results.add(generic);
+				}
+			}
+
+			Collections.sort(results, new Comparator<ContactGeneric>() {
+
+				@Override
+				public int compare(ContactGeneric lhs, ContactGeneric rhs) {
+					return lhs.getTitle().compareToIgnoreCase(rhs.getTitle());
+				}
+			});
+
+			return Collections.unmodifiableList(results);
 		}
-		return Collections.unmodifiableList(new ArrayList<ContactGroup>());
+		return Collections.unmodifiableList(new ArrayList<ContactGeneric>());
 	}
 
 	private boolean writeCache(List<ContactGroup> contactGroups) {
@@ -273,14 +362,10 @@ public class ContactPersonAccess extends Access {
 				personValues.put(KEY_PERSONS_ID, contactPerson.getId());
 				personValues.put(KEY_PERSONS_CONTACTGROUP, contactPerson
 						.getContactGroup().getId());
-				personValues.put(KEY_PERSONS_NAME,
-						contactPerson.getName());
-				personValues.put(KEY_PERSONS_OFFICE,
-						contactPerson.getOffice());
-				personValues.put(KEY_PERSONS_PHONE,
-						contactPerson.getPhone());
-				personValues.put(KEY_PERSONS_EMAIL,
-						contactPerson.getEmail());
+				personValues.put(KEY_PERSONS_NAME, contactPerson.getName());
+				personValues.put(KEY_PERSONS_OFFICE, contactPerson.getOffice());
+				personValues.put(KEY_PERSONS_PHONE, contactPerson.getPhone());
+				personValues.put(KEY_PERSONS_EMAIL, contactPerson.getEmail());
 				personValues.put(KEY_PERSONS_DESCRIPTION,
 						contactPerson.getDescription());
 				result = (writableDatabase.replace(TABLE_NAME_PERSONS, null,

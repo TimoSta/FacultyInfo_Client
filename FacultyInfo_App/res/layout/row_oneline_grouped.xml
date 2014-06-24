@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/faq_row_header"
+        android:id="@+id/group"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:paddingBottom="8dp"
@@ -19,13 +19,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/back"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="10dp" >
 
         <TextView
-            android:id="@+id/faq_title"
+            android:id="@+id/title"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:padding="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#222222"
             android:textStyle="normal" />

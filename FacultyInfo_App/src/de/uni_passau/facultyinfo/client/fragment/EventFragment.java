@@ -8,7 +8,6 @@ import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -27,7 +26,6 @@ import android.widget.SimpleAdapter;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.activity.DisplayEventActivity;
 import de.uni_passau.facultyinfo.client.activity.SearchEventsActivity;
-import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.Event;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
@@ -35,20 +33,17 @@ import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
 public class EventFragment extends SwipeRefreshLayoutFragment {
 	android.widget.SearchView searchView;
-	SwipeRefreshLayout rootView; 
-	
-	public EventFragment(){
-		
+	SwipeRefreshLayout rootView;
+
+	public EventFragment() {
+
 	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-//		rootView = inflater.inflate(R.layout.fragment_event, container, false);
 
-//		setHasOptionsMenu(true);
-		
-		rootView = (SwipeRefreshLayout) inflater
-				.inflate(R.layout.fragment_event, container, false);
+		rootView = (SwipeRefreshLayout) inflater.inflate(R.layout.view_list,
+				container, false);
 
 		initializeSwipeRefresh(rootView, new OnRefreshListener() {
 			@Override
@@ -56,7 +51,7 @@ public class EventFragment extends SwipeRefreshLayoutFragment {
 				new EventLoader(rootView, true).execute();
 			}
 		});
-		
+
 		setHasOptionsMenu(true);
 
 		Activity activity = getActivity();
@@ -108,13 +103,14 @@ public class EventFragment extends SwipeRefreshLayoutFragment {
 		}
 	}
 
-	protected class EventLoader extends SwipeRefreshAsyncDataLoader<List<Event>> {
+	protected class EventLoader extends
+			SwipeRefreshAsyncDataLoader<List<Event>> {
 		private boolean forceRefresh = false;
 
 		public EventLoader(SwipeRefreshLayout rootView) {
 			super(rootView);
 		}
-		
+
 		private EventLoader(SwipeRefreshLayout rootView, boolean forceRefresh) {
 			super(rootView);
 			this.forceRefresh = forceRefresh;
@@ -123,7 +119,8 @@ public class EventFragment extends SwipeRefreshLayoutFragment {
 		@Override
 		protected List<Event> doInBackground(Void... unused) {
 			AccessFacade accessFacade = new AccessFacade();
-			List<Event> events = accessFacade.getEventAccess().getEvents(forceRefresh);
+			List<Event> events = accessFacade.getEventAccess().getEvents(
+					forceRefresh);
 
 			events = accessFacade.getEventAccess().getEvents();
 
@@ -141,10 +138,9 @@ public class EventFragment extends SwipeRefreshLayoutFragment {
 
 		@Override
 		protected void onPostExecute(List<Event> events) {
-			super.onPostExecute(events); 
-			
-			ListView listView = (ListView) rootView
-					.findViewById(R.id.event_list);
+			super.onPostExecute(events);
+
+			ListView listView = (ListView) rootView.findViewById(R.id.list);
 
 			final ArrayList<HashMap<String, String>> eventList = new ArrayList<HashMap<String, String>>();
 
@@ -159,8 +155,8 @@ public class EventFragment extends SwipeRefreshLayoutFragment {
 			}
 
 			SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
-					eventList, R.layout.custom_row_view, new String[] { "date",
-							"title" },
+					eventList, R.layout.row_twoline, new String[] { "title",
+							"date" },
 					new int[] { R.id.title, R.id.description });
 
 			listView.setAdapter(adapter);

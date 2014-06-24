@@ -11,16 +11,12 @@ public class ContactPerson {
 	private String phone;
 	private String email;
 	private String description;
+	private String groupTitle;
 	@JsonIgnore
 	private ContactGroup contactGroup;
 
-	@JsonCreator
-	public ContactPerson(@JsonProperty("id") String id,
-			@JsonProperty("name") String name,
-			@JsonProperty("office") String office,
-			@JsonProperty("phone") String phone,
-			@JsonProperty("email") String email,
-			@JsonProperty("description") String description) {
+	public ContactPerson(String id, String name, String office, String phone,
+			String email, String description) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -28,6 +24,25 @@ public class ContactPerson {
 		this.phone = phone;
 		this.email = email;
 		this.description = description;
+		this.groupTitle = null;
+	}
+
+	@JsonCreator
+	public ContactPerson(@JsonProperty("id") String id,
+			@JsonProperty("name") String name,
+			@JsonProperty("office") String office,
+			@JsonProperty("phone") String phone,
+			@JsonProperty("email") String email,
+			@JsonProperty("description") String description,
+			@JsonProperty("groupTitle") String groupTitle) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.office = office;
+		this.phone = phone;
+		this.email = email;
+		this.description = description;
+		this.groupTitle = groupTitle;
 	}
 
 	public String getId() {
@@ -85,4 +100,13 @@ public class ContactPerson {
 	public void setContactGroup(ContactGroup contactGroup) {
 		this.contactGroup = contactGroup;
 	}
+
+	public String getGroupTitle() {
+		return contactGroup != null ? contactGroup.getTitle() : groupTitle;
+	}
+
+	public void setGroupTitle(String groupTitle) {
+		this.groupTitle = groupTitle;
+	}
+
 }

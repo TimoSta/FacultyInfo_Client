@@ -6,7 +6,6 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,7 +24,6 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.activity.DisplayFAQActivity;
-import de.uni_passau.facultyinfo.client.fragment.BusinessHoursFragment.BusinessHourFacilityLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.Faq;
 import de.uni_passau.facultyinfo.client.model.dto.FaqCategory;
@@ -40,9 +38,9 @@ public class FaqsFragment extends SwipeRefreshLayoutFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		final SwipeRefreshLayout rootView = (SwipeRefreshLayout) inflater.inflate(R.layout.fragment_faqs, container,
-				false);
-		
+		final SwipeRefreshLayout rootView = (SwipeRefreshLayout) inflater
+				.inflate(R.layout.view_list, container, false);
+
 		initializeSwipeRefresh(rootView, new OnRefreshListener() {
 			@Override
 			public void onRefresh() {
@@ -84,12 +82,14 @@ public class FaqsFragment extends SwipeRefreshLayoutFragment {
 		return super.onOptionsItemSelected(item);
 	}
 
-	protected class FaqLoader extends SwipeRefreshAsyncDataLoader<List<FaqCategory>> {
+	protected class FaqLoader extends
+			SwipeRefreshAsyncDataLoader<List<FaqCategory>> {
 		private boolean forceRefresh = false;
+
 		public FaqLoader(SwipeRefreshLayout rootView) {
 			super(rootView);
 		}
-		
+
 		private FaqLoader(SwipeRefreshLayout rootView, boolean forceRefresh) {
 			super(rootView);
 			this.forceRefresh = forceRefresh;
@@ -98,7 +98,7 @@ public class FaqsFragment extends SwipeRefreshLayoutFragment {
 		@Override
 		protected List<FaqCategory> doInBackground(Void... unused) {
 			showLoadingAnimation(true);
-			
+
 			AccessFacade accessFacade = new AccessFacade();
 			List<FaqCategory> faqs = null;
 
@@ -119,8 +119,8 @@ public class FaqsFragment extends SwipeRefreshLayoutFragment {
 		@Override
 		protected void onPostExecute(List<FaqCategory> faqs) {
 			super.onPostExecute(faqs);
-			
-			ListView listView = (ListView) rootView.findViewById(R.id.faq_list);
+
+			ListView listView = (ListView) rootView.findViewById(R.id.list);
 
 			final ArrayList<HashMap<String, String>> faqList = new ArrayList<HashMap<String, String>>();
 
@@ -138,9 +138,9 @@ public class FaqsFragment extends SwipeRefreshLayoutFragment {
 			}
 
 			SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
-					faqList, R.layout.faq_row_view, new String[] { "category",
-							"title" }, new int[] { R.id.faq_row_header,
-							R.id.faq_title }
+					faqList, R.layout.row_oneline_grouped, new String[] {
+							"category", "title" }, new int[] { R.id.group,
+							R.id.title }
 
 			) {
 				@Override
@@ -148,10 +148,10 @@ public class FaqsFragment extends SwipeRefreshLayoutFragment {
 						ViewGroup parent) {
 					View view = super.getView(position, convertView, parent);
 					if (faqList.get(position).get("first").equals("true")) {
-						((TextView) view.findViewById(R.id.faq_row_header))
+						((TextView) view.findViewById(R.id.group))
 								.setVisibility(TextView.VISIBLE);
 					} else {
-						((TextView) view.findViewById(R.id.faq_row_header))
+						((TextView) view.findViewById(R.id.group))
 								.setVisibility(TextView.GONE);
 					}
 

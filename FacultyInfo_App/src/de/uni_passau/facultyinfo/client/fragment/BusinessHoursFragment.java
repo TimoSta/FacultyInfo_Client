@@ -1,4 +1,3 @@
-
 package de.uni_passau.facultyinfo.client.fragment;
 
 import java.util.ArrayList;
@@ -8,7 +7,6 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,7 +22,6 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.activity.DisplayBusinessHoursActivity;
-import de.uni_passau.facultyinfo.client.fragment.EventFragment.EventLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.BusinessHoursFacility;
 import de.uni_passau.facultyinfo.client.util.AsyncDataLoader;
@@ -51,7 +48,7 @@ public class BusinessHoursFragment extends SwipeRefreshLayoutFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = (SwipeRefreshLayout) inflater.inflate(R.layout.fragment_activity_business_hours,
+		rootView = (SwipeRefreshLayout) inflater.inflate(R.layout.view_list,
 				container, false);
 
 		initializeSwipeRefresh(rootView, new OnRefreshListener() {
@@ -105,12 +102,12 @@ public class BusinessHoursFragment extends SwipeRefreshLayoutFragment {
 			SwipeRefreshAsyncDataLoader<List<BusinessHoursFacility>> {
 		private boolean forceRefresh = false;
 
-		
 		private BusinessHourFacilityLoader(SwipeRefreshLayout rootView) {
 			super(rootView);
 		}
-		
-		private BusinessHourFacilityLoader(SwipeRefreshLayout rootView, boolean forceRefresh) {
+
+		private BusinessHourFacilityLoader(SwipeRefreshLayout rootView,
+				boolean forceRefresh) {
 			super(rootView);
 			this.forceRefresh = forceRefresh;
 		}
@@ -118,12 +115,13 @@ public class BusinessHoursFragment extends SwipeRefreshLayoutFragment {
 		@Override
 		protected List<BusinessHoursFacility> doInBackground(Void... unused) {
 			showLoadingAnimation(true);
-			
+
 			AccessFacade accessFacade = new AccessFacade();
 			List<BusinessHoursFacility> list = null;
 
 			if (selectedTab == LIBRARY) {
-				list = accessFacade.getBusinessHoursAccess().getLibraries(forceRefresh);
+				list = accessFacade.getBusinessHoursAccess().getLibraries(
+						forceRefresh);
 
 				if (list == null) {
 					publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
@@ -132,7 +130,8 @@ public class BusinessHoursFragment extends SwipeRefreshLayoutFragment {
 				}
 
 			} else if (selectedTab == CAFETERIA) {
-				list = accessFacade.getBusinessHoursAccess().getCafeterias(forceRefresh);
+				list = accessFacade.getBusinessHoursAccess().getCafeterias(
+						forceRefresh);
 
 				if (list == null) {
 					publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
@@ -152,9 +151,8 @@ public class BusinessHoursFragment extends SwipeRefreshLayoutFragment {
 		@Override
 		protected void onPostExecute(List<BusinessHoursFacility> list) {
 			super.onPostExecute(list);
-			
-			ListView listView = (ListView) rootView
-					.findViewById(R.id.business_hour_list);
+
+			ListView listView = (ListView) rootView.findViewById(R.id.list);
 
 			final ArrayList<HashMap<String, String>> facilityList = new ArrayList<HashMap<String, String>>();
 
@@ -167,7 +165,7 @@ public class BusinessHoursFragment extends SwipeRefreshLayoutFragment {
 			}
 
 			SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
-					facilityList, R.layout.custom_row_view,
+					facilityList, R.layout.row_oneline,
 					new String[] { "name" }, new int[] { R.id.title }
 
 			);

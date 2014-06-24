@@ -33,7 +33,7 @@ public class NewsFragment extends SwipeRefreshLayoutFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		final SwipeRefreshLayout rootView = (SwipeRefreshLayout) inflater
-				.inflate(R.layout.fragment_news, container, false);
+				.inflate(R.layout.view_list, container, false);
 
 		initializeSwipeRefresh(rootView, new OnRefreshListener() {
 			@Override
@@ -103,8 +103,8 @@ public class NewsFragment extends SwipeRefreshLayoutFragment {
 			ListView listView = (ListView) rootView.findViewById(R.id.list);
 
 			SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
-					newsList, R.layout.custom_row_view, new String[] { "title",
-							"description", }, new int[] { R.id.title,
+					newsList, R.layout.row_twoline, new String[] { "title",
+							"description" }, new int[] { R.id.title,
 							R.id.description }
 
 			);

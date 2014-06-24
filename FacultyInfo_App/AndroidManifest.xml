@@ -18,6 +18,7 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name="de.uni_passau.facultyinfo.client.application.FacultyInfoApplication"
@@ -88,6 +89,11 @@
         <activity
             android:name="de.uni_passau.facultyinfo.client.activity.DisplayChairContactsActivity"
             android:label="@string/title_activity_display_chair_contacts"
+            android:screenOrientation="portrait" >
+        </activity>
+         <activity
+            android:name="de.uni_passau.facultyinfo.client.activity.DisplayContactPersonActivity"
+            android:label="@string/title_activity_display_contact_person"
             android:screenOrientation="portrait" >
         </activity>
         <activity
