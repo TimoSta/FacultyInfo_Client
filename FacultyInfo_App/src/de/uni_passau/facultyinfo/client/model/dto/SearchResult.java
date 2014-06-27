@@ -1,25 +1,15 @@
 package de.uni_passau.facultyinfo.client.model.dto;
 
-public abstract class Generic {
-	protected int type;
+public abstract class SearchResult {
 	protected String id;
 	protected String title;
 	protected String subtitle;
 
-	public Generic(int type, String id, String title, String subtitle) {
+	public SearchResult(String id, String title, String subtitle) {
 		super();
-		this.type = type;
 		this.id = id;
 		this.title = title;
 		this.subtitle = subtitle;
-	}
-
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
 	}
 
 	public String getId() {

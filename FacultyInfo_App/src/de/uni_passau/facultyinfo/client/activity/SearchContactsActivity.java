@@ -19,12 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
-import de.uni_passau.facultyinfo.client.model.dto.ContactGeneric;
+import de.uni_passau.facultyinfo.client.model.dto.ContactSearchResult;
 import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
 
 public class SearchContactsActivity extends SwipeRefreshLayoutActivity {
@@ -78,33 +78,33 @@ public class SearchContactsActivity extends SwipeRefreshLayoutActivity {
 	}
 
 	protected class ChairLoader extends
-			SwipeRefreshAsyncDataLoader<List<ContactGeneric>> {
+			SwipeRefreshAsyncDataLoader<List<ContactSearchResult>> {
 
 		private ChairLoader(SwipeRefreshLayout rootView) {
 			super(rootView);
 		}
 
 		@Override
-		protected List<ContactGeneric> doInBackground(Void... unused) {
+		protected List<ContactSearchResult> doInBackground(Void... unused) {
 			showLoadingAnimation(true);
 
 			AccessFacade accessFacade = new AccessFacade();
 
-			List<ContactGeneric> groups = accessFacade.getContactPersonAccess()
-					.find(query);
+			List<ContactSearchResult> groups = accessFacade
+					.getContactPersonAccess().find(query);
 
 			return groups;
 		}
 
 		@Override
-		protected void onPostExecute(List<ContactGeneric> results) {
+		protected void onPostExecute(List<ContactSearchResult> results) {
 			super.onPostExecute(results);
 			if (results != null) {
 				ListView listView = (ListView) findViewById(R.id.contacts_search_results);
 
 				final ArrayList<HashMap<String, String>> groupList = new ArrayList<HashMap<String, String>>();
 
-				for (ContactGeneric generic : results) {
+				for (ContactSearchResult generic : results) {
 					HashMap<String, String> listEntry = new HashMap<String, String>();
 					listEntry.put("title", generic.getTitle());
 					listEntry.put("subtitle", generic.getSubtitle());
@@ -113,8 +113,49 @@ public class SearchContactsActivity extends SwipeRefreshLayoutActivity {
 					groupList.add(listEntry);
 				}
 
-				listView.setAdapter(new CustomAdapter(getApplicationContext(),
-						groupList));
+				listView.setAdapter(new SimpleAdapter(getApplicationContext(),
+						groupList, R.layout.row_threeline, null, null) {
+					@Override
+					public View getView(int position, View convertView,
+							ViewGroup parent) {
+						LayoutInflater inflater = (LayoutInflater) getApplicationContext()
+								.getSystemService(
+										Context.LAYOUT_INFLATER_SERVICE);
+						View rowView = inflater.inflate(R.layout.row_threeline,
+								parent, false);
+						TextView titleView = (TextView) rowView
+								.findViewById(R.id.title);
+						Spanned title = Html.fromHtml(groupList
+								.get(position)
+								.get("title")
+								.replaceAll("(?i)(" + query + ")",
+										"<font color='#FF8000'>$1</font>"));
+						titleView.setText(title);
+						TextView subtitleView = (TextView) rowView
+								.findViewById(R.id.description);
+						if (groupList.get(position).get("subtitle") != null) {
+							Spanned subtitle = Html.fromHtml(groupList
+									.get(position)
+									.get("subtitle")
+									.replaceAll("(?i)(" + query + ")",
+											"<font color='#FF8000'>$1</font>"));
+							subtitleView.setText(subtitle);
+						} else {
+							subtitleView.setVisibility(View.GONE);
+						}
+
+						TextView typeView = (TextView) rowView
+								.findViewById(R.id.header);
+						typeView.setText(groupList
+								.get(position)
+								.get("type")
+								.equals(Integer
+										.toString(ContactSearchResult.GROUP)) ? R.string.ContactGroup
+								: R.string.ContactPerson);
+
+						return rowView;
+					}
+				});
 
 				listView.setOnItemClickListener(new OnItemClickListener() {
 					@Override
@@ -123,7 +164,7 @@ public class SearchContactsActivity extends SwipeRefreshLayoutActivity {
 						HashMap<String, String> values = groupList
 								.get(position);
 						if (values.get("type").equals(
-								Integer.toString(ContactGeneric.GROUP))) {
+								Integer.toString(ContactSearchResult.GROUP))) {
 							displayChairContacts(values.get("id"),
 									values.get("title"));
 						} else {
@@ -133,59 +174,6 @@ public class SearchContactsActivity extends SwipeRefreshLayoutActivity {
 				});
 			}
 
-		}
-
-		private class CustomAdapter extends ArrayAdapter<String> {
-			private final Context context;
-			private final List<HashMap<String, String>> values;
-
-			public CustomAdapter(Context context,
-					List<HashMap<String, String>> groupList) {
-				super(context, R.layout.row_threeline);
-				this.context = context;
-				this.values = groupList;
-			}
-
-			@Override
-			public int getCount() {
-				return values.size();
-			}
-
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
-				LayoutInflater inflater = (LayoutInflater) context
-						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				View rowView = inflater.inflate(R.layout.row_threeline, parent,
-						false);
-				TextView titleView = (TextView) rowView
-						.findViewById(R.id.title);
-				Spanned title = Html.fromHtml(values
-						.get(position)
-						.get("title")
-						.replaceAll("(?i)(" + query + ")",
-								"<font color='#FF8000'>$1</font>"));
-				titleView.setText(title);
-				TextView subtitleView = (TextView) rowView
-						.findViewById(R.id.description);
-				if (values.get(position).get("subtitle") != null) {
-					Spanned subtitle = Html.fromHtml(values
-							.get(position)
-							.get("subtitle")
-							.replaceAll("(?i)(" + query + ")",
-									"<font color='#FF8000'>$1</font>"));
-					subtitleView.setText(subtitle);
-				} else {
-					subtitleView.setVisibility(View.GONE);
-				}
-
-				TextView typeView = (TextView) rowView
-						.findViewById(R.id.header);
-				typeView.setText(values.get(position).get("type")
-						.equals(Integer.toString(ContactGeneric.GROUP)) ? R.string.ContactGroup
-						: R.string.ContactPerson);
-
-				return rowView;
-			}
 		}
 	}
 

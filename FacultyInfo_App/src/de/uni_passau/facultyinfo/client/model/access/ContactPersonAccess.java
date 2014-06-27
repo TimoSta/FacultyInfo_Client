@@ -16,7 +16,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.google.common.base.Joiner;
 
 import de.uni_passau.facultyinfo.client.model.connection.RestConnection;
-import de.uni_passau.facultyinfo.client.model.dto.ContactGeneric;
+import de.uni_passau.facultyinfo.client.model.dto.ContactSearchResult;
 import de.uni_passau.facultyinfo.client.model.dto.ContactGroup;
 import de.uni_passau.facultyinfo.client.model.dto.ContactPerson;
 import de.uni_passau.facultyinfo.client.model.dto.ContactSearchResponse;
@@ -260,7 +260,7 @@ public class ContactPersonAccess extends Access {
 	 * @return List of matching Contact Groups that contain a list of matching
 	 *         Contact Persons each.
 	 */
-	public List<ContactGeneric> find(String input) {
+	public List<ContactSearchResult> find(String input) {
 		if (input != null && !input.isEmpty()) {
 			ContactSearchResponse response = null;
 
@@ -271,13 +271,13 @@ public class ContactPersonAccess extends Access {
 				return null;
 			}
 
-			ArrayList<ContactGeneric> results = new ArrayList<ContactGeneric>();
+			ArrayList<ContactSearchResult> results = new ArrayList<ContactSearchResult>();
 
 			if (response.getGroups() != null) {
 				for (ContactGroup group : response.getGroups()) {
 					String subtitle = group.getDescription();
-					ContactGeneric generic = new ContactGeneric(
-							ContactGeneric.GROUP, group.getId(),
+					ContactSearchResult generic = new ContactSearchResult(
+							ContactSearchResult.GROUP, group.getId(),
 							group.getTitle(), subtitle);
 					results.add(generic);
 				}
@@ -294,24 +294,24 @@ public class ContactPersonAccess extends Access {
 							: subtitle;
 					subtitle = person.getDescription() != null ? person
 							.getDescription() : subtitle;
-					ContactGeneric generic = new ContactGeneric(
-							ContactGeneric.PERSON, person.getId(),
+					ContactSearchResult generic = new ContactSearchResult(
+							ContactSearchResult.PERSON, person.getId(),
 							person.getName(), subtitle);
 					results.add(generic);
 				}
 			}
 
-			Collections.sort(results, new Comparator<ContactGeneric>() {
+			Collections.sort(results, new Comparator<ContactSearchResult>() {
 
 				@Override
-				public int compare(ContactGeneric lhs, ContactGeneric rhs) {
+				public int compare(ContactSearchResult lhs, ContactSearchResult rhs) {
 					return lhs.getTitle().compareToIgnoreCase(rhs.getTitle());
 				}
 			});
 
 			return Collections.unmodifiableList(results);
 		}
-		return Collections.unmodifiableList(new ArrayList<ContactGeneric>());
+		return Collections.unmodifiableList(new ArrayList<ContactSearchResult>());
 	}
 
 	private boolean writeCache(List<ContactGroup> contactGroups) {

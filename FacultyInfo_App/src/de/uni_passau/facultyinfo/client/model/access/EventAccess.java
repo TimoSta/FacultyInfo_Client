@@ -16,6 +16,7 @@ import com.google.common.base.Joiner;
 
 import de.uni_passau.facultyinfo.client.model.connection.RestConnection;
 import de.uni_passau.facultyinfo.client.model.dto.Event;
+import de.uni_passau.facultyinfo.client.model.dto.EventSearchResult;
 import de.uni_passau.facultyinfo.client.util.CacheHelper;
 
 /**
@@ -185,15 +186,32 @@ public class EventAccess extends Access {
 	 * @param input
 	 *            The search parameter
 	 */
-	public List<Event> find(String input) {
+	public List<EventSearchResult> find(String input) {
 		if (input != null && !input.isEmpty()) {
 			List<Event> events = null;
 
 			events = restConnection.getRessourceAsList(RESSOURCE + "/find/"
 					+ input);
-			return events != null ? Collections.unmodifiableList(events) : null;
+
+			ArrayList<EventSearchResult> results = new ArrayList<EventSearchResult>();
+
+			for (Event event : events) {
+				String subtitle = null;
+				subtitle = event.getLocation() != null ? event.getLocation()
+						: subtitle;
+				subtitle = event.getDescription() != null ? event
+						.getDescription() : subtitle;
+				subtitle = event.getHost() != null ? event.getHost() : subtitle;
+				subtitle = event.getSubtitle() != null ? event.getSubtitle()
+						: subtitle;
+				EventSearchResult result = new EventSearchResult(event.getId(),
+						event.getTitle(), subtitle);
+				results.add(result);
+			}
+
+			return Collections.unmodifiableList(results);
 		}
-		return Collections.unmodifiableList(new ArrayList<Event>());
+		return Collections.unmodifiableList(new ArrayList<EventSearchResult>());
 	}
 
 	private boolean writeCache(List<Event> events) {
