@@ -345,7 +345,7 @@ public class CafeteriaFragment extends SwipeRefreshLayoutFragment {
 		ListView listView = (ListView) rootView.findViewById(R.id.list);
 
 		SimpleAdapter adapter = new SimpleAdapter(rootView.getContext(),
-				menuList, R.layout.row_twoline_special, new String[] { "type",
+				menuList, R.layout.row_twoline_menu, new String[] { "type",
 						"name", "price" }, new int[] { R.id.group, R.id.title,
 						R.id.description }
 

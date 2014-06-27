@@ -34,7 +34,7 @@ public class SearchContactsActivity extends SwipeRefreshLayoutActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_search_contacts);
+		setContentView(R.layout.view_list);
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -100,7 +100,7 @@ public class SearchContactsActivity extends SwipeRefreshLayoutActivity {
 		protected void onPostExecute(List<ContactSearchResult> results) {
 			super.onPostExecute(results);
 			if (results != null) {
-				ListView listView = (ListView) findViewById(R.id.contacts_search_results);
+				ListView listView = (ListView) findViewById(R.id.list);
 
 				final ArrayList<HashMap<String, String>> groupList = new ArrayList<HashMap<String, String>>();
 

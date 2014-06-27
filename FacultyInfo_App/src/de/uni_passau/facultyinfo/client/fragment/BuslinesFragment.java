@@ -109,7 +109,7 @@ public class BuslinesFragment extends SwipeRefreshLayoutFragment {
 				}
 
 				SimpleAdapter adapter = new SimpleAdapter(
-						rootView.getContext(), busList, R.layout.row_threeline,
+						rootView.getContext(), busList, R.layout.row_twoline,
 						new String[] { "title", "direction", }, new int[] {
 								R.id.title, R.id.description }
 

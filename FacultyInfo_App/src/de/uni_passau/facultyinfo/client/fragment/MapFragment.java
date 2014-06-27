@@ -329,7 +329,7 @@ public class MapFragment extends SwipeRefreshLayoutFragment {
 
 		@Override
 		public View getInfoContents(Marker marker) {
-			View popup = inflater.inflate(R.layout.maps_popup, null);
+			View popup = inflater.inflate(R.layout.popup_maps, null);
 
 			TextView tv = (TextView) popup.findViewById(R.id.maps_popup_title);
 			tv.setText(marker.getTitle());

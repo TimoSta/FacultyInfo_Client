@@ -33,7 +33,7 @@ public class DisplaySportsCourseListActivity extends SwipeRefreshLayoutActivity 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_display_sport_courses);
+		setContentView(R.layout.view_list);
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -130,7 +130,7 @@ public class DisplaySportsCourseListActivity extends SwipeRefreshLayoutActivity 
 		@Override
 		protected void onPostExecute(SportsCourseCategory sportsCourseCategory) {
 			super.onPostExecute(sportsCourseCategory);
-			ListView sportsoffer = (ListView) findViewById(R.id.sportsCourses);
+			ListView sportsoffer = (ListView) findViewById(R.id.list);
 
 			final ArrayList<HashMap<String, String>> courseList = new ArrayList<HashMap<String, String>>();
 
@@ -228,7 +228,7 @@ public class DisplaySportsCourseListActivity extends SwipeRefreshLayoutActivity 
 		protected void onPostExecute(SportsCourseCategory sportsCourseCategory) {
 			super.onPostExecute(sportsCourseCategory);
 			if (sportsCourseCategory != null) {
-				ListView sportsoffer = (ListView) findViewById(R.id.sportsCourses);
+				ListView sportsoffer = (ListView) findViewById(R.id.list);
 
 				final ArrayList<HashMap<String, String>> courseList = new ArrayList<HashMap<String, String>>();
 

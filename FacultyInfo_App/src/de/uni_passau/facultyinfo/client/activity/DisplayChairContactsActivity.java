@@ -30,7 +30,7 @@ public class DisplayChairContactsActivity extends SwipeRefreshLayoutActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_display_chair_contacts);
+		setContentView(R.layout.view_list);
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -112,7 +112,7 @@ public class DisplayChairContactsActivity extends SwipeRefreshLayoutActivity {
 		protected void onPostExecute(ContactGroup group) {
 			if (group != null) {
 				super.onPostExecute(group);
-				ListView listView = (ListView) findViewById(R.id.chairContacts);
+				ListView listView = (ListView) findViewById(R.id.list);
 
 				final ArrayList<HashMap<String, String>> personList = new ArrayList<HashMap<String, String>>();
 

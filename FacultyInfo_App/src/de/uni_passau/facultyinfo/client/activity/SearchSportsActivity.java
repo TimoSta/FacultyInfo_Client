@@ -30,7 +30,7 @@ public class SearchSportsActivity extends SwipeRefreshLayoutActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_search_sports);
+		setContentView(R.layout.view_list);
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -104,7 +104,7 @@ public class SearchSportsActivity extends SwipeRefreshLayoutActivity {
 				List<SportsCourseCategory> sportsCourseCategories) {
 			super.onPostExecute(sportsCourseCategories);
 			if (sportsCourseCategories != null) {
-				ListView sportsoffer = (ListView) findViewById(R.id.sports_search_result);
+				ListView sportsoffer = (ListView) findViewById(R.id.list);
 
 				final ArrayList<HashMap<String, String>> categoryList = new ArrayList<HashMap<String, String>>();
 
