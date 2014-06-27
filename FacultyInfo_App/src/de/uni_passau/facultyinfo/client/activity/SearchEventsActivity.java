@@ -22,7 +22,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.application.FacultyInfoApplication;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.EventSearchResult;
 import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
@@ -37,6 +39,7 @@ public class SearchEventsActivity extends SwipeRefreshLayoutActivity {
 		setContentView(R.layout.view_list);
 
 		ActionBar actionBar = getActionBar();
+		actionBar.setTitle(R.string.searchResults);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
@@ -102,63 +105,72 @@ public class SearchEventsActivity extends SwipeRefreshLayoutActivity {
 		protected void onPostExecute(List<EventSearchResult> results) {
 			super.onPostExecute(results);
 
-			ListView listView = (ListView) findViewById(R.id.list);
+			if (results != null && !results.isEmpty()) {
+				ListView listView = (ListView) findViewById(R.id.list);
 
-			final ArrayList<HashMap<String, String>> resultList = new ArrayList<HashMap<String, String>>();
+				final ArrayList<HashMap<String, String>> resultList = new ArrayList<HashMap<String, String>>();
 
-			for (EventSearchResult result : results) {
-				HashMap<String, String> listEntry = new HashMap<String, String>();
-				listEntry.put("title", result.getTitle());
-				listEntry.put("eventId", result.getId());
-				listEntry.put("subtitle", result.getSubtitle());
-				resultList.add(listEntry);
-			}
+				for (EventSearchResult result : results) {
+					HashMap<String, String> listEntry = new HashMap<String, String>();
+					listEntry.put("title", result.getTitle());
+					listEntry.put("eventId", result.getId());
+					listEntry.put("subtitle", result.getSubtitle());
+					resultList.add(listEntry);
+				}
 
-			SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(),
-					resultList, R.layout.row_twoline, new String[] { "title",
-							"subtitle" }, new int[] { R.id.title,
-							R.id.description }) {
-				@Override
-				public View getView(int position, View convertView,
-						ViewGroup parent) {
-					LayoutInflater inflater = (LayoutInflater) getApplicationContext()
-							.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-					View rowView = inflater.inflate(R.layout.row_twoline,
-							parent, false);
-					TextView titleView = (TextView) rowView
-							.findViewById(R.id.title);
-					Spanned title = Html.fromHtml(resultList
-							.get(position)
-							.get("title")
-							.replaceAll("(?i)(" + query + ")",
-									"<font color='#FF8000'>$1</font>"));
-					titleView.setText(title);
-					TextView subtitleView = (TextView) rowView
-							.findViewById(R.id.description);
-					if (resultList.get(position).get("subtitle") != null) {
-						Spanned subtitle = Html.fromHtml(resultList
+				SimpleAdapter adapter = new SimpleAdapter(
+						getApplicationContext(), resultList,
+						R.layout.row_twoline, new String[] { "title",
+								"subtitle" }, new int[] { R.id.title,
+								R.id.description }) {
+					@Override
+					public View getView(int position, View convertView,
+							ViewGroup parent) {
+						LayoutInflater inflater = (LayoutInflater) getApplicationContext()
+								.getSystemService(
+										Context.LAYOUT_INFLATER_SERVICE);
+						View rowView = inflater.inflate(R.layout.row_twoline,
+								parent, false);
+						TextView titleView = (TextView) rowView
+								.findViewById(R.id.title);
+						Spanned title = Html.fromHtml(resultList
 								.get(position)
-								.get("subtitle")
+								.get("title")
 								.replaceAll("(?i)(" + query + ")",
 										"<font color='#FF8000'>$1</font>"));
-						subtitleView.setText(subtitle);
-					} else {
-						subtitleView.setVisibility(View.GONE);
+						titleView.setText(title);
+						TextView subtitleView = (TextView) rowView
+								.findViewById(R.id.description);
+						if (resultList.get(position).get("subtitle") != null) {
+							Spanned subtitle = Html.fromHtml(resultList
+									.get(position)
+									.get("subtitle")
+									.replaceAll("(?i)(" + query + ")",
+											"<font color='#FF8000'>$1</font>"));
+							subtitleView.setText(subtitle);
+						} else {
+							subtitleView.setVisibility(View.GONE);
+						}
+
+						return rowView;
 					}
+				};
 
-					return rowView;
-				}
-			};
+				listView.setAdapter(adapter);
 
-			listView.setAdapter(adapter);
-
-			listView.setOnItemClickListener(new OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-					displayEvent(resultList.get(position).get("eventId"));
-				}
-			});
+				listView.setOnItemClickListener(new OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view,
+							int position, long id) {
+						displayEvent(resultList.get(position).get("eventId"));
+					}
+				});
+			} else {
+				Toast toast = Toast.makeText(
+						FacultyInfoApplication.getContext(),
+						R.string.noSearchResults, Toast.LENGTH_SHORT);
+				toast.show();
+			}
 		}
 
 		private void displayEvent(String id) {

@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,6 +20,8 @@ import com.google.common.base.Joiner;
 import de.uni_passau.facultyinfo.client.model.connection.RestConnection;
 import de.uni_passau.facultyinfo.client.model.dto.SportsCourse;
 import de.uni_passau.facultyinfo.client.model.dto.SportsCourseCategory;
+import de.uni_passau.facultyinfo.client.model.dto.SportsCourseSearchResponse;
+import de.uni_passau.facultyinfo.client.model.dto.SportsCourseSearchResult;
 import de.uni_passau.facultyinfo.client.model.dto.util.Time;
 import de.uni_passau.facultyinfo.client.util.CacheHelper;
 
@@ -76,6 +79,7 @@ public class SportsCourseAccess extends Access {
 
 	private RestConnection<SportsCourse> restConnectionSportsCourse = null;
 	private RestConnection<SportsCourseCategory> restConnectionSportsCourseCategory = null;
+	private RestConnection<SportsCourseSearchResponse> restConnectionSportsCourseFind = null;
 
 	private List<SportsCourseCategory> cachedSportsCourseCategoriesList = null;
 	private Date cachedSportsCourseCategoriesListTimestamp = null;
@@ -99,6 +103,14 @@ public class SportsCourseAccess extends Access {
 					SportsCourseCategory.class);
 		}
 		return restConnectionSportsCourseCategory;
+	}
+
+	private RestConnection<SportsCourseSearchResponse> getRestConnectionSportsCourseFind() {
+		if (restConnectionSportsCourseFind == null) {
+			restConnectionSportsCourseFind = new RestConnection<SportsCourseSearchResponse>(
+					SportsCourseSearchResponse.class);
+		}
+		return restConnectionSportsCourseFind;
 	}
 
 	private SportsCourseAccess() {
@@ -467,33 +479,68 @@ public class SportsCourseAccess extends Access {
 	 * @return List of matching Sports Course Categories that contain a list of
 	 *         matching Sports Courses each.
 	 */
-	public List<SportsCourseCategory> find(String input) {
-		System.out.println("SportsCourseAccess->find");
+	public List<SportsCourseSearchResult> find(String input) {
 		if (input != null && !input.isEmpty()) {
-			List<SportsCourseCategory> sportsCourseCategories = null;
+			SportsCourseSearchResponse response = null;
 
-			sportsCourseCategories = getRestConnectionSportsCourseCategory()
-					.getRessourceAsList(RESSOURCE + "/find/" + input);
+			response = getRestConnectionSportsCourseFind().getRessource(
+					RESSOURCE + "/find/" + input);
 
-			if (sportsCourseCategories == null) {
-				System.out.println("SportsCourseAccess->sportsCourseCategories==null");
+			if (response == null) {
 				return null;
 			}
 
-			for (SportsCourseCategory sportsCourseCategory : sportsCourseCategories) {
-				if (sportsCourseCategory.getSportsCourses() != null) {
-					for (SportsCourse sportsCourse : sportsCourseCategory
-							.getSportsCourses()) {
-						sportsCourse.setCategory(sportsCourseCategory);
-					}
-				}
-			}
-			
+			ArrayList<SportsCourseSearchResult> results = new ArrayList<SportsCourseSearchResult>();
 
-			return sportsCourseCategories;
+			for (SportsCourseCategory category : response.getCategories()) {
+				SportsCourseSearchResult result = new SportsCourseSearchResult(
+						SportsCourseSearchResult.CATEGORY, category.getId(),
+						category.getTitle(), null);
+				results.add(result);
+			}
+
+			for (SportsCourse course : response.getCourses()) {
+				String subtitle = null;
+				subtitle = course.getNumber() != null ? course.getNumber()
+						: subtitle;
+				subtitle = course.getLocation() != null ? course.getLocation()
+						: subtitle;
+				subtitle = course.getHost() != null ? course.getHost()
+						: subtitle;
+				SportsCourseSearchResult result = new SportsCourseSearchResult(
+						SportsCourseSearchResult.COURSE, course.getId(),
+						course.getDetails(), subtitle,
+						course.getCategoryTitle());
+				results.add(result);
+
+			}
+
+			Collections.sort(results,
+					new Comparator<SportsCourseSearchResult>() {
+
+						@Override
+						public int compare(SportsCourseSearchResult lhs,
+								SportsCourseSearchResult rhs) {
+							if(lhs.getTitle() == null && rhs.getTitle() == null) {
+								return 0;
+							}
+							if (lhs.getTitle() == null) {
+								return -1;
+							}
+
+							if (rhs.getTitle() == null) {
+								return 1;
+							}
+
+							return lhs.getTitle().compareToIgnoreCase(
+									rhs.getTitle());
+						}
+					});
+
+			return Collections.unmodifiableList(results);
 		}
 		return Collections
-				.unmodifiableList(new ArrayList<SportsCourseCategory>());
+				.unmodifiableList(new ArrayList<SportsCourseSearchResult>());
 	}
 
 	private boolean writeCache(List<SportsCourseCategory> categories) {

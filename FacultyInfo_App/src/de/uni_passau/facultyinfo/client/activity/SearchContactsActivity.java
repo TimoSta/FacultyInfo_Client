@@ -22,7 +22,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.application.FacultyInfoApplication;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.ContactSearchResult;
 import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
@@ -37,6 +39,7 @@ public class SearchContactsActivity extends SwipeRefreshLayoutActivity {
 		setContentView(R.layout.view_list);
 
 		ActionBar actionBar = getActionBar();
+		actionBar.setTitle(R.string.searchResults);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
@@ -56,9 +59,10 @@ public class SearchContactsActivity extends SwipeRefreshLayoutActivity {
 					}
 
 				});
-		(new ChairLoader(
+
+		new ChairLoader(
 				(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
-						.getChildAt(0))).execute();
+						.getChildAt(0)).execute();
 	}
 
 	@Override
@@ -99,7 +103,7 @@ public class SearchContactsActivity extends SwipeRefreshLayoutActivity {
 		@Override
 		protected void onPostExecute(List<ContactSearchResult> results) {
 			super.onPostExecute(results);
-			if (results != null) {
+			if (results != null && !results.isEmpty()) {
 				ListView listView = (ListView) findViewById(R.id.list);
 
 				final ArrayList<HashMap<String, String>> groupList = new ArrayList<HashMap<String, String>>();
@@ -172,8 +176,12 @@ public class SearchContactsActivity extends SwipeRefreshLayoutActivity {
 						}
 					}
 				});
+			} else {
+				Toast toast = Toast.makeText(
+						FacultyInfoApplication.getContext(),
+						R.string.noSearchResults, Toast.LENGTH_SHORT);
+				toast.show();
 			}
-
 		}
 	}
 

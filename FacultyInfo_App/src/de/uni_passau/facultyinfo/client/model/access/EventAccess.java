@@ -2,6 +2,7 @@ package de.uni_passau.facultyinfo.client.model.access;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -208,6 +209,14 @@ public class EventAccess extends Access {
 						event.getTitle(), subtitle);
 				results.add(result);
 			}
+
+			Collections.sort(results, new Comparator<EventSearchResult>() {
+
+				@Override
+				public int compare(EventSearchResult lhs, EventSearchResult rhs) {
+					return lhs.getTitle().compareToIgnoreCase(rhs.getTitle());
+				}
+			});
 
 			return Collections.unmodifiableList(results);
 		}

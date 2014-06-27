@@ -9,6 +9,12 @@ public abstract class TypedSearchResult extends SearchResult {
 		this.type = type;
 	}
 
+	public TypedSearchResult(int type, String id, String title,
+			String subtitle, String supertitle) {
+		super(id, title, subtitle, supertitle);
+		this.type = type;
+	}
+
 	public int getType() {
 		return type;
 	}

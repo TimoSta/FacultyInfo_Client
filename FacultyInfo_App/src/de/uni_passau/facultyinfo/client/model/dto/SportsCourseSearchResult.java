@@ -10,4 +10,16 @@ public class SportsCourseSearchResult extends TypedSearchResult {
 		super(type, id, title, subtitle);
 	}
 
+	public SportsCourseSearchResult(int type, String id, String title,
+			String subtitle, String supertitle) {
+		super(type, id, title, subtitle, supertitle);
+	}
+
+	@Override
+	public String getTitle() {
+		if (title != null) {
+			return super.getTitle();
+		}
+		return super.getSupertitle();
+	}
 }

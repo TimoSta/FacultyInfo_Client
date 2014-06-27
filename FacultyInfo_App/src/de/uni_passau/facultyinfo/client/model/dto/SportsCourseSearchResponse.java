@@ -5,12 +5,12 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SportsCourceSearchResponse {
+public class SportsCourseSearchResponse {
 	private List<SportsCourseCategory> categories;
 	private List<SportsCourse> courses;
 
 	@JsonCreator
-	public SportsCourceSearchResponse(
+	public SportsCourseSearchResponse(
 			@JsonProperty("categories") List<SportsCourseCategory> categories,
 			@JsonProperty("courses") List<SportsCourse> courses) {
 		this.categories = categories;

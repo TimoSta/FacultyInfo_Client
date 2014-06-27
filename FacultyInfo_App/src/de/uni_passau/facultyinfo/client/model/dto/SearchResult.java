@@ -4,12 +4,22 @@ public abstract class SearchResult {
 	protected String id;
 	protected String title;
 	protected String subtitle;
+	protected String supertitle;
 
 	public SearchResult(String id, String title, String subtitle) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.subtitle = subtitle;
+	}
+
+	public SearchResult(String id, String title, String subtitle,
+			String supertitle) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.subtitle = subtitle;
+		this.supertitle = supertitle;
 	}
 
 	public String getId() {
@@ -34,6 +44,14 @@ public abstract class SearchResult {
 
 	public void setSubtitle(String subtitle) {
 		this.subtitle = subtitle;
+	}
+
+	public String getSupertitle() {
+		return supertitle;
+	}
+
+	public void setSupertitle(String supertitle) {
+		this.supertitle = supertitle;
 	}
 
 }
