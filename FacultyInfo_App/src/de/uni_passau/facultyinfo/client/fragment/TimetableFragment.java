@@ -5,12 +5,12 @@ import java.util.List;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -22,7 +22,6 @@ import de.uni_passau.facultyinfo.client.activity.EditTimeTableActivity;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
 import de.uni_passau.facultyinfo.client.util.ColorHelper;
-import android.support.v4.app.FragmentManager;
 
 //import android.widget.TableRow;
 

@@ -25,7 +25,7 @@ public class DisplayBusinessHoursActivity extends SwipeRefreshLayoutActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_display_business_hours);
+		setContentView(R.layout.page_twoparts_oneline);
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -37,17 +37,23 @@ public class DisplayBusinessHoursActivity extends SwipeRefreshLayoutActivity {
 		String name = intent.getStringExtra("name");
 
 		setTitle(name);
-		
-		initializeSwipeRefresh((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), new OnRefreshListener() {
 
-			@Override
-			public void onRefresh() {
-				new BusinessHoursLoader((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), true).execute();
-			}
+		initializeSwipeRefresh(
+				(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+						.getChildAt(0), new OnRefreshListener() {
 
-		});
+					@Override
+					public void onRefresh() {
+						new BusinessHoursLoader(
+								(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+										.getChildAt(0), true).execute();
+					}
 
-		(new BusinessHoursLoader((SwipeRefreshLayout)((ViewGroup)findViewById(android.R.id.content)).getChildAt(0))).execute();
+				});
+
+		(new BusinessHoursLoader(
+				(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+						.getChildAt(0))).execute();
 
 	}
 
@@ -75,7 +81,8 @@ public class DisplayBusinessHoursActivity extends SwipeRefreshLayoutActivity {
 			super(rootView);
 		}
 
-		private BusinessHoursLoader(SwipeRefreshLayout rootView, boolean forceRefresh) {
+		private BusinessHoursLoader(SwipeRefreshLayout rootView,
+				boolean forceRefresh) {
 			super(rootView);
 			this.forceRefresh = forceRefresh;
 		}
@@ -86,7 +93,8 @@ public class DisplayBusinessHoursActivity extends SwipeRefreshLayoutActivity {
 			AccessFacade accessFacade = new AccessFacade();
 
 			BusinessHoursFacility facility = accessFacade
-					.getBusinessHoursAccess().getFacility(facilityId, forceRefresh);
+					.getBusinessHoursAccess().getFacility(facilityId,
+							forceRefresh);
 
 			if (facility == null) {
 				publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
@@ -103,19 +111,21 @@ public class DisplayBusinessHoursActivity extends SwipeRefreshLayoutActivity {
 			if (facility != null) {
 				if (facility.getBusinessHours(BusinessHours.PHASE_BREAK,
 						BusinessHours.MONDAY) == null) {
-					((TableLayout) findViewById(R.id.table_semester)).setVisibility(View.VISIBLE);
+					((TableLayout) findViewById(R.id.table_semester))
+							.setVisibility(View.VISIBLE);
 					TextView semester = (TextView) findViewById(R.id.semester);
 					semester.setText("");
 				} else {
-					((TableLayout) findViewById(R.id.break_table)).setVisibility(View.VISIBLE);
-					((TableLayout) findViewById(R.id.table_semester)).setVisibility(View.VISIBLE);
+					((TableLayout) findViewById(R.id.break_table))
+							.setVisibility(View.VISIBLE);
+					((TableLayout) findViewById(R.id.table_semester))
+							.setVisibility(View.VISIBLE);
 
-					
 					TextView semester = (TextView) findViewById(R.id.semester);
-					semester.setText("Vorlesungszeit");
+					semester.setText(R.string.semester);
 
 					TextView breakBH = (TextView) findViewById(R.id.break_business_hours);
-					breakBH.setText("vorlesungsfreie Zeit");
+					breakBH.setText(R.string.semesterbreak);
 
 					((TextView) findViewById(R.id.break_mo_h)).setText("Mo");
 					((TextView) findViewById(R.id.break_di_h)).setText("Di");

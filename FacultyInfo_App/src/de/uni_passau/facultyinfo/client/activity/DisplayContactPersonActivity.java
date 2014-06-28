@@ -26,7 +26,7 @@ public class DisplayContactPersonActivity extends SwipeRefreshLayoutActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_display_contact_person);
+		setContentView(R.layout.page_threeline_threecontent);
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -106,10 +106,10 @@ public class DisplayContactPersonActivity extends SwipeRefreshLayoutActivity {
 			if (person != null) {
 				super.onPostExecute(person);
 
-				TextView name = (TextView) rootView.findViewById(R.id.name);
+				TextView name = (TextView) rootView.findViewById(R.id.title);
 				name.setText(person.getName());
 
-				TextView chair = (TextView) rootView.findViewById(R.id.chair);
+				TextView chair = (TextView) rootView.findViewById(R.id.header);
 				chair.setText(person.getGroupTitle());
 
 				if (person.getDescription() != null) {
@@ -121,7 +121,7 @@ public class DisplayContactPersonActivity extends SwipeRefreshLayoutActivity {
 
 				if (person.getEmail() != null) {
 					TextView email = (TextView) rootView
-							.findViewById(R.id.email);
+							.findViewById(R.id.content1);
 					email.setVisibility(View.VISIBLE);
 					email.setText(person.getEmail());
 					email.setOnClickListener(new OnClickListener() {
@@ -140,7 +140,7 @@ public class DisplayContactPersonActivity extends SwipeRefreshLayoutActivity {
 
 				if (person.getOffice() != null) {
 					TextView office = (TextView) rootView
-							.findViewById(R.id.office);
+							.findViewById(R.id.content2);
 					office.setVisibility(View.VISIBLE);
 					office.setText(person.getOffice());
 					office.setOnClickListener(new OnClickListener() {
@@ -158,7 +158,7 @@ public class DisplayContactPersonActivity extends SwipeRefreshLayoutActivity {
 
 				if (person.getPhone() != null) {
 					TextView phone = (TextView) rootView
-							.findViewById(R.id.phone);
+							.findViewById(R.id.content3);
 					phone.setVisibility(View.VISIBLE);
 					phone.setText(person.getPhone());
 					phone.setOnClickListener(new OnClickListener() {

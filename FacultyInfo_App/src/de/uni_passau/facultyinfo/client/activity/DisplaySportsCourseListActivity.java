@@ -48,7 +48,6 @@ public class DisplaySportsCourseListActivity extends SwipeRefreshLayoutActivity 
 		setTitle(title);
 
 		if (offerTime.equals(SportsFragment.AZ)) {
-			// (new SportsCourseLoader()).execute();
 			initializeSwipeRefresh(
 					(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
 							.getChildAt(0), new OnRefreshListener() {
@@ -61,8 +60,10 @@ public class DisplaySportsCourseListActivity extends SwipeRefreshLayoutActivity 
 						}
 
 					});
+			(new SportsCourseLoader(
+					(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+							.getChildAt(0))).execute();
 		} else if (offerTime.equals(SportsFragment.TODAY)) {
-			// (new TodaySportsCourseLoader()).execute();
 			initializeSwipeRefresh(
 					(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
 							.getChildAt(0), new OnRefreshListener() {
@@ -75,6 +76,9 @@ public class DisplaySportsCourseListActivity extends SwipeRefreshLayoutActivity 
 						}
 
 					});
+			(new TodaySportsCourseLoader(
+					(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+							.getChildAt(0))).execute();
 		}
 
 	}
@@ -174,10 +178,9 @@ public class DisplaySportsCourseListActivity extends SwipeRefreshLayoutActivity 
 			}
 
 			SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(),
-					courseList, R.layout.course_view, new String[] { "number",
-							"details", "time" },
-					new int[] { R.id.number, R.id.details_sports_course,
-							R.id.time_sports_course });
+					courseList, R.layout.row_threeline, new String[] {
+							"number", "details", "time" }, new int[] {
+							R.id.header, R.id.title, R.id.description });
 
 			sportsoffer.setAdapter(adapter);
 
@@ -274,10 +277,9 @@ public class DisplaySportsCourseListActivity extends SwipeRefreshLayoutActivity 
 
 				SimpleAdapter adapter = new SimpleAdapter(
 						getApplicationContext(), courseList,
-						R.layout.course_view, new String[] { "number",
-								"details", "time" }, new int[] { R.id.number,
-								R.id.details_sports_course,
-								R.id.time_sports_course });
+						R.layout.row_threeline, new String[] { "number",
+								"details", "time" }, new int[] { R.id.header,
+								R.id.title, R.id.description });
 
 				sportsoffer.setAdapter(adapter);
 

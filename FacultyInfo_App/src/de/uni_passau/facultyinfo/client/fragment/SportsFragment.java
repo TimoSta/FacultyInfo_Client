@@ -72,6 +72,10 @@ public class SportsFragment extends SwipeRefreshLayoutFragment {
 
 			@Override
 			public void onTabSelected(Tab tab, FragmentTransaction arg1) {
+				((ListView) rootView.findViewById(R.id.list))
+						.setAdapter(new SimpleAdapter(rootView.getContext(),
+								new ArrayList<HashMap<String, String>>(),
+								R.layout.row_threeline, null, null));
 				if (tab.getText() == AZ) {
 					initializeSwipeRefresh(rootView, new OnRefreshListener() {
 						@Override

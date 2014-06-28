@@ -3,6 +3,7 @@ package de.uni_passau.facultyinfo.client.activity;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import android.app.ActionBar;
@@ -12,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
@@ -27,7 +29,7 @@ public class DisplaySportsCourseActivity extends SwipeRefreshLayoutActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_display_sports_course);
+		setContentView(R.layout.page_threeline);
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -39,17 +41,23 @@ public class DisplaySportsCourseActivity extends SwipeRefreshLayoutActivity {
 		String title = intent.getStringExtra("title");
 
 		setTitle(title);
-		
-		initializeSwipeRefresh((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), new OnRefreshListener() {
 
-			@Override
-			public void onRefresh() {
-				new CourseLoader((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), true).execute();
-			}
+		initializeSwipeRefresh(
+				(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+						.getChildAt(0), new OnRefreshListener() {
 
-		});
+					@Override
+					public void onRefresh() {
+						new CourseLoader(
+								(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+										.getChildAt(0), true).execute();
+					}
 
-		(new CourseLoader((SwipeRefreshLayout)((ViewGroup)findViewById(android.R.id.content)).getChildAt(0))).execute();
+				});
+
+		(new CourseLoader(
+				(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+						.getChildAt(0))).execute();
 
 	}
 
@@ -69,7 +77,8 @@ public class DisplaySportsCourseActivity extends SwipeRefreshLayoutActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	protected class CourseLoader extends SwipeRefreshAsyncDataLoader<SportsCourse> {
+	protected class CourseLoader extends
+			SwipeRefreshAsyncDataLoader<SportsCourse> {
 		private boolean forceRefresh = false;
 
 		private CourseLoader(SwipeRefreshLayout rootView) {
@@ -80,10 +89,11 @@ public class DisplaySportsCourseActivity extends SwipeRefreshLayoutActivity {
 			super(rootView);
 			this.forceRefresh = forceRefresh;
 		}
+
 		@Override
 		protected SportsCourse doInBackground(Void... unused) {
 			showLoadingAnimation(true);
-			
+
 			AccessFacade accessFacade = new AccessFacade();
 
 			SportsCourse sportsCourse = accessFacade.getSportsCourseAccess()
@@ -102,18 +112,20 @@ public class DisplaySportsCourseActivity extends SwipeRefreshLayoutActivity {
 		protected void onPostExecute(SportsCourse sportsCourse) {
 			super.onPostExecute(sportsCourse);
 			if (sportsCourse != null) {
-				TextView number = (TextView) findViewById(R.id.number_course);
-				number.setText(sportsCourse.getNumber());
+				// Course number
+				TextView headerView = (TextView) findViewById(R.id.header);
+				headerView.setText(sportsCourse.getNumber());
 
-				TextView details = (TextView) findViewById(R.id.description_course);
+				// Course title
+				TextView titleView = (TextView) findViewById(R.id.title);
 				String detailsString = sportsCourse.getDetails();
 				if (detailsString == null || detailsString.isEmpty()) {
 					detailsString = "Keine Beschreibung verfügbar";
 				}
-				details.setText(detailsString);
+				titleView.setText(detailsString);
 
-				TextView time = (TextView) findViewById(R.id.time_course);
-
+				// Course day of week and time
+				TextView timeView = (TextView) findViewById(R.id.description);
 				String dayOfWeek = null;
 				int dayOfWeekCode = sportsCourse.getDayOfWeek();
 				if (dayOfWeekCode == SportsCourse.MONDAY) {
@@ -131,7 +143,6 @@ public class DisplaySportsCourseActivity extends SwipeRefreshLayoutActivity {
 				} else if (dayOfWeekCode == SportsCourse.SUNDAY) {
 					dayOfWeek = "So";
 				}
-
 				String timeString = "";
 				if (dayOfWeek != null) {
 					timeString = dayOfWeek;
@@ -143,31 +154,31 @@ public class DisplaySportsCourseActivity extends SwipeRefreshLayoutActivity {
 									+ sportsCourse.getEndTime().toString();
 						}
 					}
-
-					time.setText(timeString);
+					timeView.setText(timeString);
 				}
 
+				// Course content
+				ArrayList<String> contentParts = new ArrayList<String>();
 				if (sportsCourse.getStartDate() != null
 						&& sportsCourse.getEndDate() != null) {
-					TextView timeperiod = (TextView) findViewById(R.id.timeperiod);
 					SimpleDateFormat sdf = new SimpleDateFormat(" d MMM ",
 							Locale.GERMAN);
-					timeperiod.setText("Zeitraum: "
+					contentParts.add("Zeitraum: "
 							+ (sdf.format(sportsCourse.getStartDate())) + "- "
 							+ (sdf.format(sportsCourse.getEndDate())));
 				}
 
-				TextView price = (TextView) findViewById(R.id.price);
-				if (sportsCourse.getPrice() > 0) {
-					DecimalFormat df = new DecimalFormat("#.00",
-							new DecimalFormatSymbols(Locale.GERMANY));
-					price.setText("Kosten: "
-							+ df.format(sportsCourse.getPrice()) + " Euro");
-				} else {
-					price.setText("Kosten: keine");
+				if (sportsCourse.getPrice() != SportsCourse.PRICE_NOT_AVAILABLE) {
+					if (sportsCourse.getPrice() > 0.0) {
+						DecimalFormat df = new DecimalFormat("#.00",
+								new DecimalFormatSymbols(Locale.GERMANY));
+						contentParts.add("Kosten: "
+								+ df.format(sportsCourse.getPrice()) + " Euro");
+					} else {
+						contentParts.add("Kosten: keine");
+					}
 				}
 
-				TextView status = (TextView) findViewById(R.id.status);
 				String statusString = null;
 				switch (sportsCourse.getStatus()) {
 				case SportsCourse.STATUS_OPEN:
@@ -198,9 +209,22 @@ public class DisplaySportsCourseActivity extends SwipeRefreshLayoutActivity {
 					statusString = "";
 					break;
 				}
+				contentParts.add(statusString);
 
-				status.setText(statusString);
-
+				StringBuilder contentBuilder = new StringBuilder();
+				boolean firstTime = true;
+				for (String string : contentParts) {
+					if (firstTime) {
+						firstTime = false;
+					} else {
+						contentBuilder.append('\n');
+					}
+					contentBuilder.append(string);
+				}
+				TextView contentView = (TextView) rootView
+						.findViewById(R.id.content);
+				contentView.setText(contentBuilder.toString());
+				contentView.setVisibility(View.VISIBLE);
 			}
 		}
 	}

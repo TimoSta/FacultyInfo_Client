@@ -24,7 +24,7 @@ public class DisplayFAQActivity extends SwipeRefreshLayoutActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_display_faq);
+		setContentView(R.layout.page_oneline);
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -104,13 +104,13 @@ public class DisplayFAQActivity extends SwipeRefreshLayoutActivity {
 			super.onPostExecute(faq);
 
 			if (faq != null) {
-				((TextView)findViewById(R.id.faqText)).setVisibility(View.VISIBLE);
-				TextView headingView = (TextView) findViewById(R.id.faqHeading);
-				headingView.setText(faq.getTitle());
+				TextView titleView = (TextView) findViewById(R.id.title);
+				titleView.setText(faq.getTitle());
 
-				TextView textView = (TextView) findViewById(R.id.faqText);
-				textView.setMovementMethod(new ScrollingMovementMethod());
-				textView.setText(faq.getText());
+				TextView contentView = (TextView) findViewById(R.id.content);
+				contentView.setVisibility(View.VISIBLE);
+				contentView.setMovementMethod(new ScrollingMovementMethod());
+				contentView.setText(faq.getText());
 			}
 		}
 	}

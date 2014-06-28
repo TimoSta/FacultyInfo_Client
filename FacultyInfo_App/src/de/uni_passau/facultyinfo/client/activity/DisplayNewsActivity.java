@@ -15,10 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
-//import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.News;
 import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
+//import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 
 public class DisplayNewsActivity extends SwipeRefreshLayoutActivity {
 
@@ -27,26 +27,32 @@ public class DisplayNewsActivity extends SwipeRefreshLayoutActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_display_news);
+		setContentView(R.layout.page_twoline);
 
 		Intent intent = getIntent();
 		newsId = intent.getStringExtra("newsId");
 
-		initializeSwipeRefresh((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), new OnRefreshListener() {
+		initializeSwipeRefresh(
+				(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+						.getChildAt(0), new OnRefreshListener() {
 
-			@Override
-			public void onRefresh() {
-				new NewsLoader((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), true).execute();
-			}
+					@Override
+					public void onRefresh() {
+						new NewsLoader(
+								(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+										.getChildAt(0), true).execute();
+					}
 
-		});
+				});
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
 
-		(new NewsLoader((SwipeRefreshLayout)((ViewGroup)findViewById(android.R.id.content)).getChildAt(0))).execute();
+		(new NewsLoader(
+				(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+						.getChildAt(0))).execute();
 	}
 
 	@Override
@@ -98,17 +104,16 @@ public class DisplayNewsActivity extends SwipeRefreshLayoutActivity {
 		protected void onPostExecute(News news) {
 			super.onPostExecute(news);
 			if (news != null) {
-				((TextView)findViewById(R.id.newsText)).setVisibility(View.VISIBLE);
-				
-				TextView headingView = (TextView) findViewById(R.id.newsHeading);
-				headingView.setText(news.getTitle());
+				TextView titleView = (TextView) findViewById(R.id.title);
+				titleView.setText(news.getTitle());
 
-				TextView textView = (TextView) findViewById(R.id.newsText);
-				textView.setMovementMethod(new ScrollingMovementMethod());
-				textView.setText(news.getText() == null ? news.getDescription()
-						: news.getText());
+				TextView contentView = (TextView) findViewById(R.id.content);
+				contentView.setMovementMethod(new ScrollingMovementMethod());
+				contentView.setText(news.getText() == null ? news
+						.getDescription() : news.getText());
+				contentView.setVisibility(View.VISIBLE);
 
-				TextView dateView = (TextView) findViewById(R.id.newsDate);
+				TextView dateView = (TextView) findViewById(R.id.description);
 				SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy",
 						Locale.GERMAN);
 				dateView.setText(sdf.format(news.getPublicationDate()));

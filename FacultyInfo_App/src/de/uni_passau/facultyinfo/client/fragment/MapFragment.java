@@ -268,13 +268,13 @@ public class MapFragment extends SwipeRefreshLayoutFragment {
 		} else {
 			np1.setMinValue(0);
 			np1.setMaxValue(0);
-			np1.setDisplayedValues(new String[] { "" });
+			np1.setDisplayedValues(new String[] { " " });
 			np2.setMinValue(0);
 			np2.setMaxValue(0);
-			np2.setDisplayedValues(new String[] { "" });
+			np2.setDisplayedValues(new String[] { " " });
 			np3.setMinValue(0);
 			np3.setMaxValue(0);
-			np3.setDisplayedValues(new String[] { "" });
+			np3.setDisplayedValues(new String[] { " " });
 		}
 
 	}

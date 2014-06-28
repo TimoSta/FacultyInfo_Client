@@ -1,6 +1,7 @@
 package de.uni_passau.facultyinfo.client.activity;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import android.app.ActionBar;
@@ -26,7 +27,7 @@ public class DisplayEventActivity extends SwipeRefreshLayoutActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_display_event);
+		setContentView(R.layout.page_twoline);
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -35,16 +36,22 @@ public class DisplayEventActivity extends SwipeRefreshLayoutActivity {
 
 		Intent intent = getIntent();
 		eventId = intent.getStringExtra("eventId");
-		
-		initializeSwipeRefresh((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), new OnRefreshListener() {
 
-			@Override
-			public void onRefresh() {
-				new EventLoader((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), true).execute();
-			}
+		initializeSwipeRefresh(
+				(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+						.getChildAt(0), new OnRefreshListener() {
 
-		});
-		new EventLoader((SwipeRefreshLayout) ((ViewGroup)findViewById(android.R.id.content)).getChildAt(0), true).execute();
+					@Override
+					public void onRefresh() {
+						new EventLoader(
+								(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+										.getChildAt(0), true).execute();
+					}
+
+				});
+		new EventLoader(
+				(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
+						.getChildAt(0), true).execute();
 
 	}
 
@@ -75,7 +82,7 @@ public class DisplayEventActivity extends SwipeRefreshLayoutActivity {
 			super(rootView);
 			this.forceRefresh = forceRefresh;
 		}
-		
+
 		@Override
 		protected Event doInBackground(Void... unused) {
 			showLoadingAnimation(true);
@@ -83,7 +90,8 @@ public class DisplayEventActivity extends SwipeRefreshLayoutActivity {
 			AccessFacade accessFacade = new AccessFacade();
 			Event event = null;
 
-			event = accessFacade.getEventAccess().getEvent(eventId, forceRefresh);
+			event = accessFacade.getEventAccess().getEvent(eventId,
+					forceRefresh);
 
 			if (event == null) {
 				publishProgress(AsyncDataLoader.NO_CONNECTION_PROGRESS);
@@ -98,36 +106,63 @@ public class DisplayEventActivity extends SwipeRefreshLayoutActivity {
 		protected void onPostExecute(Event event) {
 			super.onPostExecute(event);
 			if (event != null) {
-				((TextView)findViewById(R.id.event_description)).setVisibility(View.VISIBLE);
-				TextView title = (TextView) findViewById(R.id.event_title);
-				title.setText(event.getTitle());
+				// Title
+				TextView titleView = (TextView) findViewById(R.id.title);
+				titleView.setText(event.getTitle());
 
-//				TextView subtitle = (TextView) findViewById(R.id.event_subtitle);
-//				subtitle.setText(event.getTitle());
-
-				TextView description = (TextView) findViewById(R.id.event_description);
-				description.setText(event.getDescription());
-				description.setMovementMethod(new ScrollingMovementMethod());
-
-				TextView location = (TextView) findViewById(R.id.event_location);
-				location.setText(event.getLocation());
-
-				TextView time = (TextView) findViewById(R.id.event_time);
-				SimpleDateFormat dateSDF = new SimpleDateFormat(
-						"EEE, d MMM yyyy", Locale.GERMAN);
-				SimpleDateFormat timeSDF = new SimpleDateFormat("HH:mm",
-						Locale.GERMAN);
-				if ((dateSDF.format(event.getStartDate())).equals(dateSDF
-						.format(event.getEndDate()))) {
-					time.setText(dateSDF.format(event.getStartDate()) + " "
-							+ timeSDF.format(event.getStartDate()) + " - "
-							+ timeSDF.format(event.getEndDate()));
-
+				// Content
+				TextView contentView = (TextView) findViewById(R.id.content);
+				if (event.getDescription() != null
+						&& !event.getDescription().isEmpty()) {
+					contentView.setText(event.getDescription());
+					contentView.setVisibility(View.VISIBLE);
+					contentView
+							.setMovementMethod(new ScrollingMovementMethod());
 				} else {
-					time.setText(dateSDF.format(event.getStartDate()) + " - "
-							+ dateSDF.format(event.getEndDate()) + " "
-							+ timeSDF.format(event.getStartDate()) + " - "
-							+ timeSDF.format(event.getEndDate()));
+					contentView.setVisibility(View.GONE);
+				}
+
+				// Subtitle
+				ArrayList<String> subtitleParts = new ArrayList<String>();
+
+				if (event.getStartDate() != null && event.getEndDate() != null) {
+					SimpleDateFormat dateSDF = new SimpleDateFormat(
+							"EEE, d MMM yyyy", Locale.GERMAN);
+					SimpleDateFormat timeSDF = new SimpleDateFormat("HH:mm",
+							Locale.GERMAN);
+					if ((dateSDF.format(event.getStartDate())).equals(dateSDF
+							.format(event.getEndDate()))) {
+						subtitleParts.add(dateSDF.format(event.getStartDate())
+								+ " " + timeSDF.format(event.getStartDate())
+								+ " - " + timeSDF.format(event.getEndDate()));
+
+					} else {
+						subtitleParts.add(dateSDF.format(event.getStartDate())
+								+ " - " + dateSDF.format(event.getEndDate())
+								+ " " + timeSDF.format(event.getStartDate())
+								+ " - " + timeSDF.format(event.getEndDate()));
+					}
+				}
+
+				if (event.getLocation() != null
+						&& !event.getLocation().isEmpty()) {
+					subtitleParts.add(event.getLocation());
+				}
+				TextView subtitleView = (TextView) findViewById(R.id.description);
+				if (!subtitleParts.isEmpty()) {
+					StringBuilder subtitleBuilder = new StringBuilder();
+					boolean firstTime = true;
+					for (String string : subtitleParts) {
+						if (firstTime) {
+							firstTime = false;
+						} else {
+							subtitleBuilder.append('\n');
+						}
+						subtitleBuilder.append(string);
+					}
+					subtitleView.setText(subtitleBuilder.toString());
+				} else {
+					subtitleView.setVisibility(View.GONE);
 				}
 			}
 		}
