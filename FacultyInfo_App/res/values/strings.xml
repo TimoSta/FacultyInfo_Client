@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	
     <string-array name="drawer_values">
         <item>Home</item>
         <item>Stundenplan</item>
@@ -116,5 +116,8 @@
     <string name="SportsCourseCategory">Kategorie</string>
     <string name="semesterbreak">Vorlesungsfreie Zeit</string>
     <string name="semester">Vorlesungszeit</string>
+    <string name="news">Neuigkeiten</string>
+    <string name="buslines">Busfahrplan</string>
+    <string name="menuTodayMain">Mensaplan heute | Hauptspeisen</string>
 
 </resources>

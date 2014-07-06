@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -17,10 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.activity.MainActivity;
@@ -167,81 +163,113 @@ public class HomeFragment extends SwipeRefreshLayoutFragment {
 						&& dashboard.getBusLines().size() > 0) {
 					List<BusLine> busLines = dashboard.getBusLines();
 
-					ListView buslineList = (ListView) rootView
-							.findViewById(R.id.home_buslines);
+					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm",
+							Locale.GERMAN);
+					OnClickListener onClickListener = new OnClickListener() {
 
-					final ArrayList<HashMap<String, String>> busList = new ArrayList<HashMap<String, String>>();
-
-					if (!busLines.isEmpty()) {
-						for (int i = 0; i < (busLines.size() >= 2 ? 2
-								: busLines.size()); i++) {
-
-							BusLine busLine = busLines.get(i);
-							HashMap<String, String> listEntry = new HashMap<String, String>();
-							SimpleDateFormat sdf = new SimpleDateFormat(
-									"HH:mm", Locale.GERMAN);
-							listEntry.put("title",
-									sdf.format(busLine.getDeparture()) + " - "
-											+ busLine.getLine());
-							listEntry.put("direction", busLine.getDirection());
-							busList.add(listEntry);
-						}
-					}
-
-					SimpleAdapter adapter = new SimpleAdapter(
-							rootView.getContext(), busList,
-							R.layout.home_two_line_row_view, new String[] {
-									"title", "direction", }, new int[] {
-									R.id.home_toprow, R.id.home_bottomrow }
-
-					);
-
-					buslineList.setAdapter(adapter);
-
-					OnItemClickListener onClickListener = new OnItemClickListener() {
 						@Override
-						public void onItemClick(AdapterView<?> arg0, View arg1,
-								int arg2, long arg3) {
+						public void onClick(View arg0) {
 							((MainActivity) getActivity())
 									.selectItem(MainActivity.BUSLINES);
+
 						}
 					};
 
-					buslineList.setOnItemClickListener(onClickListener);
+					LinearLayout buslineFirst = (LinearLayout) rootView
+							.findViewById(R.id.buslineFirst);
+					buslineFirst.setVisibility(View.VISIBLE);
+					TextView buslineFirstTop = (TextView) rootView
+							.findViewById(R.id.buslineFirstTop);
+					BusLine busline = busLines.get(0);
+					buslineFirstTop.setText(sdf.format(busline.getDeparture())
+							+ " - " + busline.getLine());
+					TextView buslineFirstBottom = (TextView) rootView
+							.findViewById(R.id.buslineFirstBottom);
+					buslineFirstBottom.setText(busline.getDirection());
+					buslineFirst.setOnClickListener(onClickListener);
+
+					if (busLines.size() > 1) {
+
+						View buslineSecond = rootView
+								.findViewById(R.id.buslineSecond);
+						buslineSecond.setVisibility(View.VISIBLE);
+						TextView buslineSecondTop = (TextView) rootView
+								.findViewById(R.id.buslineSecondTop);
+						busline = busLines.get(1);
+						buslineSecondTop.setText(sdf.format(busline
+								.getDeparture()) + " - " + busline.getLine());
+						TextView buslineSecondBottom = (TextView) rootView
+								.findViewById(R.id.buslineSecondBottom);
+						buslineSecondBottom.setText(busline.getDirection());
+						buslineSecond.setOnClickListener(onClickListener);
+					}
+
 				}
 
-				if (dashboard.getMenuItems() != null
+				if (true || dashboard.getMenuItems() != null
 						&& dashboard.getMenuItems().size() > 0) {
 					List<MenuItem> menuItems = dashboard.getMenuItems();
 
-					ArrayList<HashMap<String, String>> menuList = new ArrayList<HashMap<String, String>>();
+					menuItems = new ArrayList<MenuItem>();
+					menuItems.add(new MenuItem("123", null, "Test", 0, 00, 0,
+							0, 0));
+					menuItems.add(new MenuItem("1232", null, "Test2", 0, 00, 0,
+							0, 0));
+					menuItems.add(new MenuItem("12qwe32", null, "Test3", 0, 00,
+							0, 0, 0));
+					menuItems.add(new MenuItem("1sd232", null, "Test4", 0, 00,
+							0, 0, 0));
+					menuItems.add(new MenuItem("12fdsg32", null, "Test5", 0,
+							00, 0, 0, 0));
 
-					for (MenuItem menuItem : menuItems) {
-						HashMap<String, String> hashMap = new HashMap<String, String>();
-						hashMap.put("name", menuItem.getName());
-						menuList.add(hashMap);
-					}
+					OnClickListener onClickListener = new OnClickListener() {
 
-					ListView listView = (ListView) rootView
-							.findViewById(R.id.home_mensa);
-
-					SimpleAdapter adapter = new SimpleAdapter(
-							rootView.getContext(), menuList,
-							R.layout.home_menu_row_view,
-							new String[] { "name" },
-							new int[] { R.id.menu_name });
-
-					listView.setAdapter(adapter);
-					OnItemClickListener onClickListener = new OnItemClickListener() {
 						@Override
-						public void onItemClick(AdapterView<?> arg0, View arg1,
-								int arg2, long arg3) {
+						public void onClick(View v) {
 							((MainActivity) getActivity())
 									.selectItem(MainActivity.MENU);
+
 						}
 					};
 
-					listView.setOnItemClickListener(onClickListener);
+					MenuItem item = menuItems.get(0);
+					TextView menuView = (TextView) rootView
+							.findViewById(R.id.mensaFirst);
+					menuView.setVisibility(View.VISIBLE);
+					menuView.setText(item.getName());
+					menuView.setOnClickListener(onClickListener);
+					if (menuItems.size() > 1) {
+						item = menuItems.get(1);
+						menuView = (TextView) rootView
+								.findViewById(R.id.mensaSecond);
+						menuView.setVisibility(View.VISIBLE);
+						menuView.setText(item.getName());
+						menuView.setOnClickListener(onClickListener);
+						if (menuItems.size() > 2) {
+							item = menuItems.get(2);
+							menuView = (TextView) rootView
+									.findViewById(R.id.mensaThird);
+							menuView.setVisibility(View.VISIBLE);
+							menuView.setText(item.getName());
+							menuView.setOnClickListener(onClickListener);
+							if (menuItems.size() > 3) {
+								item = menuItems.get(3);
+								menuView = (TextView) rootView
+										.findViewById(R.id.mensaFourth);
+								menuView.setVisibility(View.VISIBLE);
+								menuView.setText(item.getName());
+								menuView.setOnClickListener(onClickListener);
+								if (menuItems.size() > 4) {
+									item = menuItems.get(4);
+									menuView = (TextView) rootView
+											.findViewById(R.id.mensaFifth);
+									menuView.setVisibility(View.VISIBLE);
+									menuView.setText(item.getName());
+									menuView.setOnClickListener(onClickListener);
+								}
+							}
+						}
+					}
 				}
 			}
 		}
