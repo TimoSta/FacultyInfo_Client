@@ -1,210 +1,168 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin" >
+    android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignRight="@+id/frame"
-        android:layout_marginBottom="25px"
-        android:layout_marginLeft="25px"
-        android:layout_marginRight="25px"
-        android:layout_marginTop="25px" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp"
+        android:layout_weight="1"
+        android:background="@drawable/back"
+        android:orientation="horizontal" >
 
-        <TableLayout
-            android:id="@+id/day"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:weightSum="7" >
+        <TextView
+            android:id="@+id/t810"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="1dp"
+            android:padding="5dp"
+            android:text="@string/time0810" />
 
-            <TableRow
-                android:id="@+id/heading"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" >
+        <TextView
+            android:id="@+id/td810"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:longClickable="true"
+            android:onClick="true"
+            android:padding="5dp" />
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/timeh"
-                    android:layout_width="0dp"
-                    android:layout_column="1"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:background="#FFAA5A"
-                    android:paddingLeft="2dp"
-                    android:text="Zeit" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp"
+        android:layout_weight="1"
+        android:background="@drawable/back"
+        android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/tdh"
-                    android:layout_width="0dp"
-                    android:layout_column="2"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:background="#FFAA5A"
-                    android:paddingLeft="2dp"
-                    android:text="Veranstaltung" />
-            </TableRow>
+        <TextView
+            android:id="@+id/t1012"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="1dp"
+            android:padding="5dp"
+            android:text="@string/time1012" />
 
-            <TableRow
-                android:id="@+id/tr810"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" >
+        <TextView
+            android:id="@+id/td1012"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:longClickable="true"
+            android:onClick="true"
+            android:padding="5dp" />
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/t810"
-                    android:layout_width="0dp"
-                    android:layout_column="1"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:paddingLeft="2dp"
-                    android:text="8:00-10:00" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp"
+        android:layout_weight="1"
+        android:background="@drawable/back"
+        android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/td810"
-                    android:layout_width="0dp"
-                    android:layout_column="2"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:longClickable="true"
-                    android:onClick="true"
-                    android:paddingLeft="2dp" />
-            </TableRow>
+        <TextView
+            android:id="@+id/t1214"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="1dp"
+            android:padding="5dp"
+            android:text="@string/time1214" />
 
-            <TableRow
-                android:id="@+id/tr1012"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" >
+        <TextView
+            android:id="@+id/td1214"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:longClickable="true"
+            android:onClick="true"
+            android:padding="5dp" />
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/t1012"
-                    android:layout_width="0dp"
-                    android:layout_column="1"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:paddingLeft="2dp"
-                    android:text="10:00-12:00" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp"
+        android:layout_weight="1"
+        android:background="@drawable/back"
+        android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/td1012"
-                    android:layout_width="0dp"
-                    android:layout_column="2"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:longClickable="true"
-                    android:onClick="true"
-                    android:paddingLeft="2dp" />
-            </TableRow>
+        <TextView
+            android:id="@+id/t1416"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="1dp"
+            android:padding="5dp"
+            android:text="@string/time1416" />
 
-            <TableRow
-                android:id="@+id/tr1214"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" >
+        <TextView
+            android:id="@+id/td1416"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:longClickable="true"
+            android:onClick="true"
+            android:padding="5dp" />
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/t1214"
-                    android:layout_width="0dp"
-                    android:layout_column="1"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:paddingLeft="2dp"
-                    android:text="12:00-14:00" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp"
+        android:layout_weight="1"
+        android:background="@drawable/back"
+        android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/td1214"
-                    android:layout_width="0dp"
-                    android:layout_column="2"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:longClickable="true"
-                    android:onClick="true"
-                    android:paddingLeft="2dp" />
-            </TableRow>
+        <TextView
+            android:id="@+id/t1618"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="1dp"
+            android:padding="5dp"
+            android:text="@string/time1618" />
 
-            <TableRow
-                android:id="@+id/tr1416"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" >
+        <TextView
+            android:id="@+id/td1618"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:longClickable="true"
+            android:onClick="true"
+            android:padding="5dp" />
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/t1416"
-                    android:layout_width="0dp"
-                    android:layout_column="1"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:paddingLeft="2dp"
-                    android:text="14:00-16:00" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp"
+        android:layout_weight="1"
+        android:background="@drawable/back"
+        android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/td1416"
-                    android:layout_width="0dp"
-                    android:layout_column="2"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:longClickable="true"
-                    android:onClick="true"
-                    android:paddingLeft="2dp" />
-            </TableRow>
+        <TextView
+            android:id="@+id/t1820"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="1dp"
+            android:padding="5dp"
+            android:text="@string/time1820" />
 
-            <TableRow
-                android:id="@+id/tr1618"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" >
+        <TextView
+            android:id="@+id/td1820"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:longClickable="true"
+            android:onClick="true"
+            android:padding="5dp" />
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/t1618"
-                    android:layout_width="0dp"
-                    android:layout_column="1"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:paddingLeft="2dp"
-                    android:text="16:00-18:00" />
-
-                <TextView
-                    android:id="@+id/td1618"
-                    android:layout_width="0dp"
-                    android:layout_column="2"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:longClickable="true"
-                    android:onClick="true"
-                    android:paddingLeft="2dp" />
-            </TableRow>
-
-            <TableRow
-                android:id="@+id/tr1820"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" >
-
-                <TextView
-                    android:id="@+id/t1820"
-                    android:layout_width="0dp"
-                    android:layout_column="1"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:paddingLeft="2dp"
-                    android:text="18:00-20:00" />
-
-                <TextView
-                    android:id="@+id/td1820"
-                    android:layout_width="0dp"
-                    android:layout_column="2"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:longClickable="true"
-                    android:onClick="true"
-                    android:paddingLeft="2dp" />
-            </TableRow>
-        </TableLayout>
-    </FrameLayout>
-
-</RelativeLayout>
+</LinearLayout>

@@ -6,7 +6,6 @@ package de.uni_passau.facultyinfo.client.model.access;
  * 
  */
 public class AccessFacade {
-	private TimetableAccess timetableAccess = null;
 
 	public NewsAccess getNewsAccess() {
 		return NewsAccess.getInstance();
@@ -25,10 +24,7 @@ public class AccessFacade {
 	}
 
 	public TimetableAccess getTimetableAccess() {
-		if (timetableAccess == null) {
-			timetableAccess = new TimetableAccess();
-		}
-		return timetableAccess;
+		return TimetableAccess.getInstance();
 	}
 
 	public MapMarkerAccess getMapMarkerAccess() {
@@ -50,7 +46,7 @@ public class AccessFacade {
 	public MenuAccess getMenuAccess() {
 		return MenuAccess.getInstance();
 	}
-	
+
 	public DashboardAccess getDashboardAccess() {
 		return DashboardAccess.getInstance();
 	}

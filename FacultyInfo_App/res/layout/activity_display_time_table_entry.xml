@@ -1,96 +1,96 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".DisplayTimeTableEntryActivity" >
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/timeTTdisplay"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:orientation="vertical"
+        android:padding="8dp" >
 
-    <TextView
-        android:id="@+id/veranstaltunghdisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/timeTTdisplay"
-        android:layout_below="@+id/timeTTdisplay"
-        android:layout_marginTop="23dp"
-        android:text="@string/eventTTh"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/timeTTdisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/veranstaltungddisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/veranstaltunghdisplay"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/veranstaltunghdisplay"
-        android:background="#F2F2F2"
-        android:clickable="false"
-        android:ems="10"
-        android:inputType="none" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/back"
+            android:orientation="vertical"
+            android:padding="10dp" >
 
-    <TextView
-        android:id="@+id/locationhdisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/veranstaltungddisplay"
-        android:layout_below="@+id/veranstaltungddisplay"
-        android:layout_marginTop="24dp"
-        android:text="@string/locationTTh"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/veranstaltunghdisplay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/eventTTh"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#333333"
+                android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/locationddisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/locationhdisplay"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/locationhdisplay"
-        android:background="#F2F2F2"
-        android:clickable="false"
-        android:ems="10"
-        android:inputType="none" >
+            <TextView
+                android:id="@+id/veranstaltungddisplay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#333333" >
+            </TextView>
+        </LinearLayout>
 
-        <requestFocus />
-    </EditText>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/back"
+            android:orientation="vertical"
+            android:padding="10dp" >
 
-    <TextView
-        android:id="@+id/descriptionhdisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/locationddisplay"
-        android:layout_below="@+id/locationddisplay"
-        android:layout_marginTop="32dp"
-        android:text="@string/descriptionTTh"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/locationhdisplay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/locationTTh"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#333333"
+                android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/descriptionddisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/descriptionhdisplay"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/descriptionhdisplay"
-        android:background="#F2F2F2"
-        android:clickable="false"
-        android:editable="false"
-        android:ems="10"
-        android:inputType="textMultiLine" />
-    
-    
-    <LinearLayout android:id="@+id/undobar" style="@style/UndoBar" android:layout_alignParentBottom="true">
-        <TextView android:id="@+id/undobar_message" style="@style/UndoBarMessage" />
-        <Button android:id="@+id/undobar_button" style="@style/UndoBarButton" />
+            <TextView
+                android:id="@+id/locationddisplay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#333333" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/back"
+            android:orientation="vertical"
+            android:padding="10dp" >
+
+            <TextView
+                android:id="@+id/descriptionhdisplay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/descriptionTTh"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#333333"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/descriptionddisplay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#333333" />
+        </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+</ScrollView>

@@ -121,13 +121,15 @@ public class EditTimeTableActivity extends FragmentActivity {
 				return builder.create();
 			}
 
-			private void setColorAndClose(int color) {
-				colorId = color;
+			private void setColorAndClose(int colorId) {
+				EditTimeTableActivity.this.colorId = colorId;
 				ColorPickerDialogFragment.this.getDialog().cancel();
 				ColorHelper colorHelper = new ColorHelper();
-				((Button) findViewById(R.id.colorButton))
-						.setBackgroundColor(colorHelper.getColor(colorId)
-								.getBackgroundColor());
+				Button button = (Button) findViewById(R.id.colorButton);
+				Color color = colorHelper.getColor(colorId);
+				button.setBackgroundColor(color.getBackgroundColor());
+				button.setTextColor(color.getFontColor());
+
 			}
 
 			private void prepareButton(View view, int buttonId, final int color) {
@@ -169,41 +171,12 @@ public class EditTimeTableActivity extends FragmentActivity {
 			EditText editTextTitle = (EditText) findViewById(R.id.veranstaltungd);
 			String title = editTextTitle.getText().toString();
 			EditText editTextLocation = (EditText) findViewById(R.id.locationd);
-			String location = editTextLocation.getText().toString();
+			editTextLocation.getText().toString();
 
 			if (title.isEmpty()) {
 				Toast toast = Toast.makeText(getApplicationContext(),
 						"Veranstaltungstitel fehlt", Toast.LENGTH_SHORT);
 				toast.show();
-//			} else if (location.isEmpty()) {
-//				final class CreateEventTT extends DialogFragment {
-//					@Override
-//					public Dialog onCreateDialog(Bundle savedInstanceState) {
-//						AlertDialog.Builder builder = new AlertDialog.Builder(
-//								getActivity());
-//						builder.setMessage(
-//								R.string.create_event_no_location_dialog)
-//								.setPositiveButton(R.string.create2,
-//										new DialogInterface.OnClickListener() {
-//											public void onClick(
-//													DialogInterface dialog,
-//													int id) {
-//												save();
-//											}
-//										})
-//								.setNegativeButton(R.string.cancel,
-//										new DialogInterface.OnClickListener() {
-//											public void onClick(
-//													DialogInterface dialog,
-//													int id) {
-//											}
-//										});
-//						return builder.create();
-//					}
-//				}
-//				CreateEventTT dialog = new CreateEventTT();
-//				dialog.show(getSupportFragmentManager(),
-//						"createEventTTnoLocation");
 			} else {
 				save();
 			}
@@ -336,12 +309,18 @@ public class EditTimeTableActivity extends FragmentActivity {
 					descriptionEditText
 							.setText(timetableEntry.getDescription());
 
-					((Button) findViewById(R.id.colorButton))
-							.setBackgroundColor(new ColorHelper().getColor(
-									timetableEntry.getColor())
-									.getBackgroundColor());
+					Button button = (Button) findViewById(R.id.colorButton);
+					Color color = new ColorHelper().getColor(timetableEntry
+							.getColor());
+					button.setBackgroundColor(color.getBackgroundColor());
+					button.setTextColor(color.getFontColor());
+
+					EditTimeTableActivity.this.colorId = timetableEntry
+							.getColor();
 
 					entry = timetableEntry;
+
+					break;
 				}
 			}
 		}

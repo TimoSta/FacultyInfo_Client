@@ -29,11 +29,23 @@ public class TimetableAccess {
 	private static final int INDEX_COLOR = 6;
 	private static final String KEY_COLOR = "color";
 
+	private static TimetableAccess instance = null;
+
+	protected static TimetableAccess getInstance() {
+		if (instance == null) {
+			instance = new TimetableAccess();
+		}
+		return instance;
+	}
+
 	private CacheOpenHelper cacheOpenHelper = null;
+
+	private TimetableEntry stashed = null;
 
 	private CacheOpenHelper getCacheOpenHelper() {
 		if (cacheOpenHelper == null) {
-			cacheOpenHelper = new CacheOpenHelper(FacultyInfoApplication.getContext());
+			cacheOpenHelper = new CacheOpenHelper(
+					FacultyInfoApplication.getContext());
 		}
 		return cacheOpenHelper;
 	}
@@ -113,5 +125,23 @@ public class TimetableAccess {
 				new String[] { id });
 		db.close();
 		return result > 0L;
+	}
+
+	public boolean stash(TimetableEntry entry) {
+		this.stashed = entry;
+		return this.deleteTimetableEntry(entry.getId());
+	}
+
+	public TimetableEntry unstash() {
+		if (stashed == null) {
+			return null;
+		}
+
+		if (this.createOrUpdateTimetableEntry(stashed)) {
+			TimetableEntry result = stashed;
+			stashed = null;
+			return result;
+		}
+		return null;
 	}
 }

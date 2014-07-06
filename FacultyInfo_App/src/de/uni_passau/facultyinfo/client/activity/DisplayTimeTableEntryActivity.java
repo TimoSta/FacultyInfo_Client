@@ -7,21 +7,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.application.FacultyInfoApplication;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
-import de.uni_passau.facultyinfo.client.model.dto.factory.TimetableEntryFactory;
 
-public class DisplayTimeTableEntryActivity extends Activity implements
-		UndoBarController.UndoListener {
+public class DisplayTimeTableEntryActivity extends Activity {
 	private int timeslotId;
 	private int dayId;
 	private String entryId;
@@ -29,8 +24,6 @@ public class DisplayTimeTableEntryActivity extends Activity implements
 	private String location;
 	private String description;
 	private int colorId;
-
-	private UndoBarController mUndoBarController;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +70,6 @@ public class DisplayTimeTableEntryActivity extends Activity implements
 		TextView timeTextView = (TextView) findViewById(R.id.timeTTdisplay);
 		timeTextView.setText(day + timeslot);
 
-		mUndoBarController = new UndoBarController(findViewById(R.id.undobar),
-				this);
-		mUndoBarController.hideUndoBar(true);
-
 	}
 
 	@Override
@@ -108,8 +97,6 @@ public class DisplayTimeTableEntryActivity extends Activity implements
 			return true;
 		case R.id.action_delete:
 			(new TimetableEntryDeleter()).execute();
-			mUndoBarController.showUndoBar(false,
-					getString(R.string.undobar_sample_message), null);
 			return true;
 		case android.R.id.home:
 			onBackPressed();
@@ -117,31 +104,6 @@ public class DisplayTimeTableEntryActivity extends Activity implements
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		System.out.println("DisplayTimeTableEntryActivity->onSaveInstanceState"); 
-		super.onSaveInstanceState(outState);
-		mUndoBarController.onSaveInstanceState(outState);
-	} 
-
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		System.out.println("DisplayTimeTableEntryActivity->onRestoreInstanceState"); 
-		super.onRestoreInstanceState(savedInstanceState);
-		mUndoBarController.onRestoreInstanceState(savedInstanceState);
-	}
-
-	@Override
-	public void onUndo(Parcelable token) {
-		System.out.println("Undo");
-		TimetableEntry entry = TimetableEntryFactory.createTimetableEntry(
-				title, description, location, timeslotId, dayId, colorId);
-
-		(new TimetableEntrySaver()).execute(entry);
-
-		// Perform the undo
 	}
 
 	protected class TimetableEntryLoader extends
@@ -165,18 +127,14 @@ public class DisplayTimeTableEntryActivity extends Activity implements
 				if (dayId == timetableEntry.getDayOfWeek()
 						&& timeslotId == timetableEntry.getTime()) {
 
-					EditText titleEditText = (EditText) findViewById(R.id.veranstaltungddisplay);
-					titleEditText.setText(timetableEntry.getTitle());
-					titleEditText.setKeyListener(null);
+					TextView titleView = (TextView) findViewById(R.id.veranstaltungddisplay);
+					titleView.setText(timetableEntry.getTitle());
 
-					EditText locationEditText = (EditText) findViewById(R.id.locationddisplay);
-					locationEditText.setText(timetableEntry.getLocation());
-					locationEditText.setKeyListener(null);
+					TextView locationView = (TextView) findViewById(R.id.locationddisplay);
+					locationView.setText(timetableEntry.getLocation());
 
-					EditText descriptionEditText = (EditText) findViewById(R.id.descriptionddisplay);
-					descriptionEditText
-							.setText(timetableEntry.getDescription());
-					descriptionEditText.setKeyListener(null);
+					TextView descriptionView = (TextView) findViewById(R.id.descriptionddisplay);
+					descriptionView.setText(timetableEntry.getDescription());
 
 					entryId = timetableEntry.getId();
 
@@ -191,14 +149,15 @@ public class DisplayTimeTableEntryActivity extends Activity implements
 
 	protected class TimetableEntryDeleter extends
 			AsyncTask<TimetableEntry, Void, Boolean> {
-		private Intent intent; 
+		private Intent intent;
 
 		@Override
 		protected Boolean doInBackground(TimetableEntry... timetableEntries) {
 			AccessFacade accessFacade = new AccessFacade();
 
-			boolean result = accessFacade.getTimetableAccess()
-					.deleteTimetableEntry(entryId);
+			boolean result = accessFacade.getTimetableAccess().stash(
+					new TimetableEntry(entryId, title, description, location,
+							timeslotId, dayId, colorId));
 
 			return result;
 		}
@@ -206,12 +165,6 @@ public class DisplayTimeTableEntryActivity extends Activity implements
 		@Override
 		protected void onPostExecute(Boolean result) {
 			if (result) {
-				Toast toast = Toast.makeText(
-						FacultyInfoApplication.getContext(),
-						"Termin erfolgreich gelöscht", Toast.LENGTH_SHORT);
-//				toast.show();
-//				Intent intent = new Intent(getApplicationContext(),
-//						DisplayDayActivity.class);
 				intent = new Intent(getApplicationContext(),
 						DisplayDayActivity.class);
 				int day = TimetableEntry.MONDAY;
@@ -229,10 +182,9 @@ public class DisplayTimeTableEntryActivity extends Activity implements
 
 				intent.putExtra("dayId", day);
 				intent.putExtra("timeslotId", timeslotId);
+				intent.putExtra("undo", true);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				Handler mHandler = new Handler();
-				mHandler.postDelayed(mUpdateTimeTask, 3000);
-//				startActivity(intent);
+				startActivity(intent);
 			} else {
 				Toast toast = Toast.makeText(
 						FacultyInfoApplication.getContext(),
@@ -240,13 +192,6 @@ public class DisplayTimeTableEntryActivity extends Activity implements
 				toast.show();
 			}
 		}
-		
-		private Runnable mUpdateTimeTask = new Runnable() {
-			   public void run() {
-			       // do what you need to do here after the delay
-				   startActivity(intent);
-			   }
-			};
 	}
 
 	protected class TimetableEntrySaver extends
@@ -270,7 +215,8 @@ public class DisplayTimeTableEntryActivity extends Activity implements
 			if (result) {
 				Toast toast = Toast.makeText(
 						FacultyInfoApplication.getContext(),
-						"Termin erfolgreich wiederhergestellt", Toast.LENGTH_SHORT);
+						"Termin erfolgreich wiederhergestellt",
+						Toast.LENGTH_SHORT);
 				toast.show();
 
 				Intent intent = null;

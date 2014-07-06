@@ -21,6 +21,13 @@
         <item>Donnerstag</item>
         <item>Freitag</item>
     </string-array>
+    
+    <string name="mon">Mo</string>
+    <string name="tue">Di</string>
+    <string name="wed">Mi</string>
+    <string name="thu">Do</string>
+    <string name="fri">Fr</string>
+    
     <string-array name="time_values">
         <item>08:00 &#8211; 10:00</item>
         <item>10:00 &#8211; 12:00</item>
@@ -29,6 +36,20 @@
         <item>16:00 &#8211; 18:00</item>
         <item>18:00 &#8211; 20:00</item>
     </string-array>
+    
+    <string name="time0810">08:00 bis\n10:00</string>
+    <string name="time1012">10:00 bis\n12:00</string>
+    <string name="time1214">12:00 bis\n14:00</string>
+    <string name="time1416">14:00 bis\n16:00</string>
+    <string name="time1618">16:00 bis\n18:00</string>
+    <string name="time1820">18:00 bis\n20:00</string>
+    
+    <string name="time08">08:00</string>
+    <string name="time10">10:00</string>
+    <string name="time12">12:00</string>
+    <string name="time14">14:00</string>
+    <string name="time16">16:00</string>
+    <string name="time18">18:00</string>
 
     <string name="app_name">Uni4You</string>
     <string name="edit">Bearbeiten</string>

@@ -1,4 +1,3 @@
-
 package de.uni_passau.facultyinfo.client.fragment;
 
 import java.util.List;
@@ -11,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,10 +31,6 @@ public class DisplayDayFragment extends Fragment {
 	private int timeslotId;
 	private int dayId;
 	private int dayC;
-
-	public DisplayDayFragment() {
-
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,7 +75,6 @@ public class DisplayDayFragment extends Fragment {
 		td1012.setOnLongClickListener(onLongClickListener);
 		td1012.setOnClickListener(onClickListener);
 		td1012.setText(System.getProperty("line.separator"));
-		
 
 		TextView td1214 = (TextView) rootView.findViewById(R.id.td1214);
 		td1214.setOnLongClickListener(onLongClickListener);
@@ -104,7 +99,7 @@ public class DisplayDayFragment extends Fragment {
 		return rootView;
 
 	}
-
+	
 	@Override
 	public void onResume() {
 		(new TimetableEntryLoader()).execute();
@@ -155,12 +150,6 @@ public class DisplayDayFragment extends Fragment {
 
 		public CreateEventTT() {
 			super();
-		}
-
-		private void setAttributes(View rootView, int timeslotId, int dayC) {
-			this.rootView = rootView;
-			this.timeslotId = timeslotId;
-			this.dayC = dayC;
 		}
 
 		@Override
@@ -238,26 +227,14 @@ public class DisplayDayFragment extends Fragment {
 		private void prepareTextElement(int id, TimetableEntry entry) {
 			ColorHelper colorHelper = new ColorHelper();
 			TextView view = (TextView) rootView.findViewById(id);
-			view.setText(entry.getTitle()+ System.getProperty("line.separator") + entry.getLocation());
+			view.setText(Html.fromHtml("<b>" + entry.getTitle() + "</b><br>"
+					+ entry.getLocation()));
 			view.setBackgroundColor(colorHelper.getColor(entry.getColor())
 					.getBackgroundColor());
 			view.setTextColor(colorHelper.getColor(entry.getColor())
 					.getFontColor());
 		}
 
-		// boolean search(int time, int day) {
-		// List<TimetableEntry> timetableEntries = accessFacade
-		// .getTimetableAccess().getTimetableEntries();
-		//
-		// for (TimetableEntry timetableEntry : timetableEntries) {
-		// if (timetableEntry.getTime() == time
-		// && timetableEntry.getDayOfWeek() == day) {
-		// return true;
-		// }
-		// }
-		// return false;
-		//
-		// }
 	}
 
 	protected class TimetableEntrySearcher extends
@@ -292,10 +269,6 @@ public class DisplayDayFragment extends Fragment {
 				}
 			}
 			if (!exists) {
-//				CreateEventTT dialog = new CreateEventTT();
-//				dialog.setAttributes(rootView, timeslotId, dayC);
-//				dialog.show(DisplayDayFragment.this.getFragmentManager(),
-//						"createEventTT");
 				Intent intent = new Intent(rootView.getContext(),
 						EditTimeTableActivity.class);
 				intent.putExtra("timeslotId", timeslotId);

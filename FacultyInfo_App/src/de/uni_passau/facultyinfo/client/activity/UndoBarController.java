@@ -47,7 +47,6 @@ public class UndoBarController {
     }
 
     public void showUndoBar(boolean immediate, CharSequence message, Parcelable undoToken) {
-    	System.out.println("UndoBarController->showUndoBar");
         mUndoToken = undoToken;
         mUndoMessage = message;
         mMessageView.setText(mUndoMessage);
@@ -57,12 +56,9 @@ public class UndoBarController {
                 mBarView.getResources().getInteger(R.integer.undobar_hide_delay));
 
         mBarView.setVisibility(View.VISIBLE);
-//        mBarView.setAlpha(1);
         if (immediate) {
-        	System.out.println("showUndoBar->immediate");
             mBarView.setAlpha(1);
         } else {
-        	System.out.println("showUndoBar->else");
         	mBarView.setAlpha(1);
             mBarAnimator.cancel();
             mBarView.animate().setDuration(1000000); 

@@ -23,7 +23,6 @@ import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
 import de.uni_passau.facultyinfo.client.util.ColorHelper;
 
-//import android.widget.TableRow;
 
 public class TimetableFragment extends Fragment {
 
@@ -50,9 +49,6 @@ public class TimetableFragment extends Fragment {
 		getActivity().getActionBar().setNavigationMode(
 				ActionBar.NAVIGATION_MODE_STANDARD);
 
-		// TableRow th = (TableRow) rootView.findViewById(R.id.th);
-		// th.setPadding(0, 0, 0, 0);
-
 		onLongClickListener = new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
@@ -61,51 +57,6 @@ public class TimetableFragment extends Fragment {
 				return true;
 			}
 		};
-
-		TextView mo = (TextView) rootView.findViewById(R.id.mo);
-		mo.setText("Mo");
-
-		TextView di = (TextView) rootView.findViewById(R.id.di);
-		di.setText("Di");
-
-		TextView mi = (TextView) rootView.findViewById(R.id.mi);
-		mi.setText("Mi");
-
-		TextView don = (TextView) rootView.findViewById(R.id.don);
-		don.setText("Do");
-
-		TextView fr = (TextView) rootView.findViewById(R.id.fr);
-		fr.setText("Fr");
-
-		System.out.println("firstRow");
-
-		// 8:00-10:00
-		TextView tr810 = (TextView) rootView.findViewById(R.id.t810);
-		tr810.setText("8:00-10:00");
-
-		System.out.println("secondRow");
-
-		// 10:00-12:00
-		TextView tr1012 = (TextView) rootView.findViewById(R.id.t1012);
-		tr1012.setText("10:00-12:00");
-
-		// 12:00-14:00
-		TextView tr1214 = (TextView) rootView.findViewById(R.id.t1214);
-		tr1214.setText("12:00-14:00");
-
-		// 14:00-16:00
-		TextView tr1416 = (TextView) rootView.findViewById(R.id.t1416);
-		tr1416.setText("14:00-16:00");
-
-		// 16:00-18:00
-		TextView tr1618 = (TextView) rootView.findViewById(R.id.t1618);
-		tr1618.setText("16:00-18:00");
-
-		// 18:00-20:00
-		TextView tr1820 = (TextView) rootView.findViewById(R.id.t1820);
-		tr1820.setText("18:00-20:00");
-
-		// Load timetable entries
 
 		return rootView;
 
@@ -400,12 +351,6 @@ public class TimetableFragment extends Fragment {
 
 		public CreateEventTT() {
 			super();
-		}
-
-		private void setAttributes(View rootView, int timeslotId, int dayC) {
-			this.rootView = rootView;
-			this.timeslotId = timeslotId;
-			this.dayC = dayC;
 		}
 
 		@Override

@@ -18,7 +18,6 @@ import de.uni_passau.facultyinfo.client.R;
 import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.News;
 import de.uni_passau.facultyinfo.client.util.SwipeRefreshAsyncDataLoader;
-//import de.uni_passau.facultyinfo.client.fragment.NewsFragment.NewsLoader;
 
 public class DisplayNewsActivity extends SwipeRefreshLayoutActivity {
 

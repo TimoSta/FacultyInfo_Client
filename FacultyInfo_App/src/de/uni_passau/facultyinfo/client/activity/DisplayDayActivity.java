@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -12,15 +13,19 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import de.uni_passau.facultyinfo.client.R;
+import de.uni_passau.facultyinfo.client.activity.UndoBarController.UndoListener;
 import de.uni_passau.facultyinfo.client.fragment.DisplayDayFragment;
+import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
 
 public class DisplayDayActivity extends FragmentActivity implements
-		ActionBar.TabListener {
+		ActionBar.TabListener, UndoListener {
 
 	AppSectionsPagerAdapter mAppSectionsPagerAdapter;
 
 	ViewPager mViewPager;
+
+	private UndoBarController mUndoBarController;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,8 @@ public class DisplayDayActivity extends FragmentActivity implements
 
 		Intent intent = getIntent();
 		int dayId = intent.getIntExtra("dayId", 0);
+
+		boolean undo = intent.getBooleanExtra("undo", false);
 
 		mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(
 				getSupportFragmentManager());
@@ -52,9 +59,32 @@ public class DisplayDayActivity extends FragmentActivity implements
 		for (int i = 0; i < mAppSectionsPagerAdapter.getCount(); i++) {
 			actionBar.addTab(actionBar.newTab()
 					.setText(mAppSectionsPagerAdapter.getPageTitle(i))
-					.setTabListener(this));
+					.setTabListener(this).setTag(Integer.toString(i)));
 		}
 		actionBar.setSelectedNavigationItem(dayId);
+
+		mUndoBarController = new UndoBarController(findViewById(R.id.undobar),
+				this);
+		if (undo) {
+			mUndoBarController.showUndoBar(false,
+					getString(R.string.undobar_sample_message), null);
+		} else {
+			mUndoBarController.hideUndoBar(true);
+		}
+
+	}
+
+	@Override
+	public void onUndo(Parcelable token) {
+		AccessFacade facade = new AccessFacade();
+		TimetableEntry entry = facade.getTimetableAccess().unstash();
+		if (entry != null) {
+			Intent intent = new Intent(getApplicationContext(),
+					DisplayTimeTableEntryActivity.class);
+			intent.putExtra("dayId", entry.getDayOfWeek());
+			intent.putExtra("timeslotId", entry.getTime());
+			startActivity(intent);
+		}
 	}
 
 	@Override
@@ -127,12 +157,12 @@ public class DisplayDayActivity extends FragmentActivity implements
 	}
 
 	@Override
-	public void onBackPressed(){
-		Intent intent = new Intent(getApplicationContext(), MainActivity.class); 
-		intent.putExtra("module", MainActivity.TIMETABLE); 
+	public void onBackPressed() {
+		Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+		intent.putExtra("module", MainActivity.TIMETABLE);
 		startActivity(intent);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.display_day, menu);
@@ -147,6 +177,18 @@ public class DisplayDayActivity extends FragmentActivity implements
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		mUndoBarController.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		mUndoBarController.onRestoreInstanceState(savedInstanceState);
 	}
 
 }
