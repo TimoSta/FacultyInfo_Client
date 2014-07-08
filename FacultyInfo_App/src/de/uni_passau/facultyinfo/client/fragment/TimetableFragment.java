@@ -23,7 +23,6 @@ import de.uni_passau.facultyinfo.client.model.access.AccessFacade;
 import de.uni_passau.facultyinfo.client.model.dto.TimetableEntry;
 import de.uni_passau.facultyinfo.client.util.ColorHelper;
 
-
 public class TimetableFragment extends Fragment {
 
 	private View rootView;
@@ -40,8 +39,8 @@ public class TimetableFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_timetable,
-				container, false);
+		rootView = inflater.inflate(R.layout.fragment_timetable, container,
+				false);
 
 		getActivity().getActionBar().setTitle(
 				getActivity().getApplicationContext().getString(
@@ -52,7 +51,7 @@ public class TimetableFragment extends Fragment {
 		onLongClickListener = new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				System.out.println("onLongClick"); 
+				System.out.println("onLongClick");
 				editEventTT(v);
 				return true;
 			}
@@ -307,41 +306,41 @@ public class TimetableFragment extends Fragment {
 				|| v.getId() == (rootView.findViewById(R.id.di810).getId())
 				|| v.getId() == (rootView.findViewById(R.id.mi810).getId())
 				|| v.getId() == (rootView.findViewById(R.id.don810).getId())
-				|| v.getId() == (rootView.findViewById(R.id.fr810).getId())){
-			timeslotId=TimetableEntry.FROM_08_TO_10; 
-		}else if (v.getId() == (rootView.findViewById(R.id.mo1012).getId())
+				|| v.getId() == (rootView.findViewById(R.id.fr810).getId())) {
+			timeslotId = TimetableEntry.FROM_08_TO_10;
+		} else if (v.getId() == (rootView.findViewById(R.id.mo1012).getId())
 				|| v.getId() == (rootView.findViewById(R.id.di1012).getId())
 				|| v.getId() == (rootView.findViewById(R.id.mi1012).getId())
 				|| v.getId() == (rootView.findViewById(R.id.don1012).getId())
-				|| v.getId() == (rootView.findViewById(R.id.fr1012).getId())){
-			timeslotId=TimetableEntry.FROM_10_TO_12; 
-		}else if (v.getId() == (rootView.findViewById(R.id.mo1214).getId())
+				|| v.getId() == (rootView.findViewById(R.id.fr1012).getId())) {
+			timeslotId = TimetableEntry.FROM_10_TO_12;
+		} else if (v.getId() == (rootView.findViewById(R.id.mo1214).getId())
 				|| v.getId() == (rootView.findViewById(R.id.di1214).getId())
 				|| v.getId() == (rootView.findViewById(R.id.mi1214).getId())
 				|| v.getId() == (rootView.findViewById(R.id.don1214).getId())
-				|| v.getId() == (rootView.findViewById(R.id.fr1214).getId())){
-			timeslotId=TimetableEntry.FROM_12_TO_14; 
-		}else if (v.getId() == (rootView.findViewById(R.id.mo1416).getId())
+				|| v.getId() == (rootView.findViewById(R.id.fr1214).getId())) {
+			timeslotId = TimetableEntry.FROM_12_TO_14;
+		} else if (v.getId() == (rootView.findViewById(R.id.mo1416).getId())
 				|| v.getId() == (rootView.findViewById(R.id.di1416).getId())
 				|| v.getId() == (rootView.findViewById(R.id.mi1416).getId())
 				|| v.getId() == (rootView.findViewById(R.id.don1416).getId())
-				|| v.getId() == (rootView.findViewById(R.id.fr1416).getId())){
-			timeslotId=TimetableEntry.FROM_14_TO_16; 
-		}else if (v.getId() == (rootView.findViewById(R.id.mo1618).getId())
+				|| v.getId() == (rootView.findViewById(R.id.fr1416).getId())) {
+			timeslotId = TimetableEntry.FROM_14_TO_16;
+		} else if (v.getId() == (rootView.findViewById(R.id.mo1618).getId())
 				|| v.getId() == (rootView.findViewById(R.id.di1618).getId())
 				|| v.getId() == (rootView.findViewById(R.id.mi1618).getId())
 				|| v.getId() == (rootView.findViewById(R.id.don1618).getId())
-				|| v.getId() == (rootView.findViewById(R.id.fr1618).getId())){
-			timeslotId=TimetableEntry.FROM_16_TO_18; 
-		}else if (v.getId() == (rootView.findViewById(R.id.mo1820).getId())
+				|| v.getId() == (rootView.findViewById(R.id.fr1618).getId())) {
+			timeslotId = TimetableEntry.FROM_16_TO_18;
+		} else if (v.getId() == (rootView.findViewById(R.id.mo1820).getId())
 				|| v.getId() == (rootView.findViewById(R.id.di1820).getId())
 				|| v.getId() == (rootView.findViewById(R.id.mi1820).getId())
 				|| v.getId() == (rootView.findViewById(R.id.don1820).getId())
-				|| v.getId() == (rootView.findViewById(R.id.fr1820).getId())){
-			timeslotId=TimetableEntry.FROM_18_TO_20; 
+				|| v.getId() == (rootView.findViewById(R.id.fr1820).getId())) {
+			timeslotId = TimetableEntry.FROM_18_TO_20;
 		}
 
-			(new TimetableEntrySearcher(true)).execute();
+		(new TimetableEntrySearcher(true)).execute();
 	}
 
 	public static final class CreateEventTT extends DialogFragment {
@@ -530,15 +529,13 @@ public class TimetableFragment extends Fragment {
 			}
 			if (!exists) {
 				System.out.println("Anlegen");
-//				CreateEventTT dialog = new CreateEventTT();
-//				dialog.setAttributes(rootView, timeslotId, dayC);
-//				 dialog.show(TimetableFragment.this.getFragmentManager(),
-//				 "createEventTT");
-				Intent intent = new Intent(rootView
-						.getContext(),
+				// CreateEventTT dialog = new CreateEventTT();
+				// dialog.setAttributes(rootView, timeslotId, dayC);
+				// dialog.show(TimetableFragment.this.getFragmentManager(),
+				// "createEventTT");
+				Intent intent = new Intent(rootView.getContext(),
 						EditTimeTableActivity.class);
-				intent.putExtra("timeslotId",
-						timeslotId);
+				intent.putExtra("timeslotId", timeslotId);
 				intent.putExtra("dayId", dayC);
 				intent.putExtra("new", true);
 				intent.putExtra("toOverview", true);

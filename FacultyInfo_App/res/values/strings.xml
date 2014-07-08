@@ -108,8 +108,8 @@
     <string name="searchResults">Suchergebnisse</string>
     <string name="noSearchResults">Keine Ergebnisse zu diesem Begriff gefunden.</string>
     <string name="action">Perform action</string>
-    <string name="undobar_sample_message">gelöscht</string>
-    <string name="undo">Undo</string>
+    <string name="undobar_sample_message">Löschen erfolgreich.</string>
+    <string name="undo">Rückgängig</string>
     <string name="ContactPerson">Person</string>
     <string name="ContactGroup">Lehrstuhl</string>
     <string name="SportsCourse">Sportkurs der Kategorie</string>

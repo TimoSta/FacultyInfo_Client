@@ -1,7 +1,6 @@
 package de.uni_passau.facultyinfo.client.fragment;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -206,21 +205,9 @@ public class HomeFragment extends SwipeRefreshLayoutFragment {
 
 				}
 
-				if (true || dashboard.getMenuItems() != null
+				if (dashboard.getMenuItems() != null
 						&& dashboard.getMenuItems().size() > 0) {
 					List<MenuItem> menuItems = dashboard.getMenuItems();
-
-					menuItems = new ArrayList<MenuItem>();
-					menuItems.add(new MenuItem("123", null, "Test", 0, 00, 0,
-							0, 0));
-					menuItems.add(new MenuItem("1232", null, "Test2", 0, 00, 0,
-							0, 0));
-					menuItems.add(new MenuItem("12qwe32", null, "Test3", 0, 00,
-							0, 0, 0));
-					menuItems.add(new MenuItem("1sd232", null, "Test4", 0, 00,
-							0, 0, 0));
-					menuItems.add(new MenuItem("12fdsg32", null, "Test5", 0,
-							00, 0, 0, 0));
 
 					OnClickListener onClickListener = new OnClickListener() {
 

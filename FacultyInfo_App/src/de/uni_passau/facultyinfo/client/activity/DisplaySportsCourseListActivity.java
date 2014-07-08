@@ -45,9 +45,9 @@ public class DisplaySportsCourseListActivity extends SwipeRefreshLayoutActivity 
 		offerTime = intent.getStringExtra("offerTime");
 		title = intent.getStringExtra("title");
 
-		setTitle(title);
-
 		if (offerTime.equals(SportsFragment.AZ)) {
+			setTitle(title);
+			
 			initializeSwipeRefresh(
 					(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
 							.getChildAt(0), new OnRefreshListener() {
@@ -64,6 +64,7 @@ public class DisplaySportsCourseListActivity extends SwipeRefreshLayoutActivity 
 					(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
 							.getChildAt(0))).execute();
 		} else if (offerTime.equals(SportsFragment.TODAY)) {
+			setTitle(title + " heute");
 			initializeSwipeRefresh(
 					(SwipeRefreshLayout) ((ViewGroup) findViewById(android.R.id.content))
 							.getChildAt(0), new OnRefreshListener() {
